@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTK Offline Render - Mantrika Sound</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        .nav-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e94560;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* 主内容 */
+        .content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 7rem 2rem 4rem;
+        }
+
+        /* 头部 */
+        .header {
+            margin-bottom: 3rem;
+        }
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge-free {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81c784;
+        }
+        .badge-windows {
+            background: rgba(100, 181, 246, 0.2);
+            color: #64b5f6;
+        }
+
+        /* 区块 */
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #e94560;
+        }
+        .section-content {
+            color: #c0c0c0;
+            line-height: 1.8;
+        }
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        /* 快速开始步骤 */
+        .steps {
+            list-style: none;
+            counter-reset: step;
+        }
+        .steps li {
+            counter-increment: step;
+            padding: 1rem 1rem 1rem 3.5rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: #c0c0c0;
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #e94560;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* 下载按钮 */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4);
+        }
+        .download-icon {
+            font-size: 1.2rem;
+        }
+
+        /* 返回链接 */
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #fff;
+        }
+        .back-link::before {
+            content: '← ';
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #505050;
+            font-size: 0.85rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">MANTRIKA</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="mtk-offline-render.html">MTK Offline Render</a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <header class="header">
+            <h1 class="title">MTK Offline Render</h1>
+            <div class="badges">
+                <span class="badge badge-free">Free</span>
+                <span class="badge badge-windows">Windows</span>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2 class="section-title">About</h2>
+            <div class="section-content">
+                <p>MTK Offline Render is a fast batch rendering tool powered by REAPER CLI, dramatically improving your export efficiency.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Details</h2>
+            <div class="section-content">
+                <p>Coming soon...</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Quick Start</h2>
+            <ol class="steps">
+                <li>Download the ZIP file</li>
+                <li>Extract to any directory</li>
+                <li>Run and use</li>
+            </ol>
+        </section>
+
+        <section class="section">
+            <a href="https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/download/v0.2.2/MTK.Offline.Render.zip" class="download-btn">
+                <span class="download-icon">↓</span>
+                Download v0.2.2
+            </a>
+        </section>
+
+        <a href="index.html" class="back-link">Back to Home</a>
+    </main>
+
+    <footer>
+        © 2025 Mantrika Sound
+    </footer>
+</body>
+</html>
