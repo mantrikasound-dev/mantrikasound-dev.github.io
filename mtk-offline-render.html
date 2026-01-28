@@ -32,7 +32,7 @@
             line-height: 1.6;
         }
 
-        /* 网格背景 */
+        /* ç½‘æ ¼èƒŒæ™¯ */
         .grid-bg {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -46,7 +46,7 @@
             z-index: -2;
         }
 
-        /* 噪点纹理 */
+        /* å™ªç‚¹çº¹ç† */
         .noise {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -55,7 +55,7 @@
             opacity: 0.035;
         }
 
-        /* 顶部光晕 */
+        /* é¡¶éƒ¨å…‰æ™• */
         .ambient-light {
             position: absolute;
             top: -200px;
@@ -69,7 +69,7 @@
             pointer-events: none;
         }
 
-        /* 入场动画 */
+        /* å…¥åœºåŠ¨ç”» */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -79,7 +79,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 导航栏 */
+        /* å¯¼èˆªæ  */
         nav {
             position: fixed;
             top: 0; width: 100%;
@@ -113,14 +113,14 @@
         }
         .nav-links a:hover { color: var(--text-primary); }
 
-        /* 内容容器 */
+        /* å†…å®¹å®¹å™¨ */
         .container {
             max-width: 680px;
             margin: 0 auto;
             padding: 8rem 2rem 4rem;
         }
 
-        /* 头部排版 */
+        /* å¤´éƒ¨æŽ’ç‰ˆ */
         .header { 
             margin-bottom: 4rem;
             animation: fadeInUp 0.8s ease-out;
@@ -151,7 +151,7 @@
             color: var(--text-primary);
         }
 
-        /* 章节样式 */
+        /* ç« èŠ‚æ ·å¼ */
         .section { 
             margin-bottom: 3.5rem;
             animation: fadeInUp 0.8s ease-out both;
@@ -172,7 +172,7 @@
             font-size: 1rem;
         }
 
-        /* 下载区域 - Linear风格 */
+        /* ä¸‹è½½åŒºåŸŸ - Linearé£Žæ ¼ */
         .download-area {
             border-top: 1px solid var(--border-base);
             border-bottom: 1px solid var(--border-base);
@@ -259,7 +259,7 @@
             }
         }
         
-        /* 步骤列表 */
+        /* æ­¥éª¤åˆ—è¡¨ */
         .step-list {
             list-style: none;
             border-left: 1px solid var(--border-base);
@@ -313,10 +313,10 @@
     </style>
 </head>
 <body>
-    <!-- 网格背景 -->
+    <!-- ç½‘æ ¼èƒŒæ™¯ -->
     <div class="grid-bg"></div>
     
-    <!-- 噪点纹理 -->
+    <!-- å™ªç‚¹çº¹ç† -->
     <svg class="noise" width="100%" height="100%">
         <filter id="noiseFilter">
             <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/>
@@ -341,7 +341,7 @@
         <header class="header">
             <h1 class="title">MTK Offline Render</h1>
             <div class="meta-row">
-                <span>Windows Only</span>
+                <span>Windows & macOS</span>
                 <span>Free Utility</span>
             </div>
         </header>
@@ -351,12 +351,23 @@
         </section>
 
         <section class="section">
-            <h2 class="section-title">Installation</h2>
+            <h2 class="section-title">Installation — Windows</h2>
             <ul class="step-list">
                 <li>Download the archive from the release channel.</li>
                 <li>Extract to a directory of your choice (e.g., C:\Tools\MTK).</li>
                 <li>Run the executable (MTK Offline Render.exe). No installation required.</li>
                 <li>Windows SmartScreen may show a warning—this is normal for new, unsigned software. As a free tool, we're unable to afford a code signing certificate. Rest assured, the software is safe and verified on <a href="https://www.virustotal.com" target="_blank" style="color: var(--accent);">VirusTotal</a>. Simply click "More info" → "Run anyway" to proceed.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Installation — macOS</h2>
+            <ul class="step-list">
+                <li>Download and extract the archive.</li>
+                <li>Double-click MTK Offline Render.app to run.</li>
+                <li>On first launch, macOS will show an "unidentified developer" warning. To resolve:<br>
+                    <strong>Option A:</strong> Go to System Settings → Privacy & Security → Click "Open Anyway".<br>
+                    <strong>Option B:</strong> Run in Terminal: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">xattr -cr ~/Downloads/"MTK Offline Render.app"</code> (adjust path as needed).</li>
             </ul>
             <a href="https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/blob/main/docs/USER_GUIDE.md" target="_blank" class="doc-link">View Documentation →</a>
         </section>
@@ -371,23 +382,23 @@
                         <svg viewBox="0 0 24 24"><path d="M3 5.557l7.357-1.002v7.102H3V5.557zm0 12.886l7.357 1.002v-7.088H3v6.086zm8.143 1.124L22 21v-8.643h-10.857v7.21zm0-14.134v7.218H22V3l-10.857 1.433z"/></svg>
                         Windows
                     </div>
-                    <a href="https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTK.Offline.Render.zip" class="download-btn">Download</a>
+                    <a href="https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTKOfflineRender-win.zip" class="download-btn">Download</a>
                 </div>
                 <div class="download-row">
-                    <div class="download-platform disabled">
+                    <div class="download-platform">
                         <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                         macOS
                     </div>
-                    <span class="download-btn disabled">Coming Soon</span>
+                    <a href="https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTKOfflineRender-mac.zip" class="download-btn">Download</a>
                 </div>
             </div>
         </section>
 
-        <a href="index.html" class="back-link">← Back to Overview</a>
+        <a href="index.html" class="back-link">← Back to Overview</a>
     </div>
 
     <footer>
-        © 2026 Mantrika Sound
+        Â© 2026 Mantrika Sound
     </footer>
 
 </body>
