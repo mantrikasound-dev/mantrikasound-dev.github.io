@@ -106,12 +106,15 @@ const DOC_URL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRende
 .title {
   font-size: 2.5rem;
   font-weight: 600;
+  line-height: 1.3;
   letter-spacing: -0.02em;
   margin-bottom: 1rem;
+  /* 渐变裁剪文字时给字底留白，避免字底被吃掉 */
+  padding-bottom: 0.12em;
   background: linear-gradient(180deg, #fff, #666);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .meta-row {
