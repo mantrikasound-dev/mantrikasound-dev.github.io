@@ -1,0 +1,25 @@
+/* 品牌深色页面（落地页 / 详情页）的共享设计变量与基础重置。
+   全部以 .mtk-page 作用域前缀，绝不影响 VitePress 文档页。 */
+.mtk-page {
+  --bg-root: #050505;
+  --bg-glass: rgba(255, 255, 255, 0.02);
+  --bg-glass-hover: rgba(255, 255, 255, 0.05);
+  --border-base: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.2);
+  --glow-primary: rgba(94, 114, 228, 0.15);
+  --text-primary: #ededed;
+  --text-secondary: #8a8f98;
+  --accent: #5e6ad2;
+  --accent-glow: #7a85ff;
+
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mtk-page,
+.mtk-page * { box-sizing: border-box; }
+.mtk-page :where(h1, h2, h3, p, ul, li, figure) { margin: 0; padding: 0; }
+.mtk-page ul { list-style: none; }

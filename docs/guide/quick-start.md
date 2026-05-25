@@ -24,7 +24,7 @@
 
 3. 复制粘贴Reapack Link；
 
-   https://github.com/qhtchestnut/Mantrika-Tools-Release/raw/master/index.xml
+   
 
 4. 点击OK；
 

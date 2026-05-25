@@ -1,23 +1,25 @@
 ---
-layout: home
-
-hero:
-  name: "MantrikaTools"
-  text: "REAPER plugin suite"
-  tagline: For game audio professionals
-  actions:
-    - theme: brand
-      text: Quick Start
-      link: /guide/quick-start
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/mantrikasound-dev
-
-features:
-  - title: Mirror Workflow
-    details: Manage mirror clips on folder tracks with auto-synced boundaries, names, colors, and regions.
-  - title: Adaptive Regions
-    details: Automatically align region boundaries with content in folder tracks.
-  - title: Sample Broker
-    details: 60-second ring buffer recording with waveform display and export.
+layout: landing
+title: Mantrika Sound - Precision Tools for REAPER
+titleTemplate: false
+description: Precision engineered plugins and extensions for REAPER. Batch rendering tools and workflow enhancements for sound designers.
+head:
+  - - meta
+    - name: keywords
+      content: REAPER, audio tools, batch render, sound design, DAW plugins, Mantrika
+  - - meta
+    - property: og:title
+      content: Mantrika Sound - Precision Tools for REAPER
+  - - meta
+    - property: og:description
+      content: Precision engineered plugins and extensions for REAPER. Batch rendering tools and workflow enhancements for sound designers.
+  - - meta
+    - property: og:type
+      content: website
+  - - meta
+    - property: og:url
+      content: https://mantrikasound.com/
+  - - link
+    - rel: canonical
+      href: https://mantrikasound.com/
 ---
