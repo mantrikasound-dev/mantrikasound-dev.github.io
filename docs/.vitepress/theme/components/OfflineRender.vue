@@ -5,7 +5,6 @@ import MtkNav from './MtkNav.vue'
 
 const WIN_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTKOfflineRender-win.zip'
 const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTKOfflineRender-mac.zip'
-const DOC_URL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/blob/main/docs/USER_GUIDE.md'
 </script>
 
 <template>
@@ -58,7 +57,7 @@ const DOC_URL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRende
             <code class="inline-code">xattr -cr ~/Downloads/"MTK Offline Render.app"</code> (adjust path as needed).
           </li>
         </ul>
-        <a :href="DOC_URL" target="_blank" rel="noopener" class="doc-link">View Documentation →</a>
+        <a :href="withBase('/mtk-offline-render/guide')" class="doc-link">View Documentation →</a>
       </section>
 
       <section class="section download-area">
