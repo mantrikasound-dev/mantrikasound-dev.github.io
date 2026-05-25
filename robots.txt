@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://mantrikasound.com/sitemap.xml
