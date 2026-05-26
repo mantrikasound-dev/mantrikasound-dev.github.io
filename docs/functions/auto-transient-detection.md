@@ -1,4 +1,4 @@
-# Auto Transient Detection 用户手册
+# Auto Transient Detection
 
 > 适用版本：Mantrika Tools（当前主线）
 
@@ -15,7 +15,9 @@
 - **自动模式**：开服务后，凡是被选中的 audio item 都会被后台分批检测，无需任何手动操作。
 - **手动模式**：选 item → 触发 action → 一次性给所选 item 打点。
 
-这些 marker **纯粹是视觉辅助**——让你在 Arrange 里一眼看到每个 item 的瞬态在哪。它们不被任何其他功能消费，删掉、改掉、不用它都没有副作用。
+这些 marker **纯粹是视觉辅助**——让你在 Arrange 里一眼看到每个 item 的瞬态在哪。它们**不影响音频播放和导出**，也不与其他功能共享数据。
+
+> **注意**：如果你删了或移动了 marker，服务会自动重新打一套（见第 5 节）。想保留自己的修改，请先 toggle skip。
 
 ---
 
@@ -65,7 +67,7 @@ Extensions → Mantrika Tools → Util item
 - 选了就开始算，不用任何额外触发
 - 每个 tick 限流（≤ 10 个 item / ≤ 10 ms），不会卡 REAPER
 - 算过的 item 不会重算，除非源被改过
-- 关掉服务时会**清掉当前所有打开的工程里所有 take 上的瞬态 marker**
+- 关掉服务时会**清掉当前工程里所有 take 上的瞬态 marker**
 
 适合日常 SFX 编辑——marker 在背景里悄悄出现。
 
@@ -84,7 +86,7 @@ Extensions → Mantrika Tools → Util item
 - **关着自动服务**，临时给几个 item 打点，按需启用
 - **源音频超过 5 分钟** —— 自动服务跳过这种文件以免阻塞，手动 action 不限长度
 
-手动模式跳过的是 mute 状态和 skip 标志检查，照算不误。MIDI / 子工程 / 视频 / 空 take 仍然跳过。
+手动模式**会强制给所有符合条件的 item 打点**，不受 mute 状态和 skip 标志的影响。MIDI take、子工程 item、空 take 等没有真实音频源的内容仍然跳过。
 
 ---
 
@@ -125,12 +127,14 @@ Extensions → Mantrika Tools → Util item
 | **类型** | take marker（不是 project marker，跟着 item 走） |
 
 > **不要手动改这些 marker 的名称**——一旦改成非纯数字，系统会认为这不是瞬态 marker，自愈和清理逻辑都会绕过它。
+>
+> 这些 marker **跟着 take 走**。复制 item、拆分 item 时，marker 会一起被复制。
 
 ---
 
 ## 5. 自愈行为：删一个 marker 会怎样
 
-自动服务会定期检查每个 item 的 marker 状态：
+自动服务会检查每个 item 的 marker 状态：
 
 | 你做了什么 | 自动服务的反应 |
 | --- | --- |
@@ -165,10 +169,6 @@ Extensions → Mantrika Tools → Util item
 
 ---
 
-## 7. 与其他模块的关系
-
-本模块只负责**显示** marker，不与其他模块共享数据。
-
 ---
 
 ## 8. 故障排查
@@ -180,7 +180,8 @@ Extensions → Mantrika Tools → Util item
 | Marker 自己跑回来了 | 自愈机制：删 / 移动 marker 会触发重算 | 想保留自己的修改，先 toggle skip 再改 |
 | 关掉服务后 marker 不见了 | 这是设计行为——关服务会清所有瞬态 marker | 想保留请别关；或开服务后再次轮到时会重打 |
 | 一选很多 item 后 REAPER 短暂卡顿 | 选了 80+ item 时降级（每 tick 更少 / 更短），但首轮仍可能慢 | 分批选，或先关服务再大规模操作 |
-| 编辑 item 端点后 marker 没更新 | 源摘要变化触发重算，但要等下个 tick | 等 1–2 秒；如果久没动，重选一次 |
+| 编辑了 item 的 trim 起止点后 marker 没更新 | 源摘要变化触发重算，但要等下个 tick | 等 1–2 秒；如果久没动，重选一次 |
+| 刚导入的大素材选中后没 marker | REAPER 还在生成波形预览，预览完成后才会检测 | 稍等几秒，等波形显示完整后再选 |
 | 想全清干净 | 关掉 "Enable Auto Transient Detection" | 关闭服务会清所有 item 上的瞬态 marker |
 
 ---
@@ -210,7 +211,7 @@ Extensions → Mantrika Tools → Util item
 ```
 1. 选中这个 long source item
 2. 触发手动 action（自动服务会跳过这种长度）
-3. 等它算完——长 source 算的时候会短暂阻塞，正常现象
+3. 等它算完——长素材计算时 REAPER 会短暂无响应（卡几秒），正常现象
 ```
 
 ---

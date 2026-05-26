@@ -1,4 +1,4 @@
-# Automation Item Controller 用户手册
+# Automation Item Controller
 
 > 适用版本：Mantrika Tools（当前主线）
 
@@ -10,7 +10,7 @@
 
 它围绕四件事展开：
 
-- **Randomize**：把 AI 的 baseline / amplitude / start offset / playrate **随机化**——做"听起来不一样"的批量铺底。
+- **Randomize**：把 AI 的 baseline / amplitude / start offset / playrate **随机化**——让同批 AI 产生细微差异，避免机械感。
 - **Batch Set**：把这几个属性**统一设成一个值**——常用于"全部归零 / 全部恢复 1.0×"等场景。
 - **Gradient**：让这几个属性沿时间轴**从 A 渐变到 B**——做 fade in/out 一类的整体演化。
 - **LFO + Shape**：在每个 AI 内部**生成 LFO 包络**（正弦 / 三角 / 方波 / 锯齿），或对已有的包络点做**频率歪斜 / 高低倾斜**的二次塑形。
@@ -83,7 +83,7 @@
 ```
 ☐ Baseline      [ Min: 0.00 ]  [ Max: 1.00 ]
 ☐ Amplitude     [ Min: -1.00]  [ Max: 1.00 ]
-☐ Start Offset  [ Min: 0.00 ]  [ Max: 1.00 ]
+☐ Start Offset  [ Min: 0.00 ]  [ Max: 10.00 ]
 ☐ Playrate      [ Min: 0.50 ]  [ Max: 2.00 ]
 
 ☐ Use Seed      [    0    ]
@@ -250,7 +250,7 @@ Tilt:       [      0       ]    ← -100 ~ 100，高低倾斜
 
 ### 8.2 Shape —— 对已有点做塑形
 
-**不清空、不重新生成**，而是读取 AI 现有的所有点，把 Freq Skew 和 Tilt 套用上去，再写回去。
+**不清空、不重新生成**，而是读取 AI 现有的所有点，按 Freq Skew 重新分配时间位置，再按 Tilt 重塑幅度，最后写回去。
 
 ```
 Freq Skew:  [      0       ]    ← 同 LFO 的 Freq Skew
@@ -267,7 +267,7 @@ Tilt:       [      0       ]    ← 同 LFO 的 Tilt
 | **Shape Apply** | 读现有点再改 | ❌ 不清空 |
 
 > Shape 也能用在**你手画的 envelope** 上，不一定要先用 LFO 生成。
-> 两个参数都是 0 时点 Apply 不会做任何事，状态栏会提示 `No shaping applied`。
+> 两个参数都是 0 时点 Apply 不会做任何事，状态栏会提示 `No shaping applied (both params are 0)`。
 
 ### 8.3 使用
 
@@ -294,6 +294,7 @@ Tilt:       [      0       ]    ← 同 LFO 的 Tilt
 | 切换 tab | 参数互不影响，各自保留 |
 | 没勾任何属性 | Randomize / Batch Set / Gradient 按钮灰掉（LFO / Shape 总是可点） |
 | 没选中 AI | 按钮还是可点，但执行后会显示 `No automation items found` |
+| 执行操作后 | 均支持 Ctrl+Z 撤销（进入 REAPER 标准撤销栈） |
 | 关闭窗口 | 不会自动取消正在跑的操作；操作本身都是瞬时的，不需要担心 |
 
 ---
