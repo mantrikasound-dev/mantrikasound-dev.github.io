@@ -1,0 +1,194 @@
+/* ============================================================
+   文档页品牌化覆盖层
+   ------------------------------------------------------------
+   只覆盖 VitePress 默认主题的 CSS 变量（--vp-*），让文档页与
+   落地页 / 产品页（.mtk-page，使用独立变量）的深色品牌语言统一，
+   但正文排版保持清爽易读。不影响 .mtk-page 品牌页。
+   主色沿用品牌靛蓝 #5e6ad2（Landing / OfflineRender 同源）。
+   ============================================================ */
+
+:root {
+  /* —— 品牌主色（浅色模式：取更深一档保证对比度）—— 引用 tokens.css —— */
+  --vp-c-brand-1: var(--mtk-accent-on-light);
+  --vp-c-brand-2: var(--mtk-accent);
+  --vp-c-brand-3: var(--mtk-accent);
+  --vp-c-brand-soft: rgba(var(--mtk-accent-rgb), 0.14);
+  --vp-c-brand-softer: rgba(var(--mtk-accent-rgb), 0.08);
+
+  /* —— 字体：与品牌页同源（Inter 优先，系统字体兜底）—— */
+  --vp-font-family-base: 'Inter Variable', 'Inter', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Roboto,
+    sans-serif;
+
+  /* 正文阅读宽度收一点，长行更舒服 */
+  --vp-layout-max-width: 1440px;
+}
+
+/* ============================================================
+   深色模式 —— 主战场，向品牌黑 (#050505) 靠拢
+   ============================================================ */
+.dark {
+  /* 品牌主色在深底上提亮，保证可读性 —— 引用 tokens.css —— */
+  --vp-c-brand-1: var(--mtk-accent-on-dark);
+  --vp-c-brand-2: var(--mtk-accent-bright);
+  --vp-c-brand-3: var(--mtk-accent);
+  --vp-c-brand-soft: rgba(var(--mtk-accent-rgb), 0.16);
+  --vp-c-brand-softer: rgba(var(--mtk-accent-rgb), 0.10);
+
+  /* 背景层次：接近品牌纯黑，但保留可读的微层次 */
+  --vp-c-bg: #0a0a0c;
+  --vp-c-bg-alt: #0e0e11;
+  --vp-c-bg-soft: #141418;
+  --vp-c-bg-elv: #141418;
+
+  /* 边框更克制 */
+  --vp-c-divider: rgba(255, 255, 255, 0.07);
+  --vp-c-border: rgba(255, 255, 255, 0.10);
+  --vp-c-gutter: rgba(255, 255, 255, 0.05);
+
+  /* 文本与品牌页统一 */
+  --vp-c-text-1: var(--mtk-ink);
+  --vp-c-text-2: #a4a9b3;
+  --vp-c-text-3: #6b7079;
+}
+
+/* ============================================================
+   顶部导航：玻璃模糊 + 顶部品牌高光线，与品牌页 MtkNav 呼应
+   ============================================================ */
+.dark .VPNav {
+  background: transparent;
+}
+.dark .VPNavBar {
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+.dark .VPNavBar.has-sidebar .content {
+  background: transparent;
+}
+/* 顶部 1px 渐变高光 */
+.dark .VPNavBar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--mtk-accent-bright-rgb), 0.35),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* 品牌名（站点标题）字距收紧，更有设计感 */
+.VPNavBarTitle .title {
+  letter-spacing: -0.01em;
+  font-weight: 650;
+}
+
+/* ============================================================
+   侧边栏：当前项品牌色高亮 + 左侧指示条
+   ============================================================ */
+.VPSidebarItem.is-active > .item .link > .text,
+.VPSidebarItem.is-active > .item .link > .VPLink .text {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+.VPSidebarItem.level-1.is-active > .item,
+.VPSidebarItem.level-2.is-active > .item {
+  position: relative;
+}
+
+/* 一级分组标题更醒目一点 */
+.VPSidebarItem.level-0 > .item > .text {
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+/* ============================================================
+   正文排版：标题节奏 + 链接 + 行内代码
+   ============================================================ */
+.vp-doc h1 {
+  letter-spacing: -0.025em;
+  font-weight: 750;
+}
+.vp-doc h2 {
+  letter-spacing: -0.015em;
+  border-top-color: var(--vp-c-divider);
+}
+.vp-doc h3 {
+  letter-spacing: -0.01em;
+}
+
+/* 正文链接：默认带细下划线，hover 实色，更克制现代 */
+.vp-doc a {
+  text-decoration-color: var(--vp-c-brand-soft);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s, color 0.2s;
+}
+.vp-doc a:hover {
+  text-decoration-color: var(--vp-c-brand-2);
+}
+
+/* 行内代码：玻璃质感 + 品牌微染 */
+.vp-doc :not(pre) > code {
+  background-color: var(--vp-c-brand-softer);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--mtk-radius-sm);
+  font-size: 0.85em;
+}
+
+/* ============================================================
+   代码块：更深的底 + 微边框，融入品牌黑
+   ============================================================ */
+.dark .vp-doc div[class*='language-'] {
+  background-color: #070708;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--mtk-radius-lg);
+}
+.vp-doc div[class*='language-'] {
+  border-radius: var(--mtk-radius-lg);
+}
+
+/* ============================================================
+   自定义提示块（tip / warning / danger）：品牌化边框
+   ============================================================ */
+.vp-doc .custom-block {
+  border-radius: var(--mtk-radius-md);
+  border-width: 1px;
+}
+.vp-doc .custom-block.tip {
+  border-color: var(--vp-c-brand-soft);
+}
+
+/* ============================================================
+   按钮 / 徽标点缀
+   ============================================================ */
+.VPButton.brand {
+  border-radius: var(--mtk-radius);
+  font-weight: 600;
+}
+
+/* 图片在文档里加圆角 + 细边，跟整体质感统一 */
+.vp-doc img {
+  border-radius: var(--mtk-radius-md);
+}
+
+/* ============================================================
+   全站平滑滚动 + 品牌色选区
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+.dark ::selection {
+  background: rgba(var(--mtk-accent-bright-rgb), 0.30);
+}
+
+/* 尊重「减少动态效果」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

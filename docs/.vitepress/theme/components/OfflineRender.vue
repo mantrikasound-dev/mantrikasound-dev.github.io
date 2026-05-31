@@ -14,10 +14,23 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
 
     <div class="container">
       <header class="header">
+        <div class="eyebrow">Free Utility</div>
         <h1 class="title">MTK Offline Render</h1>
+        <p class="lede">
+          A fast, standalone batch render utility for REAPER — queue your projects,
+          hit start, and walk away.
+        </p>
+        <div class="hero-actions">
+          <a href="#download" class="cta primary">
+            <svg viewBox="0 0 24 24" class="cta-ico"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download
+          </a>
+          <a :href="withBase('/mtk-offline-render/guide')" class="cta ghost">Documentation</a>
+        </div>
         <div class="meta-row">
-          <span>Windows &amp; macOS</span>
-          <span>Free Utility</span>
+          <span class="chip">Windows</span>
+          <span class="chip">macOS</span>
+          <span class="chip">No install</span>
         </div>
       </header>
 
@@ -60,9 +73,9 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
         <a :href="withBase('/mtk-offline-render/guide')" class="doc-link">View Documentation →</a>
       </section>
 
-      <section class="section download-area">
+      <section id="download" class="section download-area">
         <div class="download-info">
-          <h2>MTK Offline Render. <span>A fast batch export utility for REAPER.</span></h2>
+          <h2>Get the app <span>Free for Windows &amp; macOS. No account, no install.</span></h2>
         </div>
         <div class="download-list">
           <div class="download-row">
@@ -98,30 +111,107 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
 }
 
 .header {
-  margin-bottom: 4rem;
+  margin-bottom: 4.5rem;
   animation: mtkFadeInUp 0.8s ease-out;
 }
 
-.title {
-  font-size: 2.5rem;
+/* 顶部小标签：品牌色圆点 + 字母间距 */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-glow);
+  margin-bottom: 1.1rem;
+}
+.eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+  box-shadow: 0 0 10px rgba(var(--mtk-accent-bright-rgb), 0.8);
+}
+
+.title {
+  font-size: clamp(2.5rem, 6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.1rem;
   /* 渐变裁剪文字时给字底留白，避免字底被吃掉 */
   padding-bottom: 0.12em;
-  background: linear-gradient(180deg, #fff, #666);
+  background: linear-gradient(180deg, #fff, #888);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.lede {
+  max-width: 30rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* hero 主操作按钮 */
+.hero-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--mtk-radius);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.25s var(--mtk-ease);
+}
+.cta-ico { width: 17px; height: 17px; }
+.cta.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 10px 28px -10px var(--glow-primary);
+}
+.cta.primary:hover {
+  background: var(--accent-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -10px rgba(var(--mtk-accent-bright-rgb), 0.45);
+}
+.cta.ghost {
+  border-color: var(--border-base);
+  background: var(--bg-glass);
+  color: var(--text-primary);
+}
+.cta.ghost:hover {
+  border-color: var(--border-highlight);
+  background: var(--bg-glass-hover);
+  transform: translateY(-2px);
+}
+
 .meta-row {
   display: flex;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+  gap: 0.6rem;
+  flex-wrap: wrap;
   align-items: center;
+}
+.chip {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--border-base);
+  border-radius: var(--mtk-radius-pill);
+  background: var(--mtk-w-03);
 }
 
 .section {
@@ -133,10 +223,22 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
 .section:nth-of-type(3) { animation-delay: 0.3s; }
 
 .section-title {
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
   color: var(--text-primary);
-  margin-bottom: 1rem;
-  font-weight: 500;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+/* 标题前的品牌色短竖条 */
+.section-title::before {
+  content: '';
+  width: 3px;
+  height: 1.05em;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent-glow), var(--accent));
 }
 .section p {
   color: var(--text-secondary);
@@ -147,32 +249,51 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
 .inline-link { color: var(--accent); text-decoration: none; }
 .inline-link:hover { text-decoration: underline; }
 .inline-code {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--mtk-w-10);
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: var(--mtk-radius-xs);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.85em;
 }
 
 .download-area {
-  border-top: 1px solid var(--border-base);
-  border-bottom: 1px solid var(--border-base);
-  padding: 3rem 0;
+  border: 1px solid var(--border-base);
+  border-radius: var(--mtk-radius-lg);
+  background: var(--bg-glass);
+  padding: 2.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
-  align-items: start;
+  align-items: center;
   margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+/* 卡片顶部品牌高光线 */
+.download-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--mtk-accent-bright-rgb), 0.4), transparent);
 }
 
-.download-info { padding-top: 0.4rem; }
 .download-info h2 {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 650;
   color: var(--text-primary);
+  line-height: 1.4;
   margin-bottom: 0.5rem;
 }
-.download-info h2 span { font-weight: 400; color: var(--text-secondary); }
+.download-info h2 span {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
 
 .download-list {
   display: flex;
@@ -202,18 +323,20 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
 }
 
 .download-btn {
-  padding: 0.4rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 0.45rem 1.1rem;
+  background: var(--mtk-w-10);
   border: 1px solid var(--border-base);
-  border-radius: 6px;
+  border-radius: var(--mtk-radius-sm);
   color: var(--text-primary);
   font-size: 0.85rem;
+  font-weight: 500;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all 0.2s var(--mtk-ease);
 }
 .download-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--border-highlight);
+  background: rgba(var(--mtk-accent-rgb), 0.22);
+  border-color: rgba(var(--mtk-accent-bright-rgb), 0.5);
+  color: #fff;
 }
 
 .step-list {
@@ -235,7 +358,8 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
   height: 9px;
   background: var(--accent);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(94, 106, 210, 0.6), 0 0 16px rgba(94, 106, 210, 0.3);
+  box-shadow: 0 0 8px rgba(var(--mtk-accent-rgb), 0.6),
+    0 0 16px rgba(var(--mtk-accent-rgb), 0.3);
 }
 .step-list li:last-child { padding-bottom: 0; }
 

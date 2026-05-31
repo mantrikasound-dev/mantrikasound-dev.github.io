@@ -10,6 +10,24 @@ function onCardMove(e: MouseEvent) {
   card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
   card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
 }
+
+// 声波条：钟形轮廓（中间高两端低）+ 每根加确定性抖动，
+// 让相邻条错落闪烁、更灵动，而不是整块同步起伏。
+const BARS = 64
+function barStyle(n: number) {
+  const t = (n - 1) / (BARS - 1)         // 0..1
+  const bell = Math.sin(t * Math.PI)     // 中间 1，两端 0
+  // 确定性伪随机（避免 Math.random），让每根条有自己的个性
+  const j = (Math.sin(n * 12.9898) * 43758.5453) % 1
+  const jitter = Math.abs(j)             // 0..1
+  const base = 0.12 + bell * 0.78        // 高度基准更细瘦
+  return {
+    '--h': base.toFixed(3),
+    '--lo': (0.25 + jitter * 0.25).toFixed(3),    // 每根收缩到的低点不同
+    '--d': `${(-jitter * 1.4).toFixed(2)}s`,      // 负延迟：起步即错相，无整齐感
+    '--dur': `${(0.7 + jitter * 0.7).toFixed(2)}s` // 0.7~1.4s，更快更跳
+  } as Record<string, string>
+}
 </script>
 
 <template>
@@ -20,7 +38,14 @@ function onCardMove(e: MouseEvent) {
     <section class="hero">
       <h1 class="logo-text">Precision tools<br />for REAPER.</h1>
       <p class="tagline">Precision engineered plugins and extensions for sound designers.</p>
-      <div class="hero-visual"></div>
+
+      <!-- 声波视觉：契合「声音设计」品牌的动态均衡器条 -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="wave">
+          <span v-for="n in 64" :key="n" class="bar" :style="barStyle(n)"></span>
+        </div>
+        <div class="wave-glow"></div>
+      </div>
     </section>
 
     <section class="products">
@@ -38,18 +63,18 @@ function onCardMove(e: MouseEvent) {
         <span class="card-link">View Details</span>
       </a>
 
-      <!-- 产品 2：Mantrika Tools（插件套件 = 文档站） -->
-      <a class="card" :href="withBase('/guide/quick-start')" @mousemove="onCardMove">
+      <!-- 产品 2：Mantrika Tools（REAPER Extension，详情页 → 文档） -->
+      <a class="card" :href="withBase('/mantrika-tools')" @mousemove="onCardMove">
         <div>
           <div class="card-header">
             <h2 class="card-title">Mantrika Tools</h2>
             <span class="badge">In Development</span>
           </div>
           <p class="card-desc">
-            REAPER workflow enhancements and a creative sampler to supercharge your daily design tasks.
+            A self-contained REAPER extension — workflow enhancements, creative functions, and dozens of actions.
           </p>
         </div>
-        <span class="card-link">Read the Docs</span>
+        <span class="card-link">View Details</span>
       </a>
     </section>
 
@@ -86,14 +111,72 @@ function onCardMove(e: MouseEvent) {
   animation: mtkFadeInUp 0.8s ease-out 0.1s both;
 }
 
+/* —— 声波 hero 视觉 —— */
 .hero-visual {
-  margin-top: 4rem;
+  position: relative;
+  margin: 4.5rem auto 0;
+  width: min(560px, 80vw);
+  height: 120px;
+  animation: mtkFadeIn 1.2s ease-out 0.3s both;
+}
+.wave {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  /* 两端淡出，避免硬边 */
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.bar {
+  width: 2px;
+  height: calc(var(--h) * 100%);
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    var(--accent-glow) 0%,
+    var(--accent) 60%,
+    rgba(var(--mtk-accent-rgb), 0.25) 100%
+  );
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: mtkBar var(--dur, 1s) cubic-bezier(0.45, 0, 0.25, 1) var(--d, 0s)
+    infinite alternate;
+}
+/* 中心光晕，让声波像在发光 */
+.wave-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    40% 80% at 50% 50%,
+    rgba(var(--mtk-accent-bright-rgb), 0.22),
+    transparent 70%
+  );
+  filter: blur(14px);
+  pointer-events: none;
+}
+/* 底部倒影分割线，呼应原本的细线 */
+.hero-visual::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  width: 70%;
   height: 1px;
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
   background: linear-gradient(90deg, transparent, var(--border-highlight), transparent);
-  animation: mtkFadeIn 1s ease-out 0.3s both;
+}
+
+@keyframes mtkBar {
+  from { transform: scaleY(var(--lo, 0.4)); opacity: 0.55; }
+  to   { transform: scaleY(1);              opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; }
 }
 
 .products {
@@ -108,9 +191,9 @@ function onCardMove(e: MouseEvent) {
 .card {
   background: var(--bg-glass);
   border: 1px solid var(--border-base);
-  border-radius: 12px;
+  border-radius: var(--mtk-radius-lg);
   padding: 2rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s var(--mtk-ease);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -127,7 +210,7 @@ function onCardMove(e: MouseEvent) {
   transform: translateY(-2px);
   border-color: var(--border-highlight);
   background: var(--bg-glass-hover);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--mtk-shadow-card);
 }
 
 /* 鼠标跟随光效 */
@@ -137,7 +220,7 @@ function onCardMove(e: MouseEvent) {
   inset: 0;
   background: radial-gradient(
     600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(94, 114, 228, 0.06),
+    rgba(var(--mtk-accent-rgb), 0.06),
     transparent 40%
   );
   opacity: 0;
@@ -174,7 +257,7 @@ function onCardMove(e: MouseEvent) {
 .badge {
   font-size: 0.7rem;
   padding: 2px 8px;
-  border-radius: 100px;
+  border-radius: var(--mtk-radius-pill);
   border: 1px solid var(--border-base);
   color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.03);

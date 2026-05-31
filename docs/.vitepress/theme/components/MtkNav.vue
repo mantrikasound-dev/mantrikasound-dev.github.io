@@ -6,8 +6,8 @@ defineProps<{ active?: string }>()
 
 const links = [
   { key: 'home', text: 'Home', href: '/' },
-  { key: 'render', text: 'MTK Offline Render', href: '/mtk-offline-render' },
-  { key: 'docs', text: 'Docs', href: '/guide/quick-start' }
+  { key: 'tools', text: 'Mantrika Tools', href: '/mantrika-tools' },
+  { key: 'render', text: 'Offline Render', href: '/mtk-offline-render' }
 ]
 </script>
 

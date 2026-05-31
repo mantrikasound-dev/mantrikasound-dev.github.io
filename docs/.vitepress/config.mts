@@ -19,6 +19,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Mantrika Tools', link: '/mantrika-tools' },
       { text: 'Guide', link: '/guide/quick-start' },
       { text: 'Workflow', link: '/workflow/adaptive-region' },
       { text: 'Functions', link: '/functions/auto-transient-detection' },
