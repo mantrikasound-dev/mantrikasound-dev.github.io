@@ -22,6 +22,7 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/quick-start' },
       { text: 'Workflow', link: '/workflow/adaptive-region' },
       { text: 'Functions', link: '/functions/auto-transient-detection' },
+      { text: 'Action', link: '/action/group-item' },
       { text: 'Offline Render', link: '/mtk-offline-render' }
     ],
 
@@ -83,6 +84,69 @@ export default defineConfig({
             { text: 'Quick Render', link: '/functions/quick-render' },
             { text: 'Wwise Replace', link: '/functions/wwise-replace' }
             // 暂不收录：MTK Loudness Matcher → /functions/mtk-loudness-matcher
+          ]
+        },
+        {
+          text: 'Action',
+          collapsed: false,
+          items: [
+            {
+              text: '媒体操作',
+              collapsed: true,
+              items: [
+                { text: 'Item 操作', link: '/action/group-item' },
+                { text: 'Take 操作', link: '/action/group-take' },
+                { text: 'Track 操作', link: '/action/group-track' },
+                { text: 'Segment 分段', link: '/action/group-segment' },
+                { text: 'FX 管理', link: '/action/group-fx' },
+                { text: 'Automation Items', link: '/action/group-automation-items' }
+              ]
+            },
+            {
+              text: 'Assistants',
+              collapsed: true,
+              items: [
+                { text: 'Mirror', link: '/action/group-mirror' },
+                { text: 'DC 双击增强', link: '/action/group-assistants-dc' },
+                { text: 'Adaptive · Create Folder', link: '/action/adaptive-create-folder' },
+                { text: 'Adaptive · Insert Track', link: '/action/adaptive-insert-track' },
+                { text: 'Create Folder From Tracks', link: '/action/create-folder-from-tracks' },
+                { text: 'Dissolve Folder', link: '/action/dissolve-folder' },
+                { text: 'Mark Regions For Adoption', link: '/action/mark-regions-for-adoption' },
+                { text: 'Region Flow Bind', link: '/action/region-flow-bind' }
+              ]
+            },
+            {
+              text: '编辑与交互',
+              collapsed: true,
+              items: [
+                { text: 'Under Mouse', link: '/action/group-under-mouse' },
+                { text: 'Razor Eraser', link: '/action/group-razor-eraser' },
+                { text: 'Playback Solo', link: '/action/group-playback-solo' },
+                { text: 'Prune 修剪清场', link: '/action/group-prune' }
+              ]
+            },
+            {
+              text: 'Markers · Subproject',
+              collapsed: true,
+              items: [
+                { text: 'Markers From Items', link: '/action/group-markers-create-from-items' },
+                { text: 'Subproject', link: '/action/group-subproject' }
+              ]
+            },
+            {
+              text: '其他',
+              collapsed: true,
+              items: [
+                { text: 'Qi Presets', link: '/action/group-qi-presets' },
+                { text: 'Spectral Transition', link: '/action/process-spectral-transition' },
+                { text: 'Internal Record', link: '/action/record-internal-from-items' },
+                { text: 'Wwise Import', link: '/action/wwise-import-to-reaper' },
+                { text: 'Envelope Display Mode', link: '/action/envelope-toggle-display-mode' },
+                { text: 'Misc 杂项', link: '/action/group-misc' },
+                { text: 'Check for Updates', link: '/action/check-for-updates' }
+              ]
+            }
           ]
         }
       ]
