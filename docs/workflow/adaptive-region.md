@@ -81,7 +81,7 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 > **完全自动、无需手点**：只要名字对得上，配对和跟随就在后台发生。你不用执行任何"绑定"操作。
 > （如果你嫌改名麻烦，也有一个 Action 能一键把 Folder 改名对齐到光标处的 Region，见第 5 节。）
 
-> 开关状态会**记进配置**，下次开 REAPER 还是开着的。哪些 Region 被接管了，会**跟工程一起保存**，下次打开工程继续生效。
+> **Adaptive Regions 现在是"每个工程各自记"的模式**：`Enable Adaptive Regions` 设的是**当前工程**的助手模式（Region / Mirror / 关），跟着工程文件（.rpp）一起保存；新建 / 没配过的工程按 Preferences 里 `Default Assistants Mode` 的全局默认进入。哪些 Region 被接管了，也跟工程一起保存，下次打开继续生效。
 
 ---
 
