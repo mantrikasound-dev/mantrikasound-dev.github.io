@@ -17,6 +17,10 @@ export default defineConfig({
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+
+    // 左上角品牌 Logo（显示在标题文字左侧）
+    logo: '/mantrika_icon.png',
+
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Mantrika Tools', link: '/mantrika-tools' },

@@ -14,6 +14,7 @@ const links = [
 <template>
   <nav class="mtk-nav">
     <a :href="withBase('/')" class="nav-logo">
+      <img :src="withBase('/mantrika_icon.png')" alt="Mantrika" class="nav-logo-icon" />
       <span class="nav-logo-main">MANTRIKA</span>
       <span class="nav-logo-sub">SOUND</span>
     </a>
@@ -50,7 +51,13 @@ const links = [
   letter-spacing: 0.02em;
   text-decoration: none;
   display: flex;
+  align-items: center;
   gap: 0.4em;
+}
+.nav-logo-icon {
+  height: 1.6em;
+  width: auto;
+  display: block;
 }
 .nav-logo-main { color: var(--text-primary); }
 .nav-logo-sub { color: var(--text-secondary); font-weight: 500; }
