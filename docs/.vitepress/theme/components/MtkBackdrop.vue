@@ -42,10 +42,10 @@
   top: -200px;
   left: 50%;
   transform: translateX(-50%);
-  width: 1000px;
-  height: 600px;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(90, 100, 250, 0.12) 0%, transparent 100%);
-  filter: blur(80px);
+  width: min(1600px, 130vw);
+  height: 1300px;
+  background: radial-gradient(50% 60% at 50% 38%, rgba(90, 100, 250, 0.12) 0%, transparent 100%);
+  filter: blur(90px);
   z-index: -1;
   pointer-events: none;
 }

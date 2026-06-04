@@ -46,9 +46,10 @@
   --vp-c-border: rgba(255, 255, 255, 0.10);
   --vp-c-gutter: rgba(255, 255, 255, 0.05);
 
-  /* 文本与品牌页统一 */
-  --vp-c-text-1: var(--mtk-ink);
-  --vp-c-text-2: #a4a9b3;
+  /* 文本：正文主色比品牌 ink(#ededed) 收一档，避免大段白字在近黑底上发刺，
+     对比度仍足够（约 12:1）。标题等强调元素另行提亮，保留层次。 */
+  --vp-c-text-1: #c2c6cd;
+  --vp-c-text-2: #9a9fa9;
   --vp-c-text-3: #6b7079;
 }
 
@@ -91,6 +92,36 @@
 }
 
 /* ============================================================
+   顶栏搜索框：边框常驻提升可发现性（非 hover 暗、hover 提亮）
+   ============================================================ */
+.dark .DocSearch-Button {
+  border: 1px solid var(--vp-c-border);
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.2s, background-color 0.2s;
+}
+/* 搜索框稍微加宽，更显眼也更好点 */
+.VPNavBarSearch .DocSearch-Button {
+  width: 240px;
+}
+/* 去掉 Ctrl K 快捷键提示：多数用户直接点，提示反而占地方 */
+.DocSearch-Button .DocSearch-Button-Keys,
+.DocSearch-Button .DocSearch-Button-Key {
+  display: none;
+}
+.dark .DocSearch-Button:hover {
+  border-color: rgba(var(--mtk-accent-bright-rgb), 0.5);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+}
+/* 放大镜与快捷键提示也提一点对比，强化“这是搜索” */
+.dark .DocSearch-Button .DocSearch-Search-Icon {
+  color: var(--vp-c-text-2);
+}
+.dark .DocSearch-Button:hover .DocSearch-Search-Icon {
+  color: var(--vp-c-brand-1);
+}
+
+/* ============================================================
    侧边栏：当前项品牌色高亮 + 左侧指示条
    ============================================================ */
 .VPSidebarItem.is-active > .item .link > .text,
@@ -112,6 +143,15 @@
 /* ============================================================
    正文排版：标题节奏 + 链接 + 行内代码
    ============================================================ */
+/* 标题 / 加粗也收到与正文同档的柔和色：层次靠字号、字重区分，不靠高亮度 */
+.dark .vp-doc h1,
+.dark .vp-doc h2,
+.dark .vp-doc h3,
+.dark .vp-doc h4,
+.dark .vp-doc strong,
+.dark .vp-doc b {
+  color: var(--vp-c-text-1);
+}
 .vp-doc h1 {
   letter-spacing: -0.025em;
   font-weight: 750;

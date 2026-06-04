@@ -27,7 +27,7 @@
 
 ---
 
-## `Assistants - DC - Enhanced Meida Item`
+## `Assistants - DC - Enhanced Media Item`
 
 增强的「双击 Item」行为：先看你点的是不是 **Mirror（镜像 Item）**，再决定怎么处理（优先用唯一选中的那个，否则取鼠标位置下的那个）：
 
