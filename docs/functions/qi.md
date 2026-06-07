@@ -24,11 +24,11 @@
 
 菜单入口：
 
-```
-Extensions → MantrikaTools → Qi
-```
+![Extensions 菜单入口](../assets/functions/qi-extensions-19.png)
 
 或在 Action List 搜：
+
+![Action List 搜索](../assets/functions/qi-action-20.png)
 
 | Action 名称 | 用途 |
 | --- | --- |
@@ -41,27 +41,7 @@ Extensions → MantrikaTools → Qi
 
 ## 3. 界面总览
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  [ Generator ]  [ Mask ]  [ Browser ]                    │  ← Tab 行
-├──────────────────────────────────────────────────────────┤
-│  MODE                          GLOBAL ENV   [Preset]     │
-│  [ Ran | Seq ]                  [ENV]       [Reset]      │  ← Logic Bar
-│  [ Lo-Hi | Hi-Lo ]                                       │
-├──────────────────────────────────────────────────────────┤
-│  ● MOD  [Off|Rnd|Next]   Rev 0% | Ofs 0ms          ▶    │
-│  ● VOL  ━━━━━━━━━ ±3 dB    ━━━ 5 pts                    │
-│  ● PIT  ━━━━━━━━━ ±2 st    ━━━ 5 pts               ▶    │
-│  ● PAN  ━━━━━━━━━ L50~R50  ━━━ 5 pts                    │
-│  ● FX   ━━━━━━━━━ 30 %     ━━━ 3 pts               ▶    │
-│  ● AMT  ━━━━━━━━━ 100%     ━━━ 100%                     │  ← 总幅度宏
-├──────────────────────────────────────────────────────────┤
-│ VARIANTS                     SPACING [START|GAP]         │
-│  20  ━━━━━━━━                 0.50s ━━━━━━━━             │
-│                                                          │
-│  [<] [R] [>]    [        GENERATE        ]               │  ← Footer
-└──────────────────────────────────────────────────────────┘
-```
+![Qi 主窗口 — Generator Tab](../assets/functions/qi-window-01.png)
 
 整个 Generator Tab 由四块组成：
 
@@ -71,6 +51,8 @@ Extensions → MantrikaTools → Qi
 | **Strips**（中部） | 6 条横条：MOD / VOL / PIT / PAN / FX / AMT，每条管一类参数 |
 | **Footer**（底部） | VARIANTS（要几份变体）、SPACING（变体间距）、试听与 Generate 按钮 |
 | **Tab 行** | Generator（主面板）/ Mask（按 item 屏蔽参数）/ Browser（素材库浏览拖入） |
+
+![Tab 行：Generator / Mask / Browser](../assets/functions/qi-tab-02.png)
 
 ---
 
@@ -84,6 +66,8 @@ Extensions → MantrikaTools → Qi
 
 ### 4.2 蓝色预览（Preview）
 
+![蓝色预览（Preview）](../assets/functions/qi-preview-05.png)
+
 只要拖动了任意参数滑条，Qi 就在时间线上**自动生成一组蓝色 item**——这是预览，还没真正提交。蓝色的含义是"临时"，可以随便改。
 
 - 改完参数：蓝色 item **自动重新计算**
@@ -93,6 +77,8 @@ Extensions → MantrikaTools → Qi
 > ⚠️ **撤销 (Ctrl+Z) 与 Qi 的预览**——Qi 会自动清理 undo History中的预览记录，不会留下旧蓝色 item 污染工程。
 
 ### 4.3 试听三键
+
+![试听三键](../assets/functions/qi-play-06.png)
 
 Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
@@ -108,20 +94,16 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 ## 5. Logic Bar（顶部行）
 
-### 5.1 MODE：随机 vs 递进
+![Logic Bar：MODE / GLOBAL ENV / Preset / Reset](../assets/functions/qi-logic-bar-03.png)
 
-```
-[ Ran | Seq ]
-```
+### 5.1 MODE：随机 vs 递进
 
 - **Ran（Random）**——每份变体的参数都是**真随机**，互相之间没有关系
 - **Seq（Sequential）**——参数从 min 线性走到 max，呈**渐进**变化
 
 切到 **Seq** 时会冒出第二个开关：
 
-```
-[ Lo-Hi | Hi-Lo ]
-```
+![Seq 递进方向开关](../assets/functions/qi-seq-07.png)
 
 控制递进方向：从低值走到高值，还是从高值走到低值。
 
@@ -129,9 +111,7 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 ### 5.2 GLOBAL ENV：总 Envelope 开关
 
-```
-[ ENV ]
-```
+![GLOBAL ENV 开关](../assets/functions/qi-env-08.png)
 
 控制是否**为变体内部画 Take Envelope 包络**。关闭时，每份变体的 Vol/Pitch/Pan 在变体长度内**保持一个固定随机值**；打开时，会在变体内部画出多点 envelope，让数值**在变体内部动态起伏**。
 
@@ -139,9 +119,13 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 ### 5.3 Preset 按钮
 
+![Preset 按钮](../assets/functions/qi-preset-09.png)
+
 打开预设面板，详见 §10。
 
 ### 5.4 Reset 按钮
+
+![Reset 按钮](../assets/functions/qi-preset-10.png)
 
 把所有参数恢复到默认、清掉蓝色预览。
 
@@ -151,9 +135,7 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 每条 Strip 都是同样的结构：
 
-```
-[●指示灯]  STRIP名  [主滑条]  数值  [Env副滑条]  Env数值  [▶展开]
-```
+![Strips：MOD / VOL / PIT / PAN / FX / AMT](../assets/functions/qi-strips-04.png)
 
 - **左侧圆点指示灯**——点一下**启用/禁用**该 Strip，灰色 = 禁用
 - **主滑条**——该参数的随机幅度/强度
@@ -164,11 +146,16 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 > - **Shift + 拖动** = 精调，拖动幅度变细，方便摸细节
 > - **Alt + 拖动**（仅 PAN 双值滑条） = 整体平移，左右把手一起动，保留区间宽度
 > - **Ctrl + 左键 数字**（不是滑条，是滑条旁边那串数值文字）= 数字**就地变成输入框**，敲新数字 + Enter 提交。范围超界自动 clamp 到物理上下限；Esc / 点其它地方 = 取消
+>
+> ![PIT Strip 数值就地编辑](../assets/functions/qi-strip-ctrl-click-12.png)
+>
 >   - 编辑器打开时整段文字已选中，直接敲新值就替换
 >   - PAN 双值数字用 `L50 ~ R50` / `C ~ R30` / `-0.5 ~ 0.5` 三种语法都行，中间用 `~` 隔开。任何一段解析失败整体放弃
 >   - env 副数字输入 `0` 等同 OFF
 
 ### 6.1 VOL：音量随机
+
+![VOL Strip](../assets/functions/qi-strip-vol-13.png)
 
 主滑条范围 **0~12 dB**。值 `±X dB` 表示每份变体的音量在 **-X 到 +X dB** 之间随机/递进。
 
@@ -176,13 +163,13 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 ### 6.2 PIT：音高随机
 
+![PIT Strip](../assets/functions/qi-strip-pit-14.png)
+
 主滑条范围 **0~24 半音**。值 `±X st` 表示音高在 **-X 到 +X 半音**之间变化。
 
 **展开内容（▶）**：
 
-```
-[ Rnd | Custom | Keep ]    [Pitch Algorithm ▼]    [M]
-```
+![PIT 展开内容](../assets/functions/qi-strip-pit-mod-21.png)
 
 - **Rnd**：每份变体使用**随机算法**（拉伸时音质多样化）
 - **Custom**：使用下拉框里选定的固定算法（Elastique Pro 等）
@@ -193,6 +180,8 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 ### 6.3 PAN：声像随机
 
+![PAN Strip](../assets/functions/qi-strip-pan-15.png)
+
 主滑条是**双把手**滑条，可分别设左右边界：
 
 - `L50 ~ R50` 表示左 50% 到右 50% 范围内随机
@@ -202,6 +191,8 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 副滑条：envelope 点数，让变体内 Pan 来回飘移。
 
 ### 6.4 MOD：反向 + 起点偏移
+
+![MOD Strip](../assets/functions/qi-strip-mod-18.png)
 
 ```
 [ Off | Rnd | Next ]    Rev 50% | Ofs 100ms
@@ -226,32 +217,20 @@ Footer 左侧的 `<` `R` `>` 三个小按钮用来切换播放哪一份变体：
 
 ### 6.5 FX：FX 参数随机
 
-Strip 头显示 `N params`——你已经"捕获"了 N 个 FX 参数让 Qi 调控。
+![FX Strip](../assets/functions/qi-strip-fx-16.png)
 
-**展开内容（▶）**：
-
-```
-Pts: ━━━ 3 pts    Depth: ━━━ 30 %
-[ N params ]  [Listening...]  [+ CAPTURE] [OK]
-─────────────────────────────────────────
-[Item 1] ReaEQ - Band1 Freq         ×
-[Item 1] ReaComp - Threshold        ×
-...
-```
-
+- **Strip头显示** `N params`——你已经"捕获"了 N 个 FX 参数让 Qi 调控。
 - **Pts 滑条**——FX envelope 在变体内画几个起伏点
 - **Depth 滑条（0~100%）**——FX envelope 的**摆动幅度**（占参数全行程的百分比）
-- **+ CAPTURE 按钮**——按下后进入"监听模式"（按钮变成 **OK**），此时**你去 REAPER 里任意拨动一个 FX 参数**，Qi 会把它**自动捕获**到这个列表里；按 **OK** 退出监听
+- **CLEAR按钮**——清空所有选择的Fx参数
+- **+ CAPTURE 按钮**——按下后进入"监听模式"（按钮变成 **OK**），此时**你去 REAPER 里任意拨动一个 FX 参数**，Qi 会把它**自动捕获**到这个列表里；按 **OK** 退出监听。但请注意，Qi是针对于Item来进行变体，所以仅支持在Item上，Track上的Fx参数是不支持的。
 - **× 图标 / 双击 / Delete 键**——从列表里移除一个 FX 参数
 
 > 💡 **使用流程**：选中源 item → 给它挂上想随机的 FX → 在 Qi 里点 CAPTURE → 在 REAPER 里轻轻拨动 FX 参数 → Qi 自动记录 → 重复 → 点 OK 完成。之后每份变体都会在你捕获的 FX 参数上随机摆动。
 
 ### 6.6 AMT（Amount）：总幅度宏
 
-```
-●  AMT   ━━━━━━━━━━━━━━━ 100%    ━━━━━━━━━ 100%
-                          主幅度宏           env密度宏
-```
+![AMT Strip](../assets/functions/qi-strip-amt-17.png)
 
 最底下的一条 Strip。两个滑条都是**0~200%** 的**全局缩放器**：
 
@@ -270,12 +249,9 @@ Pts: ━━━ 3 pts    Depth: ━━━ 30 %
 
 ## 7. Footer（底部）
 
-### 7.1 VARIANTS：要几份变体
+![Footer：VARIANTS / SPACING / 试听三键 / GENERATE](../assets/functions/qi-footer-04.png)
 
-```
-VARIANTS
-  20   ━━━━━━━━━━━
-```
+### 7.1 VARIANTS：要几份变体
 
 滑条 **0~50**，非线性分段：
 
@@ -289,11 +265,6 @@ VARIANTS
 低段细调、高段粗调，符合实际使用习惯。
 
 ### 7.2 SPACING：变体间距
-
-```
-SPACING [START | GAP]
-  0.50s   ━━━━━━━━━━━
-```
 
 控制每份变体之间的**时间距离**，单位秒。
 
@@ -310,6 +281,10 @@ SPACING [START | GAP]
 
 `START / GAP` 按钮切换间距的两种含义：
 
+![SPACING：GAP 模式](../assets/functions/qi-spacing-gap-22.png)
+
+![SPACING：START 模式](../assets/functions/qi-spacing-start-23.png)
+
 | 模式 | 含义 |
 |---|---|
 | **START** | 每份变体**起点**之间的间隔（可能重叠） |
@@ -318,10 +293,6 @@ SPACING [START | GAP]
 > 💡 做密集铺设用 START（允许重叠出"踩踏感"）；做规整序列用 GAP。
 
 ### 7.3 试听 + GENERATE
-
-```
-[<] [R] [>]    [        GENERATE        ]
-```
 
 - **`<` `R` `>`**：上一份/随机/下一份（详见 §4.3）
 - **GENERATE 按钮**：把当前蓝色预览**提交**为正式 item，参数清零回到默认
@@ -335,13 +306,7 @@ SPACING [START | GAP]
 
 切到 **Mask** Tab 看到一张表格：
 
-```
-Name              Vol  Pitch  Pan  Rev  Ofs  | FXparam1  FXparam2 ...
-──────────────────────────────────────────────────────────────────────
-Footstep_01.wav   ☑    ☑      ☑    ☑    ☑   |   ☑          ☑
-Footstep_02.wav   ☑    ☐      ☑    ☐    ☑   |   ☑          ☐
-...
-```
+![Mask Tab 表格](../assets/functions/qi-mask-24.png)
 
 每行对应一个源 item，每列对应一种参数。**取消勾选 = 这个 item 不参与那项随机**。
 
@@ -358,17 +323,7 @@ Footstep_02.wav   ☑    ☐      ☑    ☐    ☑   |   ☑          ☐
 
 切到 **Browser** Tab，能搜索并拖拽你预先配置的素材库。
 
-```
-Database: [ 3 / 5 selected ▼ ]    [ Random ]    [Off|Seg|All]   [Chaos]
-Search:   [______________________________]   (124)
-──────────────────────────────────────────────
-  ● Footstep_Wood_01.wav
-  ● Footstep_Wood_02.wav    ← 已使用过的素材会有橙点
-    Footstep_Stone_03.wav
-    ...
-──────────────────────────────────────────────
-[                波形视图                  ]
-```
+![Browser Tab](../assets/functions/qi-browser-25.png)
 
 ### 9.1 顶栏
 
@@ -392,7 +347,7 @@ Search:   [______________________________]   (124)
 
 | 操作 | 行为 |
 |---|---|
-| **右键单击** | 跳转播放头到此处 |
+| **左键单击** | 跳转播放头到此处 |
 | **左键拖动** | 框选一段区域（橙色高亮 + 时长标签） |
 | **左键拖动选区到 REAPER** | 把**选区那一段**插入轨道（不是整个文件） |
 | **空格键** | 暂停/恢复试听 |
@@ -405,15 +360,7 @@ Search:   [______________________________]   (124)
 
 点 Logic Bar 右上角的 **Preset** 按钮：
 
-```
-┌─ Qi Presets ───────────────────────────────┐
-│  Slot 1  ★ Quick Shotgun        [★] [S] [R] [X] │
-│  Slot 2    Heavy Reverse Pack    [★] [S] [R] [X] │
-│  Slot 3    (empty)                  [Save here]   │
-│  Slot 4    (empty)                  [Save here]   │
-│  Slot 5    (empty)                  [Save here]   │
-└────────────────────────────────────────────┘
-```
+![Preset 面板](../assets/functions/qi-preset-26.png)
 
 **五个固定槽位**。每个槽位：
 
@@ -433,11 +380,9 @@ Search:   [______________________________]   (124)
 
 ### 10.2 Action 直接应用
 
-```
-mantrika : Qi: Apply Preset 1   (~~ 5)
-```
+![Preset 1~5 Action](../assets/functions/qi-preset-1-5-27.png)
 
-这 5 个 Action **不开窗**——选中 item、按快捷键 → 直接生成。适合"我已经知道这套预设效果，看也不用看"的场景。
+这 5 个 Action **不开Qi**——选中 item、按快捷键 → 直接生成。适合"我已经知道这套预设效果，看也不用看"的场景。
 
 ---
 
