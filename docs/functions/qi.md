@@ -24,7 +24,9 @@
 
 菜单入口：
 
-![Extensions 菜单入口](../assets/functions/qi-extensions-19.png)
+```
+Extensions → MantrikaTools → Qi
+```
 
 或在 Action List 搜：
 
@@ -51,8 +53,6 @@
 | **Strips**（中部） | 6 条横条：MOD / VOL / PIT / PAN / FX / AMT，每条管一类参数 |
 | **Footer**（底部） | VARIANTS（要几份变体）、SPACING（变体间距）、试听与 Generate 按钮 |
 | **Tab 行** | Generator（主面板）/ Mask（按 item 屏蔽参数）/ Browser（素材库浏览拖入） |
-
-![Tab 行：Generator / Mask / Browser](../assets/functions/qi-tab-02.png)
 
 ---
 
