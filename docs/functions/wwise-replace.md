@@ -1,4 +1,4 @@
-# Wwise Replace 用户手册
+# Wwise Replace
 
 > 适用版本：Mantrika Tools（当前主线） · 仅支持 Windows
 
@@ -81,6 +81,7 @@
 | **Browse...** | 自己选 wproj 文件 |
 | ☑ **P4 Reconcile WAV** | 替换 WAV 后自动跑 `p4 reconcile`，通知 Perforce 文件已变更（非 P4 用户不用管） |
 | ☑ **Bring Wwise to Front After Replace** | Replace 完后把 Wwise 窗口拉到最前面（懒得 Alt+Tab） |
+| ☑ **Hide Window After Replace** | Replace 成功后自动隐藏本窗口——多数人的工作流就是 Replace + 切到 Wwise，留着窗口反而挡视线 |
 
 > 💡 **wproj 是机器级配置**——选一次，REAPER 工程切换不会丢；换电脑或换工程才需重选。
 
@@ -227,6 +228,7 @@
 - **安全替换**：写入时先在旁边写一份临时文件，整个写完才替换掉原文件——中途断电 / 程序崩溃 / 文件被占用都不会让你 Wwise 工程里原来的 wav 丢失
 - 只有状态是 **OK** 的行会被真的替换；**Not found** 的行直接跳过
 - Replace & Generate 会**强制更新被替换 wav 的修改时间**，确保 Wwise 把它们识别成"有变更"并重新转换缓存——避免你看到的 BNK 和实际不一致
+- 开了 **Hide Window After Replace** 时，**Replace Only** 成功后窗口会自动隐藏（绿色成功提示先闪一下再消失）；若同时开了 **Bring Wwise to Front**，会先把 Wwise 切到前台、再隐藏本窗口，焦点不会被抢回 REAPER
 
 ### 7.2 状态行颜色
 
@@ -277,6 +279,7 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 - wproj 路径
 - P4 Reconcile WAV 开关
 - Bring Wwise to Front 开关
+- Hide Window After Replace 开关
 
 这些不跟 rpp 走，存在 MantrikaTools 的全局配置里。
 
