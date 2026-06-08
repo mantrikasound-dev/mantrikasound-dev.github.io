@@ -89,6 +89,7 @@ export default defineConfig({
             { text: 'Advanced Rename', link: '/functions/advanced-rename' },
             { text: 'Render Queue', link: '/functions/render-queue' },
             { text: 'Quick Render', link: '/functions/quick-render' },
+            { text: 'Action Automation', link: '/functions/action-automation' },
             { text: 'Wwise Replace', link: '/functions/wwise-replace' }
             // 暂不收录：MTK Loudness Matcher → /functions/mtk-loudness-matcher
           ]
