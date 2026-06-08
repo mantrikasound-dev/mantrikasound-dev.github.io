@@ -394,7 +394,7 @@ Envelope ON/OFF 跟随工程持久化：
 
 下方实时显示当前 preset 将包含哪些 FX，让你直观看见范围。
 
-**Preset name / Description**：必填名字，描述可选。名字会做安全化处理用作文件名落盘。
+**Preset name / Description**：必填名字，描述可选。名字会做安全化处理用作文件名被保存。
 
 **重名冲突**：如果同名 preset 已存在，会弹确认框：
 

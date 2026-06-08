@@ -268,7 +268,7 @@
 - SoundBanks 列表（含勾选状态、手动加的条目）
 - Watch Folder 路径
 
-REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数据才会真正落盘。
+REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数据才会真正被保存。
 
 **好处**：rpp 备份 / 另存到其他电脑，这些配置一起带走。
 
@@ -295,16 +295,15 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 3. 检查 OK / Not found —— 全 OK 最好
 4. SoundBanks 默认已经自动选好了相关 Bank
 5. 点 Replace & Generate
-6. 等状态栏出现 "Generated N bank(s)" → 在 Wwise 试听
+6. 等状态栏出现 "Generated N bank(s)"
 ```
 
-### 工作流 B：Watch Folder 一键流
+### 工作流 B：Watch Folder 
 
 ```
 1. Source Files 标题旁点 + → 设 Watch Folder 为你的渲染目录
-2. 之后每次渲染完，点 ↻
-   → 列表自动用最新一批 .wav 覆盖
-3. 点 Replace & Generate
+2. 之后每次渲染完，点 ↻ → 列表自动用最新一批 .wav 覆盖
+3. 点 Replace 或者 Replace & Generate
 4. 长期使用：什么都不用调，每次只点两下
 ```
 
@@ -313,7 +312,8 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 ```
 1. 用 Render Queue 模块跑一批渲染
 2. Render Queue 跑完会自动把 Wwise Replace 的 Watch Folder 设到对应目录并刷新
-3. 你只需要回到 Wwise Replace 点 Replace & Generate
+3. 并且会同步打开Wwise Replace的UI（如果之前是Hide 状态的话）
+4. 你只需要 Wwise Replace 点 Replace 或者 Replace & Generate
 ```
 
 ---
@@ -322,7 +322,7 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 
 ### 11.1 Replace 是真的覆盖磁盘文件
 
-写入 Originals 是**直接覆盖**的物理操作。**用 P4/SVN/Git 管 wproj 的团队**：建议开 **P4 Reconcile WAV**，工具会自动通知版本控制；不开的话被覆盖的 wav 你得自己去 reconcile。
+写入 Originals 是**直接覆盖**的物理操作。**用 P4管理 wproj 的团队**：建议开 **P4 Reconcile WAV**，工具会自动通知版本控制；不开的话被覆盖的 wav 你得自己去 reconcile。
 
 ### 11.2 切换 REAPER 工程不会乱
 
@@ -358,7 +358,7 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 | SoundBanks 列表空 | 自动匹配规则没命中 | 用 "Add Bank" 手动加 |
 | Replace 报 "Failed to copy" | 源文件被其它程序占用 / 目标只读 | 关闭占用程序；目标 wav 不要设只读 |
 | Replace & Generate 卡很久 | 选了几十上百个 Bank，正常现象 | 等。10 分钟内会超时报错 |
-| 状态显示 "No changes detected" | 你送的 wav 和 Originals 里的一模一样 | 正常——确认你的渲染真的更新过了 |
+| 状态显示 "No changes detected" | 你选的 wav 和 Originals 里的一模一样 | 正常——确认你的渲染真的更新过了 |
 | 切了 wproj 后 Bank 列表还是旧的 | 旧的索引没刷新 | 点 Target Settings 旁的 ↻ 重扫 |
 | Render Queue 渲染完没自动同步 | Watch Folder 未启用 | Wwise Replace 里先 Set Watch Folder 一次（之后 Render Queue 会自动接管） |
 | Ctrl+Z 没反应 | 焦点在 REAPER 主窗口上 | 先点一下 Wwise Replace 窗口让它获得焦点 |

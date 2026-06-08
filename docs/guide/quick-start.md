@@ -24,7 +24,7 @@
 
 3. 复制粘贴Reapack Link；
 
-   
+   https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml
 
 4. 点击OK；
 
@@ -52,8 +52,8 @@
 
 一共有两种方式，取决于你的安装方式：
 
-1. 如果是通过Reapack路径安装，那么直接更新就好；
-2. 如果是手动安装，可以在Extension 菜单，找到 Mantrika Tools -> Mantrika Options -> Check for updates...
+1. 如果是手动安装，可以在Extension 菜单，找到 Mantrika Tools -> Mantrika Options -> Check for updates... 点击Update Now按钮。
+2. 如果是通过Reapack路径安装，那么直接通过Reapack更新就好。但同时也可以用上述的Check for updates... 来更新；
 
 ---
 
