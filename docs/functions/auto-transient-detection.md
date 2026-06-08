@@ -1,7 +1,5 @@
 # Auto Transient Detection
 
-> 适用版本：Mantrika Tools（当前主线）
-
 ---
 
 ## 1. 概述
@@ -19,21 +17,19 @@
 
 > **注意**：如果你删了或移动了 marker，服务会自动重新打一套（见第 5 节）。想保留自己的修改，请先 toggle skip。
 
+<img src="D:\Nzd_Tian_CodeDepot_svn\mantrikasound-dev.github.io\docs\assets\functions\auto-transient-03.gif" alt="auto-transient-03" style="zoom: 50%;" />
+
 ---
 
 ## 2. 打开方式
 
-### 2.1 启用 / 关闭自动检测
+### 2.1 启用 / 关闭自动化检测服务
 
-```
-Extensions → Mantrika Tools → Mantrika Options → Preferences...
-  → Auto Transient Detection
-    ☐ Enable Auto Transient Detection
-```
+<img src="D:\Nzd_Tian_CodeDepot_svn\mantrikasound-dev.github.io\docs\assets\functions\auto-transient-01.png" alt="auto-transient-01" style="zoom:50%;" />
 
 勾上即开启服务。开关状态持久化，下次启动 REAPER 自动沿用。
 
-### 2.2 手动 action（在 Action List 搜 "Transient"）
+### 2.2 手动 action（在 Action List 搜 "mantrika Transient"）
 
 也可以从菜单走：
 
@@ -48,8 +44,6 @@ Extensions → Mantrika Tools → Util item
 | **`mantrika : Analysis - Detect Transients for Selected Items (manual)`** | 一次性给所选 item 打点；不依赖自动服务开关 |
 | **`mantrika : Analysis - Toggle Skip Auto Transient Detection for Selected Items`** | 对所选 item 切换"跳过自动检测"标志 |
 
-两个 action 都建议绑快捷键，日常用得很多。
-
 ---
 
 ## 3. 基础用法 —— 三个典型操作
@@ -60,7 +54,7 @@ Extensions → Mantrika Tools → Util item
 1. 打开 Preferences...
 2. 勾上 "Enable Auto Transient Detection"
 3. 在 Arrange 里选中 audio item（可以一片一片选）
-4. 等一两秒 → 每个 item 的 take 上出现编号 marker
+4. 每个 item 上出现带编号的 take marker
 ```
 
 **特点**：
@@ -119,10 +113,12 @@ Extensions → Mantrika Tools → Util item
 
 ## 4. Marker 长什么样
 
+<img src="D:\Nzd_Tian_CodeDepot_svn\mantrikasound-dev.github.io\docs\assets\functions\auto-transient-02.png" alt="auto-transient-02" style="zoom:50%;" />
+
 | 项目 | 说明 |
 | --- | --- |
 | **名称** | 纯数字编号 `1`, `2`, `3`, …（按时间顺序） |
-| **颜色** | 浅灰色（`#515151`） |
+| **颜色** | 浅灰色 |
 | **位置** | take 内的瞬态精确起点（毫秒级） |
 | **类型** | take marker（不是 project marker，跟着 item 走） |
 
@@ -132,7 +128,7 @@ Extensions → Mantrika Tools → Util item
 
 ---
 
-## 5. 自愈行为：删一个 marker 会怎样
+## 5. 自愈行为：删除\移动一个 marker 会怎样
 
 自动服务会检查每个 item 的 marker 状态：
 
@@ -154,9 +150,9 @@ Extensions → Mantrika Tools → Util item
 | 类型 | 原因 |
 | --- | --- |
 | MIDI take | 不是音频 |
-| 子工程 item（subproject） | 没有源采样 |
+| 子工程 item（subproject） | 保持区分度 |
 | Click source / timecode source | 不是真实音频 |
-| Mirror segment | 跟随主 item，自身不算 |
+| Mirror segment | 不是音频 |
 | 空 take / 没 active take | 没东西可算 |
 | 标了 skip 标志的 item | 用户主动拒绝 |
 
@@ -165,7 +161,7 @@ Extensions → Mantrika Tools → Util item
 | 类型 | 原因 |
 | --- | --- |
 | Mute 的 item | 通常不需要 |
-| Source 长度 > 5 分钟 | 长 source 全扫会阻塞主线程，请改走手动 action |
+| Source 长度 > 5 分钟 | 长 source 全扫会影响体验，并且大多数常见素材都没这么长。如有需要，请改用手动 Action |
 
 ---
 
@@ -178,11 +174,12 @@ Extensions → Mantrika Tools → Util item
 | 选了 item 但没出现 marker | 自动服务关着；或源超过 5 分钟 | Preferences 里勾上 enable；长 source 用手动 action |
 | 自动服务开着也不打 | item 标了 skip / 是 MIDI / 是 subproject / 静音 | 看上面第 6 节；如有 skip 标志，toggle 一次清掉 |
 | Marker 自己跑回来了 | 自愈机制：删 / 移动 marker 会触发重算 | 想保留自己的修改，先 toggle skip 再改 |
-| 关掉服务后 marker 不见了 | 这是设计行为——关服务会清所有瞬态 marker | 想保留请别关；或开服务后再次轮到时会重打 |
-| 一选很多 item 后 REAPER 短暂卡顿 | 选了 80+ item 时降级（每 tick 更少 / 更短），但首轮仍可能慢 | 分批选，或先关服务再大规模操作 |
-| 编辑了 item 的 trim 起止点后 marker 没更新 | 源摘要变化触发重算，但要等下个 tick | 等 1–2 秒；如果久没动，重选一次 |
+| 关掉服务后 marker 不见了 | 这是设计行为——关服务会清所有瞬态 marker | 重新开启 -> 全选items；或者全选items -> 执行手动Action |
 | 刚导入的大素材选中后没 marker | REAPER 还在生成波形预览，预览完成后才会检测 | 稍等几秒，等波形显示完整后再选 |
 | 想全清干净 | 关掉 "Enable Auto Transient Detection" | 关闭服务会清所有 item 上的瞬态 marker |
+
+> ⚠️ 注意！
+> 如果你当前的工程，是素材源时长很长的拟音编辑、录音之类的工程，建议关闭这个自动化服务功能。对于这种工程，电脑可能会有一些不必要的性能压力。
 
 ---
 
@@ -202,7 +199,7 @@ Extensions → Mantrika Tools → Util item
 ```
 1. 自动服务保持关闭
 2. 选中需要的 item
-3. 触发 "Analysis - Detect Transients..." action（建议绑快捷键）
+3. 触发 "Analysis - Detect Transients..."
 4. 完事
 ```
 
@@ -211,7 +208,6 @@ Extensions → Mantrika Tools → Util item
 ```
 1. 选中这个 long source item
 2. 触发手动 action（自动服务会跳过这种长度）
-3. 等它算完——长素材计算时 REAPER 会短暂无响应（卡几秒），正常现象
 ```
 
 ---
