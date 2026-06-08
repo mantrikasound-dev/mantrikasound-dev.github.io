@@ -17,7 +17,7 @@
 
 > **注意**：如果你删了或移动了 marker，服务会自动重新打一套（见第 5 节）。想保留自己的修改，请先 toggle skip。
 
-<img src="D:\Nzd_Tian_CodeDepot_svn\mantrikasound-dev.github.io\docs\assets\functions\auto-transient-03.gif" alt="auto-transient-03" style="zoom: 50%;" />
+<img src="../assets/functions/auto-transient-03.gif" alt="auto-transient-03" style="zoom: 50%;" />
 
 ---
 
@@ -25,7 +25,7 @@
 
 ### 2.1 启用 / 关闭自动化检测服务
 
-<img src="D:\Nzd_Tian_CodeDepot_svn\mantrikasound-dev.github.io\docs\assets\functions\auto-transient-01.png" alt="auto-transient-01" style="zoom:50%;" />
+<img src="../assets/functions/auto-transient-01.png" alt="auto-transient-01" style="zoom:50%;" />
 
 勾上即开启服务。开关状态持久化，下次启动 REAPER 自动沿用。
 
@@ -113,7 +113,7 @@ Extensions → Mantrika Tools → Util item
 
 ## 4. Marker 长什么样
 
-<img src="D:\Nzd_Tian_CodeDepot_svn\mantrikasound-dev.github.io\docs\assets\functions\auto-transient-02.png" alt="auto-transient-02" style="zoom:50%;" />
+<img src="../assets/functions/auto-transient-02.png" alt="auto-transient-02" style="zoom:50%;" />
 
 | 项目 | 说明 |
 | --- | --- |
