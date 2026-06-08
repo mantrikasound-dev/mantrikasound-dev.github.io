@@ -1,21 +1,19 @@
 # Action Automation
 
-> 适用版本：Mantrika Tools（当前主线）
-
 ---
 
 ## 1. 概述
 
 **Action Automation** 是一个**Action自动化配置台**，干的事就一句话：**把"每次都要手动点的一串操作"变成"自动发生"**。
 
-它把两种自动化收进一个窗口的两个 Tab：
+它把两种自动化放进一个窗口的两个 Tab：
 
 | Tab | 解决什么 |
 | --- | --- |
 | **REAPER Startup Actions** | REAPER 一启动，就自动按顺序跑一串你指定的 Action（开窗口、套布局、加载模板……），省得每次开 REAPER 都手动点一遍 |
 | **Post Actions** | 给你**已经在用的**Action挂上后续：某个Action一被执行，后面挂的几步就**自动接着跑**。可以把它看成一个更轻、**不用重新绑快捷键**的 Custom Action |
 
-> 任何出现在 REAPER Action列表里的Action，包括 REAPER 自带的、各种扩展的、以及你自己录的脚本/宏，都能用。
+> 任何出现在 REAPER Action List里的Action，包括 REAPER 自带的、各种扩展的、以及你自己录的脚本/宏，都能用。
 >
 > 配置**自动存进 Mantrika Tools 的全局设置**，跨工程通用。
 
