@@ -24,7 +24,7 @@
 
 3. 复制粘贴Reapack Link；
 
-   https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml
+   `https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml`
 
 4. 点击OK；
 
