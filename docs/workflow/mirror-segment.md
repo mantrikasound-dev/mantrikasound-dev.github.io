@@ -1,6 +1,4 @@
-# Mirror 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Mirror 
 
 ---
 

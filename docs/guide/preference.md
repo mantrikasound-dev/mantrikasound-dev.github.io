@@ -1,6 +1,4 @@
-# Preferences 用户手册
-
-> 适用版本：Mantrika Tools
+# Preferences
 
 ---
 
@@ -19,10 +17,10 @@
 
 界面分为两大类（左侧导航）：
 
-| 面板             | 内容                                                                 |
-| -------------- | ------------------------------------------------------------------ |
+| 面板           | 内容                                                         |
+| -------------- | ------------------------------------------------------------ |
 | **Global**     | 通用后台辅助 + 视觉：Auto Transient、Selection Enhance、FX 插入弹窗、Auto Track Colors、Monitor Dim。 |
-| **Assistants** | 工作流助手：当前工程的 Mirror / Region 模式、镜像段子选项、自适应区域、动作与鼠标修饰键。            |
+| **Assistants** | 工作流助手：当前工程的 Mirror / Region 模式、Mirror子选项、自适应区域、动作与鼠标修饰键。 |
 
 > 默认进入 **Global** 面板。
 
@@ -40,22 +38,24 @@
 
 > 这一面板下的所有项目都是**全局**设置（不跟工程走）。
 
-### 3.1 Auto Transient Detection（自动 Transient 检测）
+<img src="../assets/guide/preference-01.png" alt="preference-01" style="zoom: 50%;" />
+
+### 3.1 Auto Transient Detection
 
 | 选项                                | 作用                                             |
 | ----------------------------------- | ------------------------------------------------ |
 | **Enable Auto Transient Detection** | 选中音频 item 时，自动在波形上检测并标出瞬态点。 |
 
-> 仅作用于选中的音频 item，背景常驻；不影响未选中的素材。
+> 仅作用于选中的音频 item，背景常驻；
 
 ---
 
-### 3.2 Selection Enhance（选区增强）
+### 3.2 Selection Enhance
 
 | 选项                              | 作用                                                         |
 | --------------------------------- | ------------------------------------------------------------ |
 | **Sync Track Selection to Items** | 选中 item 时，自动把它所在的 track 也选中。适合"我点哪个 item 就操作哪条轨"的工作流。 |
-| **Adaptive FX Insert Focus**      | 开启以后，在 Arrange View 中点击 Track、并没有选中 item 时，直接执行 insert FX 快捷键时，会自动把 FX 挂在 Track 本身上；有 item 选中时仍会 insert 到 item 上。简单说就是"该插哪就插哪"。 |
+| **Adaptive FX Insert Focus**      | 开启以后，在 Arrange View 中点击 Arrange Track、焦点并没有在TCP时，直接执行 insert FX 快捷键，会自动把 FX 挂在 Track 本身上；这个功能解决的痛点是，REAPER中必须点击TCP让其获得焦点，才能让快捷键挂FX这件事情被正确应用。 |
 
 ---
 
@@ -65,9 +65,9 @@
 
 | Track FX / Take or Item FX 单选项 | 含义                              |
 | ------------------------------ | ------------------------------- |
-| **Don't show**                 | 插入后不弹任何窗口。适合先批量装链，再统一调参。        |
-| **Show FX chain**              | 弹出 FX Chain 窗口（默认，推荐）。          |
-| **Show floating window**       | 直接以浮动窗形式显示插件 UI。适合只调一个插件 GUI 的人。 |
+| **Don't show**                 | 插入后不弹任何窗口。        |
+| **Show FX chain**              | 弹出 FX Chain 窗口。          |
+| **Show floating window**       | 直接以浮动窗形式显示插件 UI。 |
 
 Track FX 与 Take/Item FX 各自独立设置，互不影响。
 
@@ -105,7 +105,7 @@ Track FX 与 Take/Item FX 各自独立设置，互不影响。
 | **Brightness**   | `0.0 ~ 1.0`      | 整体明度系数。1.0 = 原色；越小越暗。                       |
 | **Hue Shift**    | `-180° ~ +180°`  | 整体色相旋转。0 = 不旋转。                             |
 
-> 滑杆均**松手即生效**——拖动过程中不会反复刷新，松开鼠标 / 用方向键调完后才提交。
+> 滑杆均**松手即生效**——拖动过程中不会反复刷新。如果使用滚轮则会即时生效。
 
 #### Reset 按钮
 
@@ -119,7 +119,7 @@ Track FX 与 Take/Item FX 各自独立设置，互不影响。
 | -------------- | --------------------------------------------------------------------------------- |
 | **Dim Level**  | Monitor Dim Action 切换时的衰减量。范围 `-60.0 dB ~ 0.0 dB`，步进 0.5 dB；松手即生效。               |
 
-> 默认值 `-15.0 dB`。如果调过想恢复，可手动拖回 -15。
+> 默认值 `-15.0 dB`。
 
 ---
 
@@ -127,21 +127,27 @@ Track FX 与 Take/Item FX 各自独立设置，互不影响。
 
 Assistants 面板专门管理两个**互斥**的工作流助手——**Mirror** 与 **Region**——以及配套的动作 / 鼠标修饰键。
 
+<img src="../assets/guide/preference-02.png" alt="preference-02" style="zoom:50%;" />
+
 ### 模式模型（先读这段）
 
 每个工程在任意时刻处于三种模式之一：**None / Mirror / Region**。
 
-- **每工程模式**：勾选 `Enable Mirror Segment` 或 `Enable Adaptive Regions`，就是把**当前工程**切到对应模式，这个选择**保存在工程文件（.rpp）里**，覆写全局默认。
+- **每工程模式**：勾选 `Enable Mirror Segment` 或 `Enable Adaptive Regions`，就是把**当前工程**切到对应模式。
 - **全局默认**：`Default Assistants Mode` 下拉决定那些**还没被显式配置过**的工程（新建工程 / 没动过这两个开关的工程）默认进哪个模式。
-- **互斥**：Mirror 和 Region 只能开一个——打开其中一个，另一个会自动关闭（包括把全局默认设成 Mirror/Region，也会让当前工程跟随）。
+- **互斥**：Mirror 和 Region 只能开一个——打开其中一个，另一个会自动关闭。
 
 ### 4.1 当前工程状态卡
 
 面板顶部的卡片**只读**，用来一眼确认"当前激活的工程现在是什么模式"：
 
 - 左侧指示灯：随模式点亮（Mirror = 钢蓝，Region = 紫，None = 灰）。
+
 - 中间：`CURRENT PROJECT` + 工程名。
+
 - 右侧：模式徽章 **MIRROR / REGION / OFF**。
+
+  <img src="../assets/guide/preference-03.png" alt="preference-03" style="zoom:50%;" />
 
 切换 REAPER 的工程 tab 时，状态卡会自动跟着刷新成那个工程解析出的模式。
 
@@ -157,17 +163,17 @@ Assistants 面板专门管理两个**互斥**的工作流助手——**Mirror** 
 
 ---
 
-### 4.3 Mirror Segments（镜像段）
+### 4.3 Mirror Segments
 
-Mirror Segments 是 MTK 的核心工作流之一：在折叠的 folder track 上自动镜像生成与子轨内容对应的"段 item"，方便整段拖拽 / 命名 / 切分。
+Mirror Segments ：在折叠的 folder track 上自动生成与子轨内容对应的"Mirror item"，方便整段拖拽 / 命名 / 切分。
 
-| 选项                                       | 作用                                                                                       |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------- |
-| **Enable Mirror Segment**                | 把**当前工程**切到 Mirror 模式（同时关闭 Region）。关闭后下面所有子选项一并失效（灰显）。                                  |
-| **Auto Sync Segment Names**              | 顺序段会自动编号 / 加字母（如 `_01 _02` / `_A _B`），不用每个手动改。                                          |
-| **Auto Track Name from Mirrors**         | 用镜像段的 basename 反推 folder track 名字——给一段镜像改完名，folder 名也跟着变。                               |
-| **Auto Mirror Large Text Display**       | 自动给镜像段开启 REAPER 的 stretched text 显示。**性能较重**（折叠组多时可能掉帧），更推荐用对应的 Action 临时切换，而不是在这里常开。   |
-| **Include Automation Items** (实验性)       | 把 Automation Items 也纳入镜像段。**当前体验不稳定**，仅供尝鲜。                                             |
+| 选项                                        | 作用                                                         |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| **Enable Mirror Segment**                   | 把**当前工程**切到 Mirror 模式（同时关闭 Region）。关闭后下面所有子选项一并失效（灰显）。 |
+| **Auto Sync Segment Names**                 | 顺序段会自动编号 / 加字母（如 `_01 _02` / `_A _B` / `-1 -2`），不用每个手动改。 |
+| **Auto Track Name from Mirrors**            | 将Mirror 的 basename 应用于 folder track name —— 给Mirror改完名，folder 名也跟着变。 |
+| **Auto Mirror Large Text Display**          | 自动给Mirror开启 REAPER 的 stretched text 显示。**性能较重**（折叠组多时可能掉帧），更推荐用对应的 Action 直接应用，而不是在这里常开。 |
+| **Include Automation Items** (Experimental) | 把 Automation Items 也纳入Mirror。**当前体验不稳定**，仅供尝鲜。 |
 
 **联动关系**：
 
@@ -176,7 +182,9 @@ Mirror Segments 是 MTK 的核心工作流之一：在折叠的 folder track 上
 
 ---
 
-### 4.4 Adaptive Regions（自适应区域）
+### 4.4 Adaptive Regions
+
+Adaptive Regions ：符合规则的region的左右边界会跟随Folder中实际item 的边界而自动调整。本质上是Mirror的概念在Region上的体现。
 
 | 选项                                        | 作用                                                         |
 | ------------------------------------------- | ------------------------------------------------------------ |
@@ -191,9 +199,9 @@ Mirror Segments 是 MTK 的核心工作流之一：在折叠的 folder track 上
 
 #### Auto Item Grouping (Action 1156)
 
-| 按钮                            | 作用                                                                                                 |
-| ----------------------------- | -------------------------------------------------------------------------------------------------- |
-| **Enable Item Grouping** / **Item Grouping: Auto-Enabled** | 把 REAPER 自带的 Action 1156（Toggle item grouping override）固定为"每个工程一打开就开启"状态。**Mirror 模式 + 折叠组拖动**强依赖它，建议长期开启。 |
+| 按钮                                                       | 作用                                                         |
+| ---------------------------------------------------------- | ------------------------------------------------------------ |
+| **Enable Item Grouping** / **Item Grouping: Auto-Enabled** | 把 REAPER 自带的 Action 1156（Options: Toggle item grouping and track media/razor edit grouping）固定为"每个工程一打开就开启"状态。**Mirror 模式 + 折叠组拖动**强依赖它，建议长期开启。 |
 
 按钮文案变成 "Item Grouping: Auto-Enabled" 且变绿即代表已激活。
 
@@ -212,13 +220,13 @@ Mirror Segments 是 MTK 的核心工作流之一：在折叠的 folder track 上
 
 每个功能一行（勾选框 + 说明）。勾选 = 应用该项；取消 = 还原该项到原始设置。各项的原始配置**独立备份**，取消勾选时逐项精确还原，不会动到你其它没勾的修饰键。
 
-| 功能开关                                  | 实际效果                                                                 |
-| ------------------------------------- | -------------------------------------------------------------------- |
-| **Enhanced Item Double-Click**        | 双击 media item，触发增强的 item / 镜像段动作。                              |
-| **Enhanced TCP Double-Click (Ctrl)**  | Ctrl + 双击轨道控制面板（TCP），执行增强的轨道选择。                            |
-| **Focus View on Track Items (Alt)**   | Alt + 双击轨道控制面板，视图跳转并缩放到该轨道的 item 范围。                       |
-| **Contextual Folder Toggle**          | 双击轨道 / 轨道控制面板：是 folder 就折叠 / 展开，是普通轨就选中该轨上所有 item。 |
-| **Select All Automation Items**       | 双击 envelope（包络）lane，选中该 lane 上的所有 automation item。            |
+| 功能开关                                     | 实际效果                                                     |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| **Enhanced Item Double-Click**               | 双击 media item，触发增强的 item / Mirror选择动作。          |
+| **Enhanced TCP Double-Click (Ctrl/Command)** | Ctrl + 双击TCP，执行增强的轨道选择。                         |
+| **Focus View on Track Items (Alt/Option)**   | Alt + 双击TCP，视图跳转并缩放到该轨道的 item 范围。          |
+| **Contextual Folder Toggle**                 | 双击Arrange Track / TCP：是 folder 就折叠 / 展开，是普通轨就选中该轨上所有 item。 |
+| **Select All Automation Items**              | 双击 envelope lane，选中该 lane 上的所有 automation item。   |
 
 - 各功能开关的状态**实时反映真实配置**：勾选 / 取消后立即写入并应用；若某项写入失败，开关会自动弹回正确位置并弹窗提示。
 - 写入失败（极少见）时弹窗提示，可手动在 REAPER 的 Mouse Modifiers 设置里配置对应项。
@@ -248,7 +256,7 @@ Mirror Segments 是 MTK 的核心工作流之一：在折叠的 folder track 上
 
 ### 5.5 Auto Mirror Large Text Display 的性能取舍
 
-折叠组数量大时，开启该项可能影响 UI 帧率。推荐改用对应 Action 临时切换，常态下保持关闭。
+开启该项可能影响 UI 帧率。推荐改用对应 Action 临时切换，常态下保持关闭。
 
 ### 5.6 Adaptive Regions 需要 REAPER v7.62+
 
@@ -266,12 +274,12 @@ Mirror Segments 是 MTK 的核心工作流之一：在折叠的 folder track 上
 | ---------------------------------------- | ----------------------------------- | ------------------------------------------------------ |
 | 顶部状态卡显示 OFF，没有任何助手生效        | 当前工程模式为 None，全局默认也是 None  | 勾 Enable Mirror Segment 或 Enable Adaptive Regions，或改 Default Assistants Mode |
 | 换了个工程，模式自己变了                   | 模式跟工程走（预期行为）                | 见 §5.2，状态卡反映的就是当前工程的设置                 |
-| 勾上 Mirror 后没有镜像段生成                       | 当前工程没有合规的 folder 结构                 | 在 folder track 子轨上放 item 再观察                           |
+| 勾上 Mirror 后没有生成                       | 当前工程没有合规的 folder 结构                 | 在 folder track 子轨上放 item 再观察                           |
 | 开 Adaptive Regions 时 Mirror 自动关掉了        | 两者互斥（预期行为）                          | 见 §4.4                                                 |
 | Mirror 子项一直灰显                            | Mirror 总开关未勾                        | 先勾上 Enable Mirror Segment                              |
 | Auto Mirror Large Text Display 灰显         | `Auto Sync Segment Names` 未勾        | 先勾上 Auto Sync Segment Names                            |
 | Auto Track Colors 滑杆拖了没反应                | Enable 总开关未勾                        | 先勾上 Enable Auto Track Colors                           |
-| Apply All / 逐条开关弹错误窗               | REAPER Mouse Modifiers 写入失败（极少见）    | 按弹窗提示在 REAPER 内手动配置；或查看 REAPER 控制台日志                   |
+| Apply All / 逐条开关弹错误窗               | REAPER Mouse Modifiers 写入失败（极少见）    | 按弹窗提示在 REAPER 内手动配置；或查看 REAPER Coonsole日志              |
 | Item Grouping 按钮一直显示 "Enable Item Grouping" 而不是绿色      | 还没点过 / 设置未保存成功                     | 再点一次按钮，看到 "Item Grouping: Auto-Enabled" 即成功            |
 | FX 插入后没弹窗                                | Track FX / Take FX 选成了 "Don't show" | 改回 "Show FX chain" 或 "Show floating window"            |
 | Monitor Dim 没有衰减效果                       | Dim Level 调到 0 dB                   | 拖到负值，例如 -15 dB                                         |

@@ -1,7 +1,5 @@
 # Quick Start
 
-> 适用版本：Mantrika Tools 任意版本
-
 ---
 
 ## 1. 概述

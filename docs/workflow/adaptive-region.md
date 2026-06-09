@@ -1,6 +1,4 @@
-# Adaptive Regions 用户手册
-
-> 适用版本：Mantrika Tools（当前主线） · 需要 REAPER v7.62+
+# Adaptive Regions 
 
 ---
 
@@ -13,15 +11,9 @@
 - **Mirror**：系统在 Folder 上**自动生成**概览块（块是系统的，你不画）。
 - **Adaptive Regions**：**Region 是你自己的**（你画、你命名、你删），系统只负责把它的**边界、颜色**一直对齐到对应 Folder 的实际内容上。
 
-```
-你画的 Region「footstep」 │   [══════════════]          │ ← Region 边界自动贴住下方内容
-Folder「footstep」       │    ▓▓▓▓      ▓▓▓▓▓▓          │ ← 这个 Folder 里的素材
-  ├ 子轨 A               │   ■■■■        ■■             │
-  └ 子轨 B               │      ■■      ■■■■            │
-                            └────内容范围────┘
-```
+![adaptive-region-01](../assets/workflow/adaptive-region-01.gif)
 
-它最适合**"先有 Region"**的工作流——比如素材整合迭代这类**中后期**场景：Region 早就画好排好了，你只想让它们的边界自己贴着素材长，不用一条条手动拉。
+它最适合**"先有 Region"**的工作流——比如资源迭代场景：Region 早就画好排好了，你只想让它们的边界自己贴着素材长，不用一条条手动拉。
 
 > **它和 "Mirror" 是互斥的**：两者都在接管 Folder 的概览，不能同时开。开 Adaptive Regions 时会自动把 Mirror 关掉。
 
@@ -47,7 +39,7 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
       ☑ Lock Left Boundary                    ← 子选项（见第 4 节）
 ```
 
-> ⚠️ 需要 **REAPER v7.62 或更新版本**。这是因为它要用到新版才有的 Region 操作接口。
+> ⚠️ 需要 **REAPER v7.62 或更新版本**。这是因为它要用到新版才有的 Region 操作API。
 
 ### 2.2 让 Region 自动跟上 Folder（核心：靠"名字"配对）
 
@@ -71,7 +63,7 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 所以一个最简单的上手流程是：
 
 ```
-1. 建一个顶层 Folder 轨道，命名为 footstep，下面挂子轨、放素材
+1. 建一个Folder 轨道，命名为 footstep，下面挂子轨、放素材
 2. 在时间线上画一条 Region，命名为 footstep_01（或 footstep）
 3. → 名字主干都是 footstep → 自动配对成功
 4. → 这条 Region 的右边界，立刻贴到 footstep 这个 Folder 里素材的最右端
@@ -82,6 +74,8 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 > （如果你嫌改名麻烦，也有一个 Action 能一键把 Folder 改名对齐到光标处的 Region，见第 5 节。）
 
 > **Adaptive Regions 现在是"每个工程各自记"的模式**：`Enable Adaptive Regions` 设的是**当前工程**的助手模式（Region / Mirror / 关），跟着工程文件（.rpp）一起保存；新建 / 没配过的工程按 Preferences 里 `Default Assistants Mode` 的全局默认进入。哪些 Region 被接管了，也跟工程一起保存，下次打开继续生效。
+
+![adaptive-region-02](./../assets/workflow/adaptive-region-02.gif)
 
 ---
 
@@ -124,21 +118,7 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 | **开（默认）** | 只自动调整**右边界**；左边界**保持你画的位置**不变。 |
 | **关** | 左、右边界**都**自动贴到内容的最左 / 最右端。 |
 
-```
-Lock Left Boundary 开（默认）：
-   你画的位置 ┃                      ┃ ← 这头会自己长
-             [════════════════]
-              ▓▓▓▓▓      ▓▓▓▓▓
-              左边界钉死       右边界跟随
-
-Lock Left Boundary 关：
-             ┃                      ┃ ← 两头都自己贴
-             [════════════════]
-              ▓▓▓▓▓      ▓▓▓▓▓
-              两端都贴着内容
-```
-
-> 简单说：**想要 Region 的起点完全由你掌控 → 保持开启**；**想要 Region 完全自动包裹内容（两头都贴）→ 关掉它**。
+> 简单说：**想要 Region 的起点完全由你掌控 → 保持开启**；**想要 Region 完全自动包裹内容（两头都贴或跟随移动）→ 关掉它**。
 
 ---
 
@@ -177,6 +157,8 @@ Lock Left Boundary 关：
 这条非常适合的工作流：**Region 边界自己贴着素材长好 → 直接进 Render Queue 按 Region 批量渲染**，不用担心边界没对齐导致渲染多/少一截。
 （Render Queue 用法见 `render-queue.md`）
 
+<img src="./../assets/workflow/adaptive-region-03.png" alt="adaptive-region-03"  />
+
 ---
 
 ## 7. 和 Mirror 怎么选
@@ -192,7 +174,7 @@ Lock Left Boundary 关：
 | 适合阶段 | 从零搭结构、边做边看 | **中后期：命名/Region 已定，做整合迭代** |
 | 典型场景 | 用 Folder 概览声音结构 | 3A 占位 wav、Wwise 绑定、素材整合 |
 
-> 一句话：**喜欢"先有 Folder、让系统帮我标段落" → 用 Mirror**；**喜欢"我自己画 Region 排好版、让边界自己贴素材" → 用 Adaptive Regions**。
+> 一句话：**喜欢"先有 Folder、让系统帮我标段落" → 用 Mirror**；**喜欢"我自己画 Region 排好版、让边界自己贴合素材" → 用 Adaptive Regions**。
 
 ---
 
@@ -244,6 +226,6 @@ Lock Left Boundary 关：
 | Bind Action 报"cursor not within any region" | 编辑光标不在任何 Region 范围内 | 把光标移进目标 Region 再跑 |
 | Bind Action 报"already bound" | 该 Region 或该 Folder 已经配对给别的对象了 | 一对一关系；先解除已有配对，或换一个对象 |
 | 删了 Region / 解散了 Folder 后有残留 | （会自动处理）系统会把失配项移出接管名单 | 等一次自动同步即可，无需手动清理（见 3.5） |
-| 在 Action List 搜 `Mirror` 找不到这个 Action | 它属于 `Region Flow` 那一组 | 改搜 `Region Flow` 或 `Bind` |
+| 在 Action List 搜 `Mirror` 找不到这个 Action | 它属于 `Region Flow` 那一组 | 改搜 `Assistants - Region Flow` |
 
 ---
