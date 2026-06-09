@@ -10,7 +10,13 @@
 它把最常用的三种重命名需求压缩进一个横条窗口：
 
 - 一次性把一组对象**统一改名**
+
+![simple-rename](../assets/functions/simple-rename-01.gif)
+
 - 给一组对象**按列表逐个改名**
+
+![simple-rename](../assets/functions/simple-rename-02.gif)
+
 - 带**顺序编号**批量改名
 
 适用对象：
@@ -45,13 +51,7 @@ Extensions → MantrikaTools → Rename tool (simple)
 
 ## 3. 界面总览
 
-```
-┌────┬─────────────────────────────────────────┬──────┬───────┐
-│ ⠿  │  (大输入框)                              │ List │  01   │
-└────┴─────────────────────────────────────────┴──────┴───────┘
- 拖拽    可输入文本 / 逗号分隔的名字列表          模式切换  编号切换
- 手柄
-```
+![simple-rename](../assets/functions/simple-rename-03.png)
 
 | 区域          | 说明                                          |
 | ----------- | ------------------------------------------- |
@@ -67,6 +67,8 @@ Extensions → MantrikaTools → Rename tool (simple)
 最常见的场景：把选中的 N 个对象**全部改成同一个名字**。
 
 **操作步骤**：
+
+![simple-rename](../assets/functions/simple-rename-04.png)
 
 1. 在 REAPER 里选中要重命名的对象。
 2. 打开 Simple Rename 窗口。
@@ -86,6 +88,10 @@ Extensions → MantrikaTools → Rename tool (simple)
 
 每次点击 List 按钮，状态循环：
 
+![simple-rename](../assets/functions/simple-rename-05.png)
+![simple-rename](../assets/functions/simple-rename-06.png)
+![simple-rename](../assets/functions/simple-rename-07.png)
+
 ```
 OFF  →  ON  →  Group by Track  →  OFF
 灰        绿              橙
@@ -104,6 +110,8 @@ Punch, Kick, Slap
 ```
 
 按 Enter 后：
+
+![simple-rename](../assets/functions/simple-rename-08.png)
 
 | 位置         | 新名字     |
 | ---------- | ------- |
@@ -136,6 +144,8 @@ Foley, Voice, FX
 ```
 
 按 Enter 后：
+
+![simple-rename](../assets/functions/simple-rename-09.png)
 
 ```
 Track A:  Foley,  Foley,  Foley
@@ -180,6 +190,10 @@ Track C:  FX
 
 `01` 按钮支持三态切换：
 
+![simple-rename](../assets/functions/simple-rename-10.png)
+![simple-rename](../assets/functions/simple-rename-11.png)
+![simple-rename](../assets/functions/simple-rename-12.png)
+
 ```
 OFF  →  ON  →  Reset on Change  →  OFF
 灰        绿               橙
@@ -206,6 +220,8 @@ Hit_03
 Hit_04
 ```
 
+![simple-rename](../assets/functions/simple-rename-13.png)
+
 **举例 2**：同时配合 List: ON，输入 `Punch, Kick, Slap`：
 
 ```
@@ -213,6 +229,8 @@ Punch_01
 Kick_02
 Slap_03
 ```
+
+![simple-rename](../assets/functions/simple-rename-14.png)
 
 ### 5.2 Numbering: Reset on Change —— 名字变化时重置
 
@@ -227,6 +245,8 @@ Track A:  Foley_01, Foley_02, Foley_03
 Track B:  Voice_01, Voice_02
 Track C:  FX_01
 ```
+
+![simple-rename](../assets/functions/simple-rename-15.png)
 
 每跨越一个 track（名字变了），编号就重置回 `_01`。
 
