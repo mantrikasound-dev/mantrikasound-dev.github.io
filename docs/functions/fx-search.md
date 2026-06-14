@@ -1,6 +1,4 @@
-# FX Search 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# FX Search
 
 ---
 
@@ -9,6 +7,8 @@
 **FX Search** 是 Mantrika Tools 的快速插件搜索器，定位是"**打开即用、几个键就把 FX 装上**"。
 
 它把整个工程里能用的 FX——已安装的 VST / VST3 / JS / AU 插件、以及 `FXChains` 目录下的 RfxChain——汇集成一个可搜索列表，让你不用展开层层菜单就能在选中的 track / item / take 上挂插件。
+
+![fx-search-01](./../assets/functions/fx-search-01.gif)
 
 核心交互三件套：
 
@@ -46,21 +46,11 @@ Action 名称是 **`mantrika : Synergy - FX Search`**（在 REAPER 的 Action Li
 
 ## 3. 界面总览
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ ⠿     🔍 Search FX...                       📌  ☰     │  
-├─────────────────────────────────────────────────────────┤
-│  ●  VST3:  FabFilter Pro-Q 3      (FabFilter)           │
-│     VST3:  FabFilter Pro-L 2      (FabFilter)           │
-│     VST:   Pro-MB                 (FabFilter)           │
-│     JS:    LOSER/3BandEQ                                │
-│  ...                                                    │
-└─────────────────────────────────────────────────────────┘
-```
+<img src="./../assets/functions/fx-search-02.png" alt="fx-search-02" style="zoom:67%;" />
 
 | 区域                | 说明                                            |
 | ----------------- | --------------------------------------------- |
-| **左侧拖拽手柄**（⠿）     | 显示 Mantrika logo，是窗口**唯一**的拖拽区。右键可呼出 docker 菜单。 |
+| **左侧拖拽手柄**     | 显示 Mantrika logo，是窗口**唯一**的拖拽区。右键可呼出 docker 菜单。 |
 | **搜索框**           | 输入关键词实时过滤。聚焦时边框发蓝光。       |
 | **清空按钮**（X）       | 搜索框有内容时出现在右侧，点击清空并把焦点送回输入框。                   |
 | **Pin 按钮**    | 钉住窗口，使其不会失焦自动关闭、不会在应用 FX 后关闭。详见 §9。           |
@@ -93,7 +83,7 @@ Action 名称是 **`mantrika : Synergy - FX Search`**（在 REAPER 的 Action Li
 
 1. 在 REAPER 里选中目标 track（或 item / take）。
 2. 按快捷键打开 FX Search，窗口出现在鼠标附近，搜索框已聚焦。
-3. 输入 `fab proq` （或者 `fab q3`、`fpq`、`proq3` ……都能命中，详见 §5）。
+3. 输入 `fab proq` （或者 `q3`、`fpq`、`proq3` ……都能命中，详见 §5）。
 4. 按 **↓** / **↑** 选行，或者直接看准第一行（输入关键词后会自动选中第一行）。
 5. 按 **Enter**。FX 挂上，窗口关闭。
 
@@ -105,7 +95,7 @@ Action 名称是 **`mantrika : Synergy - FX Search`**（在 REAPER 的 Action Li
 | ------------- | ------------------- | ------------------- |
 | **Enter**     | 选中一行后按回车            | 当前 REAPER 选区（智能识别，见 §8） |
 | **Double-Click** | 列表项双击              | 同上                  |
-| **Drag & Drop** | 列表项按住左键拖到 Arrange / TCP | 落点处的 track / item / take（或空白处新建 track） |
+| **Drag & Drop** | 列表项按住左键拖到 Arrange / TCP / Item | 落点处的 track / item / take（或空白处新建 track） |
 
 ---
 
@@ -129,7 +119,7 @@ soundtoys decapitator
 
 ```
 comp -waves          ← 找压缩器，但不要 Waves 家的
-eq -cockos           ← 找 eq，但不要 ReaPlugs 自带的eq
+eq -cockos           ← 找 eq，但不要 REAPER 自带的eq
 ```
 
 排除词不会单独触发列表（即输入 `-waves` 单独使用会显示除 Waves 之外的所有 FX，作为浏览模式）。
@@ -149,6 +139,8 @@ eq -cockos           ← 找 eq，但不要 ReaPlugs 自带的eq
 | `la` | Lunacy Audio       |
 
 例如：`pa eq` 等价于 `Plugin Alliance eq`、`khs phaser` 等价于 `Kilohearts phaser`。
+
+**这里仅列出了一些开发者常见的，如有更多需要可以联系开发者，或者后续可以推出自定义功能。**
 
 ### 5.4 四级匹配评分
 
@@ -191,17 +183,7 @@ eq -cockos           ← 找 eq，但不要 ReaPlugs 自带的eq
 
 点击搜索框右侧的 **☰** 按钮，窗口会向右展开一个 80px 宽的面板：
 
-```
-┌────────────┐
-│   Refresh  │
-│ ─────────  │
-│  ✓  JS     │
-│  ✓  VST    │
-│  ✓  VST3   │
-│  ✓  AU     │
-│  ✓  Chain  │
-└────────────┘
-```
+<img src="./../assets/functions/fx-search-03.png" alt="fx-search-03" style="zoom: 67%;" />
 
 ### 7.1 Refresh 按钮
 
@@ -217,7 +199,7 @@ eq -cockos           ← 找 eq，但不要 ReaPlugs 自带的eq
 
 > **小技巧**：临时只想看 Chains？右键 `Chain` 按钮即可，再右键一次恢复。
 
-类型设置不会保存到磁盘（窗口关闭重开会重置回"全开"），是为了让你的常态浏览始终覆盖全部 FX。星标和 Pin 状态则会持久化。
+类型设置不会保存到磁盘，是为了让你的常态浏览始终覆盖全部 FX。星标和 Pin 状态则会持久化。
 
 ---
 
@@ -243,7 +225,7 @@ eq -cockos           ← 找 eq，但不要 ReaPlugs 自带的eq
 > `Apply "FabFilter Pro-Q 3" to 12 targets?`
 
 点 OK 才会真正执行；点 Cancel 静默退出。
-弹窗后窗口会再次校验所有目标指针，避免确认期间用户改了选区导致挂错位置。
+弹窗后窗口会再次校验所有目标，避免确认期间用户改了选区导致挂错位置。
 
 ### 8.2 拖拽时的目标识别
 
@@ -281,7 +263,7 @@ Pin 之后：
 把窗口 dock 进 REAPER 任意 docker 后，FX Search 会**自动强制 Pin**。
 取消 dock 时会**恢复**你 dock 之前的 Pin 偏好——所以不用每次 dock / undock 都重设 Pin。
 
-> Mac 版没有 dock 概念，Pin 状态直接持久化保存。
+> Sorry MacOS用户，Mac 版暂时无法Dock，Pin 状态直接持久化保存。
 
 ---
 
@@ -305,7 +287,7 @@ Pin 之后：
 | **任意字符**         | 输入到搜索框，列表实时过滤                     |
 | **↑ / ↓**        | 在过滤后的列表中上下移动选中项                   |
 | **Enter** / 小键盘 Enter | 应用当前选中的 FX 到识别出的目标            |
-| **Esc**          | 关闭窗口（Pin 状态下无效）                   |
+| **Esc**          | 关闭窗口（Pin 状态下同样有效）        |
 | **F1**           | 切换 Pin / UnPin（仅未 dock 时有效；输入中也生效） |
 | **Tab**          | 标准 ImGui 焦点切换（基本无需用到）             |
 
@@ -401,7 +383,7 @@ FX 挂上去之后，REAPER 默认是否弹出 FX Chain / Floating Window，由 
 ```
 1. 选中 track
 2. 按快捷键打开 FX Search
-3. 输入: fab q3
+3. 输入: q3
 4. Enter
 ```
 

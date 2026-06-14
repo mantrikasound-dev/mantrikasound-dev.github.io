@@ -1,12 +1,12 @@
 # Automation Item Controller
 
-> 适用版本：Mantrika Tools（当前主线）
-
 ---
 
 ## 1. 概述
 
 **Automation Item Controller** 是给 REAPER **automation item（AI）** 用的批量操控面板，定位是"**框选一批 AI → 一次性改完**"。
+
+![automation-item-01](./../assets/functions/automation-item-01.gif)
 
 它围绕四件事展开：
 
@@ -32,18 +32,7 @@
 
 窗口固定 400×420，顶部是 4 个 tab，底部是状态栏：
 
-```
-┌──────────────────────────────────────────────┐
-│  [Randomize]  [Batch Set]  [Gradient]  [LFO] │  ← tab 切换
-│ ──────────────────────────────────────────── │
-│                                              │
-│           （当前 tab 的控件区）              │
-│                                              │
-│             [ Action 按钮 ]                  │
-│ ──────────────────────────────────────────── │
-│              Ready / 上次结果                │  ← 居中状态文字
-└──────────────────────────────────────────────┘
-```
+<img src="./../assets/functions/automation-item-02.png" alt="automation-item-02" style="zoom: 67%;" />
 
 | 区域 | 说明 |
 | --- | --- |
@@ -80,16 +69,7 @@
 
 ### 5.1 界面
 
-```
-☐ Baseline      [ Min: 0.00 ]  [ Max: 1.00 ]
-☐ Amplitude     [ Min: -1.00]  [ Max: 1.00 ]
-☐ Start Offset  [ Min: 0.00 ]  [ Max: 10.00 ]
-☐ Playrate      [ Min: 0.50 ]  [ Max: 2.00 ]
-
-☐ Use Seed      [    0    ]
-
-         [  Randomize  ]
-```
+<img src="./../assets/functions/automation-item-03.png" alt="automation-item-03" style="zoom: 67%;" />
 
 ### 5.2 四个属性是什么
 
@@ -124,14 +104,7 @@
 
 ### 6.1 界面
 
-```
-☐ Baseline      [        0.50         ]
-☐ Amplitude     [        0.00         ]
-☐ Start Offset  [        0.00         ]
-☐ Playrate      [        1.00         ]
-
-         [  Apply Batch  ]
-```
+<img src="./../assets/functions/automation-item-04.png" alt="automation-item-04" style="zoom:67%;" />
 
 每行一个固定值滑杆，没有区间概念。
 
@@ -156,18 +129,7 @@
 
 ### 7.1 界面
 
-```
-☐ Baseline
-   From:  [        0.00         ]
-   To:    [        1.00         ]
-
-☐ Amplitude
-   ...
-
-Mode: [ Linear ▼ ]      ← Linear / Ease In / Ease Out / Ease In-Out
-
-         [  Apply Gradient  ]
-```
+<img src="./../assets/functions/automation-item-05.png" alt="automation-item-05" style="zoom:67%;" />
 
 勾上的属性才会展开 From / To 两个滑杆。
 
@@ -213,6 +175,8 @@ Mode: [ Linear ▼ ]      ← Linear / Ease In / Ease Out / Ease In-Out
 ### 8.1 LFO Generator —— 从零生成包络
 
 会**清空 AI 内现有的点**，按设定写入一条 LFO 波形。
+
+<img src="./../assets/functions/automation-item-06.png" alt="automation-item-06" style="zoom:67%;" />
 
 ```
 Wave Type:  [ Sine ▼ ]    ← Sine / Triangle / Square / Saw Up / Saw Down

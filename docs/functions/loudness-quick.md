@@ -1,12 +1,12 @@
-# Loudness Analyze 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Loudness Analyze
 
 ---
 
 ## 1. 概述
 
 **Loudness** 是 Mantrika Tools 里给 **media item** 用的响度工具，定位是"**选中 item → 一键搞定**"。
+
+![loudness-analyze-01](./../assets/functions/loudness-analyze-01.gif)
 
 它能做两件事：
 
@@ -40,6 +40,8 @@ Extension -> Mantrika Tools -> Loudness -> Normalize selected to median LUFS-I
 ## 3. 主窗口界面总览
 
 触发 `Loudness - Analyze and Add Markers / Normalize to Target LUFS` 打开主窗口：
+
+<img src="./../assets/functions/loudness-analyze-02.png" alt="loudness-analyze-02" style="zoom:67%;" />
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -126,6 +128,8 @@ LUFS-I: -18.3
 ---
 
 ## 5. Marker 区四个选项的含义
+
+<img src="./../assets/functions/loudness-analyze-03.png" alt="loudness-analyze-03" style="zoom:67%;" />
 
 | 选项 | 写出的 marker 文本 | 直观理解 |
 | --- | --- | --- |
@@ -236,6 +240,5 @@ LUFS-I: -18.3
 | 关联模块 | 说明 |
 | --- | --- |
 | **Loudness Meter**（`Loudness - Lightweight Meter`） | 是**实时电平表**，看的是 master / 当前播放流；本模块测的是已存在的 item，二者目的不同。 |
-| **Render Queue / Quick Render** | 渲染时的 LUFS 归一化是写到**渲出新文件**里；本模块只改 item volume，原始文件不动。需要前者请走渲染流程。 |
 
 ---

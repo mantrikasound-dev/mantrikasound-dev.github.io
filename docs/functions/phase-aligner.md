@@ -1,12 +1,12 @@
-# Phase Aligner 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Phase Aligner
 
 ---
 
 ## 1. 概述
 
 **Phase Aligner** 是 Mantrika Tools 里给 **多个时间重叠的 media item** 用的相位对齐工具，定位是"**多麦/多 take 同源素材一起加载 → 算 → 一键对齐**"。
+
+![phase-aligner-01](./../assets/functions/phase-aligner-01.gif)
 
 它解决两类典型问题：
 
@@ -40,26 +40,7 @@ Extensions → Mantrika Tools → Phase aligner
 
 ## 3. 主窗口界面总览
 
-```
-┌───────────────────────────────────────────────────────────┐
-│  Phase Aligner                                            │
-│                                                           │
-│  [ Phase Align ▾ ]                                        │  ← 模式
-│                                                           │
-│  Max Delay: [——●——————]  50 ms      [Load]  [Analyze]    │
-│                                                           │
-│  ┌──────────────────────────────────────────────────────┐ │
-│  │ Fix │ Ref │ Name        │ Delay    │ Phase │ Corr   │ │
-│  │  ☐  │  ◉  │ KickIn      │ REF      │       │        │ │
-│  │  ☐  │  ○  │ KickOut     │ +2.31 ms │   ✓   │ 0.872  │ │
-│  │  ☐  │  ○  │ KickSub     │ -0.84 ms │   ⚠   │ 0.553  │ │
-│  └──────────────────────────────────────────────────────┘ │
-│                                                           │
-│              Analysis complete: 2 results                 │  ← 状态
-│                                                           │
-│             [Select All]  [ Apply ]  [ Close ]            │
-└───────────────────────────────────────────────────────────┘
-```
+<img src="./../assets/functions/phase-aligner-02.png" alt="phase-aligner-02" style="zoom: 50%;" />
 
 | 区域 | 说明 |
 | --- | --- |
@@ -242,4 +223,3 @@ Extensions → Mantrika Tools → Phase aligner
 
 ---
 
-## 

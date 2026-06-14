@@ -1,6 +1,6 @@
 # Quick Render 用户手册
 
-> 适用版本：Mantrika Tools（当前主线，需 REAPER v7.37+）
+> 适用版本：需 REAPER v7.37+
 
 ---
 

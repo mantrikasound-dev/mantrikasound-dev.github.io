@@ -1,12 +1,12 @@
-# Loudness Meter 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Loudness Meter
 
 ---
 
 ## 1. 概述
 
 **Loudness Meter** 是一个常驻挂在 MonitorFX 上的**轻量级响度表**，定位是"扫一眼就知道当前混音多响"。
+
+![loudness-meter-03](./../assets/functions/loudness-meter-03.gif)
 
 它和 Sample Broker 共用同一个 Monitor FX 上的 CLAP 插件——所以**只要其中任意一个开过**，另一个就直接能用，不用单独装。
 
@@ -31,6 +31,8 @@ Extension -> MantrikaTools -> Loudness -> Lightweight meter
 ---
 
 ## 3. 界面总览
+
+<img src="./../assets/functions/loudness-meter-01.png" alt="loudness-meter-01" style="zoom:67%;" />
 
 ```
 ┌──┬─────────────────────────────────────────────────────────────────────┐
@@ -106,6 +108,8 @@ Extension -> MantrikaTools -> Loudness -> Lightweight meter
 ---
 
 ## 7. 右键菜单（拖把手上右键）
+
+<img src="./../assets/functions/loudness-meter-04.png" alt="loudness-meter-04" style="zoom:67%;" />
 
 | 菜单项 | 含义 |
 | --- | --- |

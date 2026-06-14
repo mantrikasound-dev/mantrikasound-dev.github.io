@@ -1,12 +1,12 @@
-# Radial Menu 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Radial Menu
 
 ---
 
 ## 1. 概述
 
 **Radial Menu** 是 Mantrika Tools 的轮盘式快速调用器，定位是"**抬手即点、一秒完成**"。
+
+![radial-menu-01](./../assets/functions/radial-menu-01.gif)
 
 它把你最常用的 Action / FX / Track Template 按"扇区 → 子项"两层结构组织在一个圆盘里。
 按下快捷键 → 圆盘出现在鼠标位置 → 鼠标向某个扇区方向一甩，子菜单立即弹出 → 单击或拖拽完成调用。

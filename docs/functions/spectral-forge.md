@@ -1,6 +1,4 @@
-# Spectral Forge 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Spectral Forge
 
 ---
 
@@ -9,6 +7,8 @@
 **Spectral Forge** 是 Mantrika Tools 里给 **两个 media item 配对**用的频谱合成工具，定位是"**选两条声音 → 让它们以某种方式融合 → 出一条新声音**"。
 
 每次跑会把你选的两个 item 当成 **Source**（提供频谱"身份"）和 **Target**（提供频谱"形状"或"轨迹"），按选定算法合成一条新的 WAV，放到工程目录的 `SpectralForge/` 下，并**自动新建一条同名输出轨道**摆好新 item。原始两个 item 不动。
+
+<img src="./../assets/functions/spectral-forge-02.gif" alt="spectral-forge-02" style="zoom:67%;" />
 
 三种合成算法：
 
@@ -39,26 +39,7 @@ Action（在 Action List 搜 "Spectral"）：
 
 ## 3. 主窗口界面总览
 
-```
-┌──────────────────────────────────────────────┐
-│ Spectral Forge                               │
-│ Mode:   [ Morph (OT)              ▾]         │
-│                                              │
-│ Source:  my_metal_clank                      │  ← 青蓝色（item 也被染色）
-│             [ ⇅ ]  [ ⟳ ]                     │
-│ Target:  ambient_wash                        │  ← 橙红色
-│                                              │
-│ Interpolation:  ──────●────── 50 %           │  ← 算法相关参数
-│ OT Strength:    ─────────●─── 80 %           │
-│                                              │
-│ ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭ │  ← 进度条
-│           Ready                              │  ← 状态文字
-│                                              │
-│ ☐ Route to Track                             │
-│ [ ▶ Preview ]                                │
-│   [ Process ]   [ Cancel ]                   │
-└──────────────────────────────────────────────┘
-```
+<img src="./../assets/functions/spectral-forge-01.png" alt="spectral-forge-01" style="zoom: 67%;" />
 
 | 控件 | 说明 |
 | --- | --- |
@@ -77,6 +58,8 @@ Action（在 Action List 搜 "Spectral"）：
 ---
 
 ## 4. 选 item 的规矩
+
+<img src="./../assets/functions/spectral-forge-03.gif" alt="spectral-forge-03" style="zoom: 50%;" />
 
 ```
 1. 在 Arrange 里选中 恰好 2 个 audio item（必须 audio，MIDI / 空 take 会被拒）
@@ -98,13 +81,13 @@ Action（在 Action List 搜 "Spectral"）：
 
 > **关窗 / 处理成功 / Cancel 后，会自动把两个 item 的颜色还原为原始色**，不会留下青蓝 / 橙红污染。
 
-窗口打开后想换 item？在 REAPER 里重新选两个 → 回到窗口点 **`⟳`**。
+想换 item？在 REAPER 里重新选两个 → 回到窗口点 **`⟳`**。
 
 ---
 
 ## 5. 三种算法详解
 
-### 5.1 Morph (OT) —— 频谱滑动插值
+### 5.1 Morph (OT) 
 
 **用途**：把 Source 的频谱**沿频率轴**滑向 Target 的频谱。相比简单的 crossfade，OT（Optimal Transport）会把每条谱线"滑动"到对应位置，听起来更连续，常用于做声音变形 / morph 效果。
 
@@ -119,7 +102,7 @@ Action（在 Action List 搜 "Spectral"）：
 
 ---
 
-### 5.2 Cross-Synthesis —— 包络 × 激励
+### 5.2 Cross-Synthesis 
 
 **用途**：从 Target 取**频谱包络**（音色"形状"），从 Source 取**激励**（残差 / 谁在说），把两者乘起来。直观结果："**用 A 的音色说 B 的话**"。
 
@@ -137,7 +120,7 @@ Action（在 Action List 搜 "Spectral"）：
 
 ---
 
-### 5.3 Mosaic —— 频谱拼贴
+### 5.3 Mosaic 
 
 **用途**：把 Source 切成若干小帧，**逐帧**去匹配 Target 当前帧最像哪一帧，把匹配到的 Source 帧串起来。听感是"**用 Source 的素材库重新拼出 Target 的走向**"。
 
@@ -149,7 +132,7 @@ Action（在 Action List 搜 "Spectral"）：
 
 **关于随机种子**：
 
-- **Preview** 每次都用新随机种子 → 多按几次 Preview 可以试出"随机变奏"
+- 推搞Random以后，**Preview** 每次都用新随机种子 → 多按几次 Preview 可以试出"随机变奏"
 - 一旦你按了 **Process**，会用**最近一次 Preview 的种子**（如果有），所以**听到的就是你将得到的**
 - 如果从未 Preview 就直接 Process，会用一个新种子
 
@@ -220,7 +203,7 @@ Action（在 Action List 搜 "Spectral"）：
 | 算法旋钮值 | ❌（每次开窗回默认） |
 | 上次的随机种子 | ❌（仅在同一会话内、Process 跟随 Preview 时复用） |
 
-> 想"快速重置参数"——旋钮上**右键 / 双击**通常回默认值（MTK_Slider 行为）。
+> 想"快速重置参数"——旋钮上**右键 / 双击**通常回默认值。
 
 ---
 
@@ -234,7 +217,7 @@ Action（在 Action List 搜 "Spectral"）：
 | Preview 按钮（播放中） | 变成 `■ Stop`，点击停止 |
 | `⇅` Swap | 互换 Source / Target（含染色） |
 | `⟳` Reload | 按当前 REAPER 选区重新配对 |
-| 关闭窗口（X / Cancel） | 自动取消处理 + 停止试听 + 还原 item 颜色 |
+| 关闭窗口（X / ESC） | 自动取消处理 + 停止试听 + 还原 item 颜色 |
 
 ---
 
