@@ -47,7 +47,7 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 ## 3. 界面总览
 
-![advance-rename](../assets/functions/advance-rename-01.png)
+<img src="../assets/functions/advance-rename-01.png" alt="Advanced Rename 界面总览" style="zoom: 50%;" />
 
 四大区域：
 
@@ -64,28 +64,28 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 窗口顶部有两个互斥按钮 **T&I** 和 **R&M**，决定 Advanced Rename 当前在处理什么类型的对象。
 
-### 3.1 T&I 模式（Tracks & Items）
+### 4.1 T&I 模式（Tracks & Items）
 
 **默认模式**。直接读取 REAPER 当前选区——选了 items 就处理 items（含 Mirror），完全没选 item 时才处理选中的 tracks。
 
 跟 Simple Rename 完全一样的选区识别规则：**只要有 item 选中，就忽略 track 选择**。
 
-### 3.2 R&M 模式（Regions & Markers）
+### 4.2 R&M 模式（Regions & Markers）
 
-![advance-rename](../assets/functions/advance-rename-02.png)
+<img src="../assets/functions/advance-rename-02.png" alt="R&M 模式界面" style="zoom: 50%;" />
 
 启用**内置选择器**——你不再使用 REAPER 的常规"选中"机制，而是在 Advanced Rename 右面板的 **Selection Tab** 里手动勾选要重命名的 region / marker。
 
 进入 R&M 模式后右面板会出现两个 tab：
 
-![advance-rename](../assets/functions/advance-rename-03.png)
+![R&M 模式右面板的 Selection / Preview 两个 Tab](../assets/functions/advance-rename-03.png)
 
 - **Selection** —— 工程内所有 region/marker 的可勾选列表，带过滤器和批量选择按钮
 - **Preview** —— 跟 T&I 模式一样的预览表，但数据源是 Selection Tab 里勾上的那些
 
 > 详细操作见 §11。
 
-### 3.3 模式切换
+### 4.3 模式切换
 
 - 切换模式会立即刷新预览表 + 重新布局。
 - **R&M Tab 状态会被记住**：你在 R&M 模式下手动切到了 Preview tab，再切到 T&I，再切回 R&M 时仍然停留在 Preview tab。
@@ -95,9 +95,9 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 ## 5. 顶部工具栏
 
-### 4.1 Refresh 按钮 ⟳
+### 5.1 Refresh 按钮 ⟳
 
-![advance-rename](../assets/functions/advance-rename-04.png)
+![Refresh 按钮](../assets/functions/advance-rename-04.png)
 
 重新扫描 REAPER 选区并刷新预览表。
 
@@ -112,18 +112,18 @@ Extensions → MantrikaTools → Rename tool (advance)
 
   > Undo / Redo / 模式切换 / 排序切换按钮内部都已经自动调用 Refresh，这些操作后不需要再手动点。
 
-### 4.2 排序模式：Track / Time
+### 5.2 排序模式：Track / Time
 
-![advance-rename](../assets/functions/advance-rename-05.png)
+![排序模式：Track / Time](../assets/functions/advance-rename-05.png)
 
 - **Track**（默认）—— 先按所属 track 顺序，再按时间位置
 - **Time** —— 纯按时间位置排序，无视所属 track
 
 排序影响 **预览表的显示顺序** 和 **规则链的执行顺序**。例如 Numbering 规则会按 Sort 后的顺序连续编号。
 
-### 4.3 Undo / Redo / Clear Names
+### 5.3 Undo / Redo / Clear Names
 
-![advance-rename](../assets/functions/advance-rename-06.png)
+![Undo / Redo / Clear Names 按钮](../assets/functions/advance-rename-06.png)
 
 Header 最右侧三个图标按钮：
 
@@ -141,23 +141,23 @@ Header 最右侧三个图标按钮：
 
 Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规则，规则按列表顺序对 *每一个* 选中对象执行，最终结果显示在右侧 Preview 表里，按 **Apply Changes** 写回 REAPER。
 
-### 5.1 添加规则
+### 6.1 添加规则
 
 左面板的 Rule Chain 区域顶部有一个下拉框：
 
-![advance-rename](../assets/functions/advance-rename-07.png)
+<img src="../assets/functions/advance-rename-07.png" alt="添加规则的下拉框" style="zoom: 67%;" />
 
 选中任意一项即添加一条规则到列表底部。每种规则可以**重复添加**（例如两个 Find Replace 串起来）。
 
 **Clear All 按钮**（红底 ⊗）—— 删除当前所有规则（**不可撤销**，按下前请保存预设）。
 
-### 5.2 规则卡片结构
+### 6.2 规则卡片结构
 
 每条规则在列表里是一个可折叠卡片：
 
-![advance-rename](../assets/functions/advance-rename-08.png)
+![规则卡片（折叠态）](../assets/functions/advance-rename-08.png)
 
-![advance-rename](../assets/functions/advance-rename-09.png)
+![规则卡片（展开态）](../assets/functions/advance-rename-09.png)
 
 规则头从左到右：
 
@@ -170,7 +170,7 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 
 点击规则头其余区域可折叠/展开参数 UI。
 
-### 5.3 规则执行顺序
+### 6.3 规则执行顺序
 
 **严格按列表从上到下执行**。每条规则的输入是上一条规则的输出。
 
@@ -190,7 +190,7 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 
 调整规则顺序会改变结果——把 Numbering 放在 Replace 之前 vs 之后会得到完全不同的输出。
 
-### 5.4 Preview 表
+### 6.4 Preview 表
 
 右面板的 4 列表格：
 
@@ -201,7 +201,7 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 | **Original Name** | 当前实际名字 |
 | **New Name** | 规则链输出的新名字 |
 
-![advance-rename](../assets/functions/advance-rename-10.png)
+<img src="../assets/functions/advance-rename-10.png" alt="Preview 预览表" style="zoom: 50%;" />
 
 **视觉编码**：
 - 新名字与原名不同 → **绿色高亮**（说明会被改）
@@ -209,23 +209,23 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 - 选中行 → 蓝底
 - 没选中任何对象时，表格上方叠加文字："Select tracks/items in REAPER to begin"
 
-### 5.5 手动编辑预览
+### 6.5 手动编辑预览
 
 可以**直接双击** New Name 单元格修改某一行的最终名字。手动编辑会**覆盖该行的规则链输出**，仅对该行有效，其他行依然走规则链。
 
 > 用途：批量改完之后再微调个别异常项。
 
-### 5.6 冲突检测（不阻塞 Apply）
+### 6.6 冲突检测（不阻塞 Apply）
 
 当两个或更多对象的新名字**相同**时，Status 标签会显示：
 
-![advance-rename](../assets/functions/advance-rename-11.png)
+<img src="../assets/functions/advance-rename-11.png" alt="冲突检测 Status 提示" style="zoom: 50%;" />
 
 ⚠️ **冲突不会阻止 Apply**——按下 Apply Changes 仍然会执行重命名。Advanced Rename 只是告诉你"会有重名"，是否处理由你决定。
 
 > 如果你的目标就是让一组对象同名（很常见），冲突标记可以忽略。如果你不想要重名，加一条 Numbering 规则在末尾。
 
-### 5.7 Apply Changes
+### 6.7 Apply Changes
 
 Tab 行右侧的按钮（也可以按窗口级 **Enter** 等效触发）：
 
@@ -243,13 +243,13 @@ Tab 行右侧的按钮（也可以按窗口级 **Enter** 等效触发）：
 
 左面板顶部第一行就是 **Set Name** 编辑框：
 
-![advance-rename](../assets/functions/advance-rename-12.png)
+![Set Name 编辑框](../assets/functions/advance-rename-12.png)
 
 **这是 Advanced Rename 里最容易被误解的功能**。它**不是**"覆盖规则链输出"——而是**作为规则链的输入起点**。
 
 也就是说，Set Name 决定的是 **"规则链拿到的初始名字"**——后续规则仍然会作用其上。
 
-### 6.1 三种典型用法
+### 7.1 三种典型用法
 
 **用法 A：当 Simple Rename 用**
 
@@ -266,7 +266,7 @@ Set Name 输入 `Hit`、加一条 Numbering 规则 →
 Set Name 留空，加 Replace / Numbering 等规则 →
 规则在原名基础上变换（最常见的"高级重命名"场景）。
 
-### 6.2 行为细节
+### 7.2 行为细节
 
 - 内容变化会**实时**触发 generatePreview（每按一个键都会更新预览）
 - 在 Set Name 编辑框内按 **Enter** 等效于 Apply Changes
@@ -281,11 +281,11 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 ---
 
-### 7.1 Structured Rename
+### 8.1 Structured Rename
 
 **用途**：把"结构相同的一组文件名"按分隔符拆解成组件、重排或编辑组件、再用相同分隔符拼回。
 
-![advance-rename](../assets/functions/advance-rename-13.png)
+![Structured Rename 规则面板](../assets/functions/advance-rename-13.png)
 
 例如把 `Punch_Loud_Wood_01` 重排成 `Wood_Punch_Loud_01`。
 
@@ -305,13 +305,13 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-![advance-structured rename](../assets/functions/advance-rename-14.gif)
+![Structured Rename 示例](../assets/functions/advance-rename-14.gif)
 
 > ⚠️ **Structured Rename 假设选区里所有对象的命名结构一致**（同样数量的组件、同样的分隔符）。结构不一致时降级行为可能不符合预期。
 
 ---
 
-### 7.2 Replace（查找替换）
+### 8.2 Replace（查找替换）
 
 **用途**：在原名字中查找指定文本并替换为新文本。
 
@@ -331,11 +331,11 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-![advance-rename](../assets/functions/advance-rename-15.png)
+<img src="../assets/functions/advance-rename-15.png" alt="Replace 规则示例" style="zoom: 50%;" />
 
 ---
 
-### 7.3 Change Case（大小写转换）
+### 8.3 Change Case（大小写转换）
 
 **用途**：把名字转换成 UPPER / lower / Title Case。
 
@@ -353,12 +353,12 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-![advance-rename](../assets/functions/advance-rename-16.png)
-![advance-rename](../assets/functions/advance-rename-17.png)
+<img src="../assets/functions/advance-rename-16.png" alt="Change Case 规则示例（一）" style="zoom: 50%;" />
+<img src="../assets/functions/advance-rename-17.png" alt="Change Case 规则示例（二）" style="zoom: 50%;" />
 
 ---
 
-### 7.4 Add Text（加前缀/后缀）
+### 8.4 Add Text（加前缀/后缀）
 
 **用途**：在名字开头或末尾追加文本。
 
@@ -373,12 +373,12 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-![advance-rename](../assets/functions/advance-rename-18.png)
-![advance-rename](../assets/functions/advance-rename-19.png)
+<img src="../assets/functions/advance-rename-18.png" alt="Add Text 规则示例（一）" style="zoom: 50%;" />
+<img src="../assets/functions/advance-rename-19.png" alt="Add Text 规则示例（二）" style="zoom: 50%;" />
 
 ---
 
-### 7.5 Remove/Trim（移除/裁剪）
+### 8.5 Remove/Trim（移除/裁剪）
 
 **用途**：从名字中移除指定文本，或按位置裁掉一段字符。
 
@@ -394,7 +394,7 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-![advance-rename](../assets/functions/advance-rename-20.png)
+<img src="../assets/functions/advance-rename-20.png" alt="Remove/Trim：Remove Text 示例" style="zoom: 50%;" />
 
 #### Mode B: Remove by Position（按位置裁剪）
 
@@ -408,15 +408,15 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-![advance-rename](../assets/functions/advance-rename-21.png)
-![advance-rename](../assets/functions/advance-rename-22.png)
-![advance-rename](../assets/functions/advance-rename-23.png)
+<img src="../assets/functions/advance-rename-21.png" alt="Remove/Trim：From Start 示例" style="zoom: 50%;" />
+<img src="../assets/functions/advance-rename-22.png" alt="Remove/Trim：From End 示例" style="zoom: 50%;" />
+<img src="../assets/functions/advance-rename-23.png" alt="Remove/Trim：Range 示例" style="zoom: 50%;" />
 
 > ⚠️ Range 模式的 End 是**开区间**——`Range[5, 8)` 删掉索引 5,6,7,8 这 4 个字符。
 
 ---
 
-### 7.6 List Rename（列表式重命名）
+### 8.6 List Rename（列表式重命名）
 
 **用途**：用一份手写名字列表逐个替换选中对象的名字。
 
@@ -449,7 +449,7 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 ---
 
-### 7.7 Numbering（编号）
+### 8.7 Numbering（编号）
 
 **用途**：在每个名字前/后追加递增编号。
 
@@ -473,7 +473,7 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 ---
 
-### 7.8 Cleanup（清理）
+### 8.8 Cleanup（清理）
 
 **用途**：清理首尾空白和折叠多余空格。一般作为规则链的最后一条。
 
@@ -500,35 +500,23 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 | **Save** | 弹框输入预设名 → 把当前规则链（含每条规则的启停状态、配置参数、顺序）整体存盘；重名会要求确认覆盖 |
 | **Load** | 弹框选预设 → 替换当前规则链；同一弹框里还能删除预设           |
 
-### 8.1 Save 重名预设时的确认流程
+### 9.1 Save 重名预设时的确认流程
 
 如果输入的预设名与已有预设重名，**不会**默默覆盖，而是弹一个确认框：
 
-```
-┌─ Overwrite preset? ─────────────────┐
-│ Preset 'XXX' already exists.        │
-│ Overwrite?                          │
-│       [ Overwrite ]   [ Cancel ]    │
-└─────────────────────────────────────┘
-```
+<img src="../assets/functions/advance-rename-24.png" alt="Overwrite preset 确认框" style="zoom: 67%;" />
+<img src="../assets/functions/advance-rename-25.png" alt="Save 弹框（预填原名）" style="zoom: 67%;" />
 
 - 点 **Overwrite** → 真覆盖
 - 点 **Cancel** → **重新弹 Save 弹框，并预填刚才的名字** 让你改名再保存——你的输入不会丢
 
 如果在最初的 Save 弹框按 Cancel，则完全放弃保存。
 
-### 8.2 Load 弹框的三个按钮
+### 9.2 Load 弹框的三个按钮
 
 点 Load 按钮弹出的对话框：
 
-```
-┌─ Load Rule Preset ──────────────────┐
-│ Choose a preset:                    │
-│ [ MyChain               ▼]          │
-│                                     │
-│   [ Load ]  [ Delete ]  [ Cancel ]  │
-└─────────────────────────────────────┘
-```
+<img src="../assets/functions/advance-rename-26.png" alt="Load Rule Preset 弹框" style="zoom: 67%;" />
 
 | 按钮       | 行为                                  |
 | ---------- | ------------------------------------- |
@@ -536,7 +524,7 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 | **Delete** | 二次确认后删除该预设（删除不可恢复）  |
 | **Cancel** | 关闭对话框，什么都不做                |
 
-### 8.3 预设的内容
+### 9.3 预设的内容
 
 **预设包含**：每条规则的类型、启用状态、完整配置参数、规则在链中的位置。
 
@@ -552,11 +540,13 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 > 本节只覆盖 **如何在 Advanced Rename 里使用 UCS 功能**，不展开 UCS 规范本身的来龙去脉。
 
-### 9.1 切换到 UCS Tab
+### 10.1 切换到 UCS Tab
+
+![切换到 UCS Tab](../assets/functions/advance-rename-27.png)
 
 点击 Tab 行的 **UCS** 标签。左面板从规则链切换到 UCS 字段编辑界面，**Set Name 编辑框消失**（仅 Advanced Tab 可见）。
 
-### 9.2 UCS 字段卡片
+### 10.2 UCS 字段卡片
 
 UCS Tab 默认初始化 4 个**受保护字段**：
 
@@ -571,14 +561,7 @@ UCS Tab 默认初始化 4 个**受保护字段**：
 
 每个字段是一张卡片：
 
-```
-┌────────────────────────────────────────────────┐
-│ ⠿  ●  Category    [______________]         ⓧ │
-└────────────────────────────────────────────────┘
-   ↑   ↑      ↑          ↑                    ↑
-  拖拽 输出   字段名     字段值              删除
-  手柄 开关
-```
+![UCS 字段卡片](../assets/functions/advance-rename-28.png)
 
 | 元素 | 作用 |
 |---|---|
@@ -588,41 +571,32 @@ UCS Tab 默认初始化 4 个**受保护字段**：
 | 字段值 | 字段的内容，参与最终输出 |
 | ⓧ | 删除字段 |
 
-### 9.3 添加 / 重置 / 排序
+### 10.3 添加 / 重置 / 排序
 
 - **[+] Add Custom Field** —— 在底部追加一个空白自定义字段（自定义字段名不能撞受保护名）。
 - **Reset**（红底）—— 清空所有字段，恢复到默认 4 个受保护字段。
 - **拖拽手柄** —— 上下拖动字段调整顺序（顺序决定输出时的拼接顺序）。
 
-### 9.4 自动补全（仅受保护字段）
+### 10.4 自动补全（仅受保护字段）
 
 输入 Category / SubCategory / CatID / CatShort 字段值时，左面板下方会弹出**建议列表**，从内置 UCS 数据查询相关项：
 
-```
-Suggestions:
-  ┌──────────────────────────────┐
-  │ Foley                        │
-  │ Footsteps                    │
-  │ Forest                       │
-  └──────────────────────────────┘
-```
+<img src="../assets/functions/advance-rename-29.png" alt="UCS 受保护字段的自动补全建议列表" style="zoom: 67%;" />
 
 点击建议项即填入字段，下面的 Explanation 框会显示该项的详细说明（例如 "CatShort: 范畴缩写代码"）。
 
-### 9.5 输出格式（Separator + Numbering）
+### 10.5 输出格式（Separator + Numbering）
 
 字段卡片下方有一行：
 
-```
-Separator: [_]   ☐ Numbering
-```
+![UCS 输出格式：Separator + Numbering](../assets/functions/advance-rename-30.png)
 
 - **Separator** —— 字段之间的分隔符，默认 `_`。改这里立即影响输出。
 - **Numbering** —— 启用后展开 Numbering 编辑器，给最终输出追加编号（参数同 §8.7）。
 
 > 💡 **关键事实**：UCS 输出 = 把所有"非空且启用输出"的字段值用 separator 串起来。**字段值为空的字段会被自动跳过**——所以你不必删掉用不上的字段，留空就好。
 
-### 9.6 UCS 预设
+### 10.6 UCS 预设
 
 跟规则链预设独立的另一套预设系统，在 UCS 面板底部：
 
@@ -631,9 +605,13 @@ Separator: [_]   ☐ Numbering
 | **Save** | 保存当前所有字段（含字段名、字段值、输出开关、displayOrder）+ Separator + Numbering 配置 |
 | **Load** | 加载预设，替换当前字段配置 |
 
+<img src="../assets/functions/advance-rename-31.png" alt="UCS 预设的 Save / Load" style="zoom: 67%;" />
+
 **默认预设**：可以指定一个预设为"默认"，下次打开 Advanced Rename 自动加载（详见 UCS 专题文档）。
 
-### 9.7 UCS 工作流示例
+<img src="../assets/functions/advance-rename-32.png" alt="UCS 默认预设" style="zoom: 67%;" />
+
+### 10.7 UCS 工作流示例
 
 ```
 1. 切到 UCS Tab
@@ -657,28 +635,18 @@ Separator: [_]   ☐ Numbering
 
 ## 11. R&M 模式详细操作
 
-### 10.1 进入 R&M
+### 11.1 进入 R&M
 
 点击 Header 的 **R&M** 按钮。右面板从单一 Preview 表切换为两个 Tab：
 
-```
-┌──────────────────────┬──────────┐
-│  Selection (3 / 10)  │  Preview │
-└──────────────────────┴──────────┘
-```
+![R&M 右面板切换出的两个 Tab](../assets/functions/advance-rename-33.png)
 
-`(3 / 10)` = 已勾选数 / 过滤后可见总数。
+<img src="../assets/functions/advance-rename-34.png" alt="R&M 右面板（Selection / Preview）" style="zoom: 67%;" />
 
-### 10.2 Selection Tab
 
-```
-[Filter regions/markers...     ]  ☐ Regions  ☐ Markers   [All] [Inv] [Clr]
-┌─┬─────────────────────────────┬──────────┐
-│☑│ ▌ Intro                     │ 00:00.000│
-├─┼─────────────────────────────┼──────────┤
-│☐│ ▌ Verse                     │ 00:32.500│
-└─┴─────────────────────────────┴──────────┘
-```
+### 11.2 Selection Tab
+
+![Selection Tab 顶栏控件](../assets/functions/advance-rename-35.png)
 
 **控件**：
 
@@ -699,17 +667,17 @@ Separator: [_]   ☐ Numbering
 | 名字（带左侧色条） | 绿色色条 = Region；黄色色条 = Marker |
 | 时间位置 | MM:SS.ddd 格式 |
 
-### 10.3 R&M Tab 切换
+### 11.3 R&M Tab 切换
 
 点 **Preview** 标签查看新名字预览。Selection 与 Preview 之间可随意切换；Preview 显示的是 Selection 里**当前勾选**的对象。
 
-### 10.4 R&M 模式的规则链
+### 11.4 R&M 模式的规则链
 
 R&M 模式下规则链的工作方式与 T&I 模式**完全相同**——所有 8 种规则都可用，UCS Tab 也可用。区别只是数据源是 region/marker 而不是 item/track。
 
 > ⚠️ **R&M 模式下 List Rename 的 Group by Track 无意义**——region/marker 没有"所属 track"概念，会退化为一对一。
 
-### 10.5 关闭过滤后空表的兜底
+### 11.5 关闭过滤后空表的兜底
 
 如果关闭 Regions 和 Markers 两个切换，表格变空——这是预期行为，不会报错。打开任一类型即可恢复。
 
@@ -717,14 +685,14 @@ R&M 模式下规则链的工作方式与 T&I 模式**完全相同**——所有 
 
 ## 12. 快捷键与回车行为
 
-### 11.1 全局快捷键
+### 12.1 全局快捷键
 
 | 快捷键 | 行为 |
 |---|---|
 | `Ctrl+Z` | Undo（等同 Header 的 ↶ 按钮） |
 | `Ctrl+Y` | Redo（等同 Header 的 ↷ 按钮） |
 
-### 11.2 Enter 键的不同行为（取决于焦点）
+### 12.2 Enter 键的不同行为（取决于焦点）
 
 | 焦点位置 | Enter 行为 |
 |---|---|
@@ -734,7 +702,7 @@ R&M 模式下规则链的工作方式与 T&I 模式**完全相同**——所有 
 
 > 总结：**几乎所有地方按 Enter 都等于点击 Apply Changes**。
 
-### 11.3 Apply 失败时无反应
+### 12.3 Apply 失败时无反应
 
 如果按 Enter / 点 Apply 但什么都没发生，可能原因：
 
@@ -872,47 +840,47 @@ R&M 模式下规则链的工作方式与 T&I 模式**完全相同**——所有 
 
 ## 14. 注意事项 / 陷阱
 
-### 13.1 Set Name 是规则链的输入起点，不是输出覆盖
+### 14.1 Set Name 是规则链的输入起点，不是输出覆盖
 
 详见 §7。理解错这点会让你疑惑"为什么 Numbering 没在我输入的名字后加编号"——其实加了，只是你以为 Set Name 是最后一步。
 
-### 13.2 规则链严格按列表顺序执行
+### 14.2 规则链严格按列表顺序执行
 
 调换两条规则的顺序会得到不同结果。Numbering 通常应该放在最后。
 
-### 13.3 冲突不阻塞 Apply
+### 14.3 冲突不阻塞 Apply
 
 `X conflicts` 是警告不是错误。如果你不希望重名，请加 Numbering。
 
-### 13.4 List Rename 用换行分隔，不是逗号
+### 14.4 List Rename 用换行分隔，不是逗号
 
 跟 SimpleRename 不同。粘贴 Excel 的一列正合适，粘逗号分隔的不行。
 
-### 13.5 List Rename 数量不匹配会被静默跳过
+### 14.5 List Rename 数量不匹配会被静默跳过
 
 不像 Simple Rename 有边框颜色实时反馈，Advanced Rename 的 List Rename 数量不匹配时只是 IsConfigured=false → 整条规则被跳过。如果你的列表没生效，先检查行数与对象数是否相等。
 
-### 13.6 UCS 默认 4 个字段不能改名
+### 14.6 UCS 默认 4 个字段不能改名
 
 Category / SubCategory / CatID / CatShort 是受保护字段名，自定义字段不能用这些名字。
 
-### 13.7 UCS 字段值为空会被自动跳过
+### 14.7 UCS 字段值为空会被自动跳过
 
 不需要手动删除暂时不用的字段，留空即可。
 
-### 13.8 Apply 后 Set Name 编辑框会被清空
+### 14.8 Apply 后 Set Name 编辑框会被清空
 
 这是有意为之——避免你连续 Apply 时不小心把已经改过的对象再改一遍。
 
-### 13.9 Clear All 不可撤销
+### 14.9 Clear All 不可撤销
 
 删规则链没有 Undo 选项。删之前先 Save Preset。
 
-### 13.10 R&M 模式下 List Rename 的 Group by Track 无意义
+### 14.10 R&M 模式下 List Rename 的 Group by Track 无意义
 
 region/marker 没有所属 track，会退化为一对一。
 
-### 13.11 刷新机制
+### 14.11 刷新机制
 
 Advanced Rename 不会自动检测 REAPER 选区变化。改选区后请点 Refresh 按钮（详见 §5.1）。
 
