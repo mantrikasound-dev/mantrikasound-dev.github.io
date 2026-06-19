@@ -49,30 +49,7 @@
 
 ## 3. 界面总览
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│ + Add         ↻ │ Macro Name (可编辑)                        │
-│ ┌────────────┐  │                                            │
-│ │ ● Macro 1  │  │           ┌───────────┐                    │
-│ │   EQ · Rev │  │           │           │                    │
-│ │ ● Macro 2  │  │           │  大旋钮    │                    │
-│ │   Drive    │  │           │   0..1    │                    │
-│ │ ○ Macro 3  │  │           │           │                    │
-│ │   (inactive)  │           └───────────┘                    │
-│ │            │  │                                            │
-│ └────────────┘  │  [ + Bind FX ]   [ + Bind Send ]           │
-│                 │                                            │
-│ Envelope: OFF   │  Targets ────────────────────────          │
-│                 │  ┌────────────────────────────────┐        │
-│ Preset ▾        │  │ EQ Freq · Track 1  ⇄ ↻ ✕      │        │
-│                 │  │ ───────●─────────── (slider)  │        │
-│                 │  ├────────────────────────────────┤        │
-│                 │  │ Reverb Wet · Track 1  ⇄ ↻ ✕   │        │
-│                 │  │ ─────●───────────── (slider)  │        │
-│                 │  └────────────────────────────────┘        │
-└──────────────────────────────────────────────────────────────┘
-   ← 左侧 200px：宏列表 + 全局按钮          右侧：选中宏的详情面板
-```
+![macro](../assets/functions/macro-01.png)
 
 | 区域 | 内容 |
 | --- | --- |
@@ -90,6 +67,8 @@
 
 ### 4.1 新建宏
 
+![macro](../assets/functions/macro-02.png)
+
 点左上角 **`+ Add`**。新宏会自动出现在列表里，默认名字 `Macro 1`、`Macro 2`…… 上限 **8 个**，到顶后 `+ Add` 按钮自动灰掉。
 
 ### 4.2 选中宏
@@ -101,11 +80,18 @@
 两种方式：
 
 - **右键宏 → Rename** —— 自动聚焦到右侧名字编辑框并全选当前名字，直接打字覆盖
+
+![macro](../assets/functions/macro-03.png)
+
 - **直接点右侧名字编辑框** —— 手动点击后编辑
+
+![macro](../assets/functions/macro-04.png)
 
 ### 4.4 改颜色
 
 右键宏 → **Color** 子菜单。可以选 8 种预设颜色：
+
+![macro](../assets/functions/macro-05.png)
 
 ```
 Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
@@ -116,6 +102,10 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 颜色会同时影响左侧列表的状态点 + 右侧大旋钮的圆环色 + amount slider 的色调，方便你一眼分辨"现在动的是哪个宏"。
 
 ### 4.5 启用 / 禁用（Active 切换）
+
+![macro](../assets/functions/macro-06.png)
+
+![macro](../assets/functions/macro-07.png)
 
 每行最右端有一颗**圆点**：
 
@@ -130,13 +120,17 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 
 ### 4.6 删除
 
+![macro](../assets/functions/macro-08.png)
+
 右键宏 → **Delete**。删除不可撤销，但 target 的参数会停在被删瞬间的位置，不会自动回 baseline。
 
 ### 4.7 大旋钮（Macro Value）
 
+![macro](../assets/functions/macro-09.png)
+
 右侧中央那个大旋钮，是这个宏的**当前位置**：
 
-- **范围 0..1**，中点 **0.5 = 不调制**（所有 target 停在各自的 baseline）
+- **范围 0~1**，中点 **0.5 = 不调制**（所有 target 停在各自的 baseline）
 - 越往上拧（→1.0）越按 amount 正方向推；越往下拧（→0.0）越往反方向推
 - **双击旋钮** = 立刻回到 0.5（所有 target 立即回 baseline）
 - **按住 Shift 再拖** = 进入精细模式，拖动同样的距离数值变化只有默认的 **1/6**，方便做小幅度的微调；松开 shift 重新点下去恢复默认拖动速度
@@ -148,6 +142,8 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 一个宏新建出来时是空的——没有挂任何参数，拖旋钮什么也不动。需要先**绑 target**。
 
 ### 5.1 `+ Bind FX` —— 绑 FX 参数
+
+![macro](../assets/functions/macro-10.png)
 
 这是最常用的方式：
 
@@ -170,6 +166,8 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 绑完后旋钮在中点（0.5），target 也停在 baseline——一切如初。把旋钮往上推，target 就开始动。
 
 ### 5.2 `+ Bind Send` —— 绑 send 音量
+
+![macro](../assets/functions/macro-11.png)
 
 FX 参数路径用不到 send，所以单开一个按钮：
 
@@ -196,27 +194,13 @@ FX 参数路径用不到 send，所以单开一个按钮：
 
 每条 target 占一行，长这样：
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ EQ Freq ▸ Track 1                       ⇄  ↻  ✕         │
-│                                                         │
-│  -1 ──────────●────────── +1  [+0.50]                   │
-│         ↑      ↑                                        │
-│      live needle  amount thumb                          │
-└─────────────────────────────────────────────────────────┘
-```
+![macro](../assets/functions/macro-12.png)
 
 ### 6.1 名字一栏
 
 显示 `参数 ▸ 所属 track [▸ item 名]`。**鼠标悬停**会弹出完整 tooltip：
 
-```
-Param: EQ: Frequency 1
-FX:    ReaEQ
-Track: Drums
-Item:  kick_loop.wav        ← 仅 TakeFX
-(Double-click to show this FX in REAPER)
-```
+![macro](../assets/functions/macro-13.png)
 
 **双击行体**（不是按钮）→ 在 REAPER 里打开这条 target 所在的 FX 链并滚到对应 FX。方便快速定位"这个 target 到底是哪个 FX 上的参数"。
 
@@ -264,9 +248,8 @@ Item:  kick_loop.wav        ← 仅 TakeFX
 
 如果一条 target 所在的 FX 被删了 / 整条 track 没了 / 工程结构发生重大变化，那条 target 会显示成：
 
-```
-[invalid] ReaEQ / EQ: Frequency 1
-```
+![macro](../assets/functions/macro-14.png)
+
 
 文字变灰，amount 推它也没用。两种处理：
 
@@ -292,18 +275,22 @@ Item:  kick_loop.wav        ← 仅 TakeFX
 
 ## 8. Envelope 模式（左下角 `Envelope: ON/OFF` 按钮）
 
+![macro](../assets/functions/macro-15.png)
+
 ### 8.1 这是什么
 
 默认情况下，宏的旋钮只在 Macro 窗口内有效——拖一下，参数就动一下，不留 automation 痕迹。
 
 **Envelope 模式打开后**，Macro 会在工程里创建一条名为 **`MTK Macros`** 的 track，挂上 8 个 slider 的 JSFX（叫 MTKMacros）。每个宏对应一个 slider，旋钮和 slider **双向同步**：
 
-```
-   你在 Macro 窗口拖旋钮 ──→ JSFX slider 跟着动 ──→ REAPER 把它当 automation
-                                                 录到 envelope 里
+![macro](../assets/functions/macro-16.png)
 
-   你在 REAPER 给 slider 画 envelope ──→ 60Hz timer 读 slider ──→ 宏的 target
-                                                                跟着 envelope 走
+![macro](../assets/functions/macro-17.png)
+
+```
+   你在 Macro 窗口拖旋钮 ──→ JSFX slider 跟着动 ──→ REAPER 把它当 automation录到 envelope 里
+
+   你在 REAPER 给 slider 画 envelope ──→宏的 target跟着 envelope 走
 ```
 
 > 简单说：**Envelope ON = 让宏能被画 envelope / 录 automation 控制；Envelope OFF = 宏只是个手动旋钮**。
@@ -353,26 +340,7 @@ Envelope ON/OFF 跟随工程持久化：
 
 点 `Preset ▾` → **Save Preset...** 打开 Save 对话框：
 
-```
-┌─ Save Macro Preset ──────────────────────────────────┐
-│  [ Track: Drums ] [ Take: kick_loop.wav ]            │  ← 选 source
-│                                                      │
-│  Macros to include                                   │
-│  ┌────────────────────────────────────────────────┐ │
-│  │ ☑ Brightness   touches: ReaEQ, ReaXcomp        │ │
-│  │ ☑ Intensity    touches: ReaComp                 │ │
-│  │ ☐ Send Wet     (has send target — can't save)   │ │
-│  └────────────────────────────────────────────────┘ │
-│                                                      │
-│  [ Only FX touched ] [ All FX in chain ]            │  ← FX 范围
-│  Includes: ReaEQ, ReaXcomp, ReaComp                  │
-│  ─────────────────────────────────────────────────── │
-│  [ Preset name           ]                           │
-│  [ Description (optional)              ]             │
-│                                                      │
-│                              [ Save ] [ Cancel ]     │
-└──────────────────────────────────────────────────────┘
-```
+![macro](../assets/functions/macro-18.png)
 
 **Source（最上面那一段）**：决定从哪儿取 FX chain。
 
@@ -408,24 +376,8 @@ Overwrite it?
 
 点 `Preset ▾` → **Load Preset...** 打开 Load 对话框：
 
-```
-┌─ Load Macro Preset ──────────────────────────────────┐
-│ ┌────────────────────────────────────────────────┐  │
-│ │ Drum Bus              [3 macros]               │  │
-│ │   Compressor & EQ bundle  [2026-04-12 ...]     │  │
-│ │ ─────────────────────────────────────────────  │  │
-│ │ Vocal Wide                          [1 macro]  │  │
-│ │   ...                                          │  │
-│ └────────────────────────────────────────────────┘  │
-│ ─────────────────────────────────────────────────── │
-│ Apply to  [ Track: Drums 2 ] [ Take: (none) ]       │
-│ Mode      [ Replace ] [ Append ]                    │
-│           Replace overwrites the existing FX chain  │
-│           (including param automation envelopes).   │
-│                                                     │
-│                            [ Load ] [ Cancel ]      │
-└──────────────────────────────────────────────────────┘
-```
+![macro](../assets/functions/macro-19.png)
+
 
 **列表**：所有已保存的 preset。每行右上角的徽章显示这个 preset 带了几个宏。
 
