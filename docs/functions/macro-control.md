@@ -6,6 +6,8 @@
 
 **Macro** 是 Mantrika Tools 的"宏控参数"工具。一个宏对应**一个旋钮**，旋钮背后可以**同时挂多个 FX 参数（或 send 音量）**。拧一下旋钮，所有被挂上的参数会按你预设的方向和幅度一起动。
 
+![Macro 演示](../assets/functions/macro-20.gif)
+
 它解决的是这种需求：
 
 - 一个"Brightness"旋钮同时推 EQ 高频 + Reverb wet + Saturator drive
@@ -49,7 +51,7 @@
 
 ## 3. 界面总览
 
-![macro](../assets/functions/macro-01.png)
+<img src="../assets/functions/macro-01.png" alt="Macro 界面总览" style="zoom: 67%;" />
 
 | 区域 | 内容 |
 | --- | --- |
@@ -67,7 +69,7 @@
 
 ### 4.1 新建宏
 
-![macro](../assets/functions/macro-02.png)
+<img src="../assets/functions/macro-02.png" alt="新建宏（+ Add）" style="zoom: 67%;" />
 
 点左上角 **`+ Add`**。新宏会自动出现在列表里，默认名字 `Macro 1`、`Macro 2`…… 上限 **8 个**，到顶后 `+ Add` 按钮自动灰掉。
 
@@ -81,17 +83,17 @@
 
 - **右键宏 → Rename** —— 自动聚焦到右侧名字编辑框并全选当前名字，直接打字覆盖
 
-![macro](../assets/functions/macro-03.png)
+![右键宏 → Rename](../assets/functions/macro-03.png)
 
 - **直接点右侧名字编辑框** —— 手动点击后编辑
 
-![macro](../assets/functions/macro-04.png)
+<img src="../assets/functions/macro-04.png" alt="点右侧名字编辑框改名" style="zoom: 67%;" />
 
 ### 4.4 改颜色
 
 右键宏 → **Color** 子菜单。可以选 8 种预设颜色：
 
-![macro](../assets/functions/macro-05.png)
+![右键宏 → Color 子菜单](../assets/functions/macro-05.png)
 
 ```
 Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
@@ -103,9 +105,9 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 
 ### 4.5 启用 / 禁用（Active 切换）
 
-![macro](../assets/functions/macro-06.png)
+![Active 圆点：启用状态](../assets/functions/macro-06.png)
 
-![macro](../assets/functions/macro-07.png)
+![Active 圆点：禁用状态](../assets/functions/macro-07.png)
 
 每行最右端有一颗**圆点**：
 
@@ -120,13 +122,13 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 
 ### 4.6 删除
 
-![macro](../assets/functions/macro-08.png)
+![右键宏 → Delete](../assets/functions/macro-08.png)
 
 右键宏 → **Delete**。删除不可撤销，但 target 的参数会停在被删瞬间的位置，不会自动回 baseline。
 
 ### 4.7 大旋钮（Macro Value）
 
-![macro](../assets/functions/macro-09.png)
+<img src="../assets/functions/macro-09.png" alt="大旋钮（Macro Value）" style="zoom: 67%;" />
 
 右侧中央那个大旋钮，是这个宏的**当前位置**：
 
@@ -143,7 +145,7 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 
 ### 5.1 `+ Bind FX` —— 绑 FX 参数
 
-![macro](../assets/functions/macro-10.png)
+![+ Bind FX 按钮](../assets/functions/macro-10.png)
 
 这是最常用的方式：
 
@@ -167,7 +169,7 @@ Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 
 ### 5.2 `+ Bind Send` —— 绑 send 音量
 
-![macro](../assets/functions/macro-11.png)
+![+ Bind Send 按钮](../assets/functions/macro-11.png)
 
 FX 参数路径用不到 send，所以单开一个按钮：
 
@@ -194,13 +196,13 @@ FX 参数路径用不到 send，所以单开一个按钮：
 
 每条 target 占一行，长这样：
 
-![macro](../assets/functions/macro-12.png)
+![Target 行](../assets/functions/macro-12.png)
 
 ### 6.1 名字一栏
 
 显示 `参数 ▸ 所属 track [▸ item 名]`。**鼠标悬停**会弹出完整 tooltip：
 
-![macro](../assets/functions/macro-13.png)
+![Target 名字悬停 tooltip](../assets/functions/macro-13.png)
 
 **双击行体**（不是按钮）→ 在 REAPER 里打开这条 target 所在的 FX 链并滚到对应 FX。方便快速定位"这个 target 到底是哪个 FX 上的参数"。
 
@@ -248,7 +250,7 @@ FX 参数路径用不到 send，所以单开一个按钮：
 
 如果一条 target 所在的 FX 被删了 / 整条 track 没了 / 工程结构发生重大变化，那条 target 会显示成：
 
-![macro](../assets/functions/macro-14.png)
+![失效的 target（invalid）](../assets/functions/macro-14.png)
 
 
 文字变灰，amount 推它也没用。两种处理：
@@ -275,7 +277,7 @@ FX 参数路径用不到 send，所以单开一个按钮：
 
 ## 8. Envelope 模式（左下角 `Envelope: ON/OFF` 按钮）
 
-![macro](../assets/functions/macro-15.png)
+![Envelope: ON/OFF 按钮](../assets/functions/macro-15.png)
 
 ### 8.1 这是什么
 
@@ -283,9 +285,9 @@ FX 参数路径用不到 send，所以单开一个按钮：
 
 **Envelope 模式打开后**，Macro 会在工程里创建一条名为 **`MTK Macros`** 的 track，挂上 8 个 slider 的 JSFX（叫 MTKMacros）。每个宏对应一个 slider，旋钮和 slider **双向同步**：
 
-![macro](../assets/functions/macro-16.png)
+![MTK Macros track 上的 MTKMacros JSFX](../assets/functions/macro-16.png)
 
-![macro](../assets/functions/macro-17.png)
+<img src="../assets/functions/macro-17.png" alt="宏旋钮与 JSFX slider 双向同步" style="zoom: 67%;" />
 
 ```
    你在 Macro 窗口拖旋钮 ──→ JSFX slider 跟着动 ──→ REAPER 把它当 automation录到 envelope 里
@@ -340,7 +342,7 @@ Envelope ON/OFF 跟随工程持久化：
 
 点 `Preset ▾` → **Save Preset...** 打开 Save 对话框：
 
-![macro](../assets/functions/macro-18.png)
+<img src="../assets/functions/macro-18.png" alt="Save Preset 对话框" style="zoom: 67%;" />
 
 **Source（最上面那一段）**：决定从哪儿取 FX chain。
 
@@ -376,7 +378,7 @@ Overwrite it?
 
 点 `Preset ▾` → **Load Preset...** 打开 Load 对话框：
 
-![macro](../assets/functions/macro-19.png)
+<img src="../assets/functions/macro-19.png" alt="Load Preset 对话框" style="zoom: 67%;" />
 
 
 **列表**：所有已保存的 preset。每行右上角的徽章显示这个 preset 带了几个宏。
