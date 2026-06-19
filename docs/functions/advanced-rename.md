@@ -7,7 +7,7 @@
 
 ## 1. 概述
 
-**Advanced Rename** 是 Mantrika Tools 的高级重命名工具。如果说 Simple Rename 解决"快速覆盖式改名"的需求，那么 Advanced Rename 解决的是 **"基于原名字做规则化变换"** 的需求——查找替换、加前后缀、按结构重排、按列表替换、按位置裁字符、统一编号、UCS 命名规范……都在一个 1100×700 的 JUCE 窗口里。
+**Advanced Rename** 是 Mantrika Tools 的高级重命名工具。如果说 Simple Rename 解决"快速覆盖式改名"的需求，那么 Advanced Rename 解决的是 **"基于原名字做规则化变换"** 的需求——查找替换、加前后缀、按结构重排、按列表替换、按位置裁字符、统一编号、UCS 命名规范……都在这一个窗口里。
 
 **与 Simple Rename 的关键差异**：
 
@@ -47,27 +47,7 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 ## 3. 界面总览
 
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│ ⟳ │ T&I │ R&M │ 5 items | 0 conflicts | 5 success │ Sort: Trk Tim │↶│↷│✕│  ← Header
-├──────────────────────────────────────────────────────────────────────┤
-│ Advanced │ UCS │                              │   Apply Changes    │  ← Tab 行
-├──────────────────────────────────────────────┬───────────────────────┤
-│  Set Name                                    │  Preview              │
-│  [_________________________________________] │  ┌───┬─────┬─────┬───┐│
-│                                              │  │ # │Type │Orig │New││
-│  Rule Chain                                  │  ├───┼─────┼─────┼───┤│
-│  [Add a new rule... ▼]                  [⊗] │  │ 1 │Item │ ... │...││
-│  ┌──────────────────────────────────────┐    │  │ 2 │Item │ ... │...││
-│  │ ⠿  ☑ Replace             [..]     ⓧ │    │  └───┴─────┴─────┴───┘│
-│  ├──────────────────────────────────────┤    │                       │
-│  │ ⠿  ☑ Numbering           [..]     ⓧ │    │                       │
-│  └──────────────────────────────────────┘    │                       │
-│                                              │                       │
-│  [ Save Preset ]  [ Load Preset ]            │                       │
-└──────────────────────────────────────────────┴───────────────────────┘
-       45% 宽度（左面板）                              55% 宽度（右面板）
-```
+![advance-rename](../assets/functions/advance-rename-01.png)
 
 四大区域：
 
@@ -92,15 +72,13 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 ### 3.2 R&M 模式（Regions & Markers）
 
+![advance-rename](../assets/functions/advance-rename-02.png)
+
 启用**内置选择器**——你不再使用 REAPER 的常规"选中"机制，而是在 Advanced Rename 右面板的 **Selection Tab** 里手动勾选要重命名的 region / marker。
 
 进入 R&M 模式后右面板会出现两个 tab：
 
-```
-┌────────────────┬──────────┐
-│ Selection (3/10) │ Preview │
-└────────────────┴──────────┘
-```
+![advance-rename](../assets/functions/advance-rename-03.png)
 
 - **Selection** —— 工程内所有 region/marker 的可勾选列表，带过滤器和批量选择按钮
 - **Preview** —— 跟 T&I 模式一样的预览表，但数据源是 Selection Tab 里勾上的那些
@@ -119,6 +97,8 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 ### 4.1 Refresh 按钮 ⟳
 
+![advance-rename](../assets/functions/advance-rename-04.png)
+
 重新扫描 REAPER 选区并刷新预览表。
 
 > ⚠️ **必须手动点击** —— Advanced Rename **不会自动跟随** REAPER 选区变化（与 Simple Rename 不同）。你在 REAPER 里改了选区、改了名字、增删了 region/marker 之后，都需要回到本窗口点 Refresh
@@ -134,9 +114,7 @@ Extensions → MantrikaTools → Rename tool (advance)
 
 ### 4.2 排序模式：Track / Time
 
-```
-Sort:  [Track]  [Time]
-```
+![advance-rename](../assets/functions/advance-rename-05.png)
 
 - **Track**（默认）—— 先按所属 track 顺序，再按时间位置
 - **Time** —— 纯按时间位置排序，无视所属 track
@@ -144,6 +122,8 @@ Sort:  [Track]  [Time]
 排序影响 **预览表的显示顺序** 和 **规则链的执行顺序**。例如 Numbering 规则会按 Sort 后的顺序连续编号。
 
 ### 4.3 Undo / Redo / Clear Names
+
+![advance-rename](../assets/functions/advance-rename-06.png)
 
 Header 最右侧三个图标按钮：
 
@@ -165,17 +145,7 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 
 左面板的 Rule Chain 区域顶部有一个下拉框：
 
-```
-[Add a new rule... ▼]   [⊗ Clear All]
-   ├── Structured Rename
-   ├── Replace
-   ├── Change Case
-   ├── Add Text
-   ├── Remove/Trim
-   ├── List Rename
-   ├── Numbering
-   └── Cleanup
-```
+![advance-rename](../assets/functions/advance-rename-07.png)
 
 选中任意一项即添加一条规则到列表底部。每种规则可以**重复添加**（例如两个 Find Replace 串起来）。
 
@@ -185,17 +155,9 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 
 每条规则在列表里是一个可折叠卡片：
 
-```
-┌──────────────────────────────────────────────┐
-│ ⠿   ☑   Replace            "abc" → "xyz"   ⓧ │   ← 规则头（28px）
-└──────────────────────────────────────────────┘
-            ↓ 展开后
-┌──────────────────────────────────────────────┐
-│  Find:        [_________________]            │
-│  Replace:     [_________________]            │
-│  ☐ Case sensitive                            │
-└──────────────────────────────────────────────┘
-```
+![advance-rename](../assets/functions/advance-rename-08.png)
+
+![advance-rename](../assets/functions/advance-rename-09.png)
 
 规则头从左到右：
 
@@ -239,6 +201,8 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 | **Original Name** | 当前实际名字 |
 | **New Name** | 规则链输出的新名字 |
 
+![advance-rename](../assets/functions/advance-rename-10.png)
+
 **视觉编码**：
 - 新名字与原名不同 → **绿色高亮**（说明会被改）
 - 新名字与原名相同 → 灰色（Apply 会跳过）
@@ -255,9 +219,7 @@ Advanced Rename 的核心心智模型是 **"规则链"**——你配置一串规
 
 当两个或更多对象的新名字**相同**时，Status 标签会显示：
 
-```
-5 items | 2 conflicts | 5 success
-```
+![advance-rename](../assets/functions/advance-rename-11.png)
 
 ⚠️ **冲突不会阻止 Apply**——按下 Apply Changes 仍然会执行重命名。Advanced Rename 只是告诉你"会有重名"，是否处理由你决定。
 
@@ -281,10 +243,7 @@ Tab 行右侧的按钮（也可以按窗口级 **Enter** 等效触发）：
 
 左面板顶部第一行就是 **Set Name** 编辑框：
 
-```
-Set Name
-[Type to rename selected items, or use rules below...]
-```
+![advance-rename](../assets/functions/advance-rename-12.png)
 
 **这是 Advanced Rename 里最容易被误解的功能**。它**不是**"覆盖规则链输出"——而是**作为规则链的输入起点**。
 
@@ -326,6 +285,8 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **用途**：把"结构相同的一组文件名"按分隔符拆解成组件、重排或编辑组件、再用相同分隔符拼回。
 
+![advance-rename](../assets/functions/advance-rename-13.png)
+
 例如把 `Punch_Loud_Wood_01` 重排成 `Wood_Punch_Loud_01`。
 
 **工作流程**：
@@ -344,16 +305,7 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-```
-模板（示例）: "Footsteps_Wood_Heavy_01"
-→ 组件:  [Footsteps] [Wood] [Heavy] [01]
-→ 拖拽重排为: [Wood] [Heavy] [Footsteps] [01]
-
-应用到选区:
-  原: "Footsteps_Wood_Heavy_01"  → "Wood_Heavy_Footsteps_01"
-  原: "Footsteps_Stone_Light_02" → "Stone_Light_Footsteps_02"
-  原: "Footsteps_Metal_Heavy_03" → "Metal_Heavy_Footsteps_03"
-```
+![advance-structured rename](../assets/functions/advance-rename-14.gif)
 
 > ⚠️ **Structured Rename 假设选区里所有对象的命名结构一致**（同样数量的组件、同样的分隔符）。结构不一致时降级行为可能不符合预期。
 
@@ -379,15 +331,7 @@ Set Name 留空，加 Replace / Numbering 等规则 →
 
 **示例**：
 
-```
-Find: "Wood"
-Replace: "Stone"
-Case sensitive: OFF
-
-"Wood_Heavy"  → "Stone_Heavy"
-"wood_light"  → "Stone_light"   (case insensitive)
-"WoodWood"    → "StoneStone"    (replace all)
-```
+![advance-rename](../assets/functions/advance-rename-15.png)
 
 ---
 
@@ -409,13 +353,8 @@ Case sensitive: OFF
 
 **示例**：
 
-```
-Type: Title, Delimiters: "_- ."
-
-"hello_world"        → "Hello_World"
-"my-file.name"       → "My-File.Name"
-"footsteps_loud_01"  → "Footsteps_Loud_01"
-```
+![advance-rename](../assets/functions/advance-rename-16.png)
+![advance-rename](../assets/functions/advance-rename-17.png)
 
 ---
 
@@ -434,13 +373,8 @@ Type: Title, Delimiters: "_- ."
 
 **示例**：
 
-```
-Type: Prefix, Text: "SFX_"
-"Footstep" → "SFX_Footstep"
-
-Type: Suffix, Text: "_v01"
-"Footstep" → "Footstep_v01"
-```
+![advance-rename](../assets/functions/advance-rename-18.png)
+![advance-rename](../assets/functions/advance-rename-19.png)
 
 ---
 
@@ -460,10 +394,7 @@ Type: Suffix, Text: "_v01"
 
 **示例**：
 
-```
-Text: ".wav", Case sensitive: OFF, Remove all: ON
-"Footstep.wav.bak" → "Footstep.bak"
-```
+![advance-rename](../assets/functions/advance-rename-20.png)
 
 #### Mode B: Remove by Position（按位置裁剪）
 
@@ -477,21 +408,11 @@ Text: ".wav", Case sensitive: OFF, Remove all: ON
 
 **示例**：
 
-```
-PositionMode: From Start, Char Count: 4
-"SFX_Footstep" → "ootstep"   (删头 4 字符 "SFX_")
+![advance-rename](../assets/functions/advance-rename-21.png)
+![advance-rename](../assets/functions/advance-rename-22.png)
+![advance-rename](../assets/functions/advance-rename-23.png)
 
-PositionMode: From End, Char Count: 4
-"Footstep.wav" → "Footstep"  (删尾 4 字符 ".wav")
-
-PositionMode: Range, Start=3, End=8
-  "Footsteps" → "Fos"
-    字符索引：1=F 2=o 3=o 4=t 5=s 6=t 7=e 8=p 9=s
-    删第 3 到第 8 个字符 "otstep"（共 6 个）
-    剩 "Fo" + "s" = "Fos"
-```
-
-> ⚠️ Range 模式的 End 是**开区间**——`Range[3, 8)` 删掉索引 3,4,5,6,7 这 5 个字符。
+> ⚠️ Range 模式的 End 是**开区间**——`Range[5, 8)` 删掉索引 5,6,7,8 这 4 个字符。
 
 ---
 
@@ -524,30 +445,6 @@ PositionMode: Range, Start=3, End=8
 
 > ⚠️ Group by Track 在 Tracks / Regions / Markers 上效果同 SimpleRename，**退化为一对一行为**（每个对象本身就是唯一的 track ID）。
 
-**示例**：
-
-```
-选中 3 个 items（同一 track），Group by Track: OFF
-Text:
-  Punch
-  Kick
-  Slap
-
-→ Punch, Kick, Slap
-```
-
-```
-选中 6 个 items 分布在 3 个 track 上，Group by Track: ON
-Text:
-  Foley
-  Voice
-  FX
-
-→ Track A: Foley, Foley, Foley
-   Track B: Voice, Voice
-   Track C: FX
-```
-
 > 📌 **常见用途**：从外部文档/Excel 复制一列名字，粘贴进 List Rename 的多行编辑框，立即映射到当前选区。
 
 ---
@@ -574,24 +471,6 @@ Text:
 - Reset on Name Change：与上一行名字不同就重置回 Start——配合 List Rename 的 Group by Track 是经典组合。
 - Step 可为负数（如 -1 实现倒序编号）。
 
-**示例**：
-
-```
-Start=1, Step=1, Padding=2, Position=Suffix, Separator="_"
-"Hit"  → "Hit_01"
-"Hit"  → "Hit_02"
-"Hit"  → "Hit_03"
-
-Start=10, Step=10, Padding=3, Separator="-"
-"X"    → "X-010"
-"X"    → "X-020"
-"X"    → "X-030"
-
-Position=Prefix, Padding=2, Separator="_"
-"Foo"  → "01_Foo"
-"Foo"  → "02_Foo"
-```
-
 ---
 
 ### 7.8 Cleanup（清理）
@@ -607,13 +486,6 @@ Position=Prefix, Padding=2, Separator="_"
 
 **行为**：两个开关都 OFF 时规则被视为未配置，跳过。
 
-**示例**：
-
-```
-两个开关都开：
-"  hello   world  "  →  "hello world"
-" foo  bar baz  "    →  "foo bar baz"
-```
 
 ---
 
