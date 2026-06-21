@@ -28,33 +28,7 @@
 
 ## 3. 界面总览
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Project: MyGame                  ● Wwise: On      ☰         │  ← 顶部
-├──────────────────────────────────────────────────────────────┤
-│  Target Settings                                       ↻     │
-│  Work Unit:  [Search...]  [sfx_combat_swain        ▾]        │
-│  Add Bank:   [Search...]  [Select...                ▾]       │  ← 目标设置
-├──────────────────────────────────────────────────────────────┤
-│  ▼ Source Files  (12 files, 10 found)            +    ↻      │  ← 源文件
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ▶  Swain_Q.wav                          OK         X   │  │
-│  │ ▶  Swain_W.wav                          OK         X   │  │
-│  │ ▶  Swain_E_new.wav                   Not found     X   │  │
-│  └────────────────────────────────────────────────────────┘  │
-├──────────────────────────────────────────────────────────────┤
-│  ▼ SoundBanks  (3 banks, 3 selected)                         │  ← Bank 列表
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ☑ Swain_SFX_Audio (auto)                              │  │
-│  │ ☑ Swain_SFX_Events (auto)                             │  │
-│  │ ☑ Master_UI                                            │  │
-│  └────────────────────────────────────────────────────────┘  │
-├──────────────────────────────────────────────────────────────┤
-│         [ Replace Only ]      [ Replace & Generate ]         │  ← 操作按钮
-│  Generated 3 bank(s) in 12s                                  │
-│  ████████████████████████████████████████████████████████    │  ← 状态/进度
-└──────────────────────────────────────────────────────────────┘
-```
+<img src="../assets/functions/wwise-replace-01.png" alt="Wwise Replace 界面总览" style="zoom:50%;" />
 
 五个主要区域：
 
@@ -74,6 +48,8 @@
 
 点 **☰** 弹设置窗口，里面有：
 
+![设置窗口：Wwise Project / Detect / Browse 与三个开关](../assets/functions/wwise-replace-02.png)
+
 | 选项 | 用途 |
 |---|---|
 | **Wwise Project** | 当前关联的 wproj 路径 |
@@ -88,6 +64,8 @@
 ### 4.2 Wwise 连接状态
 
 右上角圆点 + 文字：
+
+![右上角 Wwise 连接状态指示](../assets/functions/wwise-replace-10.png)
 
 | 显示 | 含义 |
 |---|---|
@@ -105,6 +83,8 @@
 
 ### 5.1 选 Work Unit
 
+![Work Unit 选择框与 Add Bank 搜索框](../assets/functions/wwise-replace-03.png)
+
 **Work Unit** 是 Wwise 工程里的 Actor-Mixer 子单元（每个 `.wwu` 文件一个）。选中它之后，工具做两件事：
 
 1. 只在这个 wwu 声明的音频源里查找你的 WAV（Source Files 列表的 OK/Not found 由此决定）
@@ -120,6 +100,8 @@
 
 ### 5.2 重扫整个工程（↻）
 
+![Target Settings 标题右侧的 ↻ 重扫按钮](../assets/functions/wwise-replace-04.png)
+
 **Target Settings** 标题右边的 ↻ 按钮——**重新扫描整个 Wwise 工程结构**（所有 wwu + 所有 Bank）。
 
 什么时候用：**Wwise 里加/删了 wwu，或者改了 Bank 名**，工具列表跟不上时点一下。
@@ -127,6 +109,8 @@
 > ⚠️ 大工程（2000+ Bank）这一步可能十几秒，过程中窗口会显示 Loading。不要频繁点。
 
 ### 5.3 SoundBanks 列表
+
+![SoundBanks 列表与 (auto) 标记](../assets/functions/wwise-replace-11.png)
 
 | 操作 | 行为 |
 |---|---|
@@ -142,6 +126,8 @@
 
 ### 6.1 加文件的四种方式
 
+![右键菜单：Browse Files / Browse Folder 加文件](../assets/functions/wwise-replace-12.png)
+
 | 方式 | 行为 |
 |---|---|
 | **拖拽**（最快） | 直接把 WAV 文件或整个文件夹拖到列表里——文件夹**递归**收所有子目录的 .wav |
@@ -153,9 +139,7 @@
 
 每行显示：
 
-```
-▶  文件名                              OK / Not found     X
-```
+![Source Files 每行信息：试听 / 文件名 / 状态 / 移除](../assets/functions/wwise-replace-05.png)
 
 | 元素 | 含义 |
 |---|---|
@@ -170,6 +154,8 @@
 ### 6.3 Watch Folder（监控渲染输出目录）
 
 每次都拖一遍文件太烦？设一个**渲染输出目录**让工具自动盯：
+
+![+ 按钮菜单：Set Watch Folder](../assets/functions/wwise-replace-13.png)
 
 **Source Files** 标题右边的 **+** 按钮 → 弹菜单 → **Set Watch Folder...** 选目录。
 
@@ -193,6 +179,8 @@
 
 **+ 按钮菜单**还能：
 
+![+ 按钮菜单：Current / Change / Clear Watch Folder](../assets/functions/wwise-replace-06.png)
+
 | 菜单项 | 行为 |
 |---|---|
 | **Current: ...** | 显示当前设的目录（截断显示） |
@@ -200,6 +188,8 @@
 | **Clear Watch Folder** | 取消监控（列表保留不清） |
 
 ### 6.4 右键菜单完整清单
+
+![Source Files 右键菜单完整清单](../assets/functions/wwise-replace-07.png)
 
 | 菜单 | 行为 |
 |---|---|
@@ -222,6 +212,8 @@
 | **Replace & Generate** | 复制 WAV → 让 Wwise 立即重新打选中的所有 Bank。一气呵成 |
 
 ### 7.1 执行细节
+
+![Replace Only / Replace & Generate 操作按钮](../assets/functions/wwise-replace-08.png)
 
 - **Replace Only 不需要 Wwise 在运行**——纯粹的文件复制
 - **Replace & Generate 必须 Wwise 在运行**（右上角是 🟢）
@@ -248,6 +240,8 @@
 ## 8. 折叠和窗口大小
 
 **Source Files** 和 **SoundBanks** 的标题栏都可以点击折叠（▼/▶ 切换）。
+
+<img src="../assets/functions/wwise-replace-09.png" alt="两区折叠后窗口缩成小窄条" style="zoom:50%;" />
 
 - 单边折叠：另一边自动撑满空间
 - 两边都折叠：窗口自动缩到只剩按钮的小窄条，方便挂在屏幕角落
@@ -298,7 +292,7 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 6. 等状态栏出现 "Generated N bank(s)"
 ```
 
-### 工作流 B：Watch Folder 
+### 工作流 B：Watch Folder
 
 ```
 1. Source Files 标题旁点 + → 设 Watch Folder 为你的渲染目录
@@ -312,7 +306,7 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 ```
 1. 用 Render Queue 模块跑一批渲染
 2. Render Queue 跑完会自动把 Wwise Replace 的 Watch Folder 设到对应目录并刷新
-3. 并且会同步打开Wwise Replace的UI（如果之前是Hide 状态的话）
+3. 并且会同步打开 Wwise Replace 的 UI（如果之前是 Hide 状态的话）
 4. 你只需要 Wwise Replace 点 Replace 或者 Replace & Generate
 ```
 
@@ -322,7 +316,7 @@ REAPER 会把工程标记为"已修改"，**你 Ctrl+S 保存 rpp 时**这些数
 
 ### 11.1 Replace 是真的覆盖磁盘文件
 
-写入 Originals 是**直接覆盖**的物理操作。**用 P4管理 wproj 的团队**：建议开 **P4 Reconcile WAV**，工具会自动通知版本控制；不开的话被覆盖的 wav 你得自己去 reconcile。
+写入 Originals 是**直接覆盖**的物理操作。**用 P4 管理 wproj 的团队**：建议开 **P4 Reconcile WAV**，工具会自动通知版本控制；不开的话被覆盖的 wav 你得自己去 reconcile。
 
 ### 11.2 切换 REAPER 工程不会乱
 
