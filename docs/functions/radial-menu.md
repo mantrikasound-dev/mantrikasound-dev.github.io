@@ -38,27 +38,7 @@ Action 名称：**`mantrika : Synergy - Radial Menu`**（搜索 "MTK Radial Menu
 
 ## 3. 界面总览
 
-```
-                    [扇区 1]
-              ──────────────────
-        [扇区 6]              [扇区 2]
-       /                              \
-       │      ┌──────────────┐         │
-       │      │              │         │
-       │      │   中央空区    │         │
-       │      │              │         │
-       │      └──────────────┘         │
-       \                              /
-        [扇区 5]              [扇区 3]
-              ──────────────────
-                    [扇区 4]
-
-       ┌──────────────────────┐
-       │ ▸ Slot 01  Slot 02   │  ← 鼠标进入扇区后，子菜单
-       │ ▸ Slot 03  Slot 04   │     在该扇区外侧弹出
-       │ ▸ Slot 05  Slot 06   │
-       └──────────────────────┘
-```
+<img src="./../assets/functions/radial-menu-02.png" alt="radial-menu-02" style="zoom:67%;" />
 
 | 区域       | 说明                                                |
 | -------- | ------------------------------------------------- |
@@ -80,8 +60,6 @@ Action 名称：**`mantrika : Synergy - Radial Menu`**（搜索 "MTK Radial Menu
 4. 鼠标移到子菜单的某个 slot 上。
 5. **单击**或**拖拽** —— Action / FX 应用到当前选区，窗口关闭。
 
-整个过程通常**不到 0.5 秒**就能完成，前提是肌肉记忆已经形成。
-
 ---
 
 ## 5. 两种显示模式
@@ -93,7 +71,7 @@ Action 名称：**`mantrika : Synergy - Radial Menu`**（搜索 "MTK Radial Menu
 | **Direct Show**（默认） | 按一次快捷键 → 窗口打开；选完动作或按失焦 → 关闭 | 懒得一直按住某个键 |
 | **Hold to Show** | 按住快捷键 → 窗口显示；松手或执行完子菜单内容 → 关闭 | 极致速度，把整个调用变成"按 → 甩 → 松"一气呵成 |
 
-> **Hold to Show 模式是为什么必须绑单键**：组合键按住会持续触发 OS 层的快捷键行为，
+> **Hold to Show 模式为什么必须绑单键**：组合键按住会持续触发 OS 层的快捷键行为，
 > 比如按住 `Ctrl+Z` 会一直 Undo。单键无此问题。
 
 ---
@@ -121,18 +99,13 @@ Action 名称：**`mantrika : Synergy - Radial Menu`**（搜索 "MTK Radial Menu
 | Arrange 上的某个 item | 挂到该 item |
 | Item 的 active take | 挂到该 take |
 | TCP / Arrange 的空白处 | **自动新建一条 track 并挂上去** |
-| 拖出窗口外 | 取消，无任何效果 |
+| 拖出窗口外 | 自动取消，无任何效果 |
 
 > **两个用法的核心区别**：
 > - **单击** = "对我已经选好的东西操作"
 > - **拖拽** = "对我用鼠标指的这个东西操作"
 >
 > 拖拽适合"想精确指定目标"或"懒得调整 REAPER 选区"的场景。
-
-### 6.3 Action 类型的子项不支持拖拽
-
-如果某个 slot 配置的是 REAPER Action（而不是 FX / Track Template），拖拽到具体对象上没意义——
-Action 大多是工程级的全局操作，拖拽行为等同于单击。
 
 ---
 
@@ -228,6 +201,8 @@ Extension 菜单路径：`Extension -> Mantrika Tools -> Mantrika Options -> Rad
 
 也可以从默认配置的某个扇区里点 "Settings"（如果你没改过默认配置的话）。
 
+<img src="./../assets/functions/radial-menu-03.gif" alt="radial-menu-03" style="zoom:67%;" />
+
 设置窗口分三栏：
 - **左栏**：扇区数量、显示模式、主题、底部操作按钮。
 - **中栏**：选中扇区的子菜单编辑区。
@@ -238,6 +213,8 @@ Extension 菜单路径：`Extension -> Mantrika Tools -> Mantrika Options -> Rad
 ---
 
 ## 12. 配置扇区
+
+<img src="./../assets/functions/radial-menu-04.png" alt="radial-menu-04" style="zoom:67%;" />
 
 ### 12.1 扇区数量
 
@@ -254,6 +231,8 @@ Extension 菜单路径：`Extension -> Mantrika Tools -> Mantrika Options -> Rad
 ---
 
 ## 13. 配置子菜单 slot
+
+<img src="./../assets/functions/radial-menu-05.png" alt="radial-menu-05" style="zoom: 50%;" />
 
 中栏中部是子菜单的 slot 列表，每个扇区最多 12 个 slot。
 

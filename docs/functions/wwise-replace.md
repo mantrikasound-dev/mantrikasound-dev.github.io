@@ -1,6 +1,6 @@
 # Wwise Replace
 
-> 适用版本：Mantrika Tools（当前主线） · 仅支持 Windows
+> Only Windows
 
 ---
 

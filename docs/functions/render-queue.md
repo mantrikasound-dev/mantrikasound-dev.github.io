@@ -1,12 +1,12 @@
-# Render Queue 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Render Queue
 
 ---
 
 ## 1. 概述
 
 **Render Queue** 是一个**批量渲染管理台**，定位是"**把要渲染的东西攒成一张清单 → 配好格式和后处理 → 一键全渲出来**"。
+
+<img src="./../assets/functions/render-queue-01.gif" alt="render-queue-01" style="zoom:67%;" />
 
 它解决的是 REAPER 原生渲染的几个痛点：
 
@@ -35,36 +35,13 @@ Extension -> MantrikaTools -> Render queue
 | --- | --- |
 | **`mantrika : Synergy - Render Queue`** | 切换显示 / 隐藏 Render Queue 窗口 |
 
-窗口是一个独立的浮动窗（默认 1200×800），可以拖动、缩放，关掉再开会回到上次状态。
+窗口是一个独立的浮动窗，可以拖动、缩放，关掉再开会回到上次状态。
 
 ---
 
 ## 3. 界面总览
 
-```
-┌─────────────────────┬──────────────────────┬─────────────────────────┐
-│  Asset Browser      │  Render Queue        │  Main Queue Settings  ☰ │
-│  ┌────────────────┐ │  ● Queue1 ● Q2 [+]   │  □ Override Queue ...    │
-│  │ Source Type: ▾ │ │  ─────────────────   │  ── Basic Options ──     │
-│  │ [Search...] [x]│ │  Queue Pending: 3    │  Format:     [WAV ▾]     │
-│  │ ⟳             │ │                      │  Sample Rate:[48000 ▾]   │
-│  ├────────────────┤ │  • Footstep_01  ●    │  Channels:   [Mono ▾]    │
-│  │ • Footstep_01 ●│ │  • Footstep_02  ●    │  ...                     │
-│  │ • Footstep_02 ●│ │  • Sword_swing  ●    │  ── Postprocess ──       │
-│  │ • Sword_swing ●│ │                      │  □ Normalize: -23 LU ... │
-│  │ ...            │ │                      │  □ Fade Out:  100 ms ... │
-│  ├────────────────┤ │  [Deselect][Remove]  │  ...                     │
-│  │ Source Avail:12│ │  [Clear All]         │                          │
-│  │[Deselect][Add▸]│ │                      │                          │
-│  └────────────────┘ │                      │                          │
-├─────────────────────┴──────────────────────┴─────────────────────────┤
-│  Output & Naming                                                       │
-│  Output Path:   [ D:\Render\...           ] [Browse]                   │
-│  Naming Pattern:[ $region                 ] [Wildcards]                │
-│  [ START RENDER ▼ ]   □ Auto hide window  □ Import back   Ready        │
-└───────────────────────────────────────────────────────────────────────┘
-   ↑ 左栏：挑素材        ↑ 中栏：排队列         ↑ 右栏：配参数
-```
+<img src="./../assets/functions/render-queue-02.png" alt="render-queue-02" style="zoom:67%;" />
 
 整个窗口的工作顺序就是**从左到右、最后到底部**：
 
@@ -95,6 +72,8 @@ Extension -> MantrikaTools -> Render queue
 ### 5.1 Source Type —— 先决定"渲染什么"
 
 最上方的 **Source Type:** 下拉决定整个列表抓取哪一类素材，共四种（每种有自己的颜色圆点）：
+
+<img src="./../assets/functions/render-queue-03.png" alt="render-queue-03" style="zoom:67%;" />
 
 | 选项 | 颜色 | 渲染的是 |
 | --- | --- | --- |
@@ -134,6 +113,8 @@ Extension -> MantrikaTools -> Render queue
 ### 6.1 队列里的内容
 
 中栏顶部是标题 **Render Queue**，下面 **`Queue Pending: N items`** 实时显示当前队列待渲染条数。
+
+<img src="./../assets/functions/render-queue-04.png" alt="render-queue-04" style="zoom:67%;" />
 
 队列为空时显示提示：
 
@@ -232,6 +213,8 @@ Tab 的操作：
 
 点右栏的 **`☰`** 打开 **Queue Preset Manager**，把一整套配置存下来反复用。
 
+<img src="./../assets/functions/render-queue-05.gif" alt="render-queue-05" style="zoom:50%;" />
+
 | 操作 | 怎么做 |
 | --- | --- |
 | **存预设** | 在 `Enter preset name...` 输入名字 → 点 **Save** |
@@ -285,6 +268,8 @@ Tab 的操作：
 最右边的**状态文字**（`Ready` / `Selected: ...` / `Ready - N tasks pending`）实时反馈当前状态和待渲染数量。
 
 ### 9.5 渲染设置（按钮右侧的 `▼`）
+
+<img src="./../assets/functions/render-queue-06.png" alt="render-queue-06" style="zoom:67%;" />
 
 START RENDER 右边的小三角 **`▼`** 打开几个全局开关：
 
