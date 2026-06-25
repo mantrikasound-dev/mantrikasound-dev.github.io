@@ -37,6 +37,7 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 ■ Adaptive Regions
   ☑ Enable Adaptive Regions (REAPER v7.62+)   ← 总开关，先勾这个
       ☑ Lock Left Boundary                    ← 子选项（见第 4 节）
+      ☑ Mark Crossing Items                   ← 防呆子选项（见 4.1，需先开 Lock Left Boundary）
 ```
 
 > ⚠️ 需要 **REAPER v7.62 或更新版本**。这是因为它要用到新版才有的 Region 操作API。
@@ -119,6 +120,31 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 | **关** | 左、右边界**都**自动贴到内容的最左 / 最右端。 |
 
 > 简单说：**想要 Region 的起点完全由你掌控 → 保持开启**；**想要 Region 完全自动包裹内容（两头都贴或跟随移动）→ 关掉它**。
+
+### 4.1 防呆子选项：Mark Crossing Items（标记越界 Item）
+
+这个开关在 `Lock Left Boundary` 下方，**默认关闭**，且**只在 `Lock Left Boundary` 开启时才可用**（不锁左就不可能有"越界"，它会自动灰显）。
+
+它针对的是锁左场景下一个不容易一眼看出的隐患：
+
+> 锁左时左边界保持不动。如果 Folder 里某个 item 的**起点跑到了 Region 左边界的左侧**（item 戳出了 Region 的左边），这段内容其实落在 Region 之外——之后**按 Region 渲染时会被切掉**，但在Arrange上往往不易察觉。
+
+开启后，系统会在**每个存在越界的 Region** 的**最左越界点**（即戳出最远的那个 item 的起点）打一个**红色 Marker，名字为 `MTK-Crossing`**，提醒你"这里有内容漏在 Region 外面了"。
+
+| 状态 | 行为 |
+| --- | --- |
+| **关（默认）** | 不做任何标记。 |
+| **开** | 锁左时，每个左侧有 item 越界的 Region，在其最左越界点打一个红色 `MTK-Crossing` Marker。 |
+
+几个要点：
+
+- **每个 Region 最多一个 Marker**，打在最靠左的越界点；不是每个越界 item 各打一个，避免一堆红点糊在一起。
+- **全自动增删**：item 被拖回 Region 内 / 删掉 / 整段消失后，对应的 `MTK-Crossing` Marker 会在下一次自动同步时清掉，不留垃圾。
+- **关掉开关会立刻清场**：关掉这个开关（或关掉 `Lock Left Boundary`），工程里所有 `MTK-Crossing` Marker 立即被删除。
+- **`MTK-` 前缀是归属标记**：系统靠这个名字认领并管理这些 Marker，所以**不要给你自己的 Marker 起名叫 `MTK-Crossing`**，否则可能被当成系统的清掉。
+- 纯视觉提示，**不影响**边界跟随、颜色同步、渲染或任何其它逻辑——就是一个提醒。
+
+> **一个小限制**：如果你**在这个开关处于关闭状态时**，打开了另一个**之前存过 `MTK-Crossing` Marker 的工程**，那些旧 Marker 不会被自动清除（开关关着时系统就完全不接管 Marker）。手动删掉即可，或把开关开一下再关，也会清干净。
 
 ---
 
@@ -218,6 +244,9 @@ Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
 | 勾了开关但 Region 不跟随 | Region 名字和 Folder 名字"主干"对不上 | 让两者主干一致（见 2.2 的对照表），或用 Bind Action 一键对齐 |
 | 总开关 / 子选项是灰的或勾不上 | REAPER 版本低于 v7.62 | 升级到 REAPER v7.62+ |
 | 子选项 `Lock Left Boundary` 是灰的 | `Enable Adaptive Regions` 总开关没开 | 先勾总开关 |
+| 子选项 `Mark Crossing Items` 是灰的 | `Lock Left Boundary` 没开（不锁左就不会有越界） | 先开 `Lock Left Boundary` |
+| 出现红色 `MTK-Crossing` Marker | 锁左时有 item 的起点戳到了 Region 左边界左侧，漏在 Region 外 | 把该 item 往右挪进 Region（或确认你确实要它留在外面）；Marker 会自动消失（见 4.1） |
+| 关了 `Mark Crossing Items` 仍有 `MTK-Crossing` 残留 | 在开关关闭状态下打开了别的存过该 Marker 的工程 | 手动删，或把开关开一下再关（见 4.1 末尾的小限制） |
 | 只动右边界，左边界不动 | 这是默认行为（`Lock Left Boundary` 开着） | 想两头都动就关掉 `Lock Left Boundary`（见第 4 节） |
 | 配的是**子 Folder** 里的内容，没反应 | 只有**顶层 Folder** 参与配对 | 把要配对的 Folder 放到顶层 |
 | Region 边界没把某段素材算进去 | 那段素材或所在轨道被 mute 了 | 取消 mute；mute 的内容不计入范围（见 3.4） |

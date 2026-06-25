@@ -190,6 +190,7 @@ Adaptive Regions ：符合规则的region的左右边界会跟随Folder中实际
 | ------------------------------------------- | ------------------------------------------------------------ |
 | **Enable Adaptive Regions** (REAPER v7.62+) | 把**当前工程**切到 Region 模式（同时关闭 Mirror）。folder 内子轨内容变化时，对应的 Region 边界自动跟随调整。 |
 | **Lock Left Boundary**                      | 只让右边界跟随内容变化，左边界保持不动。适合"以某个时间点为锚、向后扩展"的游戏音效思路。 |
+| **Mark Crossing Items**                     | 防呆提示：锁左时若有 item 的起点越过 Region 左边界（漏在 Region 外），在最左越界点打一个红色 `MTK-Crossing` Marker，提醒这段会被按 Region 渲染切掉。仅在 `Lock Left Boundary` 开启时可用，默认关。 |
 
 > ⚠️ **Adaptive Regions 与 Mirror Segments 互斥**——同时只能开一个。在 Preferences 里打开其中一个，另一个会自动关闭，顶部状态卡也会随之翻转。
 
