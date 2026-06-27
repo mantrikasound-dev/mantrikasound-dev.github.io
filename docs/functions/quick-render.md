@@ -6,6 +6,8 @@
 
 **Quick Render 解决的核心痛点：REAPER 原生没有"跨轨道快速 glue 多个 item 并烘焙 FX"的一键功能。**
 
+<img src="./../assets/functions/quick-render-01.gif" alt="quick-render-01" style="zoom:67%;" />
+
 具体来说：
 
 - 原生的 **Glue items** 只能在**单条轨道内**把 item 粘成一个，而且**不会**把轨道 / 母线上的 FX 印进音频。
@@ -65,33 +67,7 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 
 ## 4. 界面总览（Config 窗口）
 
-```
-┌───────────────────────────────────────────────┐
-│ Configure your preferences, or proceed ...     │  ← 提示语
-│                                                │
-│ [ ★ MyPreset            ▾ ] [★][S][R][X][+]   │  ← 预设栏
-│ ──────────────────────────────────────────────│
-│ ┌─ Format ──────────────────────────────────┐ │  ← 蓝
-│ │ Sample Rate [48000 ▾]  Bit Depth [24 bit▾]│ │
-│ │ Channels    [Mono  ▾]  Render Speed [...▾]│ │
-│ ├─ Advance ─────────────────────────────────┤ │  ← 橙
-│ │ □ Auto Bypass Master FX                   │ │
-│ │ □ Auto Close Render Dialog                │ │
-│ │ □ Import Back to Project                   │ │
-│ │ □ 2nd Pass Render                          │ │
-│ ├─ Postprocess ─────────────────────────────┤ │  ← 绿
-│ │ □ Tail [1000] ms                          │ │
-│ │ □ Normalize  Type[LUFS-I▾] Target[-23.0]  │ │
-│ │ □ Limiter    Ceiling[-0.1]dB □ True Peak  │ │
-│ ├─ Output ──────────────────────────────────┤ │  ← 紫
-│ │ Naming [ $item                          ] │ │
-│ │ Path   □ Use Project Media Path           │ │
-│ │        [ D:\Render\...        ] [Browse]  │ │
-│ └────────────────────────────────────────────┘ │
-│ ──────────────────────────────────────────────│
-│ [          Try Quick Render          ]        │  ← 立即试渲
-└───────────────────────────────────────────────┘
-```
+<img src="./../assets/functions/quick-render-02.png" alt="quick-render-02" style="zoom:50%;" />
 
 窗口从上到下分四块（设置区用四种淡色块区分）：
 
@@ -125,6 +101,8 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 
 预设栏 = 一个**下拉框** + 五个**小按钮**。
 
+<img src="./../assets/functions/quick-render-03.png" alt="quick-render-03" style="zoom:67%;" />
+
 ### 6.1 预设下拉框
 
 点开下拉，预设分两组显示：
@@ -155,6 +133,8 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 
 ### 7.1 Format（格式 · 蓝）
 
+![quick-render-04](./../assets/functions/quick-render-04.png)
+
 | 项 | 可选值 | 说明 |
 | --- | --- | --- |
 | **Sample Rate** | 44100 / 48000 / 96000 | 采样率（Hz） |
@@ -163,6 +143,8 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 | **Render Speed** | Full-Speed Offline / 1x Offline / Online Render / Offline Render (Idle) / 1x Offline Render (Idle) | 渲染速度模式，一般用默认 `Full-Speed Offline` 最快 |
 
 ### 7.2 Advance（高级 · 橙）
+
+![quick-render-05](./../assets/functions/quick-render-05.png)
 
 四个勾选项：
 
@@ -175,6 +157,8 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 
 ### 7.3 Postprocess（后处理 · 绿）
 
+![quick-render-06](./../assets/functions/quick-render-06.png)
+
 每项都是"勾选框 + 参数"，不勾就不生效：
 
 | 项 | 参数 | 说明 |
@@ -184,6 +168,8 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 | **Limiter** | `Ceiling [ ] dB` + `□ True Peak` | 限幅到指定上限（默认 -0.1 dB）；勾 **True Peak** 用真峰值模式 |
 
 ### 7.4 Output（输出 · 紫）
+
+![quick-render-07](./../assets/functions/quick-render-07.png)
 
 | 项 | 说明 |
 | --- | --- |
@@ -197,7 +183,7 @@ Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Rend
 
 ## 8. 底部：Try Quick Render（立即试渲）
 
-底部那颗蓝色大按钮 **`Try Quick Render`**，作用是**用当前设置区里的参数**立即渲染一次——**不依赖**默认预设，方便你边调边试。
+底部那颗蓝色按钮 **`Try Quick Render`**，作用是**用当前设置区里的参数**立即渲染一次——**不依赖**默认预设，方便你边调边试。
 
 使用前提：
 
