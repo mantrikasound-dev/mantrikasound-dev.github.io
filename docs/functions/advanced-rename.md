@@ -1,6 +1,5 @@
-# Advanced Rename 用户手册
+# Advanced Rename
 
-> 适用版本：Mantrika Tools（当前主线）
 > 本手册的姊妹篇是 [Simple Rename 用户手册](./simple-rename.md)，建议先读 Simple Rename 再看本篇。
 
 ---
@@ -908,6 +907,3 @@ Advanced Rename 不会自动检测 REAPER 选区变化。改选区后请点 Refr
 | Set Name 输入了内容但 Apply 后被清空 | 这是预期行为 | 见 §14.8 |
 | 规则链丢了 | 切换 Tab / 切换模式不会丢；但 Clear All 会 | 操作前 Save Preset |
 
----
-
-*最后更新：跟随主线代码*

@@ -1,12 +1,12 @@
-# Sample Broker 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Sample Broker
 
 ---
 
 ## 1. 概述
 
-**Sample Broker** 是一个常驻后台的 **60 秒滚动录音器**，定位是"**听到的就能抓**"。
+**Sample Broker** 是一个常驻后台的 **60 秒滚动录音器**，定位是"**听到的就能抓**"。 
+
+![sample-broker-01](./../assets/functions/sample-broker-01.gif)
 
 它会在 Master 总线上挂一个监听插件，无论你在播放、试听 FX、还是 jam 即兴，最近 60 秒的声音都被它默默记着——形成一段循环覆盖的录音环带。当你听到一个想留下的声音，**到窗口里圈一段，拖出去就好**。
 
@@ -24,6 +24,8 @@
 菜单入口：
 
 Extension -> MantrikaTools -> Sample broker
+
+![sample-broker-02](./../assets/functions/sample-broker-02.gif)
 
 或者 Action List（搜 "Sample Broker"）：
 
@@ -120,6 +122,8 @@ Extension -> MantrikaTools -> Sample broker
 
 ### 6.1 三种产生选区的方法
 
+<img src="./../assets/functions/sample-broker-03.gif" alt="sample-broker-03" style="zoom:50%;" />
+
 | 操作 | 行为 |
 | --- | --- |
 | **左键拖拽（空白处）** | 手动框选，松手即定 |
@@ -138,6 +142,8 @@ Extension -> MantrikaTools -> Sample broker
 
 ## 7. 试听 / 预览
 
+<img src="./../assets/functions/sample-broker-04.gif" alt="sample-broker-04" style="zoom:50%;" />
+
 | 操作 | 行为 |
 | --- | --- |
 | **右键按住**（不拖） | 从光标位置开始预览，松开即停 |
@@ -147,6 +153,8 @@ Extension -> MantrikaTools -> Sample broker
 ---
 
 ## 8. 视图：缩放与平移
+
+<img src="./../assets/functions/sample-broker-05.gif" alt="sample-broker-05" style="zoom:50%;" />
 
 录音是 60 秒，画布只有那么宽——细节不够时就要放大。
 
@@ -163,6 +171,8 @@ Extension -> MantrikaTools -> Sample broker
 
 ## 9. 录制控制
 
+![sample-broker-06](./../assets/functions/sample-broker-06.png)
+
 | 操作 | 行为 |
 | --- | --- |
 | **Alt + 左键** | 切换暂停 / 继续录制 |
@@ -174,6 +184,8 @@ Extension -> MantrikaTools -> Sample broker
 ---
 
 ## 10. 汉堡菜单（左下角的三横线）
+
+<img src="./../assets/functions/sample-broker-07.png" alt="sample-broker-07" style="zoom:50%;" />
 
 点开后是窗口的全部设置项：
 

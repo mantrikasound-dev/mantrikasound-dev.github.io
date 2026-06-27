@@ -20,9 +20,11 @@
 
 2. 选择 Import repositories；
 
-3. 复制粘贴Reapack Link；
+3. 复制粘贴Reapack Link:
 
-   `https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml`
+   ```URL
+   https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml
+   ```
 
 4. 点击OK；
 

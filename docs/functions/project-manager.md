@@ -1,6 +1,4 @@
-# Project Manager 用户手册
-
-> 适用版本：Mantrika Tools（当前主线）
+# Project Manager
 
 ---
 

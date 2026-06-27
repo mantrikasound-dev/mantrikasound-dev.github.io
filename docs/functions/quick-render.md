@@ -1,6 +1,4 @@
-# Quick Render 用户手册
-
-> 适用版本：需 REAPER v7.37+
+# Quick Render
 
 ---
 
