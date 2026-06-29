@@ -2,8 +2,14 @@
 import { withBase } from 'vitepress'
 import MtkBackdrop from './MtkBackdrop.vue'
 import MtkNav from './MtkNav.vue'
+import MtkFooter from './MtkFooter.vue'
 
-// 详情页（无下载）—— 主操作指向文档。功能分类与侧边栏真实结构一致。
+// 售价与购买链接。Paddle 审核通过后，把 BUY_URL 填成 Paddle 结账链接即可启用按钮；
+// 留空时按钮显示为「即将发布」的占位状态，不跳转任何第三方平台。
+const PRICE = '$149'
+const BUY_URL = ''
+
+// 详情页 —— 功能分类与侧边栏真实结构一致。
 const features = [
   {
     name: 'Workflow',
@@ -44,17 +50,26 @@ const docLinks = [
           no external scripts, libraries, or dependencies. Just install and go.
         </p>
         <div class="hero-actions">
-          <a :href="withBase('/guide/quick-start')" class="cta primary">
+          <a v-if="BUY_URL" :href="BUY_URL" class="cta primary">
+            Buy now — {{ PRICE }}
+          </a>
+          <button v-else type="button" class="cta primary buy-soon" disabled>
+            Buy — {{ PRICE }} · Coming soon
+          </button>
+          <a :href="withBase('/guide/quick-start')" class="cta ghost">
             <svg viewBox="0 0 24 24" class="cta-ico"><path d="M4 5h11a3 3 0 013 3v11a2 2 0 00-2-2H4V5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 5H9a3 3 0 00-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/></svg>
             Read the Docs
           </a>
-          <a :href="withBase('/functions/auto-transient-detection')" class="cta ghost">Browse Functions</a>
         </div>
+        <p class="price-note">
+          One-time purchase. Secure checkout will be powered by
+          <a href="https://www.paddle.com" target="_blank" rel="noopener">Paddle</a>.
+        </p>
         <div class="meta-row">
           <span class="chip">REAPER Extension</span>
           <span class="chip">Zero dependencies</span>
           <span class="chip">High performance</span>
-          <span class="chip">In Development</span>
+          <span class="chip chip-soon">Coming Soon</span>
         </div>
       </header>
 
@@ -103,7 +118,7 @@ const docLinks = [
       <a :href="withBase('/')" class="back-link">← Back to Home</a>
     </div>
 
-    <footer>© 2026 Mantrika Sound</footer>
+    <MtkFooter />
   </div>
 </template>
 
@@ -200,6 +215,27 @@ const docLinks = [
   background: var(--bg-glass-hover);
   transform: translateY(-2px);
 }
+/* 占位购买按钮：售价已定、链接未接入时的「即将发布」状态 */
+.cta.buy-soon {
+  cursor: not-allowed;
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  border-color: rgba(var(--mtk-accent-rgb), 0.4);
+  box-shadow: none;
+  font-family: inherit;
+}
+.cta.buy-soon:hover { transform: none; }
+
+.price-note {
+  margin: 0 0 2rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.price-note a {
+  color: var(--accent-glow);
+  text-decoration: none;
+}
+.price-note a:hover { text-decoration: underline; }
 
 .meta-row {
   display: flex;
@@ -214,6 +250,11 @@ const docLinks = [
   border: 1px solid var(--border-base);
   border-radius: var(--mtk-radius-pill);
   background: var(--mtk-w-03);
+}
+.chip-soon {
+  color: rgb(var(--mtk-accent-rgb));
+  border-color: rgba(var(--mtk-accent-rgb), 0.4);
+  background: rgba(var(--mtk-accent-rgb), 0.08);
 }
 
 .section {
@@ -384,13 +425,6 @@ const docLinks = [
   animation: mtkFadeIn 0.8s ease-out 0.4s both;
 }
 .back-link:hover { color: var(--text-primary); }
-
-footer {
-  text-align: center;
-  padding: 4rem 0;
-  color: #333;
-  font-size: 0.8rem;
-}
 
 @keyframes mtkFadeIn {
   from { opacity: 0; }

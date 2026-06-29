@@ -3,6 +3,7 @@ import { withBase } from 'vitepress'
 import MtkBackdrop from './MtkBackdrop.vue'
 import MtkNav from './MtkNav.vue'
 import MtkWaveform from './MtkWaveform.vue'
+import MtkFooter from './MtkFooter.vue'
 
 // 卡片鼠标跟随光效
 function onCardMove(e: MouseEvent) {
@@ -46,7 +47,7 @@ function onCardMove(e: MouseEvent) {
         <div>
           <div class="card-header">
             <h2 class="card-title">Mantrika Tools</h2>
-            <span class="badge">In Development</span>
+            <span class="badge badge-soon">Coming Soon</span>
           </div>
           <p class="card-desc">
             A self-contained REAPER extension — workflow enhancements, creative functions, and dozens of actions.
@@ -56,7 +57,7 @@ function onCardMove(e: MouseEvent) {
       </a>
     </section>
 
-    <footer>© 2026 Mantrika Sound</footer>
+    <MtkFooter />
   </div>
 </template>
 
@@ -172,6 +173,11 @@ function onCardMove(e: MouseEvent) {
   color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.03);
 }
+.badge-soon {
+  color: rgb(var(--mtk-accent-rgb));
+  border-color: rgba(var(--mtk-accent-rgb), 0.4);
+  background: rgba(var(--mtk-accent-rgb), 0.08);
+}
 
 .card-desc {
   color: var(--text-secondary);
@@ -196,15 +202,6 @@ function onCardMove(e: MouseEvent) {
   transition: transform 0.2s;
 }
 .card:hover .card-link::after { transform: translateX(3px); }
-
-footer {
-  margin-top: 6rem;
-  padding: 3rem 0;
-  text-align: center;
-  color: #444;
-  font-size: 0.8rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
-}
 
 @keyframes mtkFadeIn {
   from { opacity: 0; }

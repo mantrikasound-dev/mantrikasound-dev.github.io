@@ -2,6 +2,7 @@
 import { withBase } from 'vitepress'
 import MtkBackdrop from './MtkBackdrop.vue'
 import MtkNav from './MtkNav.vue'
+import MtkFooter from './MtkFooter.vue'
 
 const WIN_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTKOfflineRender-win.zip'
 const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender-Tool/releases/latest/download/MTKOfflineRender-mac.zip'
@@ -98,7 +99,7 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
       <a :href="withBase('/')" class="back-link">← Back to Home</a>
     </div>
 
-    <footer>© 2026 Mantrika Sound</footer>
+    <MtkFooter />
   </div>
 </template>
 
@@ -383,13 +384,6 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
   animation: mtkFadeIn 0.8s ease-out 0.4s both;
 }
 .back-link:hover { color: var(--text-primary); }
-
-footer {
-  text-align: center;
-  padding: 4rem 0;
-  color: #333;
-  font-size: 0.8rem;
-}
 
 @keyframes mtkFadeIn {
   from { opacity: 0; }
