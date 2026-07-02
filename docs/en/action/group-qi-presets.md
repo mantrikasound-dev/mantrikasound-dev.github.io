@@ -1,6 +1,6 @@
 # Qi: Apply Preset 1 ~ 5
 
-Apply the Nth Qi preset to the selected Items without opening the window, generating variants instantly. There are five Actions (`Apply Preset 1` through `Apply Preset 5`); they behave identically, but each loads the corresponding preset slot.
+Apply the Nth Qi preset to the selected Items without opening the window, generating variants instantly. There are five Actions (`Qi: Apply Preset 1` through `Qi: Apply Preset 5`); they behave identically, but each loads the corresponding preset slot.
 
 > For what a "preset" is and how to save a set of Qi parameters into slots 1–5, see **Section 10 of the Qi user manual (qi.md)**, or press the **Preset** button inside the Qi window.
 

@@ -87,8 +87,8 @@ The **Source Type:** dropdown at the top determines which kind of assets the lis
 ### 5.2 Search and refresh
 
 - **Search box** (placeholder `Search (e.g. drums NOT kick)`): type keywords to filter the list. Supports logic such as `AND`, `NOT`, `OR` (for example, `drums NOT kick` = contains "drums" but not "kick"). Click the **`x`** on the right to clear the search.
-- **`↻` refresh button**: rescans the assets in the project.
- - If there are **more than 150** assets, auto-refresh is disabled to avoid lag, and the button tooltip changes to `Auto-refresh disabled (too many items, >150)` — click `↻` manually to refresh.
+- **`⟳` refresh button**: rescans the assets in the project.
+  - If there are **more than 150** assets, auto-refresh is disabled to avoid lag, and the button tooltip changes to `Auto-refresh disabled (too many items, >150)` — click `⟳` manually to refresh.
 
 ### 5.3 Adding to the queue
 
@@ -231,9 +231,9 @@ When there are no presets, the list shows `No presets saved yet`.
 ### 9.1 Output path
 
 - **Output Path** input box + **Browse** button. Clicking Browse opens a quick picker:
- - **`⌂ Current Project Folder (Same as .RPP)`** — use the folder where the project file is located
- - **`⧉ Open System Dialog...`** — open the system folder picker
- - Below that, **recently used paths** (or `No recent paths` if none)
+  - **`⌂ Current Project Folder (Same as .RPP)`** — use the folder where the project file is located
+  - **`⧉ Open System Dialog...`** — open the system folder picker
+  - Below that, **recently used paths** (or `No recent paths` if none)
 
 ### 9.2 Naming pattern and wildcards
 
@@ -329,10 +329,10 @@ The small triangle **`▼`** to the right of START RENDER opens global switches:
 
 | Symptom | Cause | Fix |
 | ------- | ----- | --- |
-| Left-column list is empty | No assets of the current Source Type exist; or project has no regions / no items selected | Switch Source Type; or create regions / select items in the project first, then click `↻` |
+| Left-column list is empty | No assets of the current Source Type exist; or project has no regions / no items selected | Switch Source Type; or create regions / select items in the project first, then click `⟳` |
 | `Add` button shows **Requires New Queue** and is grayed out | Selected asset type differs from the type locked by the current queue | Click `[+]` to create a new queue, then add that type of asset |
 | `Add` button shows **Already Added** | Selected assets are already all in the current queue | Normal; nothing to do |
-| Clicking `↻` does not auto-update | More than 150 assets; auto-refresh disabled | Click `↻` manually each time |
+| Clicking `⟳` does not auto-update | More than 150 assets; auto-refresh disabled | Click `⟳` manually each time |
 | START RENDER is grayed out and unclickable | No renderable entries, or all queues are disabled | Add assets to the queue; check that tab dots are enabled |
 | Right-column config cannot be changed | Multiple entries selected (multi-select disables config), or single entry selected but Override not checked | Deselect to edit queue config, or check Override on a single entry |
 | Rendering aborts with a "file in use" message | Auto Overwrite enabled, but the target file is locked by another program | Close the program using that file (player / engine), then render |

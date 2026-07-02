@@ -172,10 +172,10 @@ Subsequent workflow:
 
 **Watch Folder rules**:
 
-* **Recursive scan** — .wav in subfolders also count
-* **Same name keeps newest**: when same-name files exist in different subdirectories, keep the one with newest mtime (avoid getting an old render version)
-* **Complete overwrite**: each ↻ clears and rebuilds the list — do not worry about accumulated dirty data
-* Links with **Render Queue module**: Render Queue automatically sets Watch Folder to the corresponding directory and refreshes once after rendering finishes
+- **Recursive scan** — .wav in subfolders also count
+- **Same name keeps newest**: when same-name files exist in different subdirectories, keep the one with newest mtime (avoid getting an old render version)
+- **Complete overwrite**: each ↻ clears and rebuilds the list — do not worry about accumulated dirty data
+- Links with **Render Queue module**: Render Queue automatically sets Watch Folder to the corresponding directory and refreshes once after rendering finishes
 
 **+ button menu** can also:
 
@@ -353,7 +353,7 @@ The tool detects Wwise disconnection and status automatically turns red dot **Ww
 | Replace reports "Failed to copy" | Source file locked by another program / target read-only | Close the locking program; do not set target wav read-only |
 | Replace & Generate stuck for a long time | Dozens or hundreds of Banks selected, normal | Wait. It will time out and error within 10 minutes |
 | Status shows "No changes detected" | Selected wavs are identical to those in Originals | Normal — confirm your render actually updated |
-| Bank list still old after switching wproj | Old index not refreshed | Click ⟳ next to Target Settings to rescan |
+| Bank list still old after switching wproj | Old index not refreshed | Click ↻ next to Target Settings to rescan |
 | Render Queue did not auto-sync after render | Watch Folder not enabled | Set Watch Folder once in Wwise Replace (Render Queue will take over automatically afterwards) |
 | Ctrl+Z not working | Focus is on REAPER main window | Click Wwise Replace window first to give it focus |
 | Window too small to resize after collapsing | By design | Expand any area and window automatically restores default size |

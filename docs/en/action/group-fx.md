@@ -11,23 +11,23 @@ Permanently delete **unused FX** in the project, removing only the matching ones
 Cleanup uses two **independent criteria**:
 
 - **Bypassed**: Manually bypassed FX that are silent but still loaded normally.
-- **Failed**: Plugins that cannot be found or loaded, appearing as offline / red shells in the FX chain.
+- **Failed**: Plugins that cannot be found or loaded, appearing as offline / red shells in the FX Chain.
 
 Bypassed ≠ Failed: a bypassed FX that still loads normally is **not** counted as failed; likewise, failed FX are not treated as bypassed. The two sets require their own corresponding actions.
 
 | Action List display name | Criterion | Scope |
 | --- | --- | --- |
-| FX - Cleanup Bypassed FX (entire project) | Bypassed | Every track’s FX chain + active-take FX on every Item + **Master** FX chain |
-| FX - Cleanup Bypassed FX (entire project exclude master) | Bypassed | Every track’s FX chain + active-take FX on every Item, **skipping Master** (Master is never touched) |
-| FX - Cleanup Bypassed FX (selected tracks) | Bypassed | Only the selected tracks’ own FX chains; **does not touch** Item FX on those tracks |
-| FX - Cleanup Bypassed FX (selected items) | Bypassed | Only the **active take** FX of selected Items; **does not touch** any track FX chain |
-| FX - Cleanup Failed FX (entire project) | Failed | Every track’s FX chain + active-take FX on every Item + **Master** FX chain |
+| FX - Cleanup Bypassed FX (entire project) | Bypassed | Every track’s FX Chain + active-take FX on every Item + **Master's** FX Chain |
+| FX - Cleanup Bypassed FX (entire project exclude master) | Bypassed | Every track’s FX Chain + active-take FX on every Item, **skipping Master** (Master is never touched) |
+| FX - Cleanup Bypassed FX (selected tracks) | Bypassed | Only the selected tracks’ own FX Chains; **does not touch** Item FX on those tracks |
+| FX - Cleanup Bypassed FX (selected items) | Bypassed | Only the **active take** FX of selected Items; **does not touch** any track FX Chain |
+| FX - Cleanup Failed FX (entire project) | Failed | Every track’s FX Chain + active-take FX on every Item + **Master's** FX Chain |
 
 **Behavior**
 
 - First shows a dialog telling you how many matching FX were found; deletion happens only **after confirmation**. If none are found, a notification is shown and nothing is done.
 - Only the matching FX are deleted; everything else is left untouched.
-- Bypassed cleanup only: if a track’s **entire FX chain is bypassed** (FX chain master bypass on), all FX in that chain are treated as bypassed and deleted.
+- Bypassed cleanup only: if a track’s **entire FX Chain is bypassed** (FX Chain master bypass on), all FX in that Chain are treated as bypassed and deleted.
 - Selected-scope only: if no corresponding Track / Item is selected, nothing is found.
 
 **Notes**
@@ -83,7 +83,7 @@ Scan the **entire project**, list all FX that **output mono**, and print them to
 
 | Action List display name | Scope |
 | --- | --- |
-| FX - Report Mono FX | Every track’s FX chain, active-take FX on every Item, **Master** FX chain, and **Monitor FX** on Master |
+| FX - Report Mono FX | Every track’s FX Chain, active-take FX on every Item, **Master's** FX Chain, and **Monitor FX** on Master |
 
 **Behavior**
 

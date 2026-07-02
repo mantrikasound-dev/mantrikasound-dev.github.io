@@ -262,7 +262,7 @@ To also get the tail: click [Body] again — another "Body" track will appear.
 ```
 1. Select the location-recording item, switch to Algorithm mode
 2. Mode → Foreground / Ambient
-3. Preview [▼ Foreground] to check whether desired events are audible
+3. Preview [▶ Foreground] to check whether desired events are audible
 4. Not satisfied → adjust Ambient Time / Threshold and preview again
 5. Satisfied → Process
 ```
@@ -274,7 +274,7 @@ Good for mining material from long recordings.
 ```
 1. Select the target item, switch to Algorithm mode
 2. Mode → Tonal / Noise
-3. Preview [▼ Tonal] to hear how pure the captured squeal is
+3. Preview [▶ Tonal] to hear how pure the captured squeal is
 4. Adjust Peak Threshold to catch only the most obvious peaks
 5. Process → the "Noise" layer is the de-whistled version you want
 ```
@@ -283,7 +283,7 @@ Good for mining material from long recordings.
 
 ```
 1. Select a stereo environment item
-2. Quick mode →[Width]
+2. Quick mode → [Width]
 3. The Side layer on the output track can be dropped into a reverb as an IR or pad layer
 ```
 

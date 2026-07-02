@@ -184,7 +184,7 @@ From then on, whenever you run that trigger action in REAPER, the follow-up acti
 ```
 1. Switch to [REAPER Startup Actions].
 2. Add Action → add each window action you open every session (Mixer, extension windows, etc.).
-3. Use ▼ to set the order.
+3. Use ▲▼ to set the order.
 4. Close the window. The next time REAPER starts, the windows open automatically.
 ```
 
@@ -203,7 +203,7 @@ From then on, whenever you run that trigger action in REAPER, the follow-up acti
 1. New Chain, name it "Clean up items".
 2. Click ⟳ and set the trigger to an action you already use.
 3. Add FollowUp → select processing, rename, color, group, etc.
-4. Use ▼ to set the correct order.
+4. Use ▲▼ to set the correct order.
 → Trigger once and the whole sequence runs.
 ```
 

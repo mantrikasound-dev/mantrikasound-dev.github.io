@@ -25,7 +25,7 @@
 Menu path:
 
 ```
-Extensions → MantrikaTools → Project manager
+Extensions → Mantrika Tools → Project manager
 ```
 
 Or search in the Action List:
@@ -634,7 +634,7 @@ Every time PM opens, it defaults to the **History Projects** view.
 ### Workflow A: First-time PM setup
 
 ```
-1. Open PM (Extensions → MantrikaTools → Project manager)
+1. Open PM (Extensions → Mantrika Tools → Project manager)
 2. Advanced → Manage Scan Paths
 3. + Add Path → pick your project root directory (multiple allowed)
 4. Confirm & Scan, wait for the scan progress to finish
