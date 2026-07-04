@@ -2,328 +2,328 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**FX Search** 是 Mantrika Tools 的快速插件搜索器，定位是"**打开即用、几个键就把 FX 装上**"。
+**FX Search** is Mantrika Tools' fast plug-in searcher, positioned as **"open and use, install an FX with a few keystrokes"**.
 
-它把整个工程里能用的 FX——已安装的 VST / VST3 / JS / AU 插件、以及 `FXChains` 目录下的 RfxChain——汇集成一个可搜索列表，让你不用展开层层菜单就能在选中的 track / item / take 上挂插件。
+It gathers all FX available in the project — installed VST / VST3 / JS / AU plug-ins, plus RfxChain files under the `FXChains` directory — into a searchable list, so you can add plug-ins to selected tracks / items / takes without digging through layered menus.
 
 ![fx-search-01](./../assets/functions/fx-search-01.gif)
 
-核心交互三件套：
+Core interaction trio:
 
-- **输入关键词** → 列表实时过滤
-- **回车** / **双击** → 把选中的 FX 挂到当前目标上
-- **拖拽** → 把 FX 拖到 Arrange / TCP 上的任意目标
+* **Type a keyword** → list filters in real time
+* **Enter** / **double-click** → add the selected FX to the current target
+* **Drag** → drag the FX to any target in the Arrange / TCP
 
-支持的目标对象：
+Supported target objects:
 
-| 目标类型                  | 行为                  |
-| --------------------- | ------------------- |
-| **Track FX**          | 挂到选中的 track         |
-| **Take FX**           | 挂到选中 item 的 active take |
-| **Item FX**           | 拖拽到 item 时挂到 item 上 |
-| **新建 Track**          | 拖到 TCP/Arrange 空白区域时自动新建轨道并挂 FX |
-
----
-
-## 2. 打开方式
-
-FX Search 没有固定菜单入口，建议绑定Action为快捷键。
-Action 名称是 **`mantrika : Synergy - FX Search`**（在 REAPER 的 Action List 中搜索 "MTK FX Search"）。
-
-默认行为：
-
-- 未 Pin 也未 Dock 时，窗口会出现在**当前鼠标位置**附近（搜索框中心对齐鼠标）。
-- 打开后**自动聚焦搜索框**——直接开打字就行，不用先点。
-- 失焦自动关闭（除非 Pin 住，见 §9）。
-
-窗口尺寸约 500×309（逻辑像素），支持 DPI 自适应。
-
-⚠️ Dock功能仅限 windows 平台，Sorry MacOS 用户。
+| Target type           | Behavior                                        |
+| --------------------- | ----------------------------------------------- |
+| **Track FX**          | Add to the selected track                       |
+| **Take FX**           | Add to the active take of the selected item     |
+| **Item FX**           | Add to the item when dragged onto an item       |
+| **New Track**         | Drag to empty area of TCP/Arrange to auto-create a track and add the FX |
 
 ---
 
-## 3. 界面总览
+## 2. Opening FX Search
+
+FX Search has no fixed menu entry; we recommend binding the Action to a shortcut.
+The Action name is **`mantrika : Synergy - FX Search`** (search "MTK FX Search" in REAPER's Action List).
+
+Default behavior:
+
+* When neither pinned nor docked, the window appears **near the current mouse position** (search box center aligned to mouse).
+* The search box is **automatically focused** after opening — just start typing, no need to click first.
+* Loses focus → auto-closes (unless pinned, see section 9).
+
+Window size is about 500x309 logical pixels, DPI-aware.
+
+⚠️ Dock function is Windows-only. Sorry MacOS users.
+
+---
+
+## 3. Interface Overview
 
 <img src="./../assets/functions/fx-search-02.png" alt="fx-search-02" style="zoom:67%;" />
 
-| 区域                | 说明                                            |
-| ----------------- | --------------------------------------------- |
-| **左侧拖拽手柄**     | 显示 Mantrika logo，是窗口**唯一**的拖拽区。右键可呼出 docker 菜单。 |
-| **搜索框**           | 输入关键词实时过滤。聚焦时边框发蓝光。       |
-| **清空按钮**（X）       | 搜索框有内容时出现在右侧，点击清空并把焦点送回输入框。                   |
-| **Pin 按钮**    | 钉住窗口，使其不会失焦自动关闭、不会在应用 FX 后关闭。详见 §9。           |
-| **设置按钮**（☰）       | 切换右侧过滤面板（Filter Panel）显示。                     |
-| **FX 列表**         | 中间主体区。每行四列：星标 / 类型前缀 / 插件名 / 厂家。              |
-| **过滤面板**（折叠态隐藏）  | 出现在窗口右侧，含 Refresh 按钮和 5 个类型过滤按钮。              |
+| Area                       | Description |
+| -------------------------- | ----------- |
+| **Left drag handle**       | Displays the Mantrika logo; the window's **only** drag area. Right-click opens the docker menu. |
+| **Search box**             | Type keywords to filter in real time. Border glows blue when focused. |
+| **Clear button** (X)       | Appears on the right when the search box has content; click to clear and return focus to the input box. |
+| **Pin button**             | Pin the window so it does not auto-close on focus loss or after applying an FX. See section 9. |
+| **Settings button** ☰ | Toggle the right-side Filter Panel. |
+| **FX list**                | Main area. Each row has four columns: star / type prefix / plug-in name / vendor. |
+| **Filter Panel** (hidden when collapsed) | Appears on the right side of the window, containing Refresh button and 5 type-filter buttons. |
 
-### 列表行解读
+### Reading List Rows
 
-每行从左到右四个区域：
+Each row has four areas from left to right:
 
 ```
   ●     VST3:     FabFilter Pro-Q 3        (FabFilter)
 ─────  ──────   ────────────────────       ──────────
-星标   类型前缀     插件名（主体）              厂家（窗口窄时自动隐藏）
+star   prefix   plug-in name (main)        vendor (auto-hides when window is narrow)
 ```
 
-- **星标**：橘色小圆点，表示这条 FX 已被收藏。
-- **类型前缀**：`VST3:` / `VST:` / `JS:` / `AU:` / `Chain:`，灰色显示。
-- **插件名**：主信息，**当前选中行**会变成蓝色。
-- **厂家**：括号里的厂家名，**窗口太窄时整列自动隐藏**，腾给插件名。
+* **Star**: orange dot, indicates this FX is favorited.
+* **Type prefix**: `VST3:` / `VST:` / `JS:` / `AU:` / `Chain:`, shown in gray.
+* **Plug-in name**: main info, **selected row** turns blue.
+* **Vendor**: vendor name in parentheses; **entire column auto-hides when the window is too narrow**, leaving more room for the plug-in name.
 
 ---
 
-## 4. 基础用法 —— 一次插件插入的全流程
+## 4. Basic Usage — The Full Flow of a Single FX Insert
 
-最常见的场景：在某条 track 上挂一个 FabFilter Pro-Q 3。
+Most common scenario: add a FabFilter Pro-Q 3 to a track.
 
-**操作步骤**：
+**Steps**:
 
-1. 在 REAPER 里选中目标 track（或 item / take）。
-2. 按快捷键打开 FX Search，窗口出现在鼠标附近，搜索框已聚焦。
-3. 输入 `fab proq` （或者 `q3`、`fpq`、`proq3` ……都能命中，详见 §5）。
-4. 按 **↓** / **↑** 选行，或者直接看准第一行（输入关键词后会自动选中第一行）。
-5. 按 **Enter**。FX 挂上，窗口关闭。
+1. Select the target track (or item / take) in REAPER.
+2. Press the shortcut to open FX Search; the window appears near the mouse and the search box is focused.
+3. Type `fab proq` (or `q3`, `fpq`, `proq3` ... all will hit, see section 5).
+4. Press **Down** / **Up** to select a row, or just trust the first row (the first row is auto-selected after typing).
+5. Press **Enter**. The FX is added and the window closes.
 
-> **更快的方法**：列表里**双击**任意一行，效果等同于"选中 + Enter"。
+> **Even faster**: **double-click** any row in the list, equivalent to "select + Enter".
 
-### 4.1 三种应用方式
+### 4.1 Three Application Methods
 
-| 方式            | 触发                  | 作用对象                |
-| ------------- | ------------------- | ------------------- |
-| **Enter**     | 选中一行后按回车            | 当前 REAPER 选区（智能识别，见 §8） |
-| **Double-Click** | 列表项双击              | 同上                  |
-| **Drag & Drop** | 列表项按住左键拖到 Arrange / TCP / Item | 落点处的 track / item / take（或空白处新建 track） |
+| Method           | Trigger                               | Target object |
+| ---------------- | ------------------------------------- | ------------- |
+| **Enter**        | Press Enter while a row is selected   | Current REAPER selection (smart detection, see section 8) |
+| **Double-Click** | Double-click a list item              | Same as above |
+| **Drag & Drop**  | Hold left button on a list item and drag to Arrange / TCP / Item | Track / item / take under the drop point (or create a new track in empty area) |
 
 ---
 
-## 5. 搜索语法
+## 5. Search Syntax
 
-FX Search 的搜索引擎做了大量优化，目标是"**怎么乱打都能命中你想要的那个**"。
+FX Search's search engine is heavily optimized; the goal is **"however messy you type, you hit the one you want"**.
 
-### 5.1 多关键词 = AND
+### 5.1 Multiple Keywords = AND
 
-输入多个词、用**空格**分隔，所有词都要命中（**3 个词及以上时允许漏 1 个**作为容错）。
+Type multiple words separated by **spaces**; all words must match (**3 or more words allow missing 1** as fault tolerance).
 
 ```
-fab proq           ← 同时包含 "fab" 和 "proq" 的插件
-melda compressor   ← Melda 家的压缩器
+fab proq           <- plug-ins containing both "fab" and "proq"
+melda compressor   <- compressors from Melda
 soundtoys decapitator
 ```
 
-### 5.2 排除词：前缀 `-`
+### 5.2 Exclusion: Prefix `-`
 
-在词前面加 `-`，把该词排除掉：
+Add `-` before a word to exclude it:
 
 ```
-comp -waves          ← 找压缩器，但不要 Waves 家的
-eq -cockos           ← 找 eq，但不要 REAPER 自带的eq
+comp -waves          <- find compressors, but not from Waves
+eq -cockos           <- find EQ, but not REAPER stock EQ
 ```
 
-排除词不会单独触发列表（即输入 `-waves` 单独使用会显示除 Waves 之外的所有 FX，作为浏览模式）。
+Exclusion words do not trigger the list by themselves (i.e., typing `-waves` alone shows all FX except Waves, as a browse mode).
 
-### 5.3 厂家别名
+### 5.3 Vendor Aliases
 
-为了少打字，预置了一组**厂家缩写**别名，自动展开成全名：
+To reduce typing, a set of **vendor abbreviation** aliases is built in and auto-expanded to full names:
 
-| 缩写 | 等价于                |
-| -- | ------------------ |
+| Alias | Equivalent to      |
+| ----- | ------------------ |
 | `mtk` | Mantrika           |
 | `khs` | Kilohearts         |
-| `pa` | Plugin Alliance    |
-| `nf` | Newfangled Audio   |
-| `ni` | Native Instruments |
-| `st` | Soundtoys          |
-| `la` | Lunacy Audio       |
+| `pa`  | Plugin Alliance    |
+| `nf`  | Newfangled Audio   |
+| `ni`  | Native Instruments |
+| `st`  | Soundtoys          |
+| `la`  | Lunacy Audio       |
 
-例如：`pa eq` 等价于 `Plugin Alliance eq`、`khs phaser` 等价于 `Kilohearts phaser`。
+For example: `pa eq` is equivalent to `Plugin Alliance eq`; `khs phaser` is equivalent to `Kilohearts phaser`.
 
-**这里仅列出了一些开发者常见的，如有更多需要可以联系开发者，或者后续可以推出自定义功能。**
+**Only some commonly used aliases are listed here; if you need more, contact the developers, or a custom feature may be added later.**
 
-### 5.4 四级匹配评分
+### 5.4 Four-Tier Match Scoring
 
-输入的每个关键词会按下面四种匹配方式打分（取最高的一档）：
+Each keyword is scored by the highest matching tier below:
 
-| 优先级    | 匹配方式            | 例子                                     | 分数 |
-| ------ | --------------- | -------------------------------------- | ---- |
-| Tier 1 | **从插件名开头匹配**    | 搜 `fab` 命中 "FabFilter ..."             | 80   |
-| Tier 2 | **从单词开头匹配**     | 搜 `pro` 命中 "FabFilter **Pro**-Q 3"     | 60   |
-| Tier 3 | **首字母缩写匹配**     | 搜 `pq` 命中 "**P**ro-**Q**"              | 50   |
-| Tier 4 | **任意子串匹配**（保底）  | 搜 `comp` 命中 "MultibandCompressor"      | 10   |
+| Priority | Match type                    | Example                                       | Score |
+| -------- | ----------------------------- | --------------------------------------------- | ----- |
+| Tier 1   | **Matches start of plug-in name** | Search `fab` hits "FabFilter ..."             | 80    |
+| Tier 2   | **Matches start of a word**   | Search `pro` hits "FabFilter **Pro**-Q 3"     | 60    |
+| Tier 3   | **Initialism match**          | Search `pq` hits "**P**ro-**Q**"              | 50    |
+| Tier 4   | **Substring match** (fallback) | Search `comp` hits "MultibandCompressor"      | 10    |
 
-意思就是：开头匹配比中间匹配排得更靠前，所以打前几个字母通常最准。
-**首字母缩写**对长名字插件特别好用，比如 `fpq3` 直接命中 `FabFilter Pro-Q 3`。当然偶尔也会有更简化的搜索方式，比如直接搜索`q3` 也能命中`FabFilter Pro-Q 3`。
+Meaning: start-of-name matches rank higher than middle matches, so typing the first few letters is usually most accurate.
+**Initialism matching** is especially useful for long-named plug-ins; `fpq3` directly hits `FabFilter Pro-Q 3`. Occasionally there are even shorter ways, e.g., `q3` also hits `FabFilter Pro-Q 3`.
 
-### 5.5 大小写、空格、标点都被忽略
+### 5.5 Case, Spaces, and Punctuation Are Ignored
 
-搜索时所有输入会归一化为小写、只保留字母数字和 `+`。所以：
+All input is normalized to lowercase and only letters, digits, and `+` are kept. Therefore:
 
-- `ProQ` / `proq` / `pro q` / `pro-q` 命中相同结果。
-- `SoundHack ++pitchdelay` 这种带 `+` 的插件可以用 `++pitch` 命中。如果同名的不是很多的话，输入`++p`即可。
-- 中文 / 日文 / 其他非 ASCII 字符**会被保留**，可以搜中文插件名。
-
----
-
-## 6. 排序规则
-
-匹配出的列表按以下优先级排序（从高到低）：
-
-1. **星标优先**：收藏过的 FX 永远排前面。
-2. **类型优先级**：VST3 > VST > JS / Chain / Unknown > AU。
-3. **匹配分数**：4 级评分的加权得分。
-4. **稳定性 fallback**：分数完全相同时按原始索引排序，保证刷新不乱跳。
-
-> **AU 排最后**是有意为之：Mac 上同一个插件常同时有 VST3 和 AU 版本，VST3 在 REAPER 里通常更顺手，所以默认让 VST3 浮上去。
+* `ProQ` / `proq` / `pro q` / `pro-q` hit the same results.
+* A plug-in like `SoundHack ++pitchdelay` can be hit with `++pitch`. If there are not many with the same name, `++p` may be enough.
+* Chinese / Japanese / other non-ASCII characters **are preserved**, so you can search for Chinese plug-in names.
 
 ---
 
-## 7. 过滤面板（Filter Panel）
+## 6. Sorting Rules
 
-点击搜索框右侧的 **☰** 按钮，窗口会向右展开一个 80px 宽的面板：
+The matched list is sorted by the following priorities (highest to lowest):
+
+1. **Starred first**: favorited FX always appear at the top.
+2. **Type priority**: VST3 > VST > JS / Chain / Unknown > AU.
+3. **Match score**: weighted score from the 4-tier scoring.
+4. **Stability fallback**: when scores are identical, sort by original index so refresh does not jump.
+
+> **AU at the end** is intentional: on Mac the same plug-in often has both VST3 and AU versions, and VST3 is usually more convenient in REAPER, so VST3 is floated up by default.
+
+---
+
+## 7. Filter Panel
+
+Click the **☰** button to the right of the search box; the window expands to the right by 80px to reveal the panel:
 
 <img src="./../assets/functions/fx-search-03.png" alt="fx-search-03" style="zoom: 67%;" />
 
-### 7.1 Refresh 按钮
+### 7.1 Refresh Button
 
-重新扫描已安装的 FX 列表和 `FXChains` 目录。
-**使用时机**：装了新插件、或在 `FXChains` 文件夹里加了新的 `.RfxChain` 文件后，点一下就能看到。
+Rescans the list of installed FX and the `FXChains` directory.
+**Use when**: you installed a new plug-in, or added a new `.RfxChain` file in the `FXChains` folder; click to see it.
 
-### 7.2 类型过滤按钮（5 个）
+### 7.2 Type Filter Buttons (5)
 
-| 操作         | 效果                                          |
-| ---------- | ------------------------------------------- |
-| **左键单击**   | 切换该类型是否出现在列表里（前面有 ✓ = 显示）。可同时开/关多个。         |
-| **右键单击**   | **独占模式**——只显示该类型，关闭其余四类。再次右键同一项可恢复全开。       |
+| Action         | Effect |
+| -------------- | ------ |
+| **Left-click** | Toggle whether this type appears in the list (checkmark = show). Multiple can be on/off at once. |
+| **Right-click** | **Exclusive mode** — show only this type, turn off the other four. Right-click the same item again to restore all-on. |
 
-> **小技巧**：临时只想看 Chains？右键 `Chain` 按钮即可，再右键一次恢复。
+> **Tip**: Temporarily want to see only Chains? Right-click the `Chain` button; right-click again to restore.
 
-类型设置不会保存到磁盘，是为了让你的常态浏览始终覆盖全部 FX。星标和 Pin 状态则会持久化。
+Type settings are not saved to disk, so your normal browsing always covers all FX. Star and Pin states are persisted.
 
 ---
 
-## 8. 智能目标识别
+## 8. Smart Target Detection
 
-按 Enter 或双击 / 没拖拽的情况下，FX 挂到哪里完全取决于**当前 REAPER 选区**——FX Search 会自己判断你的意图：
+When pressing Enter or double-clicking (not dragging), where the FX is added depends entirely on the **current REAPER selection** — FX Search judges your intent:
 
-| 当前选区                                      | FX 挂到                  |
-| ----------------------------------------- | ---------------------- |
-| 只选了 items                                 | 每个 item 的 **active take** |
-| 只选了 tracks                                | 每个选中的 **track**          |
-| 选了 items + tracks，且**每条选中 track 上都有选中 item** | 仍然是 **items**（识别为"我在操作 item"） |
-| 选了 items + tracks，但有 track **没有任何 item 被选中**   | **tracks**（识别为"我在操作 track"） |
-| 选了items + tracks，但**任意一个item所在的track没有被选中** | **track**（视为在操作track） |
-| 什么都没选                                     | **Last Touched Track**（兜底） |
+| Current selection | FX added to |
+| ----------------- | ----------- |
+| Only items selected | Active take of each item |
+| Only tracks selected | Each selected track |
+| Items + tracks, and **each selected track has a selected item** | Still **items** (interpreted as "I am working on items") |
+| Items + tracks, but a track has **no selected item** | **Tracks** (interpreted as "I am working on tracks") |
+| Items + tracks, but **any item's track is not selected** | **Tracks** (treated as track operation) |
+| Nothing selected | **Last Touched Track** (fallback) |
 
-> 这个规则和 MTK 别处的"选区识别"思路一致：item 比 track 更"具体"，所以同时存在时优先识别 item；只在 track 上有"独立意图"（没挂 item 选中）时才会切换到 track 视角。
+> This rule follows MTK's selection-recognition philosophy elsewhere: items are more "specific" than tracks, so when both exist items take priority; only when tracks show "independent intent" (no item selection on them) does the view switch to tracks.
 
-### 8.1 批量阈值确认
+### 8.1 Bulk Threshold Confirmation
 
-当一次操作的目标数 **≥ 5** 时，会弹出 REAPER 原生对话框确认：
+When the number of targets in one operation is **>= 5**, a REAPER native confirmation dialog pops up:
 
 > `Apply "FabFilter Pro-Q 3" to 12 targets?`
 
-点 OK 才会真正执行；点 Cancel 静默退出。
-弹窗后窗口会再次校验所有目标，避免确认期间用户改了选区导致挂错位置。
+Click OK to execute; Cancel silently exits.
+After the dialog, the window revalidates all targets to avoid applying to the wrong place if the user changed selection during confirmation.
 
-### 8.2 拖拽时的目标识别
+### 8.2 Target Detection While Dragging
 
-拖拽不受上面"智能识别"规则约束——**鼠标落在哪个对象上就是哪个**。
+Dragging is not constrained by the "smart detection" rules above — **whatever object the mouse is over is the target**.
 
-| 鼠标落点               | 目标                       |
-| ------------------ | ------------------------ |
-| Track（在 TCP 上）     | 该 track                  |
-| Item               | 该 item                   |
-| Item 的 active take | 该 take                   |
-| Arrange / TCP 的空白处 | **自动新建一条 track 并挂 FX**（如果是instrument 则会自动开启录音+All Midi Input） |
+| Mouse drop point | Target |
+| ---------------- | ------ |
+| Track (on TCP)   | That track |
+| Item             | That item |
+| Item's active take | That take |
+| Empty area of Arrange / TCP | **Auto-create a new track and add the FX** (for instruments, record+All Midi Input is automatically enabled) |
 
-拖拽过程中光标会变化以提示当前落点是否合法。如果落点无效（比如拖出窗口外），松手不会有任何效果。
-
----
-
-## 9. Pin（钉住）
-
-点击搜索框右侧的 **📌 按钮**，按钮变蓝表示已 Pin。
-
-Pin 之后：
-
-- 失焦不自动关闭。
-- 应用 FX（Enter / 双击 / 拖拽）后**不关闭**——可以连续挂多个 FX。
-
-> **快捷键**：未 dock 时按 **F1** 即可切换 Pin / UnPin（搜索框输入中也生效，不用抬手点按钮）。Dock 状态下窗口已强制 Pin，按钮变灰、F1 无效（见 §9.1）。
-
-适合场景：
-
-- 一次给某条 track 挂一串 FX。
-- 想把 FX Search 当成常驻面板使用。
-
-### 9.1 Dock 行为（Windows Only）
-
-把窗口 dock 进 REAPER 任意 docker 后，FX Search 会**自动强制 Pin**。
-取消 dock 时会**恢复**你 dock 之前的 Pin 偏好——所以不用每次 dock / undock 都重设 Pin。
-
-> Sorry MacOS用户，Mac 版暂时无法Dock，Pin 状态直接持久化保存。
+The cursor changes during dragging to indicate whether the current drop point is valid. If the drop point is invalid (e.g., dragged outside the window), releasing does nothing.
 
 ---
 
-## 10. 收藏（Star / Favorites）
+## 9. Pin
 
-**右键**任意 FX 行即可切换收藏状态：
+Click the **📌 pin button** to the right of the search box; the button turns blue when pinned.
 
-- 第一次右键 → 加星，行左侧出现橘色小圆点，列表立即重排，该项升到顶部。
-- 再次右键 → 取消星标。
+After pinning:
 
-收藏数据保存在配置目录下的 **`FX-Favorites.json`**，跨工程、跨会话持久化。
+* Does not auto-close on focus loss.
+* After applying an FX (Enter / double-click / drag) the window **does not close** — you can add multiple FX in a row.
 
-适合做"常用 FX 置顶"——比如收藏自己最常用的 5～10 个 EQ / 压缩 / 限制器，平时输入两个字母就能直接 Enter。
+> **Shortcut**: when undocked, press **F1** to toggle Pin / UnPin (works even while typing in the search box, no need to lift your hand to click the button). In docked state the window is forcibly pinned, the button is grayed out, and F1 is invalid (see section 9.1).
 
----
+Good for:
 
-## 11. 键盘操作速查
+* Adding a string of FX to a track in one go.
+* Using FX Search as a resident panel.
 
-| 按键               | 行为                                |
-| ---------------- | --------------------------------- |
-| **任意字符**         | 输入到搜索框，列表实时过滤                     |
-| **↑ / ↓**        | 在过滤后的列表中上下移动选中项                   |
-| **Enter** / 小键盘 Enter | 应用当前选中的 FX 到识别出的目标            |
-| **Esc**          | 关闭窗口（Pin 状态下同样有效）        |
-| **F1**           | 切换 Pin / UnPin（仅未 dock 时有效；输入中也生效） |
-| **Tab**          | 标准 ImGui 焦点切换（基本无需用到）             |
+### 9.1 Dock Behavior (Windows Only)
 
-鼠标操作：
+When docked into any REAPER docker, FX Search is **automatically forcibly pinned**.
+When undocked it **restores** your Pin preference from before docking — so you do not need to reset Pin after each dock/undock.
 
-| 操作                  | 行为                                 |
-| ------------------- | ---------------------------------- |
-| **左键单击**列表项         | 选中（不应用）                            |
-| **左键双击**列表项         | 应用 FX                              |
-| **左键拖动**列表项         | 拖拽到 Arrange / TCP 挂 FX             |
-| **右键单击**列表项         | 切换该 FX 的星标                         |
-| **右键单击**类型过滤按钮      | 切换独占过滤模式                           |
-| **右键单击**左侧拖拽手柄（Win） | 呼出 docker 上下文菜单                    |
-| **左键拖动**搜索框右侧的 ⠿ 区   | 拖动整个窗口                             |
+> Sorry MacOS users; Mac version cannot dock for now, and Pin state is persisted directly.
 
 ---
 
-## 12. 配置持久化
+## 10. Favorites (Star)
 
-下表列出哪些设置会保存、保存在哪：
+**Right-click** any FX row to toggle favorite status:
 
-| 项目                | 是否持久化 | 位置                                       |
-| ----------------- | ----- | ---------------------------------------- |
-| 收藏的 FX 列表         | ✅     | `<ConfigDir>/FX-Favorites.json` 的 `starred` 字段 |
-| Pin 状态            | ✅     | 同上，`pinned` 字段                            |
-| 窗口位置/尺寸           | ✅     | BaseDockableWindow 的 SizeMemory 系统        |
-| Dock 状态           | ✅     | REAPER 自身的 docker 配置                      |
-| 过滤面板展开/收起         | ❌     | 每次打开都重置为收起                                |
-| 类型过滤（JS/VST/...） | ❌     | 每次打开都重置为"全开"                              |
-| 搜索框文本             | ❌     | 关闭即清空                                     |
+* First right-click → add star; an orange dot appears on the left, the list immediately re-sorts and the item rises to the top.
+* Right-click again → remove star.
+
+Favorite data is saved in **`FX-Favorites.json`** under the config directory, persistent across projects and sessions.
+
+Good for "favorite FX pinned to top" — for example star your 5~10 most-used EQ / compressor / limiter, then just type two letters and hit Enter.
 
 ---
 
-## 13. FXChains 支持
+## 11. Keyboard Quick Reference
 
-FX Search 不只搜索已安装插件，还会扫描 REAPER 资源目录下的 **`FXChains/`** 文件夹（递归，最多 8 层），把每个 `.RfxChain` 文件作为一条 `Chain:` 类型的条目加入列表。
+| Key               | Behavior |
+| ----------------- | -------- |
+| **Any character** | Types into the search box; list filters in real time |
+| **Up / Down**     | Move selection up/down in the filtered list |
+| **Enter** / Numpad Enter | Apply the currently selected FX to the detected target |
+| **Esc**           | Close window (works even when pinned) |
+| **F1**            | Toggle Pin / UnPin (only when undocked; works while typing) |
+| **Tab**           | Standard ImGui focus switching (rarely needed) |
+
+Mouse operations:
+
+| Action                            | Behavior |
+| --------------------------------- | -------- |
+| **Left-click** list item          | Select (do not apply) |
+| **Left double-click** list item   | Apply FX |
+| **Left drag** list item           | Drag to Arrange / TCP to add FX |
+| **Right-click** list item         | Toggle star for that FX |
+| **Right-click** type filter button | Toggle exclusive filter mode |
+| **Right-click** left drag handle (Win) | Open docker context menu |
+| **Left drag** grip area to the right of search box | Drag the whole window |
+
+---
+
+## 12. Persistence
+
+The following table lists which settings are saved and where:
+
+| Item                  | Persisted | Location |
+| --------------------- | --------- | -------- |
+| Favorited FX list     | yes       | `<ConfigDir>/FX-Favorites.json` `starred` field |
+| Pin state             | yes       | Same file, `pinned` field |
+| Window position/size  | yes       | BaseDockableWindow SizeMemory system |
+| Dock state            | yes       | REAPER's own docker config |
+| Filter panel expanded/collapsed | no | Resets to collapsed every time |
+| Type filters (JS/VST/...) | no    | Resets to "all on" every time |
+| Search box text       | no        | Cleared on close |
+
+---
+
+## 13. FXChains Support
+
+FX Search does not only search installed plug-ins; it also scans the **`FXChains/`** folder under the REAPER resource directory (recursively, up to 8 levels deep), adding each `.RfxChain` file as a `Chain:` type entry.
 
 ```
 <REAPER Resource>/
@@ -333,152 +333,152 @@ FX Search 不只搜索已安装插件，还会扫描 REAPER 资源目录下的 *
         └── Kick.RfxChain             → "Chain: Drum/Kick"
 ```
 
-子文件夹会作为前缀写入 ident，便于按目录组织自己的 chain 库。
+Subfolders are written as a prefix in the ident, making it easy to organize your chain library by directory.
 
-新加的 `.RfxChain` 文件需要**点过滤面板里的 Refresh 按钮**才能出现在列表里。
-
----
-
-## 14. 注意事项
-
-### 14.1 默认不会自动选中第一行
-
-如果你只是打开窗口"看看"——没输入任何关键词——列表里**不会**有任何高亮选中。
-只有当你输入了关键词、列表完成过滤后，才会自动把第一行设为选中——这样"输入 → 立刻回车"的极速体验才成立。
-
-### 14.2 类型过滤是窗口级别的，不持久
-
-每次打开窗口都是"全部类型都显示"的状态。如果你经常只用 VST3，可以用**右键独占**快速切换，但下次打开还是会回到全开——这是为了避免下次想找个 JS 时找不到。
-
-### 14.3 拖拽到空白区会新建 track
-
-拖拽落点在 TCP 列表下方 / Arrange 下方等"明确的空白"时，会自动**新建一条 track 并把 FX 挂上去**。如果你只是想取消拖拽，拖出窗口外松手即可。
-
-### 14.4 批量操作的"5 个"阈值
-
-≥ 5 个目标时强制弹窗确认。这个阈值不可调整，是为了防止手滑给一堆 track 装错插件。
-
-### 14.5 中文路径 / 中文插件名
-
-搜索引擎对非 ASCII 字符做了保留处理，可以搜中文 / 日文插件名。但 `FXChains/` 路径建议尽量用 ASCII，避免某些极端情况下的文件遍历问题。
-
-### 14.6 Refresh 不会影响星标
-
-点 Refresh 重扫数据库时，已收藏的 FX 即使本次扫描没扫到（极少见，例如插件文件临时缺失）也不会丢失星标信息——星标存的是 ident 字符串，下次扫到就会自动恢复显示。
+Newly added `.RfxChain` files require **clicking the Refresh button in the Filter Panel** to appear in the list.
 
 ---
 
-## 15. FX 插入后的窗口策略
+## 14. Notes
 
-FX 挂上去之后，REAPER 默认是否弹出 FX Chain / Floating Window，由 **Preferences** 里的 "**FX Insertion Behavior**" 段控制，**Track FX** 和 **Take/Item FX** 各自独立配置。
+### 14.1 First Row Is Not Auto-Selected by Default
 
-详细见 [Preferences 用户手册 §3.6](../guide/preference.md)。
+If you just open the window to "look around" — without typing any keyword — **no row** in the list will be highlighted.
+Only after you type a keyword and the list finishes filtering is the first row auto-selected — this makes the "type → immediately Enter" ultra-fast experience possible.
+
+### 14.2 Type Filters Are Window-Level, Not Persisted
+
+Every time the window opens, all types are shown. If you often use only VST3, you can quickly switch with **right-click exclusive** mode, but next time it will return to all-on — to avoid the situation where you cannot find a JS next time.
+
+### 14.3 Dragging to Empty Area Creates a New Track
+
+When the drop point is clearly empty (below the TCP list, below the Arrange, etc.), a **new track is automatically created and the FX added**. If you just want to cancel the drag, release outside the window.
+
+### 14.4 Bulk Operation "5" Threshold
+
+>= 5 targets forces a confirmation dialog. This threshold is not adjustable; it prevents accidentally adding the wrong plug-in to a bunch of tracks.
+
+### 14.5 Chinese Paths / Chinese Plug-in Names
+
+The search engine preserves non-ASCII characters, so you can search Chinese / Japanese plug-in names. However, the `FXChains/` path is recommended to use ASCII as much as possible, to avoid file-traversal issues in extreme cases.
+
+### 14.6 Refresh Does Not Affect Stars
+
+Clicking Refresh to rescan the database does not lose star information — even if a favorited FX is not found this scan (rare, e.g., plug-in file temporarily missing), the star is not lost. Stars are stored as ident strings, and will automatically reappear next scan.
 
 ---
 
-## 16. 典型工作流
+## 15. FX Insertion Window Strategy
 
-### 工作流 A：极速挂一个 EQ
+After the FX is added, whether REAPER pops up the FX Chain / Floating Window by default is controlled by the **"FX Insertion Behavior"** section in **Preferences**, independently for **Track FX** and **Take/Item FX**.
+
+See [Preferences User Manual section 3.6](../guide/preference.md) for details.
+
+---
+
+## 16. Typical Workflows
+
+### Workflow A: Add an EQ at Maximum Speed
 
 ```
-1. 选中 track
-2. 按快捷键打开 FX Search
-3. 输入: q3
+1. Select track
+2. Press shortcut to open FX Search
+3. Type: q3
 4. Enter
 ```
 
-**结果**：FabFilter Pro-Q 3 挂到 track 上，窗口关闭。耗时不到 1 秒。
+**Result**: FabFilter Pro-Q 3 is added to the track, window closes. Takes less than 1 second.
 
 ---
 
-### 工作流 B：浏览 Soundtoys 全家桶
+### Workflow B: Browse the Full Soundtoys Collection
 
 ```
-1. 打开 FX Search
-2. 输入: st       （st 是 Soundtoys 的别名）
-3. 上下箭头浏览
+1. Open FX Search
+2. Type: st       (st is the alias for Soundtoys)
+3. Use up/down arrows to browse
 ```
 
-**结果**：所有 Soundtoys 插件按类型 + 字母顺序呈现，可以用箭头逐个选。
+**Result**: All Soundtoys plug-ins are presented by type + alphabetical order; you can select them one by one with arrow keys.
 
 ---
 
-### 工作流 C：给多 track 批量挂同一个 Saturator
+### Workflow C: Add the Same Saturator to Multiple Tracks
 
 ```
-1. 选中 5 条 track（不要选 item）
-2. 打开 FX Search
-3. 输入: decapitator
+1. Select 5 tracks (do not select items)
+2. Open FX Search
+3. Type: decapitator
 4. Enter
-5. 弹出 "Apply Decapitator to 5 targets?" → 点 OK
+5. "Apply Decapitator to 5 targets?" pops up → click OK
 ```
 
-**结果**：5 条 track 各自挂上一份 Decapitator。
+**Result**: Each of the 5 tracks gets its own Decapitator.
 
 ---
 
-### 工作流 D：拖一个 Reverb 到 item 的特定 take
+### Workflow D: Drag a Reverb onto a Specific Take of an Item
 
 ```
-1. 在 Arrange 里目视确认要挂 reverb 的 item
-2. 打开 FX Search
-3. 输入: valhalla
-4. 按住列表项左键，拖到那个 item 上松手
+1. In Arrange, visually identify the item you want to add reverb to
+2. Open FX Search
+3. Type: valhalla
+4. Hold left button on the list item, drag it onto that item, release
 ```
 
-**结果**：FX 挂到该 item 的 active take 上（item 级 FX）。
+**Result**: FX is added to the active take of that item (item-level FX).
 
 ---
 
-### 工作流 E：把 FX Search 当常驻面板用
+### Workflow E: Use FX Search as a Resident Panel
 
 ```
-1. 打开 FX Search
-2. 点 📌 钉住
-3. （可选）dock 到 REAPER 侧边栏 → 自动保持 Pin
-4. 后续任何时候，输入 → Enter，FX 立刻挂到当前选区，窗口不关
+1. Open FX Search
+2. Click the pin to pin it
+3. (Optional) dock to REAPER sidebar → auto-stays pinned
+4. Any time later: type → Enter, FX is immediately added to current selection, window stays open
 ```
 
-**结果**：FX Search 变成一个常驻的快速 FX 调取面板，几乎可以替代 REAPER 自带的 FX Browser。
+**Result**: FX Search becomes a resident quick FX retrieval panel, almost replacing REAPER's built-in FX Browser.
 
 ---
 
-### 工作流 F：建立自己的常用 FX 收藏
+### Workflow F: Build Your Own Favorite FX Collection
 
 ```
-1. 打开 FX Search
-2. 输入你常用的插件关键词
-3. 右键它，左侧出现橘色圆点
-4. 重复，把 5～10 个常用插件都收藏一遍
-5. 下次打开 FX Search 时，常用插件已自动置顶；甚至不用搜，按 ↓ 选就行
+1. Open FX Search
+2. Type the keyword of a plug-in you use often
+3. Right-click it; an orange dot appears on the left
+4. Repeat to star 5~10 frequently used plug-ins
+5. Next time you open FX Search, your favorites are already at the top; you may not even need to search, just press Down to select
 ```
 
 ---
 
-## 17. 故障排查
+## 17. Troubleshooting
 
-| 现象                                  | 可能原因                          | 解决                                       |
-| ----------------------------------- | ----------------------------- | ---------------------------------------- |
-| 列表是空的                               | 类型全被关掉                        | 打开过滤面板（☰），把至少一个类型勾上                      |
-| 装了新插件但搜不到                           | FX 数据库还没刷新                    | 打开过滤面板，点 Refresh                         |
-| 新加的 `.RfxChain` 不出现                 | 同上                            | Refresh                                  |
-| 搜索关键词明明对的却没结果                       | 关键词太多导致全 miss / 排除词太严苛        | 减词或去掉 `-xxx`                             |
-| 按 Enter 没反应                         | 列表没有选中行（没输入关键词时不会自动选）         | 先按 ↓ 选一行，或者输入任意关键词                       |
-| Enter 后 FX 挂错地方                     | 选区与你的预期不一致（参见 §8 智能识别）        | 重新整理 REAPER 选区，或改用拖拽指定目标                  |
-| 拖拽到空白处莫名其妙多了一条 track                | 落点被识别为"空白" → 触发新建 track       | 这是预期行为；不需要时拖出窗口外松手                       |
-| 点击窗口外焦点丢失，窗口立刻消失                    | 没 Pin 住                       | 点 📌 钉住                                  |
-| Dock 之后 Pin 按钮颜色不对劲                 | Dock 会强制 Pin（这是预期）            | undock 后 Pin 状态会还原为你 dock 之前的偏好           |
-| 收藏的 FX 重启 REAPER 后丢了                | `FX-Favorites.json` 没保存成功（极少见） | 检查磁盘是否有空间               |
-| 一次选了一堆目标，弹窗确认前选区变了导致执行后状态怪          | 5+ 阈值时虽然弹窗，但仍可能撞上极端时机         | 重新整理选区再来一次；FX Search 已经做了二次指针校验，崩溃风险极低 |
-| 列表里看不到厂家列                           | 窗口太窄了                         | 拉宽窗口；超过阈值厂家列会自动出现                        |
-| 想搜中文插件名搜不到                          | 输入了系统看不到的奇怪字符                 | 重新输入；不要混入控制字符                            |
+| Symptom | Possible cause | Solution |
+| ------- | -------------- | -------- |
+| List is empty | All types turned off | Open Filter Panel ☰ and check at least one type |
+| Newly installed plug-in not found | FX database not refreshed | Open Filter Panel and click Refresh |
+| New `.RfxChain` does not appear | Same as above | Refresh |
+| Search keyword is correct but no results | Too many keywords all miss / exclusion too strict | Reduce keywords or remove `-xxx` |
+| Pressing Enter does nothing | No row selected (auto-select only happens after typing) | Press Down to select a row, or type any keyword |
+| Enter adds FX to the wrong place | Selection does not match your expectation (see section 8 smart detection) | Reorganize REAPER selection, or use drag to specify target |
+| Dragging to empty area unexpectedly creates a track | Drop point recognized as "empty" → triggers new track | Expected behavior; release outside window to cancel |
+| Clicking outside makes the window disappear immediately | Not pinned | Click the pin to pin it |
+| Pin button color looks wrong after dock | Dock forces pin (expected) | After undock, Pin state restores to your pre-dock preference |
+| Favorited FX lost after REAPER restart | `FX-Favorites.json` failed to save (rare) | Check disk space |
+| Bulk operation state looks odd after selection changed during confirmation | 5+ threshold dialog still possible to hit extreme timing | Reorganize selection and try again; FX Search does secondary pointer validation, crash risk is minimal |
+| Vendor column not visible in list | Window too narrow | Widen window; vendor column appears automatically above threshold |
+| Cannot search Chinese plug-in names | Input contains invisible weird characters | Re-type; do not mix control characters |
 
 ---
 
-## 18. 与其他模块的关系
+## 18. Relationship with Other Modules
 
-| 关联模块             | 说明                                                         |
-| -------------------- | ------------------------------------------------------------ |
-| **Radial Menu**      | 是另一种快速插件调取方式（基于圆盘菜单），与 FX Search 共享同一个 FX 应用引擎和插入策略设置。两者可以互补——常用插件做成 Radial Menu 项目，长尾插件用 FX Search 搜。 |
-| **Preferences §3.6** | 控制 FX 挂上后弹窗策略（Don't show / Show FX chain / Show floating window），Track FX 与 Take/Item FX 各自独立。 |
-| **Mirror Segments**  | Mirror作为一个不参与混音的 UI UX代理，FXSearch 不能挂 FX 到 Mirror Segment 上。 |
+| Related module       | Description |
+| -------------------- | ----------- |
+| **Radial Menu**      | Another fast FX retrieval method (radial menu), sharing the same FX application engine and insertion strategy settings with FX Search. The two complement each other — frequently used plug-ins as Radial Menu items, long-tail plug-ins searched with FX Search. |
+| **Preferences section 3.6** | Controls post-insert popup strategy (Don't show / Show FX chain / Show floating window), independently for Track FX and Take/Item FX. |
+| **Mirror Segments**  | Mirror is a non-mixing UI/UX proxy; FX Search cannot add FX to a Mirror Segment. |
