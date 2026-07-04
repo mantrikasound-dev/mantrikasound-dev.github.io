@@ -1,13 +1,45 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 import MtkBackdrop from './MtkBackdrop.vue'
 import MtkNav from './MtkNav.vue'
 import MtkFooter from './MtkFooter.vue'
 
-// 售价与购买链接。Paddle 审核通过后，把 BUY_URL 填成 Paddle 结账链接即可启用按钮；
-// 留空时按钮显示为「即将发布」的占位状态，不跳转任何第三方平台。
+// Paddle Overlay Checkout 配置。两个值都填好后，购买按钮自动启用：
+// - PADDLE_CLIENT_TOKEN：后台 Developer tools → Authentication → Client-side tokens。
+//   sandbox 的 token 以 test_ 开头、live 以 live_ 开头，代码按前缀自动切环境。
+// - PADDLE_PRICE_ID：后台 Catalog → Products → 价格条目的 ID，以 pri_ 开头。
+// 两者都留空时按钮显示为「即将发布」的占位状态。
 const PRICE = '$149'
-const BUY_URL = ''
+const PADDLE_CLIENT_TOKEN = 'live_a4123d3b2ba7c6a36d1097078a4'
+const PADDLE_PRICE_ID = 'pri_01kwcsv54v902sb5j1cqdx1ej7'
+
+const buyEnabled = Boolean(PADDLE_CLIENT_TOKEN && PADDLE_PRICE_ID)
+const paddleReady = ref(false)
+
+// 本页同时是 Paddle 的 default payment link：Paddle.js 加载后，
+// 邮件里带 ?_ptxn= 参数的链接打开本页会自动弹出对应交易的结账窗口。
+onMounted(() => {
+  if (!buyEnabled) return
+  const script = document.createElement('script')
+  script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'
+  script.async = true
+  script.onload = () => {
+    const Paddle = (window as any).Paddle
+    if (!Paddle) return
+    if (PADDLE_CLIENT_TOKEN.startsWith('test_')) Paddle.Environment.set('sandbox')
+    Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN })
+    paddleReady.value = true
+  }
+  document.head.appendChild(script)
+})
+
+function openCheckout() {
+  if (!paddleReady.value) return
+  ;(window as any).Paddle.Checkout.open({
+    items: [{ priceId: PADDLE_PRICE_ID, quantity: 1 }]
+  })
+}
 
 // 详情页 —— 功能分类与侧边栏真实结构一致。
 const features = [
@@ -50,9 +82,15 @@ const docLinks = [
           no external scripts, libraries, or dependencies. Just install and go.
         </p>
         <div class="hero-actions">
-          <a v-if="BUY_URL" :href="BUY_URL" class="cta primary">
+          <button
+            v-if="buyEnabled"
+            type="button"
+            class="cta primary"
+            :disabled="!paddleReady"
+            @click="openCheckout"
+          >
             Buy now — {{ PRICE }}
-          </a>
+          </button>
           <button v-else type="button" class="cta primary buy-soon" disabled>
             Buy — {{ PRICE }} · Coming soon
           </button>
@@ -62,14 +100,14 @@ const docLinks = [
           </a>
         </div>
         <p class="price-note">
-          One-time purchase. Secure checkout will be powered by
+          One-time purchase. Secure checkout {{ buyEnabled ? 'powered' : 'will be powered' }} by
           <a href="https://www.paddle.com" target="_blank" rel="noopener">Paddle</a>.
         </p>
         <div class="meta-row">
           <span class="chip">REAPER Extension</span>
           <span class="chip">Zero dependencies</span>
           <span class="chip">High performance</span>
-          <span class="chip chip-soon">Coming Soon</span>
+          <span v-if="!buyEnabled" class="chip chip-soon">Coming Soon</span>
         </div>
       </header>
 
