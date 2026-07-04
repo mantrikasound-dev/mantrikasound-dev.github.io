@@ -1,101 +1,101 @@
-# 【合集】Subproject（子工程）
+# Subproject (Child Project) Actions
 
-这组 action 围绕 REAPER 子工程展开：把选中轨道的内容打包成独立子工程、在子工程里跳回父工程、把子工程渲染回父工程、设定决定渲染范围的 =START / =END marker，以及切进子工程时自动同步光标位置。
+This group of actions revolves around REAPER subprojects: pack the contents of selected tracks into an independent subproject, jump back from a subproject to its parent, render subprojects back into the parent, set the `=START` / `=END` markers that define the render range, and automatically sync cursor position when entering a subproject.
 
-子工程靠一对 **=START / =END marker** 标识，它们同时决定渲染范围。下面所有判断"是不是子工程"都看有没有这对 marker。除特别说明外，每个 action 都是一次 Undo。
+A subproject is identified by a pair of **`=START` / `=END` markers**, which also determine the render range. All “is this a subproject” checks below look for these markers. Unless otherwise stated, each action is one Undo.
 
 ---
 
-## 创建
+## Create
 
-把**选中轨道上的内容**打包成一个 Subproject（子工程）Item——选中轨道的 Item 被收进一个独立工程里，父工程里留下一个承载它的 Subproject Item。
+Pack the contents of **selected tracks** into a Subproject Item — the selected tracks’ Items are moved into an independent project, and the parent project keeps a Subproject Item that carries them.
 
-| Action List 里的精确显示名 | 行为 |
+| Exact Action List display name | Behavior |
 |---|---|
-| **Subproject - Create Subproject From Selected** | 把选中轨道内容打包成子工程，父工程留下承载它的 Subproject Item |
+| **Subproject - Create Subproject From Selected** | Pack selected track contents into a subproject; the parent project keeps a Subproject Item that carries it. |
 
-- 必须先**选中至少一条轨道**，否则提示并不做事
-- 工程**必须先保存过**（要拿到工程目录），否则提示先保存
-- 弹窗让你**输入子工程名字**（默认用第一条选中轨道的名字自动清理后填好）；点 Cancel 则取消
-- 在工程目录下建一个 **`Subproject Archive` 文件夹**，把生成的子工程按你输入的名字单独存进一个子目录（重名会自动加 `_1`、`_2` 后缀，不会覆盖）
-- 子工程的 **=START / =END marker 自动贴合实际内容范围**（不留多余空白）
-- 父工程里那个 Subproject Item **几何对齐到内容**——长度精确、清掉 Fade、起始偏移归零；承载它的**轨道改名**为子工程名
-- 如果选中轨道的内容是**分段的（中间有空隙）**，生成的 Subproject Item 会按空隙**自动切成多段**，跳过空白部分，每段落在原来内容所在的位置
-- 子工程的视图会自动缩放对齐到内容、光标移到内容开头，方便你直接进去编辑
+- You must **select at least one track** first, otherwise a prompt is shown and nothing is done.
+- The project **must have been saved** (so the project directory is available); otherwise you are prompted to save first.
+- A dialog lets you **enter the subproject name** (pre-filled with a cleaned version of the first selected track name by default); pressing Cancel aborts.
+- Creates a **`Subproject Archive`** folder under the project directory and stores the generated subproject in its own subdirectory named as you entered (duplicate names automatically get `_1`, `_2` suffixes; nothing is overwritten).
+- The subproject’s **`=START` / `=END` markers** automatically snap to the actual content range (no extra blank space).
+- The Subproject Item in the parent project **aligns its geometry to the content** — length is exact, fades are cleared, start offset is zeroed; the **track that carries it is renamed** to the subproject name.
+- If the selected tracks’ content is **segmented (gaps in the middle)**, the generated Subproject Item is **automatically split into multiple pieces**, skipping blank areas, with each piece landing where the original content was.
+- The subproject view is automatically zoomed to the content and the cursor is moved to the content start so you can begin editing immediately.
 
 ---
 
-## 跳回父工程
+## Jump to Parent Project
 
-在子工程里执行——**跳回包含它的父工程**，并自动选中、缩放定位到对应的那个 Subproject Item。
+Executed inside a subproject — **jumps back to the parent project that contains it**, automatically selecting, zooming, and locating the corresponding Subproject Item.
 
-| Action List 里的精确显示名 | 行为 |
+| Exact Action List display name | Behavior |
 |---|---|
-| **Subproject - Jump to Parent Project** | 跳回父工程，清空原有选择后只选中并缩放定位到对应 Subproject Item，把它所在 Track 滚到视图中间 |
+| **Subproject - Jump to Parent Project** | Jump back to the parent project, clear the existing selection, select only the corresponding Subproject Item, zoom to it, and scroll its track to the center of the view. |
 
-- 只在**当前是子工程**时生效；否则不做事
-- 父工程必须**已经打开**（在工程标签页里），否则找不到、不跳转
-- 一个子工程被多个 Item 引用时，跳到**第一个找到的**
+- Only takes effect when the **current project is a subproject**; otherwise does nothing.
+- The parent project must **already be open** (in a project tab); otherwise it cannot be found and no jump occurs.
+- If one subproject is referenced by multiple Items, jumps to the **first one found**.
 
 ---
 
-## 渲染
+## Render
 
-把打开的子工程逐个**保存并渲染**一遍，让父工程里的 Subproject Item 听到的是最新内容。共三个变体，区别在于**渲染范围**和**是否修复父工程里 Item 的几何**。
+Save and render each open subproject once, so Subproject Items in the parent project reflect the latest content. Three variants differ in **render range** and **whether the parent Item geometry is repaired**.
 
-| Action List 里的精确显示名 | 渲染范围 | 是否修复 Item 几何 | 完成后停在 |
+| Exact Action List display name | Render range | Repair Item geometry? | Stops at |
 |---|---|---|---|
-| **Subproject - Render all Subprojects (auto save)** | 所有打开的子工程 | **否**，只渲染，父工程 Item 长度 / 切分保持不动 | 执行前所在的工程 |
-| **Subproject - Render all Subprojects and Fix Main Item (auto save)** | 所有打开的子工程 | **是**，修正父工程里每个 Subproject Item | 父工程 |
-| **Subproject - Render and Sync Selected Main Items (auto save)** | 仅**选中的** Subproject Item 对应的子工程 | **是**，只修正这些选中 Item | 当前工程 |
+| **Subproject - Render all Subprojects (auto save)** | All open subprojects | **No**, only renders; parent Item length / splits stay unchanged | The project you were in before executing |
+| **Subproject - Render all Subprojects and Fix Main Item (auto save)** | All open subprojects | **Yes**, repairs each Subproject Item in the parent project | Parent project |
+| **Subproject - Render and Sync Selected Main Items (auto save)** | Only subprojects corresponding to **selected** Subproject Items | **Yes**, repairs only the selected Items | Current project |
 
-共有行为：
+Common behavior:
 
-- 自动找出目标子工程（带 =START / =END marker 的工程标签页），逐个**保存并渲染**；**会自动保存**每个子工程
-- 即使你在 REAPER 里关了"自动渲染"，这里也会**强制渲染**
+- Automatically finds target subprojects (project tabs with `=START` / `=END` markers), saves and renders them one by one; **each subproject is automatically saved**.
+- Even if you have REAPER’s “automatic render on save” option disabled, rendering is **forced here**.
 
-各变体差异：
+Variant differences:
 
-- **Render all Subprojects（只渲染）**：渲染所有打开的子工程，渲完切回你执行前所在的工程；**只渲染，不修复 Item 几何**——父工程里 Subproject Item 的长度 / 切分保持不动。没有打开的子工程时静默返回。如果你改了子工程的内容长度、或增删了分段，想让父工程的 Item 跟着对齐，请用下面带 Fix / Sync 的版本。
+- **Render all Subprojects (render only)**: Renders all open subprojects, then returns to the project you were in before executing; **only renders, does not repair Item geometry** — Subproject Item length / splits in the parent project remain unchanged. Silently returns if no subprojects are open. If you changed subproject content length or added/removed splits and want parent Items to align accordingly, use the Fix / Sync variants below.
 
-- **Render all Subprojects and Fix Main Item（渲染并修复全部）**：渲染后切到父工程**修正所有 Subproject Item**——Item 数和子工程内容分段数**一致**时按各段对齐每个 Item 的长度和起始偏移；**不一致**时（你在子工程里增删了分段）以最靠前的那个 Item 为基准重建、按分段重新切分，**其余 Item 上的改动（音量、FX 等）会丢失**。修正时一律清掉 Fade、Snap 偏移，操作完停在父工程。分段数对不上时会丢掉非基准 Item 的处理，介意的话先确认子工程分段没乱。
+- **Render all Subprojects and Fix Main Item (render and fix all)**: After rendering, switches to the parent project and **repairs all Subproject Items** — when the number of Items matches the number of content segments in the subproject, each Item’s length and start offset are aligned to each segment; when they **do not match** (you added/removed segments in the subproject), the earliest Item is used as the baseline to rebuild and re-split, **and changes on the other Items (volume, FX, etc.) will be lost**. Fade and snap offset are always cleared during repair. The action ends in the parent project. When segment counts mismatch, non-baseline Item processing is discarded; if this matters, confirm the subproject segments are consistent first.
 
-- **Render and Sync Selected Main Items（只渲染并同步选中）**：从选中 Item 里自动挑出 Subproject Item（普通 Item 忽略），逐个对应的子工程保存并渲染，渲完**修正这些选中 Item 的几何**对齐子工程内容——分段数**一致**时按各段对齐长度和起始偏移；**不一致**时**弹窗提示**结构变化并询问是否继续，继续则以最靠前的 Item 为基准重建、重新切分（**其余 Item 上的改动会丢失**），点取消则跳过这个子工程。修正时一律清掉 Fade、Snap 偏移。没选中任何 Subproject Item 时提示并不做事。涉及的子工程**必须已经打开**（在工程标签页里），否则会列出未打开的子工程名并中止。
-
----
-
-## 设 START & END marker
-
-把子工程的 **=START / =END marker** 设到指定范围的两端，决定渲染范围。共两个变体，区别在于**范围从哪里取**。
-
-| Action List 里的精确显示名 | 范围来源 |
-|---|---|
-| **Subproject - Set START and END markers to Time Selection** | 当前**时间选区**的起点和终点 |
-| **Subproject - Set START and END markers to Items** | Item 的范围（选中优先，无选中取全部 Item） |
-
-共有行为：
-
-- =START 设到范围起点、=END 设到范围终点（**不留余量**）
-- 已经有同名 marker 就**移动到新位置**，没有就新建
-- 当前工程**没有 =START / =END marker** 时会弹窗提示"这可能是父工程"，确认后才继续
-
-各变体差异：
-
-- **Set markers to Time Selection（按时间选区）**：=START / =END 设到时间选区起点和终点；**没有时间选区**（或选区无效）时不做事。
-- **Set markers to Items（按 Item 智能贴合）**：有选中 Item 时取所有**选中 Item** 的最左起点到最右终点；没选中任何 Item 时自动取工程里**全部 Item** 的范围；工程里**一个 Item 都没有**时不做事。
+- **Render and Sync Selected Main Items (render and sync selected only)**: From the selected Items, automatically picks out Subproject Items (normal Items are ignored), saves and renders the corresponding subprojects one by one, then **repairs the geometry of these selected Items** to align with subproject content — when segment counts **match**, length and start offset are aligned per segment; when they **do not match**, a dialog warns of structural changes and asks whether to continue. Continuing uses the earliest Item as the baseline to rebuild and re-split (**changes on other Items will be lost**); cancel skips that subproject. Fade and snap offset are always cleared during repair. If no Subproject Items are selected, a prompt is shown and nothing is done. Involved subprojects **must already be open** (in project tabs); otherwise the names of unopened subprojects are listed and the operation aborts.
 
 ---
 
-## 光标同步
+## Set START & END Markers
 
-开关型 Action。打开后，每当你**从父工程切换进一个子工程**，子工程里的播放光标会自动跳到**父工程光标对应的位置**，方便你接着同一处往下编辑。
+Set the subproject’s **`=START` / `=END` markers** to the ends of the specified range, defining the render range. Two variants differ in **where the range is taken from**.
 
-| Action List 里的精确显示名 | 行为 |
+| Exact Action List display name | Range source |
 |---|---|
-| **Subproject - Toggle Auto-Sync Cursor from Parent** | 开关型；打开后切进子工程时把光标同步到父工程对应位置 |
+| **Subproject - Set START and END markers to Time Selection** | Start and end of the current **time selection** |
+| **Subproject - Set START and END markers to Items** | Item range (selected Items preferred; if none selected, uses all Items) |
 
-- 这是个**开关**：执行一次打开，再执行一次关闭（菜单 / 工具栏上会显示当前是否点亮）；这是个常驻开关，不影响 Undo
-- 打开期间，**切到子工程标签页**那一刻：拿父工程当前光标位置，换算成相对子工程 =START 的偏移，把子工程的播放光标设到对应位置
-- 只在**切进子工程**时同步，是"**父 → 子**"单向；切回父工程不反向同步
-- 父工程光标要落在那个 Subproject Item 范围附近（允许前后约 1 秒余量）才同步，离得太远不动
-- 子工程必须带 =START marker 才有参照点
+Common behavior:
+
+- `=START` is set to the range start, `=END` to the range end (**no extra padding**).
+- Existing markers with the same name are **moved to the new position**; new markers are created if absent.
+- If the current project has **no `=START` / `=END` markers**, a dialog warns “this may be the parent project”; only continues after confirmation.
+
+Variant differences:
+
+- **Set markers to Time Selection**: `=START` / `=END` are set to the time selection start and end; does nothing if there is no time selection (or the selection is invalid).
+- **Set markers to Items**: If Items are selected, uses the leftmost start to rightmost end of all **selected Items**; if no Items are selected, automatically uses the range of **all Items** in the project; does nothing if the project has **no Items at all**.
+
+---
+
+## Cursor Sync
+
+A toggle action. When enabled, every time you **switch from the parent project into a subproject**, the play cursor in the subproject automatically jumps to the **position corresponding to the parent project cursor**, so you can continue editing from the same spot.
+
+| Exact Action List display name | Behavior |
+|---|---|
+| **Subproject - Toggle Auto-Sync Cursor from Parent** | Toggle; when enabled, entering a subproject syncs the cursor to the corresponding parent-project position. |
+
+- This is a **toggle**: one execution turns it on, another turns it off (menu / toolbar shows whether it is currently lit); it is a persistent switch and does not affect Undo.
+- While enabled, the moment you **switch to a subproject tab**: the current parent-project cursor position is taken, converted to an offset relative to the subproject’s `=START`, and the subproject play cursor is set to the corresponding position.
+- Only syncs when **entering** a subproject; direction is **parent → child** only; switching back to the parent does not sync in reverse.
+- The parent-project cursor must be near the Subproject Item range (about ±1 second tolerance) for sync to occur; too far away and nothing happens.
+- The subproject must have an `=START` marker to serve as the reference point.

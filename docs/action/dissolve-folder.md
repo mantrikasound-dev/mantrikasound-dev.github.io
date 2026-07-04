@@ -1,31 +1,31 @@
 # Assistants - Folder - Dissolve Folder(s)
 
-把当前**选中的 Folder 轨道**解散——Folder 包裹消失，里面的子轨道留在原位，变成普通轨道（或被提升到上一层 Folder 里）。
+Dissolves the currently **selected Folder track(s)** — the Folder wrapper disappears, and the child tracks stay where they are, becoming normal tracks (or promoted into the parent Folder above).
 
 ---
 
-## 行为细节
+## Behavior details
 
-- 只对**选中的 Folder 开头轨**生效；普通轨道选了不影响
-- 一次可以选**多个 Folder** 同时解散
-- 子轨道会**保留在原位**，**不会**被删除或移走，只是脱离这个 Folder
-- **嵌套场景**：解散一个内层 Folder，里面的子轨道会自动**提升一层**进到外层 Folder，不会被弹到工程顶层
-- Folder 轨道本身**保留**，变成一条普通空轨（你不需要的话自己 Ctrl+Del 删掉）
-
----
-
-## ⚠️ 注意：会清掉 Item 分组
-
-解散过程会把这个 Folder 及其所有子轨道上的 **Item Group ID 清零**。原因是：解散后这些 item 不再处于同一 Folder 上下文，保留 group 会留下"看不到对端"的残留分组，造成后续选择 / 编辑出问题。
-
-如果你依赖分组关系，**先记好哪些 item 是一组**，解散后重新打组。
+- Only affects **selected Folder parent tracks**; selecting normal tracks has no effect.
+- Multiple Folders can be dissolved at once.
+- Child tracks **remain in place**; they are not deleted or moved, only detached from the Folder.
+- **Nested scenario**: dissolving an inner Folder automatically **promotes** its child tracks one level up into the outer Folder, rather than ejecting them to the project top level.
+- The Folder track itself is **kept** and becomes an empty normal track (delete it yourself with Ctrl+Del if you don't need it).
 
 ---
 
-## 附带的自动行为
+## ⚠️ Note: Item grouping is cleared
 
-- 触发**自动上色**重新评估（如果你开了规则）
-- 刷新 **Mirror 同步**
-- 操作完成后**保留原来的轨道选择**
+During dissolution, the **Item Group IDs on this Folder and all its child tracks are reset to zero**. The reason: after dissolving, these Items are no longer in the same Folder context, and keeping their groups would leave "orphan" groupings with no visible counterpart, causing selection and editing problems later.
 
-操作本身是一次 Undo，按一次 Ctrl+Z 能整个还原（包括 group ID 的清除）。
+If you rely on grouping relationships, **make a note of which Items are grouped** and regroup them after dissolving.
+
+---
+
+## Automatic side effects
+
+- Triggers **auto-coloring** re-evaluation (if you have rules enabled)
+- Refreshes **Mirror sync**
+- Preserves the original track selection after the operation
+
+The action itself counts as a single Undo step; one Ctrl+Z restores the whole operation, including the group ID reset.

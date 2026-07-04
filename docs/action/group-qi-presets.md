@@ -1,32 +1,32 @@
-# 【合集】Qi: Apply Preset 1 ~ 5
+# Qi: Apply Preset 1 ~ 5
 
-不开窗，**直接对选中的 Item 套用 Qi 的第 N 号预设**生成变体。共有 5 个动作（Apply Preset 1 ～ Apply Preset 5），行为完全相同，只是分别套用 1～5 号预设。
+Apply the Nth Qi preset to the selected Items without opening the window, generating variants instantly. There are five Actions (`Qi: Apply Preset 1` through `Qi: Apply Preset 5`); they behave identically, but each loads the corresponding preset slot.
 
-> 关于"预设"是什么、怎么把一套 Qi 参数存进 1～5 号槽位，见 **Qi 用户手册（qi.md）**第 10 节，或在 Qi 窗口里点 **Preset** 按钮设置。
-
----
-
-## 怎么用
-
-1. 先在 Qi 窗口里把想要的参数**存进某个预设槽**（1～5）
-2. 给对应的 `Qi: Apply Preset N` 绑一个快捷键
-3. 在时间线上**选中一个或多个 Item**
-4. 按快捷键 → **不开窗，直接生成变体**
-
-适合"这套效果我已经很熟、看都不用看"的快速出活场景。
+> For what a "preset" is and how to save a set of Qi parameters into slots 1–5, see **Section 10 of the Qi user manual (qi.md)**, or press the **Preset** button inside the Qi window.
 
 ---
 
-## 行为细节
+## How to use
 
-- 直接用对应槽位里存好的参数，对选中 Item **一次性生成**变体（等同于在 Qi 窗口里按 Generate，只是不开窗、不出蓝色预览）
-- **没选 Item** → 提示 "Please select items first."，不做事
-- **那个槽位是空的** → 提示 "Preset N is empty."，先去 Qi 窗口存一套进去
-- 多选 Item 时，跟 Qi 一样把它们当**作一组**整体复制
+1. First, save the desired parameters into a preset slot (1–5) inside the Qi window.
+2. Assign a shortcut to the corresponding `Qi: Apply Preset N` Action.
+3. Select one or more Items on the timeline.
+4. Press the shortcut → **variants are generated without opening the window**.
+
+Ideal for quick work when you already know exactly what a preset does.
 
 ---
 
-## 提示
+## Behavior details
 
-- 5 个预设各绑一个快捷键（如 Ctrl+1～Ctrl+5），就能"选 Item → 按键 → 直接出不同风格的变体"
-- 预设内容怎么调、怎么存、怎么设默认，全在 Qi 窗口里完成，详见 qi.md
+- Uses the parameters saved in the corresponding slot to generate variants for the selected Items in one go (equivalent to pressing Generate in the Qi window, but with no window opened and no blue preview).
+- **No Items selected** → shows "Please select items first." and does nothing.
+- **The slot is empty** → shows "Preset N is empty."; save a preset in the Qi window first.
+- When multiple Items are selected, they are treated as **one group** and copied together, just like in Qi.
+
+---
+
+## Tip
+
+- Assign a shortcut to each of the five presets (for example, Ctrl+1 through Ctrl+5) so you can "select Items → press key → instantly get a different style variant".
+- How to adjust, save, and set default presets is all done inside the Qi window; see qi.md for details.

@@ -1,17 +1,17 @@
 # Envelope - Toggle Display Mode
 
-把**选中轨道**上正在显示的 Envelope，在"**独立 lane 显示**"和"**贴在 Media lane 上显示**"之间来回切换。
+For the **selected tracks**, toggles each visible Envelope between **separate lane display** and **overlay on the Media lane**.
 
 ---
 
-## 行为
+## Behavior
 
-- 对每条选中轨道上**当前可见**的 Envelope 逐条切换：原来在独立 lane 的 → 改成贴在 Media lane；原来贴在 Media lane 的 → 改回独立 lane
-- 不可见的 Envelope 不动
+- For every currently **visible** Envelope on each selected track, toggles individually: Envelopes in a separate lane are switched to overlay on the Media lane; Envelopes already overlaying the Media lane are switched back to a separate lane.
+- Hidden Envelopes are not affected.
 
 ---
 
-## 注意
+## Notes
 
-- 没选轨道时不做事
-- 操作是一次 Undo
+- If no tracks are selected, nothing happens.
+- The operation counts as a single Undo step.

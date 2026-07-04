@@ -1,137 +1,137 @@
-# 【合集】Segment（音频分段切换）
+# Segment (Audio Segment Switching) Actions
 
-Segment 让一个 Item **像 Sampler 一样能在多段声音之间切换**。
+Segment lets an Item **switch between multiple sound segments like a sampler**.
 
-工具会用音频分析把 Item 里的源音频拆成若干个**段落（Segment）**——比如一段录的 5 声脚步，会被识别成 5 个 Segment。识别之后这些段落信息**记在 Item 上**（跟着 Item 走），后续的**切换 / 随机 / 拆分 / 还原**都拿这份数据用。
+The tool analyzes the source audio and splits it into several **Segments** — for example, a recording of five footsteps is detected as five Segments. After detection, this segment data is **stored on the Item** (travels with the Item), and subsequent **switching / randomization / splitting / restoring** all use this data.
 
-整套 Segment 工具包含：先用 **Enable** 分析并启用，之后可以 **Next / Previous** 在段间切换、**Random** 随机切换、**Dynamic Split** 把所有段拆成独立 Item，或用 **Restore** 彻底还原。
+The full Segment toolkit includes: first use **Enable** to analyze and activate, then use **Next / Previous** to switch between segments, **Random** for random switching, **Dynamic Split** to split all segments into independent Items, or **Restore** to fully revert.
 
-> 共同说明：除特别注明外，每个 Action **没选 Item 时什么都不做**；**多个 Item 一起执行时，每个 Item 各自独立处理**；**每次执行都是一次 Undo**。除 Enable / Restore 外的 Action，如果 Item 还没分析过，会**自动先帮你分析一次**再执行。
-
----
-
-## 启用并分析
-
-**REAPER Action List 显示名：** `Assistants - Segment - Enable Multi-Segment Switching`
-
-这是 Segment 全家桶的入口——先用它分析一遍，之后才能用 Next / Previous / Random 切换。
-
-执行后对每个选中的 Item：
-
-1. **做一次音频分析**（带缓存，重复执行不会重跑）
-2. 把 Item 几何剪成 **第 1 段（Segment 0）** 的形状——你会看到 Item 立刻"缩"成只剩第一段
-3. 顺手加默认 **Fade In 1ms / Fade Out 50ms**，避免咔哒声
-
-注意：
-
-- 同一个 Item 反复 Enable 不会重复分析；想强制重新检测请先 Restore 再 Enable
+> Common notes: Unless otherwise stated, each action does **nothing if no Item is selected**; when multiple Items are processed together, **each Item is handled independently**; **each execution is one Undo**. Except for Enable / Restore, if an Item has not been analyzed yet, the action will **automatically analyze it first** before executing.
 
 ---
 
-## 切到下一段
+## Enable and Analyze
 
-**REAPER Action List 显示名：** `Assistants - Segment - Switch to Next Segment`
+**REAPER Action List display name:** `Assistants - Segment - Enable Multi-Segment Switching`
 
-把选中的 Item 切到**下一个 Segment**（循环，最后一个会回到第一个）。
+This is the entry point to the Segment toolkit — analyze first, then you can use Next / Previous / Random to switch.
 
-对每个选中的 Item：
+After execution, for each selected Item:
 
-1. 根据 Item 当前几何**自动判断它现在显示的是第几段**
-2. 切到 `(当前段 + 1) % 总段数` —— 到了最后一段会**循环回第 1 段**
-3. Item 几何变成新段的形状，Fade 等设置保留
+1. **Performs an audio analysis** (cached; repeated execution will not re-run)
+2. Trims the Item geometry to the shape of **Segment 0** — you’ll see the Item immediately shrink to only the first segment
+3. Applies default **Fade In 1 ms / Fade Out 50 ms** to avoid clicks
 
-注意：
+Notes:
 
-- 只有 1 段 / 检测失败时**不动**
-- 想反方向走用 `Switch to Previous Segment`，想跳着走用 `Switch to Random Segment`
-
----
-
-## 切到上一段
-
-**REAPER Action List 显示名：** `Assistants - Segment - Switch to Previous Segment`
-
-把选中的 Item 切到**上一个 Segment**（循环，第一个会跳到最后一个）。
-
-对每个选中的 Item：
-
-1. 根据 Item 当前几何**自动判断它现在显示的是第几段**
-2. 切到 `(当前段 - 1)`——已经在第 1 段时**循环到最后一段**
-3. Item 几何变成新段的形状，Fade 等设置保留
-
-注意：
-
-- 只有 1 段 / 检测失败时**不动**
+- Repeating Enable on the same Item will not re-analyze; to force re-detection, Restore first, then Enable.
 
 ---
 
-## 随机切换（带瞬态对齐）
+## Switch to Next Segment
 
-**REAPER Action List 显示名：** `Assistants - Segment - Switch to Random Segment (transient-aware)`
+**REAPER Action List display name:** `Assistants - Segment - Switch to Next Segment`
 
-把选中的 Item **随机切到另一个 Segment**，带瞬态对齐——新段的起点会对齐到旧段的瞬态位置上，听起来不突兀。
+Switches the selected Item to the **next Segment** (wraps around; the last loops back to the first).
 
-对每个选中的 Item：
+For each selected Item:
 
-1. 随机选一个**和当前段不同**的段
-2. **瞬态对齐**：如果当前段含可见的瞬态点，新段会被摆到让自己的瞬态对齐到旧段瞬态所在的时间线位置——保持节奏感
-3. Item 变成新段的形状，Fade 等设置保留
+1. Automatically determines which segment the Item is currently showing based on its geometry
+2. Switches to `(current segment + 1) % total segments` — at the last segment it **wraps back to the first**
+3. Item geometry changes to the new segment shape; fade settings are preserved
 
-注意：
+Notes:
 
-- 只有 1 段时**不动**
-- 反复执行会持续给你不同的段
-
----
-
-## Dynamic Split（按段拆成独立 Item）
-
-**REAPER Action List 显示名：** `Assistants - Segment - Dynamic Split`
-
-把选中的 Item **按检测到的 Segment 边界一刀刀切开**，变成多个独立的 Item，每个 Item 装一段；中间的**静音间隙会被删除**。
-
-类似 REAPER 自带的 Dynamic Split，但用的是 Segment 的边界（带能量锚点、瞬态识别）。
-
-对每个选中的 Item：
-
-1. 用 Segment 数据找出当前 Item 可见范围内**所有段落的边界**（已分析过的直接复用，没分析过自动跑一次）
-2. 在每个边界点切开 Item，得到一串新 Item
-3. **判断每段中心点**是否落在某个 Segment 内：
-   - 落在 → 保留（这是一个有效的 Segment Item）
-   - 落不在（说明是段与段之间的静音） → **删掉**
-
-最后你得到的就是一串纯净的 Segment Item，原 Item 的源音频、Fade 等设置都正确继承到每一段上。
-
-用途：
-
-- 一长条录的"5 声脚步"切成 5 个独立 Item，方便单独调音量 / 移位置 / 复用
-- 准备做随机化触发：拆完直接送 Macro Control / Qi 之类的工具批量随机
-
-注意：
-
-- 当前可见范围内一个段都没有时**不动**
+- Does nothing if there is only 1 segment or detection failed
+- For the opposite direction use `Switch to Previous Segment`; to jump randomly use `Switch to Random Segment`
 
 ---
 
-## 还原原始 Item
+## Switch to Previous Segment
 
-**REAPER Action List 显示名：** `Assistants - Segment - Restore Original Item`
+**REAPER Action List display name:** `Assistants - Segment - Switch to Previous Segment`
 
-把 Segment 处理过的 Item **彻底还原**到分析之前的原始状态——清掉 Segment 数据、恢复几何、清掉自动加的 Fade。
+Switches the selected Item to the **previous Segment** (wraps around; the first jumps to the last).
 
-对每个选中的 Item：
+For each selected Item:
 
-1. **清掉 Segment 数据**（Item 上记录的段落信息全部抹除）
-2. **恢复原始几何**——Item 长度 / 起始偏移回到分析前
-3. **清掉 Fade In / Fade Out**（即使是你手动改过的值也会清掉）
-4. **清掉 Reverse Fold 状态**（如果之前用 `Reverse Items with Fold Effect` 处理过）
+1. Automatically determines which segment the Item is currently showing based on its geometry
+2. Switches to `(current segment - 1)` — when already at the first segment, it **wraps to the last segment**
+3. Item geometry changes to the new segment shape; fade settings are preserved
 
-什么时候用：
+Notes:
 
-- 不想再用 Segment 切换，想回到普通 Item
-- Segment 检测的分段不理想，想清掉重新 Enable（重新分析一次）
-- 之前折腾过 Reverse Fold 也一并清理
+- Does nothing if there is only 1 segment or detection failed
 
-注意：
+---
 
-- ⚠️ 会**清掉 Fade**，包括你后期手动调过的值——介意的话用之前自己记一下 Fade 值，或靠 Undo 退回去
+## Random Switch (Transient-Aware)
+
+**REAPER Action List display name:** `Assistants - Segment - Switch to Random Segment (transient-aware)`
+
+Randomly switches the selected Item to another Segment, with transient alignment — the new segment’s start is aligned to the transient position of the old segment, so the switch sounds natural.
+
+For each selected Item:
+
+1. Randomly picks a **different** segment from the current one
+2. **Transient alignment**: if the current segment contains visible transient points, the new segment is positioned so its transient aligns to the timeline position of the old segment’s transient — preserving the rhythmic feel
+3. Item changes to the new segment shape; fade settings are preserved
+
+Notes:
+
+- Does nothing if there is only 1 segment
+- Repeated execution keeps giving you different segments
+
+---
+
+## Dynamic Split (Split Segments into Independent Items)
+
+**REAPER Action List display name:** `Assistants - Segment - Dynamic Split`
+
+**Cuts the selected Item at each detected Segment boundary** into multiple independent Items, one per segment; silent gaps between segments are deleted.
+
+Similar to REAPER’s built-in Dynamic Split, but uses Segment boundaries (with energy anchors and transient detection).
+
+For each selected Item:
+
+1. Uses Segment data to find **all segment boundaries** within the Item’s currently visible range (cached if already analyzed; otherwise automatically runs analysis once)
+2. Splits the Item at each boundary, producing a series of new Items
+3. Checks whether **each piece’s center point** falls inside a Segment:
+   - Inside → keep (this is a valid Segment Item)
+   - Outside (indicates silence between segments) → **delete**
+
+Finally you get a clean chain of Segment Items; the original Item’s source audio, fades, and other settings are correctly inherited by each segment.
+
+Use cases:
+
+- Cut a long recording of “5 footsteps” into 5 independent Items for individual volume / position adjustment or reuse
+- Prepare for randomized triggering: after splitting, send directly to tools like Macro Control / Qi for batch randomization
+
+Notes:
+
+- Does nothing if there are no segments in the current visible range
+
+---
+
+## Restore Original Item
+
+**REAPER Action List display name:** `Assistants - Segment - Restore Original Item`
+
+**Fully restores** a Segment-processed Item to its original pre-analysis state — clears Segment data, restores geometry, and removes the automatically added fades.
+
+For each selected Item:
+
+1. **Clears Segment data** (all segment information recorded on the Item is erased)
+2. **Restores original geometry** — Item length / start offset return to pre-analysis values
+3. **Clears Fade In / Fade Out** (even values you manually changed later will be cleared)
+4. **Clears Reverse Fold state** (if previously processed with `Reverse Items with Fold Effect`)
+
+When to use:
+
+- You no longer want Segment switching and want to return to a normal Item
+- Segment detection did not split ideally and you want to clear and re-Enable (re-analyze)
+- You also want to clean up prior Reverse Fold processing
+
+Notes:
+
+- ⚠️ This **clears fades**, including values you manually adjusted later — if you care, note the fade values beforehand, or rely on Undo to revert.

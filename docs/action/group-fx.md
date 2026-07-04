@@ -1,97 +1,97 @@
-# 【合集】FX 管理
+# FX Management Actions
 
-一组针对 FX 的工具：清理用不上的 FX、打开或关掉 FX 窗口、检查输出为单声道的 FX。处理 Item 时一律只看每个 Item 的**当前 Take**，其它 Take 上的 FX 不动。
+A set of tools for managing FX: clean up unused FX, open or close FX windows, and check for FX that output mono. When processing Items, only the **active take** of each Item is considered; FX on other takes are untouched.
 
 ---
 
-## 清理用不上的 FX
+## Clean Up Unused FX
 
-把工程里**用不上的 FX** 永久删除，只删命中的那几个，正常工作的 FX 一律保留。
+Permanently delete **unused FX** in the project, removing only the matching ones while leaving normally working FX intact.
 
-清理分两套**互相独立的判定**：
+Cleanup uses two **independent criteria**:
 
-- **Bypassed（被旁通）**：手动旁通、暂时不出声但仍正常加载的 FX
-- **Failed（加载失败）**：插件找不到、装不进来、在 FX Chain 里显示为离线/红色的空壳
+- **Bypassed**: Manually bypassed FX that are silent but still loaded normally.
+- **Failed**: Plugins that cannot be found or loaded, appearing as offline / red shells in the FX Chain.
 
-被旁通 ≠ 加载失败：一个被旁通的 FX 只要还能正常加载，就**不算**失败；同理失败的 FX 也不会被当成旁通来清。两套要分别用对应的 Action。
+Bypassed ≠ Failed: a bypassed FX that still loads normally is **not** counted as failed; likewise, failed FX are not treated as bypassed. The two sets require their own corresponding actions.
 
-| Action List 显示名 | 判定 | 作用范围 |
+| Action List display name | Criterion | Scope |
 | --- | --- | --- |
-| FX - Cleanup Bypassed FX (entire project) | Bypassed | 每条 Track 的 FX Chain + 每个 Item 当前 Take 的 FX + **Master** 的 FX Chain |
-| FX - Cleanup Bypassed FX (entire project exclude master) | Bypassed | 每条 Track 的 FX Chain + 每个 Item 当前 Take 的 FX，**跳过 Master**（Master 一律不动） |
-| FX - Cleanup Bypassed FX (selected tracks) | Bypassed | 仅选中 Track 自己的 FX Chain，**不碰**这些 Track 上的 Item FX |
-| FX - Cleanup Bypassed FX (selected items) | Bypassed | 仅选中 Item 的**当前 Take** FX，**不碰**任何 Track 的 FX Chain |
-| FX - Cleanup Failed FX (entire project) | Failed | 每条 Track 的 FX Chain + 每个 Item 当前 Take 的 FX + **Master** 的 FX Chain |
+| FX - Cleanup Bypassed FX (entire project) | Bypassed | Every track’s FX Chain + active-take FX on every Item + **Master's** FX Chain |
+| FX - Cleanup Bypassed FX (entire project exclude master) | Bypassed | Every track’s FX Chain + active-take FX on every Item, **skipping Master** (Master is never touched) |
+| FX - Cleanup Bypassed FX (selected tracks) | Bypassed | Only the selected tracks’ own FX Chains; **does not touch** Item FX on those tracks |
+| FX - Cleanup Bypassed FX (selected items) | Bypassed | Only the **active take** FX of selected Items; **does not touch** any track FX Chain |
+| FX - Cleanup Failed FX (entire project) | Failed | Every track’s FX Chain + active-take FX on every Item + **Master's** FX Chain |
 
-**行为**
+**Behavior**
 
-- 先弹窗告诉你找到多少个命中的 FX，**确认后**才删除；没找到就提示一下、什么都不做
-- 只删命中的那几个 FX，其它的保留不动
-- 仅 Bypassed 清理：如果某条 Track 的**整条 FX Chain 被关掉**（Chain 总开关 off），那这条链里的 FX 会**全部**当作旁通删掉
-- 仅 selected 范围：没选中对应的 Track / Item 就什么都找不到
+- First shows a dialog telling you how many matching FX were found; deletion happens only **after confirmation**. If none are found, a notification is shown and nothing is done.
+- Only the matching FX are deleted; everything else is left untouched.
+- Bypassed cleanup only: if a track’s **entire FX Chain is bypassed** (FX Chain master bypass on), all FX in that Chain are treated as bypassed and deleted.
+- Selected-scope only: if no corresponding Track / Item is selected, nothing is found.
 
-**注意**
+**Notes**
 
-- 删除不可恢复地改动工程，但操作是一次 Undo，按一次 Ctrl+Z 能整个还原
-- 失败 FX 通常意味着换了机器/缺插件。删掉之后这些 FX 的设置就找不回来了，确认机器上确实不会再装这些插件再删
-
----
-
-## 显示 FX Chain 窗口
-
-为选中的对象打开它们的 **FX Chain 窗口**。
-
-| Action List 显示名 | 作用范围 |
-| --- | --- |
-| FX - Show FX Chain Window (selected tracks) | 选中的每条 Track |
-| FX - Show FX Chain Window (selected items) | 选中的每个 Item（当前 Take） |
-| FX - Show FX Chain Window (selected tracks and items) | 选中的 Track 和选中的 Item（当前 Take），一起处理 |
-
-**行为**
-
-- 只打开 **FX Chain 窗口本身**，**不打开**各个 FX 的独立浮动窗口
-- 涉及 Track 的变体里，选中 Master 也会一起打开它的 FX Chain
+- Deletion irreversibly changes the project, but the action is one Undo — press Ctrl+Z once to fully restore.
+- Failed FX usually mean you changed machines or are missing plugins. After deletion those FX settings are gone; only delete if you are sure those plugins will not be reinstalled on this machine.
 
 ---
 
-## 隐藏 FX 窗口
+## Show FX Chain Window
 
-关掉选中对象（或整个工程）的所有 FX 窗口。这是 Show 的反操作，**比 Show 多关浮动窗口**：Show 只开 FX Chain 窗口，而 Hide 既关 **FX Chain 窗口**、也关每个 FX 的**独立浮动窗口**。
+Open the **FX Chain window** for selected objects.
 
-| Action List 显示名 | 作用范围 |
+| Action List display name | Scope |
 | --- | --- |
-| FX - Hide FX Windows (selected tracks) | 选中的每条 Track |
-| FX - Hide FX Windows (selected items) | 选中的每个 Item（当前 Take） |
-| FX - Hide FX Windows (selected tracks and items) | 选中的 Track 和选中的 Item（当前 Take），一起处理 |
-| FX - Hide All FX Windows (entire project) | **整个工程**：每条 Track、每个 Item（当前 Take）、以及 **Master**，不用先选任何东西 |
+| FX - Show FX Chain Window (selected tracks) | Each selected track |
+| FX - Show FX Chain Window (selected items) | Each selected Item (active take) |
+| FX - Show FX Chain Window (selected tracks and items) | Selected tracks and selected Items (active take), processed together |
 
-**行为**
+**Behavior**
 
-- 既关 **FX Chain 窗口**，也关每个 FX 的**独立浮动窗口**
-- 涉及 Track 的变体里，选中 Master 也会一起关
-- `Hide All` 把屏幕上散落的 FX 窗口一次清空，常用于打开过一堆 FX 之后整理桌面
-
-**注意**
-
-- 只有 Hide 提供"整个工程"这个范围（即 `FX - Hide All FX Windows (entire project)`），**没有**对应的整个工程 Show（避免一次弹出成百上千个窗口卡死）
+- Opens only the **FX Chain window itself**, **not** each FX’s individual floating window.
+- In track-involved variants, selecting Master also opens its FX Chain.
 
 ---
 
-## 报告 Mono FX
+## Hide FX Windows
 
-扫描**整个工程**，把所有**输出为单声道（Mono）的 FX** 列出来，打印到 REAPER 的控制台窗口。
+Close all FX windows for selected objects (or the entire project). This is the inverse of Show; **Hide closes more than Show opens**: Show only opens the FX Chain window, while Hide closes both the **FX Chain window** and each FX’s **individual floating window**.
 
-| Action List 显示名 | 作用范围 |
+| Action List display name | Scope |
 | --- | --- |
-| FX - Report Mono FX | 每条 Track 的 FX Chain、每个 Item 当前 Take 上的 FX、**Master** 的 FX Chain，以及 Master 上的 **Monitor FX** |
+| FX - Hide FX Windows (selected tracks) | Each selected track |
+| FX - Hide FX Windows (selected items) | Each selected Item (active take) |
+| FX - Hide FX Windows (selected tracks and items) | Selected tracks and selected Items (active take), processed together |
+| FX - Hide All FX Windows (entire project) | **Entire project**: every track, every Item (active take), and **Master**; no selection needed |
 
-**行为**
+**Behavior**
 
-- 判定标准：FX 的**输出只有 1 个声道**就算 Mono FX。常见于忘了改成立体声的 FX，会把信号塌成单声道
-- 报告里每条会标出它在哪：Track 编号和名字、是 Track FX 还是某个 Item 的 FX、FX 的名字
-- 结尾给出总数；一个都没有就提示 No mono FX found
+- Closes both the **FX Chain window** and each FX’s **individual floating window**.
+- In track-involved variants, selecting Master also closes its FX windows.
+- `Hide All` clears scattered FX windows from the screen at once, often used after opening many FX to tidy the desktop.
 
-**注意**
+**Notes**
 
-- 这是**只读检查**，只看不改，不删不动任何 FX，也不产生 Undo
-- 结果在 REAPER 控制台输出，照着报告自己去对应的 FX 上处理
+- Only Hide offers the “entire project” scope (i.e. `FX - Hide All FX Windows (entire project)`); there is **no** corresponding project-wide Show (to avoid spawning hundreds of windows at once and freezing the UI).
+
+---
+
+## Report Mono FX
+
+Scan the **entire project**, list all FX that **output mono**, and print them to REAPER’s console window.
+
+| Action List display name | Scope |
+| --- | --- |
+| FX - Report Mono FX | Every track’s FX Chain, active-take FX on every Item, **Master's** FX Chain, and **Monitor FX** on Master |
+
+**Behavior**
+
+- Criterion: an FX whose **output has only 1 channel** counts as a mono FX. Commonly happens when an FX was left in mono mode and collapses the signal to mono.
+- Each entry in the report notes its location: track number and name, whether it is a track FX or an Item FX, and the FX name.
+- Total count is shown at the end; if none are found, it reports “No mono FX found”.
+
+**Notes**
+
+- This is a **read-only check**: it only looks, does not modify or delete any FX, and does not create an Undo.
+- Results are output to the REAPER console; use the report to address each FX manually.

@@ -1,83 +1,83 @@
-# 【合集】Prune - 修剪与清场
+# Prune - Trim and Clean-up Actions
 
-一组「删 Item 并顺手清空轨」的工具：删除或移动 Item 后，把因此**变空的轨道**一并清掉，让工程不留空壳轨。共有五个变体。
+A set of “delete Items and clean up empty tracks” tools: after deleting or moving Items, any tracks that become **empty as a result** are also removed, so the project doesn’t retain hollow tracks. Five variants in total.
 
 ---
 
-## 五个变体对照
+## Five Variants at a Glance
 
-| Action List 里的精确显示名 | 对 Item 做什么 | 是否级联删空轨 |
+| Exact Action List display name | What it does to Items | Cascade-delete empty tracks? |
 |---|---|---|
-| **Prune - Delete Selected Items (cleanup empty tracks)** | 删除选中的 Item | 是 |
-| **Prune - Crop Project to Selection (keep only selected items)** | 删除**未选中**的 Item，只保留选中的 | 是 |
-| **Prune - Extract & Purge Up (move items up, delete empty source tracks)** | 选中 Item 各自**上移一轨** | 是（删原轨道） |
-| **Prune - Extract & Purge Down (move items down, delete empty source tracks)** | 选中 Item 各自**下移一轨** | 是（删原轨道） |
-| **Prune - Delete Selected Items with Envelope Points** | 删除选中 Item，并清掉其时间范围内的自动化点 | **否**，轨道一律保留 |
+| **Prune - Delete Selected Items (cleanup empty tracks)** | Deletes selected Items | Yes |
+| **Prune - Crop Project to Selection (keep only selected items)** | Deletes **unselected** Items, keeping only selected ones | Yes |
+| **Prune - Extract & Purge Up (move items up, delete empty source tracks)** | Selected Items each **move up one track** | Yes (deletes original tracks) |
+| **Prune - Extract & Purge Down (move items down, delete empty source tracks)** | Selected Items each **move down one track** | Yes (deletes original tracks) |
+| **Prune - Delete Selected Items with Envelope Points** | Deletes selected Items and clears automation points within their time range | **No**, tracks are always kept |
 
 ---
 
-## 什么算「空轨道」
+## What Counts as an “Empty Track”
 
-除「Delete Selected Items with Envelope Points」外，其余四个变体的级联删轨判定一致，很严格——只有同时满足以下全部条件才会被删：
+Except for “Delete Selected Items with Envelope Points”, the other four variants use the same strict criteria for cascade deletion — a track is deleted only if **all** of the following are true:
 
-- 轨道上**没有任何 Item**
-- 没有 FX
-- 没有 Send、没有 Receive
-- 不是 Folder 的开头轨（带着子轨道的 Folder 父轨不会被删）
+- The track has **no Items** at all.
+- It has no FX.
+- It has no Sends and no Receives.
+- It is **not** a Folder parent track (Folder tracks with child tracks are not deleted).
 
-只要还挂着 FX、路由或者是 Folder 父轨，就算没 Item 也**保留**。
-
----
-
-## 共有行为
-
-- 删轨道时会**保护 Master，绝不删**
-- 操作是一次 Undo，一次 Ctrl+Z 可整个还原
+If a track still has FX, routing, or is a Folder parent, it is **kept** even if it has no Items.
 
 ---
 
-## 各变体差异
+## Common Behavior
 
-### Delete Selected Items（删选中 + 清空轨）
+- Master is **always protected** and never deleted.
+- Each action is one Undo; press Ctrl+Z once to revert.
 
-1. 删除所有选中的 Item
-2. 检查这些 Item 原来所在的轨道，只要因此变空就一并删掉
+---
 
-- 没选 Item 时**不做事**
-- 操作完保留你原来的轨道选择
+## Variant Differences
 
-### Crop Project to Selection（反向修剪，只留选中）
+### Delete Selected Items (delete selected + clean tracks)
 
-1. 删除工程里**所有未选中的 Item**（选中的原样保留）
-2. 检查被清空的轨道，只要因此变空就一并删掉
+1. Deletes all selected Items.
+2. Checks the tracks those Items were on and deletes any that became empty.
 
-- 没选任何 Item 时会弹窗提醒你**先选至少一个 Item**，不会清空整个工程
+- Does nothing if no Items are selected.
+- Preserves your original track selection after the operation.
 
-### Extract & Purge Up（上移 + 清原轨）
+### Crop Project to Selection (inverse pruning, keep only selected)
 
-1. 选中的 Item 各自上移一轨（等同 REAPER 原生的「Item 上移一轨」）
-2. 检查它们原来所在的轨道，只要因此变空就删掉
+1. Deletes **all unselected Items** in the project (selected Items are kept as-is).
+2. Checks tracks that were emptied and deletes any that became empty.
 
-- 没选 Item 时**不做事**
-- 选中的 Item 已经全在**第一轨**（没法再往上）时，**不做事**
+- If no Items are selected, a dialog reminds you to **select at least one Item**; it will not empty the entire project.
 
-### Extract & Purge Down（下移 + 清原轨）
+### Extract & Purge Up (move up + clean source tracks)
 
-和 Extract & Purge Up 完全对称，只是方向朝下。
+1. Each selected Item moves up one track (same as REAPER’s native “Item nudge up one track”).
+2. Checks their original tracks and deletes any that became empty.
 
-1. 选中的 Item 各自下移一轨（等同 REAPER 原生的「Item 下移一轨」）
-2. 检查它们原来所在的轨道，只要因此变空就删掉
+- Does nothing if no Items are selected.
+- If selected Items are already all on the **first track** (cannot move further up), does nothing.
 
-- 没选 Item 时**不做事**
+### Extract & Purge Down (move down + clean source tracks)
 
-### Delete Selected Items with Envelope Points（删选中 + 抹自动化）
+Fully symmetrical to Extract & Purge Up, just downward.
 
-删掉选中的 Item，同时清掉这些 Item **时间范围内的自动化点**，连带把藏在 Item 底下的 Envelope 笔触一起抹干净。对每个选中 Item：
+1. Each selected Item moves down one track (same as REAPER’s native “Item nudge down one track”).
+2. Checks their original tracks and deletes any that became empty.
 
-1. 清掉它所在轨道上、**落在该 Item 时间范围内的所有 Envelope 点**（覆盖该轨道的每一条 Envelope）
-2. 删掉 Item 本身
+- Does nothing if no Items are selected.
 
-- 没选 Item 时**不做事**
-- 和其它 Prune 不同：本 Action **不会**级联删除变空的轨道，**轨道一律保留**
-- 只清掉落在 Item 时间范围内的自动化点，范围外的点不动
-- 一次 Ctrl+Z 可整个还原（包括被清掉的自动化点）
+### Delete Selected Items with Envelope Points (delete selected + wipe automation)
+
+Deletes selected Items and simultaneously clears automation points within those Items’ time ranges, including envelope strokes hidden underneath the Items. For each selected Item:
+
+1. Clears **all envelope points** on its track that fall within the Item’s time range (covering every envelope on that track).
+2. Deletes the Item itself.
+
+- Does nothing if no Items are selected.
+- Unlike other Prune actions, this one **does not** cascade-delete empty tracks; **tracks are always kept**.
+- Only envelope points within the Item’s time range are cleared; points outside the range are untouched.
+- Press Ctrl+Z once to revert everything, including cleared automation points.

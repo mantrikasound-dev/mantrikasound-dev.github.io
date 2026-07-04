@@ -1,71 +1,71 @@
-# 【合集】Track（轨道）操作
+# Track Operations
 
-一组针对轨道的快捷动作：管理可见性、折叠展开 Folder、清理废轨、一键 Solo / Mute、自动上色。下面按功能分小节，每节列出对应动作在 REAPER Action List 里的精确显示名和行为。
+A set of quick actions for tracks: manage visibility, collapse/expand Folders, clean up unused tracks, one-click Solo / Mute, and auto-color. Organized by function below; each section lists the exact Action List display name and behavior.
 
-> 共有约定：清理类动作执行前会先把找到的轨道全部选中做预览、再弹窗让你确认，确认后才动手；本文涉及的动作均支持一次 Ctrl+Z 整个还原；Master 轨道永远不删。
-
----
-
-## 显示 / 隐藏可见性
-
-一对配套动作：先把工程缩到只剩你关心的几条轨道专心干活，干完一键还原现场。轨道太多眼花时很好用。
-
-| Action List 显示名 | 行为 |
-| --- | --- |
-| `Track - ShowOnly Select Track` | 只显示当前选中的轨道，其余全部从 TCP 隐藏。没选任何轨道时不做任何事。选中的若是**折叠 Folder**，会自动连同它的**所有子轨道**一起显示。隐藏前会记下各轨道高度和当前视图范围，方便之后还原。完成后跳到第一条显示的轨道，若其上有 Item，视图自动缩放到它们的范围。 |
-| `Track - Show All Tracks` | 把之前被 ShowOnly 隐藏的轨道全部重新显示，恢复每条轨道**隐藏前的高度**和**隐藏前的横向视图范围**（缩放/滚动位置）。完成后跳回当初用 ShowOnly 时**最先选中的那条轨道**并滚动到它。 |
-
-**什么时候用**：工程轨道太多时，选中要处理的几条用 ShowOnly 一键只留它们；看完用 Show All 还原现场。
+> Common convention: cleanup actions first select all found tracks for preview, then show a confirmation dialog before making changes; all actions in this article support full revert with one Ctrl+Z; Master track is never deleted.
 
 ---
 
-## 折叠 / 展开 Folder
+## Show / Hide Visibility
 
-一对配套动作：一键把工程里所有 Folder 同时折叠或展开。大工程时方便在"只看结构"和"展开干活"之间切换。每个 Folder 都会被处理，已是目标状态的会跳过。
+A paired set of actions: shrink the project down to only the tracks you care about, then one-click restore the view. Very useful when there are too many tracks.
 
-| Action List 显示名 | 行为 |
+| Action List display name | Behavior |
 | --- | --- |
-| `Track - Folder - Collapse All Folders` | 把所有 Folder 全部折叠到最小，轨道列表收成一行行的 Folder 标题。折叠后选择跳到你原先选中轨道**所在的最外层 Folder**，并把它滚到屏幕**中间**。 |
-| `Track - Folder - Expand All Folders` | 把所有 Folder 全部展开，露出里面的全部子轨道。展开后**保留你原来的轨道选择**，只把原选中的轨道滚到屏幕**顶部**。 |
+| `Track - ShowOnly Select Track` | Shows only the currently selected tracks and hides all others from the TCP. Does nothing if no tracks are selected. If the selection is a **collapsed Folder**, **all its child tracks** are automatically shown together. Before hiding, it remembers each track height and the current view range for later restoration. After completion, jumps to the first visible track; if it has Items, the view automatically zooms to their range. |
+| `Track - Show All Tracks` | Re-shows all tracks previously hidden by ShowOnly, restoring each track’s **pre-hidden height** and the **pre-hidden horizontal view range** (zoom/scroll position). After completion, jumps back to the **first track that was selected when ShowOnly was used** and scrolls to it. |
 
-**什么时候用**：大工程概览时全折起来只看 Folder 结构；看完一键全展开继续干活。
+**When to use**: when the project has too many tracks, select the ones you want to work on and use ShowOnly to keep only them; use Show All to restore the scene when done.
 
 ---
 
-## 清理废轨
+## Collapse / Expand Folder
 
-一组清理动作：按不同标准找出工程里的废轨并删除。三个变体的区别只在"什么样的轨道算废轨"。删完会再扫几遍，把因为删除而连带空出来的轨道一并清掉。
+A paired set of actions: collapse or expand all Folders in the project at once. Useful in large projects for switching between “viewing structure only” and “expanding to work”. Each Folder is processed; Folders already in the target state are skipped.
 
-| Action List 显示名 | 判定标准 |
+| Action List display name | Behavior |
 | --- | --- |
-| `Track - Cleanup Empty Tracks` | 完全空的轨道：需**同时**满足没有任何 Item、没有任何插件、没有自动化包络、没有任何 Send / Receive、也没有处于录音待命（红圈）状态。**Folder 轨道**不算，永远不删。 |
-| `Track - Cleanup Unused Tracks (no content, no routing)` | 没有有效内容、也没人给它送信号的轨道。需**同时**满足：没有有效内容（要么完全没有 Item，要么 **Item 全被 Mute 也算没内容**）、没有任何插件、没有任何 Receive。注意它**允许有 Send 出去，只看有没有 Receive 进来**。**Folder 轨道**不算，永远不删。 |
-| `Track - Cleanup Muted Tracks` | 凡处于 Mute 状态的轨道都算（**不看有没有内容**）。被 Mute 的若是 **Folder 轨道**，会**连同它下面所有子轨道一起删**。 |
+| `Track - Folder - Collapse All Folders` | Collapses all Folders to minimum, reducing the track list to rows of Folder headers. After collapsing, selection jumps to the outermost Folder containing your originally selected track and scrolls it to the **center** of the screen. |
+| `Track - Folder - Expand All Folders` | Expands all Folders, revealing all child tracks inside. After expanding, **your original track selection is preserved**, and the originally selected track is scrolled to the **top** of the screen. |
 
-> ⚠️ 被 Mute 的 Folder 会**整组连根删除**，包括里面没被 Mute 的子轨道。删之前看清楚弹窗选中预览的范围。
-
-**什么时候用**：Empty 清白建出来又没用上的空轨；Unused 清"建了但实际没派上用场"的轨道（含内容全被静音、又没信号汇入的）；Muted 把试听时挨个 Mute 掉的轨道最后一键全清。
+**When to use**: collapse all for a large-project overview, seeing only Folder structure; expand all to continue working.
 
 ---
 
-## 一键 Solo / Mute
+## Clean Up Unused Tracks
 
-一组切换动作：快速 Solo 或 Mute 轨道，再按一次还原。区别在于作用对象——是最后操作过的单条轨道，还是按当前选中的 Item 批量处理。
+A set of cleanup actions: find unused tracks in the project by different criteria and delete them. After deletion, the action scans again to remove any tracks that became empty as a result.
 
-| Action List 显示名 | 作用对象 / 行为 |
+| Action List display name | Criterion |
 | --- | --- |
-| `Track - Adaptive - Toggle Solo State (single track)` | 对**最后操作过的那条轨道**（点过、选过、调过参数的那条；Master 不生效）切换 Solo。当前**只有这一条在 Solo** → 取消它；否则先清掉所有 Solo、**只 Solo 它一条**。不管开关，都会把播放光标移到该轨道上**离当前光标最近的 Item 前**（留一点提前量）。完成后单独选中这条轨道给视觉反馈。 |
-| `Track - Toggle Solo State From Selected Items` | 自动找出选中 Item 落在哪些轨道（去重），对这些轨道批量切换 Solo：**任一未开则全开、全开则全关**。不管开关，都会把播放光标移到这些选中 Item 里**最早的那个之前**（留提前量；被 Mute 的 Item 不算）。 |
-| `Track - Toggle Mute State From Selected Items` | 自动找出选中 Item 落在哪些轨道（去重），对这些轨道批量切换 Mute：**任一未开则全开、全开则全关**。 |
+| `Track - Cleanup Empty Tracks` | Completely empty tracks: must **simultaneously** have no Items, no plugins, no automation envelopes, no Sends / Receives, and not be record-armed (red circle). **Folder tracks** are excluded and never deleted. |
+| `Track - Cleanup Unused Tracks (no content, no routing)` | Tracks with no effective content and no incoming signal. Must **simultaneously** have no effective content (either no Items at all, or **all Items muted also counts as no content**), no plugins, and no Receives. Note it **allows Sends out — only checks for Receives in**. **Folder tracks** are excluded and never deleted. |
+| `Track - Cleanup Muted Tracks` | Any track in Mute state (**content is irrelevant**). If a muted track is a **Folder track**, it is **deleted together with all its child tracks**. |
 
-**什么时候用**：单轨快速试听某条轨道；批量则在跨多条轨道选了一组 Item 后，一次性 Solo / Mute 这几条轨道，不用挨个去点。
+> ⚠️ Muted Folders are **removed root and all**, including child tracks that were not muted. Check the preview selection in the dialog before confirming.
+
+**When to use**: Empty for blank tracks created but never used; Unused for tracks that were created but never actually contributed (content fully muted and no incoming signal); Muted to finally clear tracks you muted one by one during auditioning.
 
 ---
 
-## 自动上色
+## One-Click Solo / Mute
 
-| Action List 显示名 | 行为 |
+A set of toggle actions: quickly Solo or Mute tracks; press again to restore. The difference is the target — either the single last-operated track, or a batch based on the current Item selection.
+
+| Action List display name | Target / Behavior |
 | --- | --- |
-| `Track - Assign Auto Color to Selected` | 按自动上色规则给**当前选中的轨道**上色。需先在自动上色设置里**开启功能**，否则不做任何事。**跳过 Folder 轨道**，也**跳过已手动指定过颜色的轨道**（不覆盖你定好的），只给剩下的普通轨道按规则上色。 |
+| `Track - Adaptive - Toggle Solo State (single track)` | Toggles Solo on the **last-operated track** (clicked, selected, or parameter-adjusted; Master does not count). If this is the **only track currently soloed** → unsolo it; otherwise clear all Solos and **solo only this one**. In either case, the play cursor is moved to just before the **nearest Item** on that track (with a little pre-roll). After completion, only this track is selected for visual feedback. |
+| `Track - Toggle Solo State From Selected Items` | Finds which tracks contain the selected Items (deduplicated) and toggles Solo on those tracks in batch: **any un-soloed → solo all; all soloed → unsolo all**. In either case, the play cursor is moved just before the **earliest selected Item** (with pre-roll; muted Items do not count). |
+| `Track - Toggle Mute State From Selected Items` | Finds which tracks contain the selected Items (deduplicated) and toggles Mute on those tracks in batch: **any un-muted → mute all; all muted → unmute all**. |
 
-**什么时候用**：新建或导入了一批没上色的轨道，选中它们一键套用统一配色。
+**When to use**: single-track quick audition of one track; batch mode lets you select a group of Items across multiple tracks and Solo / Mute those tracks at once without clicking each one.
+
+---
+
+## Auto Color
+
+| Action List display name | Behavior |
+| --- | --- |
+| `Track - Assign Auto Color to Selected` | Applies auto-color rules to the **currently selected tracks**. The feature must first be **enabled** in the auto-color settings, otherwise does nothing. **Skips Folder tracks** and **tracks that already have a manually assigned color** (does not override your chosen colors); only colors remaining normal tracks according to the rules. |
+
+**When to use**: after creating or importing a batch of uncolored tracks, select them and one-click apply a consistent color scheme.

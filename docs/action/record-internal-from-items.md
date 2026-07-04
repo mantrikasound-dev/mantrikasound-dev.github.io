@@ -1,30 +1,30 @@
 # Record - Internal Record From Selected Items
 
-把**选中 Item 经过整条信号链处理后的声音**，在工程内部录成一条新音频——自动顺着发送/Folder 路由找到汇总点，新建一条录音轨录下来，录完自动收尾。
+Records the sound of the **selected Items after passing through their entire signal chain** into a new audio file inside the project — automatically following Sends and Folder routing to the summing point, creating a new record track, and cleaning up when done.
 
-适合把带 FX、带路由的一组声音「拍扁」成一条干声成品，省去手动连线。
-
----
-
-## 行为
-
-触发后自动完成：
-
-1. 从选中 Item 所在轨道出发，**顺着信号往下游追**（Folder 父轨发送、显式 Send 都会跟），找到信号最终的**汇总点轨道**
-2. 在工程**最顶部新建一条录音轨**（命名 `MTK_InternalRec`）
-3. 把各汇总点的信号**接到这条录音轨**，录的是处理后的声音
-4. 录音范围按选中 Item 的整体范围算，**前面留 0.5 秒、后面留 1 秒**余量
-5. 自动开始录音，到达结尾**自动停止**
-6. 停止后**自动拆掉临时连线**，并恢复录音前的状态（各轨 Arm、时间选区、循环开关、光标位置）
+Useful for "baking" a group of sounds with FX and routing into a single dry-ready stem without manually patching cables.
 
 ---
 
-## 注意
+## Behavior
 
-- 没选 Item 时弹窗提醒，不做事
-- 找不到有效汇总点（比如选中轨道直接走 Master）时弹窗提醒，不做事
-- 启动时会**临时改动**：停掉正在进行的播放/录音、关闭循环、把所有轨道解除 Arm、只 Arm 这条录音轨、设好时间选区——这些在录音结束后都会**还原**
-- 录音轨录的是**最终汇总点之后**的声音；走到 Master 的信号不会被追踪（避免重复录主输出）
-- 静音（Mute）的 Send 会被跳过，不计入路由
-- 一次只能跑一个内部录音；正在录的时候再触发会弹窗提醒
-- 想中途结束，直接按 REAPER 的停止；本 Action 会侦测到并自动收尾、还原状态
+When triggered, the Action automatically:
+
+1. Starts from the tracks of the selected Items and **follows the signal downstream** (Folder parent sends and explicit Sends are both followed) to find the final **summing-point track(s)**.
+2. Creates a new record track at the **top of the project** (named `MTK_InternalRec`).
+3. Routes the summed signals from each summing point **into this record track**, recording the processed sound.
+4. Sets the recording range based on the overall range of the selected Items, with **0.5 seconds of pre-roll and 1 second of tail**.
+5. Starts recording and **stops automatically** at the end.
+6. After stopping, **removes the temporary routing** and restores the pre-recording state (track arm states, time selection, loop state, and cursor position).
+
+---
+
+## Notes
+
+- If no Items are selected, a notification is shown and nothing happens.
+- If no valid summing point is found (for example, the selected track goes straight to Master), a notification is shown and nothing happens.
+- At start, the Action **temporarily changes**: stops any playing/recording, turns off loop, disarms all tracks, arms only the record track, and sets the time selection — all of which are **restored** after recording.
+- The record track captures the sound **after the final summing point**; signals that have already reached Master are not followed (to avoid re-recording the main output).
+- Muted Sends are skipped and ignored for routing.
+- Only one internal recording can run at a time; triggering again while recording is in progress shows a notification.
+- To stop midway, press REAPER's Stop button; this Action will detect it and finish cleanup / state restoration automatically.

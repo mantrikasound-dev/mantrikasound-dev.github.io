@@ -1,65 +1,65 @@
 # Wwise - Import Selected WAV to REAPER
 
-> 仅支持 Windows · 需要 Wwise 在运行
+> Windows only · Requires Wwise to be running
 
-把你在 **Wwise Project Explorer 里选中的对象**对应的源 WAV，一键拖回 REAPER 当前轨道。
-
----
-
-## 怎么用
-
-```
-1. Wwise 里选中要导入的对象（Sound / Container / Folder / Work Unit 都行）
-2. REAPER 里选中一条目标 Track，把光标放到想插入的时间位置
-3. 执行 Action：Wwise - Import Selected WAV to REAPER
-```
-
-工具会自动：
-
-- 把 wav **按 Wwise Project Explorer 显示顺序**依次插入到当前轨道
-- 从光标位置开始排列，每个 item 之间留 **0.5 秒**间隔
-- 容器对象（ActorMixer / RandomSequence / SwitchContainer / BlendContainer / Folder / WorkUnit）会**递归**拿出里面所有的 Sound
+One-click import of the source WAVs corresponding to objects selected in the **Wwise Project Explorer** onto the current REAPER track.
 
 ---
 
-## 文件存到哪
-
-复制到 **当前 REAPER 工程目录** 下：
+## How to Use
 
 ```
-<你的rpp所在目录>/ImportFromWwise/<今天日期>/
+1. In Wwise, select the objects to import (Sound / Container / Folder / Work Unit all work)
+2. In REAPER, select a target Track and place the cursor at the desired insertion time
+3. Execute the Action: Wwise - Import Selected WAV to REAPER
 ```
 
-例如：`MyProject/ImportFromWwise/2026-05-24/Swain_Q.wav`
+The tool will automatically:
 
-**为什么要复制**：Wwise 的 Originals 是工程交付资产，直接挂上去你一改就破坏了原文件。先复制一份到 REAPER 工程旁，改也只改副本。
+- Insert WAVs into the current track **in the order they appear in the Wwise Project Explorer**
+- Arrange them from the cursor position, with **0.5 seconds** of space between each Item
+- Recursively pull all Sounds from container objects (ActorMixer / RandomSequence / SwitchContainer / BlendContainer / Folder / WorkUnit)
 
 ---
 
-## 智能判重
+## Where Files Are Stored
 
-同一批 wav 反复导入时：
+Copied to a folder under the **current REAPER project directory**:
 
-- **文件完全相同**（大小 + 修改时间都一致）→ **跳过复制**，直接复用磁盘上那份
-- **文件有差异**（Wwise 那边的源被更新了）→ 自动加后缀避免覆盖：`Swain_Q.wav` → `Swain_Q_1.wav` → `Swain_Q_2.wav` ...
+```
+<your-rpp-directory>/ImportFromWwise/<today's-date>/
+```
 
-这样多次导入同一批不会产生重复文件，但 Wwise 那边更新过的版本也不会被旧副本掩盖。
+Example: `MyProject/ImportFromWwise/2026-05-24/Swain_Q.wav`
+
+**Why copy**: Wwise Originals are project-delivery assets; linking them directly risks modifying the originals. Copying to the REAPER project side means changes only affect the copies.
 
 ---
 
-## 前置条件
+## Smart Duplicate Detection
 
-| 条件 | 不满足时 |
+When importing the same batch of WAVs repeatedly:
+
+- **Files are completely identical** (size + modification time match) → **skip copying** and reuse the existing file on disk.
+- **Files differ** (the source in Wwise has been updated) → automatically append a suffix to avoid overwriting: `Swain_Q.wav` → `Swain_Q_1.wav` → `Swain_Q_2.wav` ...
+
+This prevents duplicate files from multiple imports of the same batch, while also ensuring updated versions in Wwise are not hidden by old copies.
+
+---
+
+## Prerequisites
+
+| Requirement | What happens if not met |
 |---|---|
-| Wwise 在运行且启用了 WAAPI | 弹窗 "Cannot connect to Wwise" |
-| Wwise 里选中了至少一个对象 | 弹窗 "No objects selected in Wwise" |
-| REAPER 工程已保存（rpp 存在磁盘上） | 弹窗 "Please SAVE the Reaper project first!" |
-| REAPER 里选中了一条 Track | 弹窗 "Select a track first." |
+| Wwise is running with WAAPI enabled | Dialog: "Cannot connect to Wwise" |
+| At least one object is selected in Wwise | Dialog: "No objects selected in Wwise" |
+| REAPER project has been saved (rpp exists on disk) | Dialog: "Please SAVE the Reaper project first!" |
+| A Track is selected in REAPER | Dialog: "Select a track first." |
 
 ---
 
-## 注意事项
+## Notes
 
-- **一次选超过 100 个** Sound 会弹窗确认——防止你不小心选了整个 Work Unit 把上千个文件全导进来
-- 选中的对象里**没有可解析的 Sound** 时（如选了纯 Event / Bus）→ 弹窗 "No WAV files found"
-- 容器递归只取 **Sound** 类型的子对象，其他类型（如子 Event）会被忽略
+- Selecting **more than 100 Sounds** at once triggers a confirmation dialog — prevents accidentally importing an entire Work Unit of thousands of files.
+- If the selected objects contain **no resolvable Sound** (e.g. pure Event / Bus selections) → dialog: "No WAV files found".
+- Container recursion only collects **Sound** type child objects; other types (such as child Events) are ignored.

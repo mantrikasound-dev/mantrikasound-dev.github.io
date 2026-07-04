@@ -1,74 +1,74 @@
-# 【合集】Assistants - Mirror
+# Assistants - Mirror Actions
 
-一组针对 **Mirror（镜像 Item）** 的 Action：手动套大字显示、清空、把 Mirror 烧成静态 Region、以及用轨道名给 Mirror 批量命名。（Mirror、Note、大字显示是什么见 Mirror 用户手册。）
+A set of actions for **Mirror (mirror Items)**: manually apply large text display, clear all, burn Mirrors into static Regions, and batch-name Mirrors from track names. (What Mirror, Note, and large text display are can be found in the Mirror user manual.)
 
 ---
 
-## 各变体
+## Variants
 
-| Action List 显示名 | 做什么 |
+| Action List display name | What it does |
 | --- | --- |
-| `Assistants - Mirror - Apply Stretched Text to All Mirrors` | 给**工程里所有** Mirror 套大字显示 |
-| `Assistants - Mirror - Apply Stretched Text to Selected Mirrors` | 只给**当前选中**的 Mirror 套大字显示 |
-| `Assistants - Mirror - Clear All Mirrors` | 一键清空所有 Mirror 及其编组 |
-| `Assistants - Mirror - Create Static Regions from Mirrors` | 把有 Note 的 Mirror 烧成不跟随的静态 Region |
-| `Assistants - Mirror - Apply Track Name to Mirror Notes` | 把选中轨道名强制套给该轨所有 Mirror Note（≥2 个自动加 `_01/_02` 后缀） |
+| `Assistants - Mirror - Apply Stretched Text to All Mirrors` | Apply large text display to **all** Mirrors in the project |
+| `Assistants - Mirror - Apply Stretched Text to Selected Mirrors` | Apply large text display only to **currently selected** Mirrors |
+| `Assistants - Mirror - Clear All Mirrors` | Clear all Mirrors and their grouping with one click |
+| `Assistants - Mirror - Create Static Regions from Mirrors` | Burn Mirrors that have Notes into static Regions that no longer follow |
+| `Assistants - Mirror - Apply Track Name to Mirror Notes` | Force the selected track name onto all Mirror Notes on that track (`_01/_02` suffix added when there are ≥2 Mirrors) |
 
 ---
 
-## 套大字显示（两个 Stretched Text）
+## Apply Stretched Text (two variants)
 
-把 Mirror 的 Note 文字放大铺满整块，远看也清楚。两个变体只差**作用范围**：一个处理全部 Mirror，一个只处理选中的 Mirror，其余不动。
+Enlarge the Mirror’s Note text to fill the entire block so it’s readable from a distance. The two variants differ only in **scope**: one processes all Mirrors, the other only selected Mirrors; the rest are untouched.
 
-共有规则：
+Common rules:
 
-- **只对写了 Note 的 Mirror 生效**：空 Note 的设了也没用（底层会忽略），自动跳过。
-- 已经是大字模式的也跳过，不重复处理。
-- `All` 版做完会弹提示告诉你处理了几个，一个都没需要处理时也提示。
+- **Only affects Mirrors that already have Notes**: empty Notes are ignored at the underlying level and automatically skipped.
+- Mirrors already in large-text mode are skipped; not reprocessed.
+- The `All` variant shows a notification telling you how many were processed, even if none needed processing.
 
-这是大字显示的**手动一次性触发**，比常开的 `Auto Mirror Large Text Display` 开关省性能，推荐需要时点一下。`Selected` 版适合只想突出局部几段。操作是一次 Undo。
+This is a **manual one-shot trigger** for large text display, more efficient than leaving `Auto Mirror Large Text Display` always on; recommended for use when needed. The `Selected` variant is useful when you only want to highlight a few local Mirrors. The action is one Undo.
 
 ---
 
 ## `Assistants - Mirror - Clear All Mirrors`
 
-一键把 Mirror 系统「重置」：
+One-click “reset” of the Mirror system:
 
-- 删掉工程里**全部 Mirror**。
-- 清掉 Mirror 造成的轨道 Item 编组。
+- Deletes **all Mirrors** in the project.
+- Clears Item grouping caused by Mirrors.
 
-注意：只删 **Mirror 系统的东西**，你**自己画的 Region 不受影响**。Mirror 乱了、或想从头来过时用它。操作是一次 Undo。
+Note: Only deletes **Mirror-system objects**; **Regions you created yourself are not affected**. Use this when Mirrors are messed up or you want to start over. The action is one Undo.
 
 ---
 
 ## `Assistants - Mirror - Create Static Regions from Mirrors`
 
-把有 Note 的 Mirror **「变成」成一批静态 Region**——按 Mirror 当前位置和长度生成 Region，之后这些 Region **不再跟着 Mirror 动**。
+Turn Mirrors that have Notes **into a batch of static Regions** — generate Regions based on the Mirror’s current position and length; afterwards these Regions **no longer follow the Mirror**.
 
-- 在 Mirror 当前覆盖的时间范围生成一条 **Region**。
-- **Region 名 = Note 的第一行**（多行只取第一行）。
-- 空 Note 的 Mirror 跳过。
+- Generates a **Region** over the Mirror’s current time range.
+- **Region name = first line of the Note** (only the first line is used if there are multiple lines).
+- Mirrors with empty Notes are skipped.
 
-**"静态"的含义**：这些 Region 在生成那一刻**按 Mirror 当前位置和长度定格**，之后**不受 Mirror 管理、不会再跟随 Mirror 动**——哪怕之后 `Clear All Mirrors` 或关掉 Mirror，它们也依然保留。适合「段落和命名都调满意了，想永久定格当前划分」的场景。操作是一次 Undo。
+**What “static” means**: These Regions are frozen at the Mirror’s position and length at the moment of creation, and afterwards are **not managed by Mirror and will not follow Mirror movement** — even if you later `Clear All Mirrors` or disable Mirror, they remain. Suitable for the scenario where “the segments and naming are finalized and you want to permanently freeze the current layout”. The action is one Undo.
 
 ---
 
 ## `Assistants - Mirror - Apply Track Name to Mirror Notes`
 
-和上面的「套大字」「烧 Region」不同，这个 Action 处理的是 **Mirror 的命名**，方向是 **轨道名 → Mirror Note**（拿轨道名去填 Mirror 的 Note）。
+Unlike the large-text and burn-to-Region actions above, this action handles **Mirror naming**, direction **track name → Mirror Note** (using the track name to fill the Mirror Note).
 
-也可从 **Extensions 菜单** 或 **轨道右键菜单** 触发。
+Can also be triggered from the **Extensions menu** or the **track context menu**.
 
-**适合的场景**：轨道**已经起好名了**，只想让这条轨上的 Mirror Note 直接套用轨道名、**不想再单独折腾每个 Mirror 的命名**。点一下，全轨 Mirror 命名一步到位。
+**Good for**: the track **already has a good name**, and you just want the Mirror Notes on that track to use the track name **without having to name each Mirror individually**. One click, all Mirrors on the track are named.
 
-作用于**所有选中轨道**，每条轨各自独立处理。对每条轨：
+Applies to **all selected tracks**, each track processed independently. For each track:
 
-- **强制覆盖**——不管 Mirror Note 原来写了什么，一律用轨道名重写，不做合并、不做保留。
-- **该轨 Mirror ≥ 2 个**：按时间线从左到右，在轨道名后依次加后缀 `_01`、`_02`……（两位补零，到第 100 个自然变三位）。**只支持 `_01 _02` 这种 `下划线 + 数字` 的后缀形式**，不支持字母（`_a/_b`）或其他分隔符。
-- **该轨只有 1 个 Mirror**：不加后缀，Note 就等于轨道名本身。
-- **轨道名为空**：把该轨所有 Mirror Note **全部清空**（连带不会出现 `_01` 这种空名带后缀的情况）。
-- **该轨没有任何 Mirror**：**静默跳过**，不报错、不弹窗。
+- **Force overwrite** — regardless of what the Mirror Note previously said, it is rewritten with the track name; no merging, no preserving.
+- **Track has ≥2 Mirrors**: left-to-right along the timeline, append suffixes `_01`, `_02`… to the track name (two-digit zero padding; naturally expands to three digits at the 100th). **Only supports `_01 _02` style `underscore + number` suffixes**; letter suffixes (`_a/_b`) or other separators are not supported.
+- **Track has only 1 Mirror**: no suffix; the Note equals the track name itself.
+- **Track name is empty**: all Mirror Notes on that track are **cleared** (so you won’t get empty-name `_01` suffixes).
+- **Track has no Mirrors**: **silently skipped**, no error or dialog.
 
-写完 Note 后会**顺带套大字显示**（同 `Apply Stretched Text`），保证出来的文字是放大版的。整个操作是一次 Undo。
+After writing Notes, it **also applies large text display** (same as `Apply Stretched Text`), ensuring the result is enlarged. The whole action is one Undo.
 
-> 它和常开的 `Auto Mirror Track Name`（方向相反：Mirror Note → 轨道名）不冲突：两边 basename 一致，`Note=Gun_01` 与 `轨名=Gun` 互相自洽收敛。
+> It does not conflict with the always-on `Auto Mirror Track Name` (opposite direction: Mirror Note → track name): when both basenames agree, `Note=Gun_01` and `track name=Gun` converge consistently.
