@@ -41,6 +41,52 @@ function openCheckout() {
   })
 }
 
+// 自助领试用：静态页直接 POST 授权服务器的公开接口 /trial（服务端已放开 CORS）。
+// key 不会出现在响应里，只发邮件——所以这里的全部 UI 状态就是「发没发出去」。
+// 配额（邮箱终身一份 / 每 IP 每天 3 次 / 全局每天 30 封）都在服务端，
+// 前端只负责把 429 翻译成人话。
+const LICENSE_API = 'https://license.mantrikasound.com'
+const trialOpen = ref(false)
+const trialEmail = ref('')
+const trialBusy = ref(false)
+const trialDone = ref(false)
+const trialError = ref('')
+
+async function requestTrial() {
+  const email = trialEmail.value.trim()
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    trialError.value = 'Please enter a valid email address.'
+    return
+  }
+  trialBusy.value = true
+  trialError.value = ''
+  try {
+    const resp = await fetch(`${LICENSE_API}/trial`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email })
+    })
+    const data = await resp.json().catch(() => ({}))
+    if (data.result === 'ok') {
+      trialDone.value = true
+    } else if (data.result === 'daily_limit') {
+      trialError.value = "Today's trial quota is used up — please come back tomorrow."
+    } else if (data.result === 'ip_limit' || data.result === 'rate_limited') {
+      trialError.value = 'Too many requests from your network — please try again tomorrow.'
+    } else if (data.result === 'email_failed') {
+      trialError.value = "We couldn't send the email — please try again in a few minutes."
+    } else if (data.result === 'bad_request') {
+      trialError.value = 'Please enter a valid email address.'
+    } else {
+      trialError.value = 'Something went wrong — please try again later.'
+    }
+  } catch {
+    trialError.value = 'Network error — please check your connection and try again.'
+  } finally {
+    trialBusy.value = false
+  }
+}
+
 // 详情页 —— 功能分类与侧边栏真实结构一致。
 const features = [
   {
@@ -94,10 +140,38 @@ const docLinks = [
           <button v-else type="button" class="cta primary buy-soon" disabled>
             Buy — {{ PRICE }} · Coming soon
           </button>
+          <button type="button" class="cta ghost" @click="trialOpen = !trialOpen">
+            Free 7-day trial
+          </button>
           <a :href="withBase('/guide/quick-start')" class="cta ghost">
             <svg viewBox="0 0 24 24" class="cta-ico"><path d="M4 5h11a3 3 0 013 3v11a2 2 0 00-2-2H4V5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 5H9a3 3 0 00-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/></svg>
             Read the Docs
           </a>
+        </div>
+        <div v-if="trialOpen" class="trial-panel">
+          <template v-if="!trialDone">
+            <p class="trial-lede">
+              Full feature set for 7 days — the clock starts when you first activate, not now.
+            </p>
+            <form class="trial-form" @submit.prevent="requestTrial">
+              <input
+                v-model="trialEmail"
+                type="email"
+                class="trial-input"
+                placeholder="you@example.com"
+                :disabled="trialBusy"
+                required
+              />
+              <button type="submit" class="cta primary trial-submit" :disabled="trialBusy">
+                {{ trialBusy ? 'Sending…' : 'Email me a key' }}
+              </button>
+            </form>
+            <p v-if="trialError" class="trial-error">{{ trialError }}</p>
+            <p class="trial-note">One trial per email. Your key arrives within a minute — check spam if it doesn't.</p>
+          </template>
+          <p v-else class="trial-success">
+            Sent! Check your inbox for the trial key and install instructions.
+          </p>
         </div>
         <p class="price-note">
           One-time purchase. Secure checkout {{ buyEnabled ? 'powered' : 'will be powered' }} by
@@ -263,6 +337,69 @@ const docLinks = [
   font-family: inherit;
 }
 .cta.buy-soon:hover { transform: none; }
+
+/* —— 自助试用面板 —— */
+.trial-panel {
+  max-width: 32rem;
+  margin: -0.8rem 0 2rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border-base);
+  border-radius: var(--mtk-radius-lg);
+  background: var(--bg-glass);
+  animation: mtkFadeInUp 0.4s var(--mtk-ease);
+}
+.trial-lede {
+  margin: 0 0 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.trial-form {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.trial-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border-base);
+  border-radius: var(--mtk-radius);
+  background: var(--mtk-w-03);
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.trial-input:focus {
+  outline: none;
+  border-color: var(--border-highlight);
+}
+.trial-submit {
+  font-family: inherit;
+  cursor: pointer;
+}
+.trial-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.trial-error {
+  margin: 0.8rem 0 0;
+  font-size: 0.84rem;
+  color: #f87171;
+}
+.trial-note {
+  margin: 0.8rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+.trial-success {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--accent-glow);
+}
 
 .price-note {
   margin: 0 0 2rem;

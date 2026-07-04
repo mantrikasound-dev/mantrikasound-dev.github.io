@@ -47,7 +47,10 @@ function onCardMove(e: MouseEvent) {
         <div>
           <div class="card-header">
             <h2 class="card-title">Mantrika Tools</h2>
-            <span class="badge badge-price">$149</span>
+            <span class="card-badges">
+              <span class="badge">Free trial</span>
+              <span class="badge badge-price">$149</span>
+            </span>
           </div>
           <p class="card-desc">
             A self-contained REAPER extension — workflow enhancements, creative functions, and dozens of actions.
@@ -164,6 +167,12 @@ function onCardMove(e: MouseEvent) {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+.card-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
 }
 .badge {
   font-size: 0.7rem;
