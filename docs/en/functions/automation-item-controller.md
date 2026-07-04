@@ -23,7 +23,7 @@ It centers on four operations:
 
 | Entry | Path |
 | --- | --- |
-| Menu | `Extension → MantrikaTools → Automation item controller` |
+| Menu | `Extensions → Mantrika Tools → Automation item controller` |
 | Action List (search "Automation Items") | **`mantrika : Automation Items - Show Controller`** |
 
 ---

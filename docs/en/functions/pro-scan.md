@@ -25,7 +25,7 @@
 Menu entry:
 
 ```
-Extensions → MantrikaTools → Pro scan
+Extensions → Mantrika Tools → Pro scan
 ```
 
 Or search in the Action List:

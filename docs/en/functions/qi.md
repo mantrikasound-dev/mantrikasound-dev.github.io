@@ -23,7 +23,7 @@ The core workflow of the whole window: **select items → adjust parameters → 
 Menu entry:
 
 ```
-Extensions → MantrikaTools → Qi
+Extensions → Mantrika Tools → Qi
 ```
 
 Or search in the Action List:

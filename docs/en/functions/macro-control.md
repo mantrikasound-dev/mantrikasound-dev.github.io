@@ -44,7 +44,7 @@ Each target has its own **direction + amount** (-1 to +1): positive values follo
 
 | Entry | Path |
 | --- | --- |
-| Menu | `Extensions → MantrikaTools → MTK Macro` |
+| Menu | `Extensions → Mantrika Tools → MTK Macro` |
 | Action List | **`mantrika : Macro - Param Control`** |
 
 ---
@@ -96,7 +96,7 @@ Right-click macro → **Color** submenu. Choose from 8 preset colors:
 ![Right-click macro → Color submenu](../../assets/functions/macro-05.png)
 
 ```
-Red . Orange . Yellow . Green . Cyan . Blue . Purple . Pink
+Red · Orange · Yellow · Green · Cyan · Blue · Purple · Pink
 ```
 
 Or choose **Auto (by position)** to restore automatic coloring by list position.
@@ -247,7 +247,7 @@ Context menu:
 | --- | --- |
 | **Re-capture baseline** | Same as ↻ button |
 | **Show in REAPER** | Same as double-clicking row body; open FX chain and locate this target |
-| **Remove** | Same as x button |
+| **Remove** | Same as ✕ button |
 
 ### 6.6 Invalid Targets
 

@@ -45,7 +45,7 @@ Actions (search “Spectral” in the Action List):
 | **Mode** | Choose one of the three algorithms; see §5 |
 | **Source / Target labels** | Names of the two paired item takes (extension removed). `---` = nothing selected yet |
 | **`⇅` Swap** | Swap Source and Target (colors and labels swap together) |
-| **`↻` Reload** | Re-detect Source/Target from the current REAPER selection |
+| **`⟳` Reload** | Re-detect Source/Target from the current REAPER selection |
 | **Algorithm parameter knobs** | Change with Mode; see §5 |
 | **Route to Track** | Whether the Preview is routed through the **FX chain of the track that holds the Source item** |
 | **▶ Preview** | Renders in the background and **plays but does not save**; while playing the same button becomes `■ Stop` |
@@ -80,7 +80,7 @@ Not happy with it? Click **`⇅`** to swap instantly.
 
 > **Closing the window / successful Process / Cancel automatically restores the two items' original colors** — no cyan/orange residue is left behind.
 
-To change items, select two new ones in REAPER and click **`↻`** in the window.
+To change items, select two new ones in REAPER and click **`⟳`** in the window.
 
 ---
 
@@ -181,7 +181,7 @@ The status bar tells you what is happening:
 | Status Text | Meaning |
 | --- | --- |
 | `Select 2 items to process` / `Select 2 audio items` | Idle / invalid selection |
-| `Selection reloaded` | You clicked `↻` to re-detect |
+| `Selection reloaded` | You clicked `⟳` to re-detect |
 | `Selected items are no longer valid` | You deleted or moved the paired Source/Target items after opening the window |
 | `Processing...` / `Processing preview...` | Background rendering in progress |
 | `Previewing...` / `Preview ended` / `Preview stopped` | Preview stage |
@@ -214,7 +214,7 @@ The status bar tells you what is happening:
 | Process button (while processing) | Becomes Cancel; click to abort |
 | Preview button (while playing) | Becomes `■ Stop`; click to stop |
 | `⇅` Swap | Swap Source / Target (including colors) |
-| `↻` Reload | Re-pair from the current REAPER selection |
+| `⟳` Reload | Re-pair from the current REAPER selection |
 | Close window (X / ESC) | Automatically cancel processing + stop preview + restore item colors |
 
 ---
@@ -261,8 +261,8 @@ The status bar tells you what is happening:
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| Source / Target shows `---` | Selection does not contain exactly 2 audio items, or includes MIDI | Select exactly 2 audio items and click `↻` |
-| Status says `Selected items are no longer valid` | You deleted or moved the paired items | Select the items again and click `↻` |
+| Source / Target shows `---` | Selection does not contain exactly 2 audio items, or includes MIDI | Select exactly 2 audio items and click `⟳` |
+| Status says `Selected items are no longer valid` | You deleted or moved the paired items | Select the items again and click `⟳` |
 | Status says `Failed to read source/target audio` | Source file unreadable / corrupt | Check the source file and whether the take is valid |
 | Status says `Failed to create output directory` | Project not saved / project directory read-only | Save the project and confirm write permission |
 | Preview and Process sound different (Mosaic) | You changed the **Random** knob after Preview, or closed and reopened the window | Follow Preview → Process immediately without changing Random |
