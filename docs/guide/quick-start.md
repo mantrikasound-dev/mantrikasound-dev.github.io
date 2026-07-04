@@ -2,72 +2,68 @@
 
 ---
 
-## 1. 概述
+## 1. What is Mantrika Tools?
 
-**Mantrika Tools** 是一套针对REAPER工作流的Extension程序。不依赖任何外部extension、library、Scripts等，完全独立并且自包含。
+**Mantrika Tools** is an extension for REAPER workflows. It is fully self-contained: it does not depend on any other extension, library, or script.
 
-一共有3种安装方式：
+There are three ways to install it:
 
-- 通过Reapack；
-- 下载快捷安装包并运行脚本；
-- 手动安装；
+- Via ReaPack
+- Via the quick-install package
+- Manual install
 
 ---
 
-## 2. 通过Reapack
+## 2. Install via ReaPack
 
-1. 打开Reapack；
-
-2. 选择 Import repositories；
-
-3. 复制粘贴Reapack Link:
+1. Open ReaPack.
+2. Choose **Import repositories**.
+3. Paste the ReaPack link:
 
    ```URL
    https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml
    ```
 
-4. 点击OK；
-
-5. 重启REAPER；
-
----
-
-## 3. 通过安装包
-
-1. 任意位置解压zip；
-2. 双击Mantrika install-win x64.bat 或者 Mantrika install-arm64.sh；
-3. 重启REAPER；
+4. Click **OK**.
+5. Restart REAPER.
 
 ---
 
-## 4. 手动安装
+## 3. Install via the quick-install package
 
-1. 任意位置解压zip；
-2. 将reaper_MantrikaTools-x64或者reaper_MantrikaTools-arm64 和MantrikaTools Config目录移动到UserPlugins目录中；
-3. 重启REAPER；
-
----
-
-## 5. 更新
-
-一共有两种方式，取决于你的安装方式：
-
-1. 如果是手动安装，可以在Extension 菜单，找到 Mantrika Tools -> Mantrika Options -> Check for updates... 点击Update Now按钮。
-2. 如果是通过Reapack路径安装，那么直接通过Reapack更新就好。但同时也可以用上述的Check for updates... 来更新；
+1. Extract the ZIP anywhere.
+2. Double-click `Mantrika install-win x64.bat` or `Mantrika install-arm64.sh`.
+3. Restart REAPER.
 
 ---
 
-## 6. 卸载 
+## 4. Manual install
 
-- 删除主dll文件：`\REAPER\UserPlugins\reaper_MantrikaTools-x64.dll`
-- 删除整个配置文件夹： `\REAPER\UserPlugins\MantrikaTools Config`
-
----
-
-## 7. 目录说明
-
-- `MantrikaTools Config` ：所有的配置文件本身，均为人类可读的json格式，支持直接修改文件，但通常不建议这样做；
-- MantrikaTools Config\resource：里面包含两个clap，这是功能所必须的clap，会跟随版本同步更新；
+1. Extract the ZIP anywhere.
+2. Move `reaper_MantrikaTools-x64.dll` (or `reaper_MantrikaTools-arm64.dll`) and the `MantrikaTools Config` folder into your REAPER `UserPlugins` folder.
+3. Restart REAPER.
 
 ---
 
+## 5. Updating
+
+How you update depends on how you installed Mantrika Tools:
+
+1. If you installed manually, go to the REAPER menu **Extensions → Mantrika Tools → Mantrika Options → Check for updates...**, then click **Update Now**.
+2. If you installed via ReaPack, update through ReaPack. You can still use **Check for updates...** as well.
+
+---
+
+## 6. Uninstalling
+
+- Delete the main DLL: `\REAPER\UserPlugins\reaper_MantrikaTools-x64.dll`
+- Delete the whole config folder: `\REAPER\UserPlugins\MantrikaTools Config`
+
+---
+
+## 7. Folder overview
+
+- `MantrikaTools Config`: All configuration files. They are human-readable JSON, so you can edit them directly, but that is usually not recommended.
+- `MantrikaTools Config\resource`: Contains two CLAP plugins that Mantrika Tools needs. These are updated together with the extension.
+
+---

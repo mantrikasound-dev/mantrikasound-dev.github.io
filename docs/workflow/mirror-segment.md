@@ -1,319 +1,316 @@
-# Mirror 
+# Mirror
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Mirror** 是一个**后台自动跟随**的工作流功能，定位是"**在 Folder Track上，自动生成一排概览块，实时反映这个 Folder 里所有子轨道'有声音的地方'**"。
+**Mirror** is a background workflow feature designed to **automatically generate a row of overview blocks on a folder track that show, in real time, where the child tracks have audio.**
 
-![mirror-segment-01](./../assets/workflow/mirror-segment-01.gif)
+![mirror-segment-01](../assets/workflow/mirror-segment-01.gif)
 
-Mirror 的做法是：**在 Folder 轨道上，自动放一排"Mirror"（Empty item）**，每一段正好盖住它下面所有子轨内容的时间范围。子轨里的素材一移动、一增删，这排Mirror就**实时跟着变**——你不用做任何操作，它自己跟。
+Mirror does this by placing **empty items called "Mirrors"** on the folder track. Each Mirror spans the combined time range of all items on the child tracks below. When you move, resize, add, or remove items on the child tracks, the row of Mirrors **updates automatically** — no manual action required.
 
 ```
-Folder「Footsteps」 │  ▓▓▓▓▓▓       ▓▓▓▓        ▓▓▓▓▓▓▓   │ ← Mirror（自动生成、自动跟随）
-  ├ 子轨 A          │  ■■■■          ■■           ■■■■■   │
-  └ 子轨 B          │     ■■■       ■■■           ■■      │
-                       └─并集─┘    └并集┘       └──并集──┘
+Folder "Footsteps" │  ▓▓▓▓▓▓       ▓▓▓▓        ▓▓▓▓▓▓▓   │ ← Mirror (auto-generated, auto-follows)
+  ├ Child A        │  ■■■■          ■■           ■■■■■   │
+  └ Child B        │     ■■■       ■■■           ■■      │
+                       └─union─┘   └union┘      └──union──┘
 ```
 
-> **它和 "Adaptive Regions" 是互斥的**：两者都在接管 Folder 的概览，不能同时开。开 Mirror 时会自动把 Adaptive Regions 关掉。
+> **It is mutually exclusive with Adaptive Regions**: both take over the folder overview, so they cannot run at the same time. Enabling Mirror automatically disables Adaptive Regions.
 
-> **这是一个没有独立窗口的功能**。它没有自己的界面，全部通过 **Preferences 里的几个开关**启用，启用后就在后台默默工作。所以本手册重点讲两件事：**怎么打开它**，以及**每个开关到底干什么**。
+> **This feature has no separate window**. It has no UI of its own; it is turned on by **a few switches in Preferences** and then works silently in the background. This manual therefore focuses on two things: **how to turn it on**, and **what each switch does**.
 
 ---
 
-## 2. 如何开始使用
+## 2. Getting started
 
-### 2.1 打开开关
+### 2.1 Turn it on
 
-菜单入口：
+Menu path:
 
 ```
-Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
+Extensions → Mantrika Tools → Mantrika Options → Preferences...
 ```
 
-（也可以在 Action List 搜 **`Preferences...`**）
+(You can also search for **`Preferences...`** in the Action List.)
 
-打开 Preferences 窗口后，找到 **`Mirror Segments`** 这一节，勾上第一个开关：
+In the Preferences window, find the **Mirror Segments** section and check the first switch:
 
 ```
 ■ Mirror Segments
-  ☑ Enable Mirror Segment          ← 总开关，先勾这个
+  ☑ Enable Mirror Segment          ← master switch, turn this on first
       ☐ Auto Sync Segment Names
       ☐ Auto Track Name from Mirrors
       ☐ Auto Mirror Large Text Display
       ☐ Include Automation Items (Experimental)
 ```
 
-下面那一排是**子功能**，按需勾选（见第 4 节）。总开关不开时，子功能是灰的。
+The row below contains **sub-features** you can enable as needed (see §4). When the master switch is off, the sub-features are grayed out.
 
-### 2.2 让Mirror出现
+### 2.2 Make Mirrors appear
 
-开关开好后，回到工程：
+Once the switch is on, return to your project:
 
 ```
-1. 建一个 Folder 轨道（父轨），下面挂上几条子轨
-2. 在子轨上放一些 item（素材）
-3. → Folder 轨道上自动出现Mirror，盖住子轨内容的时间范围
+1. Create a folder track (parent) and add several child tracks below it.
+2. Place items (material) on the child tracks.
+3. → Mirrors automatically appear on the folder track, covering the time range of the child-track content.
 ```
 
-之后你在子轨里**移动、缩放、增删 item**，Folder 上的Mirror都会**自动跟着调整**。不需要手动刷新。
+After that, **moving, resizing, adding, or deleting items** on the child tracks causes the Mirrors on the folder track to **adjust automatically**. No manual refresh is needed.
 
-> **Mirror 是"每个工程各自记"的模式**：`Enable Mirror Segment` 设的是**当前工程**的助手模式（Mirror / Region / 关），跟着工程文件（.rpp）一起保存。新建 / 没配过的工程，则按 Preferences 里 `Default Assistants Mode` 下拉的全局默认进入。Mirror item 本身也存在工程里。
+> **Mirror mode is saved per project**: `Enable Mirror Segment` sets the assistant mode (**Mirror / Region / off**) for the **current project** and saves it with the `.rpp` file. New or unconfigured projects use the global default from the `Default Assistants Mode` dropdown in Preferences. The Mirror items themselves are also stored in the project.
 
 ---
 
-## 3. 核心概念
+## 3. Core concepts
 
-只有三个概念，理解了就全懂了。
+Only three concepts matter. Once you understand them, everything else follows.
 
 ### 3.1 Mirror
 
-<img src="./../assets/workflow/mirror-segment-02.png" alt="mirror-segment-02" style="zoom:50%;" />
+<img src="../assets/workflow/mirror-segment-02.png" alt="mirror-segment-02" style="zoom:50%;" />
 
-- 它是 Folder 轨道上的一个**Empty item**，长度 = 它下方所有子轨 item 的**时间并集**（重叠的会合并成一段）。
-- **完全自动**：该建的时候建、该伸缩的时候伸缩、内容没了就删。你不用管它。
-- 子轨里**被 mute 的 item / 整条 mute 的 Track**不计入并集（等于"这段没声音"）。
-- Mirror item 自身的标签**固定显示为 `mirror`**，不随轨道名或 Note 变化。**所有"有意义的命名"都只走 Note**（见 3.2）——这样你只需要盯住一处。
+- A Mirror is an **empty item** on a folder track whose length equals the **time union** of all items on the child tracks below it (overlapping items are merged into one segment).
+- **Fully automatic**: created, resized, and deleted as needed. You do not manage it directly.
+- **Muted items** on child tracks and **fully muted tracks** are excluded from the union (treated as "no audio here").
+- A Mirror item's built-in label always shows as **`mirror`** and does not change with the track name or Note. **All meaningful naming goes through the Note** (see §3.2) — so you only have one place to watch.
 
-### 3.2 Note —— 给Mirror起名字（重点）
+### 3.2 Note — naming a Mirror (important)
 
-<img src="./../assets/workflow/mirror-segment-03.gif" alt="mirror-segment-03" style="zoom:50%;" />
+<img src="../assets/workflow/mirror-segment-03.gif" alt="mirror-segment-03" style="zoom:50%;" />
 
-Mirror默认是没名字的。你可以给它写一段 **Note（文字）**，方法很简单：
+By default a Mirror has no name. You can give it a **Note (text)** in either of these ways:
 
 ```
-1、点击空 item上的气泡按钮（取决于你用的主题） → 弹出文字编辑框 → 输入文字；
-2、或者选中使用Simple Rename 或者 Advance Rename；
+1. Click the note bubble button on the empty item (depends on your theme) → a text editor pops up → type.
+2. Or select the Mirror and use Simple Rename or Advanced Rename.
 ```
 
-这段 Note 是整个 Mirror 系统的**核心元数据**，一处书写、多处复用：
+This Note is the **core metadata** of the Mirror system. Write it once and it is reused in several places:
 
-| 你写的 Note | 会被用到哪里 |
+| What you write in the Note | Where it is used |
+| -------------------------- | ---------------- |
+| When deriving the track name | As the **source for the folder track name** (see §4.2) |
+| When large text is shown | **Enlarged** across the item (see §5) |
+| When auto-numbering | As the **template** for sequential naming (see §4.1) |
+
+> In short: **if you want a Mirror to mean something, give it a Note.** Most of the automation revolves around that Note.
+> Mirror Notes can also be used as render file names.
+
+### 3.3 Mute = freeze
+
+<img src="../assets/workflow/mirror-segment-04.png" alt="mirror-segment-04" style="zoom:50%;" />
+
+If you **mute a Mirror**, it becomes **frozen**:
+
+- A frozen Mirror **no longer follows** the child-track content (it is not moved or deleted).
+- It is effectively **pinned in place**.
+- To resume auto-following, **unmute** it.
+
+---
+
+## 4. Sub-feature switches explained
+
+The switches below sit under `Enable Mirror Segment`. They are **all off by default**; enable only the ones you need.
+
+### 4.1 Auto Sync Segment Names
+
+<img src="../assets/workflow/mirror-segment-05.gif" alt="mirror-segment-05" style="zoom:50%;" />
+
+When enabled, consecutive Mirrors with regular naming are **auto-numbered** for you:
+
+- Number sequences: `footstep_01`, `footstep_02`, `footstep_03`... (leading zeros preserved)
+- Letter sequences: `swing_a`, `swing_b`, `swing_c`...
+
+Just write the Note for the first Mirror in the sequence (for example `footstep_01`), and later Mirrors that share the same name stem are **continued automatically**, saving you from typing each one.
+
+### 4.2 Auto Track Name from Mirrors
+
+When enabled, Mirror Notes are used **in reverse to name the folder track**:
+
+- The Note's **name stem** (trailing numbers, letter suffixes, and separators stripped) becomes the folder track name.
+- Example: if a Mirror is named `footstep_01`, the folder track is named `footstep`.
+- **No Note means no name change**: if none of the Mirrors on a folder have a Note yet, **your manually typed folder name is preserved and not cleared**. In other words, naming control is handed over to Mirror only when a Note exists.
+- **Manual folder renames are corrected while this is on**: as long as the folder has Mirrors with Notes, the track name is governed by the Note stem; if you manually rename it, it snaps back. To set a custom folder name, turn this switch off first.
+
+> 💡 **The reverse case**: If you **already set the folder name** and want to copy it into the Mirror Notes, there is a one-shot action for that — **`Assistants - Mirror - Apply Track Name to Mirror Notes`** (see §6). It works in the opposite direction and does not conflict with this automatic switch.
+
+### 4.3 Auto Mirror Large Text Display
+
+When enabled, all Mirror Notes are shown as **enlarged / stretched text** across the item so you can read them from a distance. See §5 for details.
+
+> ⚠️ **The automatic mode is performance-heavy** (it processes on every sync). It is **better to trigger it with the actions in §6 when needed** instead of leaving this switch on.
+
+### 4.4 Include Automation Items (experimental)
+
+When enabled, the time range of **automation items** on child tracks is included in the Mirror union (by default only ordinary media items are considered).
+
+> ⚠️ **Experimental feature; may be unstable.** If you are not sure, leave it off.
+
+---
+
+## 5. Large Note (stretched text display)
+
+REAPER shows text on empty items very small by default. **Large text display** enlarges the Mirror Note to **fill the whole item**, so you can read each segment's name in the Arrange view at a glance.
+
+```
+Normal display:  │footstep_01      │   ← small text squeezed in a corner
+Large display:   │  FOOTSTEP_01    │   ← text enlarged and filled, readable from afar
+```
+
+Two prerequisites:
+
+1. **Only works on Mirrors that have a Note.** Empty Notes are ignored by REAPER at the low level, so the setting has no effect.
+2. Trigger it one of two ways:
+   - **Always on**: check `Auto Mirror Large Text Display` (performance cost, see §4.3).
+   - **Manual trigger (recommended)**: use the actions below when you need it.
+
+---
+
+## 6. Companion actions
+
+These actions can be found in the Action List by searching for **`Mirror`**, and you can bind them to shortcuts. They are **one-shot batch operations** on Mirrors:
+
+| Action name (search in Action List) | Function |
 | --- | --- |
-| 推导轨道名时 | 当作 **Folder 轨道的名字来源**（见 4.2） |
-| 大字显示时 | 在 item 上**放大显示**这段文字（见第 5 节） |
-| 自动序号时 | 作为序列命名的**模板**（见 4.1） |
+| **`Assistants - Mirror - Apply Stretched Text to All Mirrors`** | Apply large text display to **all** Mirrors in the project at once. |
+| **`Assistants - Mirror - Apply Stretched Text to Selected Mirrors`** | Apply large text display only to the **currently selected** Mirrors. |
+| **`Assistants - Mirror - Clear All Mirrors`** | **Clear** all Mirrors and their related groups (see §8). |
+| **`Assistants - Mirror - Create Static Regions from Mirrors`** | **Bake** Mirrors that have Notes into static Regions. |
+| **`Assistants - Mirror - Apply Track Name to Mirror Notes`** | Copy the **selected track name** into all Mirror Notes on that track (≥2 Mirrors auto-add `_01` / `_02` suffixes). |
 
-> 简单说：**想让Mirror"有意义"，就给它写 Note。** 后面那些自动化功能，几乎都是围着这段 Note 转的；
-> 并且Mirror Note 还能兼顾Render时的file name；
+> **`Apply Track Name to Mirror Notes`** is useful when **the track names are already set and you do not want to name Mirrors separately**: select the track, run the action, and every Mirror on that track takes the track name (≥2 Mirrors get `_01`, `_02`... suffixes by position; only the `underscore + number` form is supported; an empty track name clears the Notes). It overwrites existing Notes, applies large text, and is a single undo step. It is also available from the **Extensions menu** and the **track context menu**. It works in the opposite direction from the §4.2 automatic switch and does not conflict with it.
 
-### 3.3 Mute = 冻结（Freeze）
+About **Create Static Regions**:
 
-<img src="./../assets/workflow/mirror-segment-04.png" alt="mirror-segment-04" style="zoom:50%;" />
+- It generates a set of **Regions** from Mirrors that have Notes (region name = first line of the Note).
+- The key difference: these Regions are **static** — they are **not** managed by the Mirror system and will **not** follow Mirror changes.
 
-如果你**把某个Mirror mute 掉**，它就被"**冻结**"了：
-
-- 冻结的Mirror**不再自动跟随**子轨内容（不会被移动、不会被删除）。
-- 相当于把这一段"**钉死**"在当前位置。
-- 想恢复自动跟随？**取消 mute** 即可。
-
----
-
-## 4. 子功能开关详解
-
-下面这些开关，都在 `Enable Mirror Segment` 下方。**默认全部关闭**，按需开。
-
-### 4.1 Auto Sync Segment Names（自动同步段名 / 序号）
-
-<img src="./../assets/workflow/mirror-segment-05.gif" alt="mirror-segment-05" style="zoom:50%;" />
-
-勾上后，对于**连续的、命名有规律的**Mirror，会自动帮你**接着编号**：
-
-- 数字序列：`footstep_01`、`footstep_02`、`footstep_03`…（保留前导零的位数）
-- 字母序列：`swing_a`、`swing_b`、`swing_c`…
-
-你只要给序列开头的那个Mirror写好 Note（比如 `footstep_01`），后面同名的就会**自动续号**，省得一条条手敲。
-
-### 4.2 Auto Track Name from Mirrors（用Mirror命名轨道）
-
-勾上后，会**反过来用Mirror的 Note 给 Folder 轨道起名**：
-
-- 取 Note 的"**主干**"（去掉结尾的数字、字母后缀和分隔符）作为 Folder 轨道名。
-- 例：Mirror叫 `footstep_01`，Folder 轨道就会被命名为 `footstep`。
-- **没有 Note 就不动轨道名**：这个 Folder 下的Mirror都还没写 Note 时，**你手填的轨道名原样保留，不会被清空**。换句话说，命名权只在"写了 Note"时才交给Mirror。
-- **开着时手动改 Folder 名会被纠正回来**：只要该 Folder 下有写了 Note 的Mirror，轨道名就以 Note 主干为准；你手动改成别的名会被立即同步纠回。想自定义轨道名，先关掉这个开关。
-
-> 💡 **反过来的情况**：如果你是**先把轨道名起好了**，想直接拿轨道名去填 Mirror 的 Note，有个一次性 Action 专门干这个——`Assistants - Mirror - Apply Track Name to Mirror Notes`（见第 6 节）。它和上面这个自动开关方向相反、互不冲突。
-
-### 4.3 Auto Mirror Large Text Display（自动大字显示）
-
-勾上后，所有Mirror的 Note 会以**放大/拉伸文字**的样式显示在 item 上，远看也清楚。详见第 5 节。
-
-> ⚠️ **这个"自动"模式比较吃性能**（每次同步都要处理）。相对来说，**更推荐用第 6 节的 Action 手动触发，自动刷一下**，而不是常开这个开关。
->
-
-### 4.4 Include Automation Items（实验性：纳入自动化 item）
-
-勾上后，子轨上的 **Automation Item** 的时间范围也会被算进Mirror的并集里（默认只看普通的 media item）。
-
-> ⚠️ **实验性功能，可能不太稳**。不确定要不要用就别开。
+> There is also a **related action outside this group**: **`Assistants - Mark Regions For Adoption`** — lets Mirror **take over regions you have already drawn** (inheriting their names). Its usage is covered in **§7**.
+> Note: in the Action List, search for **`Adopt`** or **`Regions`**; searching for `Mirror` will not find it.
 
 ---
 
-## 5. 大字 Note（拉伸文字显示）
+## 7. Region adoption (let Mirror take over existing regions)
 
-REAPER 默认在空 item 上显示的文字很小。**大字显示**会把Mirror的 Note **放大铺满整个 item**，让你在 Arrange 区一眼就能读到每一段叫什么。
+**Adoption** solves this situation: you already have a set of **regions** (drawn by hand, or bulk-generated with the action `mantrika : Markers - Create Regions From Items (remove extensions)`), and you want **Mirror to take over their names** — copying them into Mirror Notes instead of typing them one by one.
+
+<img src="../assets/workflow/mirror-segment-06.gif" alt="mirror-segment-06" style="zoom:50%;" />
+
+> Typical scenario: game-audio iteration. Import a batch of consistently named source files → use the action `mantrika : Markers - Create Regions From Items (remove extensions)` to generate named regions in one shot → now you want Mirror to **inherit** those names instead of typing Notes manually.
+
+### 7.1 How to use it
 
 ```
-普通显示：  │footstep_01      │   ← 文字小，挤在角落
-大字显示：  │  FOOTSTEP_01    │   ← 文字放大铺满，远看也清楚
+1. Name your regions.
+2. Run the action: Assistants - Mark Regions For Adoption → target regions turn "orange" and enter the pending-adoption queue.
+3. Build a folder + child tracks with material so Mirrors appear on the folder.
+4. → New Mirrors automatically adopt any overlapping orange region: the region name is written into the Mirror Note, and the old region becomes a plain marker.
 ```
 
-两个前提：
+**Step 2** (`Assistants - Mark Regions For Adoption`) does the following:
 
-1. **只对写了 Note 的 Mirror生效**。空 Note 的 item 设了也没用（REAPER 底层会忽略）。
-2. 触发方式二选一：
-   - **常开自动**：勾 `Auto Mirror Large Text Display`（吃性能，见 4.3）。
-   - **手动触发**（推荐）：用下面的 Action，需要的时候点一下就行。
+- Scans all regions in the project that were **not created by Mirror** and marks them **orange**, adding them to the pending-adoption queue.
+- Regions already managed by the Mirror system are **not touched** (no duplicate marking).
+- If there are no adoptable regions, a message box tells you so.
+
+**Step 4** (adoption happens automatically the moment a new Mirror is created) does two things:
+
+| Step | Action |
+| ---- | ------ |
+| 1 | The region's **name** is written into the Mirror's **Note**. |
+| 2 | The original **region** becomes a **plain empty marker** (position kept, name cleared). |
+
+### 7.2 Key points
+
+- **Matched by time overlap**: any overlap between a Mirror and a region counts as a hit; strict alignment is not required. A region is adopted on a **first-come, first-served** basis by one Mirror.
+- **Adoption only happens when a Mirror is newly created**: existing Mirrors do not go back and adopt regions later. The correct order is **mark regions first, then let Mirrors appear**. If Mirrors already exist, change child-track content to force a rebuild, or run `Clear All Mirrors` first and let them regenerate.
+- **Orange = pending visual cue**: marked regions turn orange so you can see which are queued. Once adopted, the region has become a marker and will not be adopted again.
+- **Not undoable**: it is a one-shot batch organization operation.
 
 ---
 
-## 6. 配套 Actions
+## 8. Cleanup
 
-这几个 Action 在 Action List 里搜 **`Mirror`** 就能找到，也可以绑快捷键。它们是对Mirror的**一次性批量操作**：
+Most Mirror cleanup is **automatic**, but there is also a manual reset.
 
-| Action 名称（Action List 里搜） | 作用 |
-| --- | --- |
-| **`Assistants - Mirror - Apply Stretched Text to All Mirrors`** | 给**工程里所有**Mirror一次性套上大字显示 |
-| **`Assistants - Mirror - Apply Stretched Text to Selected Mirrors`** | 只给**当前选中**的Mirror套大字显示 |
-| **`Assistants - Mirror - Clear All Mirrors`** | **一键清空**所有Mirror及其编组（见第 8 节） |
-| **`Assistants - Mirror - Create Static Regions from Mirrors`** | 把有 Note 的Mirror**"烧录"成静态 Region** |
-| **`Assistants - Mirror - Apply Track Name to Mirror Notes`** | 把**选中轨道名**反向套给该轨所有 Mirror Note（≥2 个自动加 `_01/_02`） |
+<img src="../assets/workflow/mirror-segment-07.gif" alt="mirror-segment-07" style="zoom:50%;" />
 
-> **`Apply Track Name to Mirror Notes`** 适合「**轨道名已经起好了，不想再单独折腾 Mirror 命名**」：选中轨道点一下，该轨所有 Mirror 的 Note 直接套用轨道名（≥2 个按位置加 `_01`、`_02`… 后缀，只支持这种「下划线+数字」形式；轨道名为空则清空 Note）。强制覆盖、顺带套大字、一次 Undo。它也在 **Extensions 菜单**和**轨道右键菜单**里。和 4.2 的自动开关方向相反、互不冲突。
+### 8.1 Automatic cleanup (background)
 
-关于 **Create Static Regions**：
+- **Orphan Mirrors**: if a track is **no longer a folder** (for example, you dissolved the folder), leftover Mirrors on it are **automatically deleted**.
+- **Turning off the Mirror master switch** clears the item grouping created by Mirror.
 
-- 它根据**有 Note 的Mirror**，生成一批 **Region**（Region 名 = Note 第一行）。
-- 关键区别：这些 Region 是**静态的**——**不**受 Mirror 系统管理、**不**会再跟着Mirror动。
+### 8.2 Manual cleanup (one-click reset)
 
-> 还有一个**相关但不在这组里**的 Action：**`Assistants - Mark Regions For Adoption`**——让 Mirror **接管你已经画好的 Region**（把命名继承过去）。它的用法单独见 **第 7 节**。
-> 注意：它在 Action List 里要搜 **`Adopt`** 或 **`Regions`**，**搜 `Mirror` 找不到它**。
-
----
-
-## 7. Region 收养（让 Mirror 接管已有 Region）
-
-**收养**解决的是这种情况：你手上**已经有一批 Region**（自己画的，或用 Action「mantrika : Markers - Create Regions From Items (remove extensions)」批量生成的，命名都对），想让 **Mirror 把这些名字接管过来**——继承进 Mirror 的 Note，而不是再一条条手敲。
-
-<img src="./../assets/workflow/mirror-segment-06.gif" alt="mirror-segment-06" style="zoom:50%;" />
-
-> 典型场景：游戏音频迭代。先导入一批命名规范的素材 → 用 Action「mantrika : Markers - Create Regions From Items (remove extensions)」一键出一排带名 Region → 现在希望 Mirror 直接**继承**这些名字，而不是再一条条手敲 Note。
-
-### 7.1 怎么用
-
-```
-1. 把 Region 命名好
-2. 跑 Action：Assistants - Mark Regions For Adoption  → 目标 Region 变「橙色」，排进待收养队列
-3. 建好 Folder + 子轨素材，让 Folder 上长出 Mirror
-4. → 新 Mirror 自动吃掉与它「时间重叠」的橙色 Region：名字写进 Mirror Note，老 Region 退化成普通 Marker
-```
-
-**第 2 步的 Action**（`Assistants - Mark Regions For Adoption`）做的事：
-
-- 扫描工程里**所有不是 Mirror 创建**的 Region，把它们标成 **橙色**，排进"待收养"队列。
-- 已经被 Mirror 系统管理的 Region **不动**（不会被重复标记）。
-- 工程里没有可收养的 Region 时，会弹个提示框告诉你。
-
-**第 4 步的"收养"**（在 Mirror 新建那一刻自动发生）具体做两件事：
-
-| 步骤 | 动作 |
-| --- | --- |
-| 1 | Region 的**名字** → 写进 Mirror 的 **Note** |
-| 2 | 原来那个 **Region** → 变成一个**普通空 Marker**（位置留着，名字清空） |
-
-### 7.2 几个关键点
-
-- **靠时间重叠匹配**：Mirror 和 Region 只要时间上有**任意重叠**就算命中，不要求严格对齐。一个 Region **先到先得**，被一个 Mirror 收养。
-- **收养只在 Mirror「新建」那一刻发生**：已经存在的老 Mirror **不会**回头去收养。所以正确顺序是**先标记 Region，再让 Mirror 长出来**。如果 Mirror 已经在了，可以改动子轨内容让它重建，或先 `Clear All Mirrors` 再重新生成。
-- **橙色 = "待收养"的视觉标记**：标记后 Region 变橙，方便你一眼看出哪些在排队。被收养掉的 Region 已经变成 Marker，不会再被二次收养。
-- **不支持 Undo**：它是一次性的批量整理操作。
-
----
-
-## 8. 清理
-
-Mirror 大部分清理都是**自动**的，但也有手动的总闸。
-
-<img src="./../assets/workflow/mirror-segment-07.gif" alt="mirror-segment-07" style="zoom:50%;" />
-
-### 8.1 自动清理（后台默默做）
-
-- **孤立Mirror**：如果一条轨道**不再是 Folder**（比如你解散了文件夹），它上面残留的Mirror会被**自动删除**。
-- **关 Mirror 总开关** → 清掉 Mirror 造成的轨道编组（item grouping）。
-
-### 8.2 手动清理（一键归零）
-
-想彻底清干净，用 Action：
+To wipe everything clean, use the action:
 
 ```
 Assistants - Mirror - Clear All Mirrors
 ```
 
-它会**逆序删除工程里所有Mirror + 清掉相关编组**，相当于一次"重置"。当Mirror乱了、或者你想从头来过时用它。
+It **deletes all Mirrors in reverse order and clears the related groups**, effectively performing a reset. Use it when Mirrors get messy or when you want to start over.
 
-> 注意：`Clear All Mirrors` 删的是 Mirror 系统的东西。但前提是关闭整个Mirror功能。
-
----
-
-## 9. 典型工作流
-
-### 工作流 A：用 Folder 概览声音结构
-
-```
-1. Preferences → 勾 Enable Mirror Segment
-2. 工程里建 Folder，挂子轨，子轨放素材
-3. → Folder 上自动出现Mirror，一眼看清"哪段有内容"
-4. 折叠 Folder 也不影响——Mirror就是那个折叠后的概览条
-```
-
-### 工作流 B：批量命名 + 大字概览
-
-```
-1. 勾 Enable + Auto Sync Segment Names
-2. 给序列第一个Mirror写 footstep_01
-3. → 后面同类的自动续号 footstep_02 / 03 …
-4. 跑一次 Action：Apply Stretched Text to All Mirrors
-5. → Arrange 区每段都大字显示名字，结构一目了然
-```
-
-### 工作流 C：把当前划分"定格"成永久 Region
-
-```
-1. 段落和 Note 都调满意了
-2. 跑 Action：Create Static Regions from Mirrors
-3. → 得到一批不再变动的静态 Region
-4. （可选）之后 Clear All Mirrors / 关掉 Mirror，静态 Region 依然保留
-```
-
-### 工作流 D：把已有的 Region 交给 Mirror 接管
-
-```
-1. 已经有一批命名好的 Region（手画的，或 REAPER「根据 item 名创建 Region」生成的）
-2. 勾 Enable Mirror Segment
-3. 跑 Action：Assistants - Mark Regions For Adoption  → 这些 Region 变橙
-4. 建 Folder，挂子轨，在对应位置放上素材 → Folder 上长出 Mirror
-5. → Mirror 自动继承重叠 Region 的名字（写进 Note）；老 Region 退化成 Marker
-```
-（详见第 7 节；注意"先标记、再让 Mirror 长出来"的顺序）
+> Note: `Clear All Mirrors` deletes content created by the Mirror system. The prerequisite is that the overall Mirror function is turned off.
 
 ---
 
-## 10. 注意事项与排查
+## 9. Typical workflows
 
-| 现象 | 原因 | 解决 |
-| --- | --- | --- |
-| 勾了开关但 Folder 上没出现Mirror | 子轨里没有 item；或那条轨道其实不是 Folder | 确认是真正的 Folder 轨（有子轨），且子轨上有素材 |
-| 子选项开关是灰的 | `Enable Mirror Segment` 总开关没开 | 先勾总开关 |
-| 某个Mirror怎么编辑都不动 / 不跟随了 | 它被 mute 了，处于"冻结"状态 | 取消 mute 即可恢复自动跟随（见 3.3） |
-| 大字显示设了没反应 | 该Mirror Note 为空 | 先写 Note，再套大字 |
-| 渲染 Mirror 出来的文件没名字（只有 `.wav`）；队列里显示 `mirror (unnamed)` | 该Mirror没写 Note——两种 Mirror 渲染都用 `$itemnotes` 通配符，Note 为空时文件名也是空的 | 渲染前给Mirror写上 Note（见 3.2）；队列里凡标着 `mirror (unnamed)` 的就是还没起名的，按提示补上即可 |
-| 开 Mirror 后 Adaptive Regions 自己关了 | 两者互斥，开 Mirror 会自动停掉 Adaptive Regions | 正常行为；二选一 |
-| 自动大字显示让工程变卡 | 常开的自动大字模式较吃性能 | 关掉 `Auto Mirror Large Text Display`，改用 Action 手动触发 |
-| 解散 Folder 后留下一些空 item | （会自动处理）孤立Mirror会被自动清除 | 等一次同步即可；或跑 Clear All Mirrors |
-| Action List 里搜不到 Mark Regions For Adoption | 它不在 `Mirror` 那一组 | 改搜 `Adopt` 或 `Regions`（见第 7 节） |
-| 跑了收养 Action，Region 也变橙了，但 Mirror 没继承名字 | 收养只在 Mirror **新建**时发生，老 Mirror 不会回头收养 | 先标记 Region，再让 Mirror 长出来；已有 Mirror 可改子轨触发重建，或先 Clear All Mirrors 再重建 |
+### Workflow A: overview sound structure with folders
+
+```
+1. Preferences → check Enable Mirror Segment.
+2. Create a folder in the project, add child tracks, and place material on them.
+3. → Mirrors automatically appear on the folder, showing at a glance "where there is content."
+4. Collapsing the folder does not affect it — the Mirror is the collapsed overview bar.
+```
+
+### Workflow B: batch naming + large text overview
+
+```
+1. Enable Mirror Segment + Auto Sync Segment Names.
+2. Write footstep_01 as the Note for the first Mirror in the sequence.
+3. → Later Mirrors in the sequence auto-continue as footstep_02, footstep_03...
+4. Run the action Apply Stretched Text to All Mirrors once.
+5. → Every segment in the Arrange view shows its name in large text; the structure is immediately readable.
+```
+
+### Workflow C: freeze the current layout as permanent regions
+
+```
+1. Once segments and Notes are the way you want them.
+2. Run the action Create Static Regions from Mirrors.
+3. → You get a set of static Regions that no longer change.
+4. (Optional) Afterwards, Clear All Mirrors or turn off Mirror; the static Regions remain.
+```
+
+### Workflow D: hand existing regions over to Mirror
+
+```
+1. You already have named regions (drawn by hand, or generated with REAPER's "create regions from item names").
+2. Check Enable Mirror Segment.
+3. Run the action Assistants - Mark Regions For Adoption → the regions turn orange.
+4. Create a folder, add child tracks, and place material at the matching positions → Mirrors appear.
+5. → Mirrors automatically inherit the names of overlapping regions (written into Notes); old regions become markers.
+```
+(See §7 for details; remember the order: mark first, then let Mirrors appear.)
 
 ---
+
+## 10. Notes and troubleshooting
+
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Checked the switch but no Mirror appears on the folder | No items on child tracks, or the track is not actually a folder | Make sure it is a real folder track with child tracks and that child tracks contain material |
+| Sub-feature switches are grayed out | `Enable Mirror Segment` master switch is off | Turn on the master switch first |
+| A Mirror does not move or follow edits | It is muted and frozen | Unmute it to resume auto-following (see §3.3) |
+| Large text display has no effect | The Mirror's Note is empty | Write a Note first, then apply large text (see §3.2) |
+| Rendered Mirror file has no name (only `.wav`); queue shows `mirror (unnamed)` | The Mirror has no Note — both Mirror render paths use the `$itemnotes` wildcard, so an empty Note produces an empty file name | Write a Note before rendering (see §3.2); any queue entry labeled `mirror (unnamed)` is waiting for a name |
+| Adaptive Regions turned off after enabling Mirror | The two are mutually exclusive | Expected behavior; choose one |
+| Auto large text display makes the project sluggish | The always-on large text mode is performance-heavy | Turn off `Auto Mirror Large Text Display` and trigger it with an action instead |
+| Empty items left after dissolving a folder | (Handled automatically) Orphan Mirrors are cleaned up automatically | Wait for one sync, or run Clear All Mirrors |
+| Cannot find Mark Regions For Adoption in the Action List | It is not in the `Mirror` group | Search for `Adopt` or `Regions` (see §7) |
+| Ran the adoption action, regions turned orange, but Mirrors did not inherit names | Adoption only happens when Mirrors are newly created; old Mirrors do not adopt retroactively | Mark regions first, then let Mirrors appear; existing Mirrors can be rebuilt by changing child-track content, or cleared first with Clear All Mirrors |

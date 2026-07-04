@@ -1,260 +1,258 @@
-# Adaptive Regions 
+# Adaptive Regions
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Adaptive Regions** 是一个**后台自动跟随**的工作流功能，定位是"**让你自己画的 Region，边界自动跟着 Folder 里的真实声音内容走**"。
+**Adaptive Regions** is a background workflow feature whose job is simple: **the regions you draw yourself keep their edges aligned with the actual audio content inside a folder.**
 
-可以把它理解成 **Mirror 的"反方向"**：
+Think of it as the **reverse direction of Mirror**:
 
-- **Mirror**：系统在 Folder 上**自动生成**概览块（块是系统的，你不画）。
-- **Adaptive Regions**：**Region 是你自己的**（你画、你命名、你删），系统只负责把它的**边界、颜色**一直对齐到对应 Folder 的实际内容上。
+- **Mirror**: The system automatically generates overview blocks on a folder (you do not draw them).
+- **Adaptive Regions**: **The regions are yours** (you draw, name, and delete them). The system only keeps their **boundaries and colors** aligned with the matching folder's content.
 
 ![adaptive-region-01](../assets/workflow/adaptive-region-01.gif)
 
-它最适合**"先有 Region"**的工作流——比如资源迭代场景：Region 早就画好排好了，你只想让它们的边界自己贴着素材长，不用一条条手动拉。
+It is best for **"regions first"** workflows — for example, when iterating assets: the regions are already laid out and named, and you just want their edges to stick to the material without pulling them by hand.
 
-> **它和 "Mirror" 是互斥的**：两者都在接管 Folder 的概览，不能同时开。开 Adaptive Regions 时会自动把 Mirror 关掉。
+> **It is mutually exclusive with Mirror**: both take over the folder overview, so they cannot run at the same time. Enabling Adaptive Regions automatically disables Mirror.
 
-> **这是一个没有独立窗口的功能**。它没有自己的界面，全部通过 **Preferences 里的两个开关**启用，启用后就在后台默默工作。所以本手册重点讲两件事：**怎么打开它、怎么让 Region 跟 Folder 对上**，以及**它到底帮你做了什么**。
+> **This feature has no separate window**. It has no UI of its own; it is turned on by **two switches in Preferences** and then works silently in the background. This manual therefore focuses on two things: **how to turn it on and pair a region with a folder**, and **what it actually does for you**.
 
 ---
 
-## 2. 如何开始使用
+## 2. Getting started
 
-### 2.1 打开开关
+### 2.1 Turn it on
 
-菜单入口（和 Mirror 在同一个地方）：
+Menu path (same place as Mirror):
 
 ```
-Extensions -> MantrikaTools -> Mantrika Options -> Preferences...
+Extensions → Mantrika Tools → Mantrika Options → Preferences...
 ```
 
-打开 Preferences 窗口后，找到 **`Adaptive Regions`** 这一节，勾上开关：
+In the Preferences window, find the **Adaptive Regions** section and check the switches:
 
 ```
 ■ Adaptive Regions
-  ☑ Enable Adaptive Regions (REAPER v7.62+)   ← 总开关，先勾这个
-      ☑ Lock Left Boundary                    ← 子选项（见第 4 节）
-      ☑ Mark Crossing Items                   ← 防呆子选项（见 4.1，需先开 Lock Left Boundary）
+  ☑ Enable Adaptive Regions (REAPER v7.62+)   ← master switch, turn this on first
+      ☑ Lock Left Boundary                    ← sub-option (see §4)
+      ☑ Mark Crossing Items                   ← safety sub-option (see §4.1; requires Lock Left Boundary)
 ```
 
-> ⚠️ 需要 **REAPER v7.62 或更新版本**。这是因为它要用到新版才有的 Region 操作API。
+> ⚠️ Requires **REAPER v7.62 or later**, because it relies on newer Region manipulation APIs.
 
-### 2.2 让 Region 自动跟上 Folder（核心：靠"名字"配对）
+### 2.2 Pairing a region with a folder (the key: matching names)
 
-这是整个功能最关键的地方：**Region 和 Folder 是靠"名字"自动配对的**，你不需要手动去"绑定"。
+The most important part of the feature is this: **regions and folders are paired automatically by name** — you do not manually "bind" them.
 
-规则只有一条：
+The rule is simple:
 
-> **当一个 Region 的名字，和某个顶层 Folder 轨道的名字"主干一致"时，它们就自动配对。** 之后这个 Region 的边界就会开始跟随那个 Folder 内的子内容。
+> **When the stem of a region's name matches the stem of a top-level folder track's name, they are paired automatically.** After that, the region's boundaries start following the folder's contents.
 
-所谓"主干一致"，是指**去掉结尾的序号、版本号、扩展名之后**名字相同。系统会自动忽略这些后缀：
+"Name stem" means the name with trailing numbers, version tags, and extensions stripped off. The system automatically ignores these suffixes:
 
-| Region / 轨道 名字 | 系统看到的"主干" |
+| Region / track name | Name stem the system sees |
 | --- | --- |
 | `footstep` | `footstep` |
-| `footstep_01` | `footstep`（去掉 `_01`） |
-| `footstep-02` | `footstep`（去掉 `-02`） |
-| `footstep_v2` | `footstep`（去掉版本号 `v2`） |
-| `footstep.wav` | `footstep`（去掉扩展名） |
-| `footstep_a` | `footstep`（去掉单字母后缀） |
+| `footstep_01` | `footstep` (strips `_01`) |
+| `footstep-02` | `footstep` (strips `-02`) |
+| `footstep_v2` | `footstep` (strips version `v2`) |
+| `footstep.wav` | `footstep` (strips extension) |
+| `footstep_a` | `footstep` (strips single-letter suffix) |
 
-所以一个最简单的上手流程是：
+So the simplest getting-started flow is:
 
 ```
-1. 建一个Folder 轨道，命名为 footstep，下面挂子轨、放素材
-2. 在时间线上画一条 Region，命名为 footstep_01（或 footstep）
-3. → 名字主干都是 footstep → 自动配对成功
-4. → 这条 Region 的右边界，立刻贴到 footstep 这个 Folder 里素材的最右端
-5. 之后你在 footstep 子轨里增删/移动素材，Region 右边界自动跟着变
+1. Create a folder track named footstep and add child tracks with material.
+2. Draw a region on the timeline named footstep_01 (or footstep).
+3. → The name stems on both sides match → pairing succeeds automatically.
+4. → The region's right edge immediately snaps to the right edge of the material inside the footstep folder.
+5. From then on, adding, removing, or moving items inside the footstep folder updates the region's right edge automatically.
 ```
 
-> **完全自动、无需手点**：只要名字对得上，配对和跟随就在后台发生。你不用执行任何"绑定"操作。
-> （如果你嫌改名麻烦，也有一个 Action 能一键把 Folder 改名对齐到光标处的 Region，见第 5 节。）
+> **Fully automatic, no manual binding**: as long as the names match, pairing and following happen in the background. You do not run any "bind" action.
+> (If renaming folders is tedious, there is also an action that renames the selected folder to match the region under the cursor in one step; see §5.)
 
-> **Adaptive Regions 现在是"每个工程各自记"的模式**：`Enable Adaptive Regions` 设的是**当前工程**的助手模式（Region / Mirror / 关），跟着工程文件（.rpp）一起保存；新建 / 没配过的工程按 Preferences 里 `Default Assistants Mode` 的全局默认进入。哪些 Region 被接管了，也跟工程一起保存，下次打开继续生效。
+> **Adaptive Regions mode is saved per project**: `Enable Adaptive Regions` sets the assistant mode (**Region / Mirror / off**) for the **current project** and is saved with the `.rpp` file. New or unconfigured projects use the global default from `Default Assistants Mode` in Preferences. Which regions are managed is also saved with the project and persists when you reopen it.
 
-![adaptive-region-02](./../assets/workflow/adaptive-region-02.gif)
+![adaptive-region-02](../assets/workflow/adaptive-region-02.gif)
 
 ---
 
-## 3. 它到底帮你做了什么
+## 3. What it actually does for you
 
-配对成功后（这条 Region 进入"**被接管**"状态），系统会持续做下面几件事，全自动、实时：
+Once paired (the region enters the **managed** state), the system keeps doing the following automatically and in real time:
 
-### 3.1 右边界自动贴住内容
+### 3.1 Right edge follows the content
 
-- Region 的**右边界**永远等于对应 Folder 里**所有素材的最右端**。
-- 子轨里素材一动、一增删，右边界**马上跟着重新对齐**，不用手动刷新。
+- The region's **right edge** always equals the **rightmost point of all material** in the matching folder.
+- When you move, add, or delete items on child tracks, the right edge **realigns immediately** — no manual refresh needed.
 
-### 3.2 左边界默认不动（可切换）
+### 3.2 Left edge stays put by default (toggleable)
 
-- **默认情况下，左边界保持你画的位置不变**，只动右边界。
-- 这符合直觉：你画 Region 时通常会精心定好"从哪开始"，结尾才是希望它自己长的。
-- 如果你希望**左边界也自动贴到内容最左端**，关掉 `Lock Left Boundary` 子选项即可（见第 4 节）。
+- **By default, the left edge stays where you drew it**; only the right edge moves.
+- This matches intuition: you usually place the start of a region carefully and want the end to grow on its own.
+- If you want the **left edge to snap to the leftmost content** as well, turn off the `Lock Left Boundary` sub-option (see §4).
 
-### 3.3 颜色自动同步 Folder
+### 3.3 Color follows the folder
 
-- 被接管的 Region 的**颜色会跟随对应 Folder 轨道的颜色**。
-- 改了 Folder 颜色，Region 颜色跟着变，一眼就能看出哪条 Region 对应哪个 Folder。
+- Managed regions **inherit the color of the matching folder track**.
+- Change the folder color and the region color follows, so you can see at a glance which region belongs to which folder.
 
-### 3.4 静音的内容不算数
+### 3.4 Muted content does not count
 
-- 子轨里**被 mute 的素材 / 整条 mute 的轨道**不计入内容范围（等于"这段没声音"），不会把 Region 边界撑大。
+- **Muted items** on child tracks and **fully muted tracks** are excluded from the content range (treated as "no audio here"), so they do not push the region boundary outward.
 
-### 3.5 失配 / 删除时自动退出
+### 3.5 Clean exit on mismatch or deletion
 
-- 你**改了名字让它们不再配对**，或**解散了那个 Folder**，或**删掉了 Region**——系统都会检测到，**自动把这条 Region 从接管名单里移除**（并把之前同步上去的颜色清掉）。干净退出，不留垃圾。
+- If you **rename something so the pair no longer matches**, **dissolve the folder**, or **delete the region**, the system detects it and **removes the region from the managed list** (and clears the synchronized color). It exits cleanly without leaving clutter.
 
 ---
 
-## 4. 子选项：Lock Left Boundary（锁定左边界）
+## 4. Sub-option: Lock Left Boundary
 
-这个开关在 `Enable Adaptive Regions` 下方，**默认开启**。
+This switch sits under `Enable Adaptive Regions` and is **on by default**.
 
-| 状态 | 行为 |
+| State | Behavior |
+| ----- | -------- |
+| **On (default)** | Only the **right edge** is adjusted automatically; the **left edge stays where you drew it**. |
+| **Off** | Both left and right edges snap to the leftmost / rightmost content. |
+
+> In short: **keep this on if you want full control over the region start**; **turn it off if you want the region to wrap the content automatically at both ends (or follow material movement)**.
+
+### 4.1 Safety sub-option: Mark Crossing Items
+
+This switch sits under `Lock Left Boundary`, is **off by default**, and is **only available when `Lock Left Boundary` is on** (without locking the left edge there is no "crossing," so it is grayed out).
+
+It addresses a subtle problem that is easy to miss when the left edge is locked:
+
+> With the left edge locked, the left boundary stays put. If an item inside the folder **starts to the left of the region's left boundary** (it pokes out past the left side), that portion actually lies outside the region — it will be **cut off when rendering by region** — but it is often hard to spot in the Arrange view.
+
+When enabled, the system places a **red marker named `MTK-Crossing`** at the **leftmost crossing point** of every region that has items crossing its left boundary, reminding you that "content is leaking outside the region here."
+
+| State | Behavior |
+| ----- | -------- |
+| **Off (default)** | No markers are placed. |
+| **On** | While the left edge is locked, every region with items crossing on the left gets a red `MTK-Crossing` marker at the leftmost crossing point. |
+
+Key points:
+
+- **One marker per region at most**, placed at the leftmost crossing point; not one marker per crossing item, so the timeline does not get cluttered with red dots.
+- **Fully automatic add/remove**: when the item is dragged back inside the region, deleted, or no longer crosses, the matching `MTK-Crossing` marker is removed on the next automatic sync.
+- **Turning the switch off clears them immediately**: disabling this switch (or disabling `Lock Left Boundary`) deletes every `MTK-Crossing` marker in the project.
+- **The `MTK-` prefix is an ownership tag**: the system recognizes and manages markers with this name, so **do not name your own markers `MTK-Crossing`** or they may be deleted as if they belonged to the system.
+- It is a purely visual reminder; it does **not** affect boundary following, color sync, rendering, or any other logic.
+
+> **One small limitation**: if you open a project that previously contained `MTK-Crossing` markers **while this switch is off**, those old markers are not automatically cleared (the system does not manage markers when the switch is off). Delete them manually, or turn the switch on and then off again to clean them up.
+
+---
+
+## 5. Companion action: align a folder to a region in one click
+
+Normally you pair regions and folders by renaming them (see §2.2). If you prefer not to rename folders one by one, use this action:
+
+| Action name (search for `Region Flow` or `Bind` in the Action List) | Function |
 | --- | --- |
-| **开（默认）** | 只自动调整**右边界**；左边界**保持你画的位置**不变。 |
-| **关** | 左、右边界**都**自动贴到内容的最左 / 最右端。 |
+| **`Assistants - Region Flow - Bind Region Under Cursor to Selected Folder Track`** | Renames the currently selected top-level folder to match the region under the cursor and pairs them immediately. |
 
-> 简单说：**想要 Region 的起点完全由你掌控 → 保持开启**；**想要 Region 完全自动包裹内容（两头都贴或跟随移动）→ 关掉它**。
-
-### 4.1 防呆子选项：Mark Crossing Items（标记越界 Item）
-
-这个开关在 `Lock Left Boundary` 下方，**默认关闭**，且**只在 `Lock Left Boundary` 开启时才可用**（不锁左就不可能有"越界"，它会自动灰显）。
-
-它针对的是锁左场景下一个不容易一眼看出的隐患：
-
-> 锁左时左边界保持不动。如果 Folder 里某个 item 的**起点跑到了 Region 左边界的左侧**（item 戳出了 Region 的左边），这段内容其实落在 Region 之外——之后**按 Region 渲染时会被切掉**，但在Arrange上往往不易察觉。
-
-开启后，系统会在**每个存在越界的 Region** 的**最左越界点**（即戳出最远的那个 item 的起点）打一个**红色 Marker，名字为 `MTK-Crossing`**，提醒你"这里有内容漏在 Region 外面了"。
-
-| 状态 | 行为 |
-| --- | --- |
-| **关（默认）** | 不做任何标记。 |
-| **开** | 锁左时，每个左侧有 item 越界的 Region，在其最左越界点打一个红色 `MTK-Crossing` Marker。 |
-
-几个要点：
-
-- **每个 Region 最多一个 Marker**，打在最靠左的越界点；不是每个越界 item 各打一个，避免一堆红点糊在一起。
-- **全自动增删**：item 被拖回 Region 内 / 删掉 / 整段消失后，对应的 `MTK-Crossing` Marker 会在下一次自动同步时清掉，不留垃圾。
-- **关掉开关会立刻清场**：关掉这个开关（或关掉 `Lock Left Boundary`），工程里所有 `MTK-Crossing` Marker 立即被删除。
-- **`MTK-` 前缀是归属标记**：系统靠这个名字认领并管理这些 Marker，所以**不要给你自己的 Marker 起名叫 `MTK-Crossing`**，否则可能被当成系统的清掉。
-- 纯视觉提示，**不影响**边界跟随、颜色同步、渲染或任何其它逻辑——就是一个提醒。
-
-> **一个小限制**：如果你**在这个开关处于关闭状态时**，打开了另一个**之前存过 `MTK-Crossing` Marker 的工程**，那些旧 Marker 不会被自动清除（开关关着时系统就完全不接管 Marker）。手动删掉即可，或把开关开一下再关，也会清干净。
-
----
-
-## 5. 配套 Action：一键把 Folder 对齐到 Region
-
-正常情况下你**靠改名**就能让 Region 和 Folder 配对（见 2.2）。但如果你嫌一个个改 Folder 名字麻烦，可以用这个 Action 让它们**一键对上**：
-
-| Action 名称（在 Action List 里搜 `Region Flow` 或 `Bind`） | 作用 |
-| --- | --- |
-| **`Assistants - Region Flow - Bind Region Under Cursor to Selected Folder Track`** | 把**当前选中的顶层 Folder**，改名对齐到**光标所在 Region**，并立即配对 |
-
-用法：
+Usage:
 
 ```
-1. 选中一个顶层 Folder 轨道（有且只能选一个）
-2. 把编辑光标移到某条 Region 的时间范围内
-3. 跑这个 Action
-4. → 该 Folder 被改名成 Region 的"名字主干" → 立刻配对、立刻对齐边界和颜色
+1. Select exactly one top-level folder track.
+2. Move the edit cursor inside the desired region's time range.
+3. Run the action.
+4. → The folder is renamed to the region's name stem and immediately paired; boundaries and colors align right away.
 ```
 
-> 它做的本质就是"**帮你把 Folder 改成和 Region 同名**"，省掉手动改名这一步。改完名之后，跟随逻辑和第 3 节完全一样。
+> It essentially **renames the folder to match the region for you**, skipping the manual rename step. After that, the follow behavior is identical to §3.
 
-如果条件不满足，它会弹提示告诉你原因，常见的有：
+If the conditions are not met, a message explains why. Common reasons:
 
-- 没开 Adaptive Regions 总开关；
-- 没有**恰好选中一个**顶层 Folder 轨道；
-- 光标**不在任何 Region 范围内**；
-- 这条 Region 已经配对给别的 Folder 了 / 这个 Folder 已经配对给别的 Region 了（一对一关系）。
-
----
-
-## 6. 和 Render Queue 的配合
-
-被 Adaptive Regions 接管的 Region，会在 **Render Queue** 的素材列表里（`Master Mix - Regions` 那一类）行尾**标一个小圆点徽标**，让你一眼看出"这条 Region 是被自动跟随管理着的"。
-
-这条非常适合的工作流：**Region 边界自己贴着素材长好 → 直接进 Render Queue 按 Region 批量渲染**，不用担心边界没对齐导致渲染多/少一截。
-（Render Queue 用法见 `render-queue.md`）
-
-<img src="./../assets/workflow/adaptive-region-03.png" alt="adaptive-region-03"  />
+- Adaptive Regions master switch is off.
+- You do not have **exactly one** top-level folder track selected.
+- The cursor is **not inside any region**.
+- The region is already paired with another folder, or the folder is already paired with another region (one-to-one relationship).
 
 ---
 
-## 7. 和 Mirror 怎么选
+## 6. Working with Render Queue
 
-两者解决的是**同一个问题的两个方向**，二选一即可（开一个会自动关掉另一个）。
+Regions managed by Adaptive Regions are marked with a **small dot badge** at the end of their row in the **Render Queue** source list (under `Master Mix - Regions`).
+
+This supports a clean workflow: **region edges stick to the material → drop the regions into Render Queue and render by region in bulk**, without worrying that the boundaries are slightly off.
+(See `render-queue.md` for Render Queue usage.)
+
+<img src="../assets/workflow/adaptive-region-03.png" alt="adaptive-region-03" />
+
+---
+
+## 7. Adaptive Regions or Mirror?
+
+Both solve the same problem from opposite directions; pick one (turning one on automatically turns the other off).
 
 | | **Mirror** | **Adaptive Regions** |
 | --- | --- | --- |
-| 谁是"主"？ | Folder 上的概览块（系统生成） | **Region（你自己画、自己命名）** |
-| 谁来建概览段？ | 系统**自动建** | **你来画 Region** |
-| 谁来删？ | 系统自动管 | **你删 Region，系统跟着退出** |
-| 怎么配对？ | 子轨有内容就自动盖 | **靠"名字主干一致"** |
-| 适合阶段 | 从零搭结构、边做边看 | **中后期：命名/Region 已定，做整合迭代** |
-| 典型场景 | 用 Folder 概览声音结构 | 3A 占位 wav、Wwise 绑定、素材整合 |
+| Who is "in charge"? | Overview blocks on the folder (system-generated) | **Regions (drawn and named by you)** |
+| Who creates the overview segments? | System creates them automatically | **You draw the regions** |
+| Who deletes them? | System manages them | **You delete the regions; the system exits cleanly** |
+| How are they matched? | Child-track content automatically covered | **By matching name stems** |
+| Best phase | Building structure from scratch, sketching as you go | **Mid-to-late stage: names/regions are set, doing integration and iteration** |
+| Typical use case | Using folders to overview sound structure | AAA placeholder WAVs, Wwise binding, asset integration |
 
-> 一句话：**喜欢"先有 Folder、让系统帮我标段落" → 用 Mirror**；**喜欢"我自己画 Region 排好版、让边界自己贴合素材" → 用 Adaptive Regions**。
-
----
-
-## 8. 典型工作流
-
-### 工作流 A：Region 先行，边界自动贴素材
-
-```
-1. Preferences → 勾 Enable Adaptive Regions
-2. 建顶层 Folder「footstep」，挂子轨
-3. 画好一排 Region，命名 footstep_01 / footstep_02 …（主干都是 footstep）
-4. 往子轨里填素材
-5. → 每条 Region 的右边界自动贴住对应内容；颜色同步 Folder
-6. 之后随便改素材，边界实时跟随
-```
-
-### 工作流 B：已有命名规范的 Region，让边界"自愈"
-
-```
-1. 工程里已经有一批画好、命名规范的 Region
-2. 建 / 命名好同名主干的顶层 Folder，往里填素材
-3. 勾 Enable Adaptive Regions
-4. → 名字对得上的 Region 自动被接管，边界对齐到素材
-（嫌改 Folder 名麻烦时：选中 Folder + 光标放进 Region，跑第 5 节的 Bind Action 一键对齐）
-```
-
-### 工作流 C：贴好边界 → 直接批量渲染
-
-```
-1. 开 Adaptive Regions，Region 边界都自动贴好素材
-2. 打开 Render Queue，用 "Master Mix - Regions" 选取这些 Region
-3. → 被接管的 Region 带小徽标，边界已对齐，放心批量渲染
-```
+> One-liner: **if you prefer "folders first, let the system mark the segments" → use Mirror**; **if you prefer "I draw and arrange my own regions, let the edges stick to the material" → use Adaptive Regions**.
 
 ---
 
-## 9. 注意事项与排查
+## 8. Typical workflows
 
-| 现象 | 原因 | 解决 |
-| --- | --- | --- |
-| 勾了开关但 Region 不跟随 | Region 名字和 Folder 名字"主干"对不上 | 让两者主干一致（见 2.2 的对照表），或用 Bind Action 一键对齐 |
-| 总开关 / 子选项是灰的或勾不上 | REAPER 版本低于 v7.62 | 升级到 REAPER v7.62+ |
-| 子选项 `Lock Left Boundary` 是灰的 | `Enable Adaptive Regions` 总开关没开 | 先勾总开关 |
-| 子选项 `Mark Crossing Items` 是灰的 | `Lock Left Boundary` 没开（不锁左就不会有越界） | 先开 `Lock Left Boundary` |
-| 出现红色 `MTK-Crossing` Marker | 锁左时有 item 的起点戳到了 Region 左边界左侧，漏在 Region 外 | 把该 item 往右挪进 Region（或确认你确实要它留在外面）；Marker 会自动消失（见 4.1） |
-| 关了 `Mark Crossing Items` 仍有 `MTK-Crossing` 残留 | 在开关关闭状态下打开了别的存过该 Marker 的工程 | 手动删，或把开关开一下再关（见 4.1 末尾的小限制） |
-| 只动右边界，左边界不动 | 这是默认行为（`Lock Left Boundary` 开着） | 想两头都动就关掉 `Lock Left Boundary`（见第 4 节） |
-| 配的是**子 Folder** 里的内容，没反应 | 只有**顶层 Folder** 参与配对 | 把要配对的 Folder 放到顶层 |
-| Region 边界没把某段素材算进去 | 那段素材或所在轨道被 mute 了 | 取消 mute；mute 的内容不计入范围（见 3.4） |
-| 开 Adaptive Regions 后 Mirror 自己关了 | 两者互斥，开一个会自动停掉另一个 | 正常行为；二选一 |
-| Bind Action 报"select exactly one folder" | 没选中、或选了多个、或选的不是顶层 Folder | 只选一个顶层 Folder 轨道再跑 |
-| Bind Action 报"cursor not within any region" | 编辑光标不在任何 Region 范围内 | 把光标移进目标 Region 再跑 |
-| Bind Action 报"already bound" | 该 Region 或该 Folder 已经配对给别的对象了 | 一对一关系；先解除已有配对，或换一个对象 |
-| 删了 Region / 解散了 Folder 后有残留 | （会自动处理）系统会把失配项移出接管名单 | 等一次自动同步即可，无需手动清理（见 3.5） |
-| 在 Action List 搜 `Mirror` 找不到这个 Action | 它属于 `Region Flow` 那一组 | 改搜 `Assistants - Region Flow` |
+### Workflow A: regions first, edges follow the material
+
+```
+1. Preferences → check Enable Adaptive Regions.
+2. Create a top-level folder named footstep and add child tracks.
+3. Draw a row of regions named footstep_01, footstep_02, ... (all stems are footstep).
+4. Drop material onto the child tracks.
+5. → Each region's right edge snaps to its matching content; colors sync with the folder.
+6. Edit the material freely; the edges follow in real time.
+```
+
+### Workflow B: existing named regions auto-correct their boundaries
+
+```
+1. Your project already has a set of drawn, consistently named regions.
+2. Create / name top-level folders with matching stems and fill them with material.
+3. Check Enable Adaptive Regions.
+4. → Regions whose names match are automatically managed and their boundaries align to the material.
+(If renaming folders is tedious: select the folder, put the cursor inside the region, and run the Bind action from §5.)
+```
+
+### Workflow C: align boundaries, then batch-render
+
+```
+1. Turn on Adaptive Regions so region edges are already aligned to the material.
+2. Open Render Queue and select the regions via Master Mix - Regions.
+3. → Managed regions carry a small badge, boundaries are aligned, so you can render in bulk with confidence.
+```
 
 ---
+
+## 9. Notes and troubleshooting
+
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Region does not follow after checking the switch | Region and folder name stems do not match | Make the stems match (see §2.2 table) or use the Bind action |
+| Master switch or sub-options are grayed out / cannot be checked | REAPER version is older than v7.62 | Upgrade to REAPER v7.62+ |
+| `Lock Left Boundary` sub-option is grayed out | `Enable Adaptive Regions` master switch is off | Turn on the master switch first |
+| `Mark Crossing Items` sub-option is grayed out | `Lock Left Boundary` is off (no crossing can occur without a locked left edge) | Turn on `Lock Left Boundary` first |
+| Red `MTK-Crossing` marker appears | With the left edge locked, an item starts to the left of the region boundary and is leaking outside | Move the item back inside the region (or confirm you want it outside); the marker disappears automatically (see §4.1) |
+| `MTK-Crossing` markers remain after turning off `Mark Crossing Items` | You opened a project that already had these markers while the switch was off | Delete them manually, or turn the switch on and then off again (see §4.1 limitation) |
+| Only the right edge moves, left edge stays put | Default behavior when `Lock Left Boundary` is on | Turn off `Lock Left Boundary` if you want both edges to move (see §4) |
+| Paired with content inside a nested folder, but nothing happens | Only **top-level folders** participate in pairing | Move the folder you want to pair to the top level |
+| Region boundary ignores a particular piece of material | That item or its track is muted | Unmute it; muted content is excluded from the range (see §3.4) |
+| Mirror turned off after enabling Adaptive Regions | The two are mutually exclusive | Expected behavior; choose one |
+| Bind action reports "select exactly one folder" | Nothing, multiple tracks, or a non-top-level folder is selected | Select exactly one top-level folder track and rerun |
+| Bind action reports "cursor not within any region" | Edit cursor is not inside any region | Move the cursor into the target region and rerun |
+| Bind action reports "already bound" | The region or folder is already paired with something else | One-to-one relationship; release the existing pair first or pick a different target |
+| Leftover artifacts after deleting a region / ungrouping a folder | (Handled automatically) The system removes mismatched items from the managed list | Wait for one automatic sync; no manual cleanup needed (see §3.5) |
+| Searching for `Mirror` in the Action List does not find this action | It belongs to the `Region Flow` group | Search for `Assistants - Region Flow` |
