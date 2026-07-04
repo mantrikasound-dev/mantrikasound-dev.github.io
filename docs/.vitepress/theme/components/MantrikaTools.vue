@@ -138,7 +138,7 @@ const docLinks = [
 
       <section id="docs" class="section doc-area">
         <div class="doc-info">
-          <h2>Start with the documentation <span>Installation, guides, and a reference for every tool. Download channels are coming soon.</span></h2>
+          <h2>Start with the documentation <span>Installation, guides, and a reference for every tool. Your license key and download link are delivered by email after purchase.</span></h2>
         </div>
         <div class="doc-list">
           <a
