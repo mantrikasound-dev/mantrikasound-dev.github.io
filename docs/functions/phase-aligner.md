@@ -2,224 +2,223 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Phase Aligner** 是 Mantrika Tools 里给 **多个时间重叠的 media item** 用的相位对齐工具，定位是"**多麦/多 take 同源素材一起加载 → 算 → 一键对齐**"。
+**Phase Aligner** is Mantrika Tools' phase-alignment tool for **multiple time-overlapping media items**. Its purpose is "**load several multi-mic / multi-take clips of the same origin → analyze → align with one click**".
 
-![phase-aligner-01](./../assets/functions/phase-aligner-01.gif)
+![phase-aligner-01](../assets/functions/phase-aligner-01.gif)
 
-它解决两类典型问题：
+It solves two typical problems:
 
-- **多麦克风录同一声源**（鼓 in/out、snare top/bottom、人声主副麦…）之间有几毫秒到几十毫秒的时间差，叠加时相位抵消、声音变薄。
-- **多个 take 想叠出更厚的层**，但相互之间错开几个采样，听感糊、不齐。
+- **Multiple microphones recording the same source** (drum in/out, snare top/bottom, main/secondary vocal mics — have timing differences from a few milliseconds to tens of milliseconds; when summed, phase cancellation makes the sound thin.
+- **Multiple takes intended to be layered for thickness** are offset by a few samples, sounding muddy and unfocused.
 
-它做两件事：
+It does two things:
 
-- **测**：分析每个 item 相对参考 item 的**时间延迟**和**极性**，给出相关性 / 叠加增益指标。
-- **改**：把你勾选的 item 的 **position 微调对齐**、极性反相。改的是 item 自身位置和 极性，不渲染、不破坏波形。
+- **Measure**: analyze the **time delay** and **polarity** of each item relative to a reference item, giving correlation / summed-gain metrics.
+- **Modify**: nudge the **position** of checked items into alignment and invert polarity if needed. It modifies item position and polarity only; it does not render or destroy waveforms.
 
-整个流程围绕"一组**有时间重叠**的 item"展开——选好它们，Load → Analyze → 勾 Fix → Apply。
+The whole workflow revolves around "a group of **time-overlapping** items" — select them, Load → Analyze → check Fix → Apply.
 
 ---
 
-## 2. 打开方式
+## 2. How to Open
 
-菜单入口：
+Menu entry:
 
 ```
 Extensions → Mantrika Tools → Phase aligner
 ```
 
-或在 Action List 搜：
+Or search in the Action List:
 
-| Action 名称 | 用途 |
+| Action name | Purpose |
 | --- | --- |
-| **`mantrika : Process - Phase Aligner`** | 打开 / 关闭 Phase Aligner 窗口 |
+| **`mantrika : Process - Phase Aligner`** | Open / close the Phase Aligner window |
 
 ---
 
-## 3. 主窗口界面总览
+## 3. Main Window Overview
 
-<img src="./../assets/functions/phase-aligner-02.png" alt="phase-aligner-02" style="zoom: 50%;" />
+<img src="../assets/functions/phase-aligner-02.png" alt="phase-aligner-02" style="zoom: 50%;" />
 
-| 区域 | 说明 |
+| Area | Description |
 | --- | --- |
-| **模式选择** | `Phase Align` 或 `Max Energy`，两种用途不同（见第 5 节） |
-| **Max Delay** | 允许的最大对齐位移；Phase Align 默认 50ms，Max Energy 默认 10ms |
-| **Focus**（仅 Max Energy） | 关注哪个频段对齐：Sub Bass / Low / Mid / Full |
-| **Load** | 把当前 Arrange 里的选中 item 加载到表格 |
-| **Analyze** | 分析所有 item 相对 Reference 的偏移 |
-| **Fix 列** | 勾上的 item 在 Apply 时会被对齐 |
-| **Ref 列** | 单选——指定哪个 item 当参考（不动） |
-| **状态栏** | 加载/分析进度与结果 |
-| **Select All** | 一键全勾 / 全取消（自动跳过低相关项） |
-| **Apply** | 真正执行对齐：调 position、必要时翻极性 |
+| **Mode selection** | `Phase Align` or `Max Energy`, for different purposes (see §5) |
+| **Max Delay** | Maximum alignment displacement allowed; Phase Align defaults to 50 ms, Max Energy defaults to 10 ms |
+| **Focus** (Max Energy only) | Which frequency band to focus on for alignment: Sub Bass / Low / Mid / Full |
+| **Load** | Load the currently selected items from the Arrange view into the table |
+| **Analyze** | Analyze the offset of all items relative to the Reference |
+| **Fix column** | Checked items are aligned when Apply is pressed |
+| **Ref column** | Single-select — designates which item stays still as the reference |
+| **Status bar** | Load / analysis progress and results |
+| **Select All** | Check / uncheck all at once (auto-skips low-correlation items) |
+| **Apply** | Actually performs alignment: nudges position, inverts polarity if necessary |
 
-> **Reference item 在 Arrange 上会临时变成深蓝色**，方便你确认参考是谁。关闭窗口或切换参考时颜色自动还原。
+> **The reference item is temporarily colored dark blue in the Arrange view** to help you confirm which one is the reference. The color is automatically restored when the window closes or the reference changes.
 
 ---
 
-## 4. 基础用法 —— 三步搞定
+## 4. Basic Usage — Three Steps
 
 ```
-1. 在 Arrange 里框选所有要对齐的 item（必须 ≥ 2 个，且时间上有重叠）
-2. 打开 Phase Aligner → 点 Load
-3. 在 Ref 列点一个圆圈，把它设为参考
-4. 点 Analyze
-5. 看 Delay / Phase / Corr 列的结果
-6. 勾 Fix 列要修复的行（或点 Select All）
-7. 点 Apply
+1. In the Arrange view, marquee-select all items to align (must be ≥2 and overlap in time)
+2. Open Phase Aligner → click Load
+3. In the Ref column, click a circle to set the reference
+4. Click Analyze
+5. Read the Delay / Phase / Corr columns
+6. Check the Fix column for the rows you want to fix (or click Select All)
+7. Click Apply
 ```
 
-**Apply 做了什么：**
+**What Apply does:**
 
-- 把每条勾上的 item 的 **position 沿时间轴平移**，让它和 Reference 对齐。
-- 如果检测到极性反相（Phase 列显示 ⚠），自动把该 take 的 volume 取反一次（等效翻极性）。
+- Time-shifts the position of each checked item along the timeline to align it with the Reference.
+- If polarity inversion is detected (the Phase column shows ⚠️), it flips that take's volume once (equivalent to inverting polarity).
 
-> Apply 后窗口会**自动再跑一次 Analyze**，让你立刻看到对齐效果——理想情况下所有 Delay 会变成接近 0、Phase 全 ✓。
+> After Apply, the window **automatically runs Analyze again** so you can immediately see the alignment effect — ideally all Delay values become close to 0 and Phase shows ✓
 
-> Apply 改的是 **item position + 极性**，原始音频文件不动。想撤销直接 **Ctrl+Z** 一次。
+> Apply modifies **item position + polarity**; the original audio files are untouched. To undo, simply press **Ctrl+Z** once.
 
 ---
 
-## 5. 两种模式怎么选
+## 5. How to Choose the Two Modes
 
-### 5.1 Phase Align（默认）
+### 5.1 Phase Align (Default)
 
-**适合**：同一声源的多个传感器/take 之间对齐（多麦录鼓、多 take 叠人声、立体声左右麦匹配…）
+**Best for**: aligning multiple sensors/takes of the same source (multi-mic drum recording, layered vocal takes, stereo left/right mic matching).
 
-- 用**互相关**找出 item 相对参考的时间偏移。
-- 极性判断基于波形形状对比。
-- Max Delay 范围更大（最高 200ms），适合传感器距离较远的场景。
-- 表格的最后一列叫 **Corr**，显示 0.0~1.0 的相关系数。
+- Uses **cross-correlation** to find each item's time offset relative to the reference.
+- Polarity determination is based on waveform-shape comparison.
+- Max Delay range is larger (up to 200 ms), suitable for cases where sensor distances are larger.
+- The last column is named **Corr**, showing a correlation coefficient from 0.0 to 1.0.
 
-**Corr 的读法：**
+**How to read Corr:**
 
-| 值 | 含义 |
+| Value | Meaning |
 | --- | --- |
-| 高（≥ 0.7） | 强相关，结果可信，可放心 Apply |
-| 中（0.3 ~ 0.7） | 弱相关，能修，但听一下再决定 |
-| 低（< 0.3，灰色） | 太弱——多半不是同源素材；该行的 Fix 复选框会被禁用 |
+| High (≥ 0.7) | Strong correlation, result is reliable, feel safe to Apply |
+| Medium (0.3 ~ 0.7) | Weak correlation, alignment possible, but listen before deciding |
+| Low (< 0.3, gray) | Too weak — likely not from the same source; the Fix checkbox for that row is disabled |
 
 ### 5.2 Max Energy
 
-**适合**：你不在乎相位"对齐"的几何意义，只想让多个 item 叠加后**响一点 / 不抵消**（典型场景：贝斯 DI + 麦克风、kick 子频段对齐、合成层叠时的能量最大化）
+**Best for**: when you don't care about the geometric meaning of phase "alignment" and just want multiple items to sum **louder / with less cancellation** (typical scenarios: bass DI + mic, kick sub-alignment, synth layering for energy maximization)
 
-- 在 Max Delay 窗口内**穷举**位移，挑使叠加能量最大的偏移量。
-- 多出 **Focus** 频段选择——只在指定频段评估能量，对低频对齐尤其有用（贝斯/kick）。
-- Ref 列变成 **Lock**（🔒）——这条 item 不动，其余围着它转。
-- 表格最后一列变成 **Gain (dB)**：
+- **Exhaustively** tries displacements within the Max Delay window and picks the offset that maximizes summed energy.
+- Adds a **Focus** frequency band selector — energy is evaluated only in the specified band, especially useful for low-frequency alignment (bass / kick).
+- The Ref column becomes **Lock** (🔒) — designates locked item
+- The last column becomes **Gain (dB)**:
 
-| 值 | 含义 | 颜色 |
+| Value | Meaning | Color |
 | --- | --- | --- |
-| ≥ +2.5 dB | 叠加显著变响，强烈推荐 Apply | 绿 |
-| 0 ~ +2.5 dB | 略有改善 | 黄 |
-| < 0 dB | 对齐后反而更轻——建议不勾这条 | 红 |
+| ≥ +2.5 dB | Significantly louder when summed, strongly recommended to Apply | Green |
+| 0 ~ +2.5 dB | Slight improvement | Yellow |
+| < 0 dB | Quieter after alignment — suggested to leave unchecked | Red |
 
-> 切换模式后**之前的分析结果会被清空**，必须重新点 Analyze。
+> Switching modes **clears the previous analysis results**; you must click Analyze again.
 
 ---
 
-## 6. 表格列含义速查
+## 6. Table Column Quick Reference
 
-| 列 | Phase Align 模式 | Max Energy 模式 |
+| Column | Phase Align mode | Max Energy mode |
 | --- | --- | --- |
-| **Fix** | 勾上则 Apply 时会被对齐 | 同左 |
-| **Ref** | 单选圆点 ◉/○，指定参考 item | 单选 🔒/·，指定锁定 item |
-| **Name** | take 名 | 同左 |
-| **Delay** | 相对参考的时间偏移；`REF` = 参考本人 | 同左；`LOCK` = 锁定本人 |
-| **Phase** | ✓ 极性正常 / ⚠ 反相（Apply 会自动翻） | 同左 |
-| **Corr / Gain** | 相关系数 0~1（< 0.3 灰，不可修） | 叠加增益 dB（颜色编码见 5.2） |
+| **Fix** | Checked items are aligned when Apply is pressed | Same |
+| **Ref** | Single-select radio ◉/○, designates reference item | Single-select 🔒/·, designates locked item |
+| **Name** | Take name | Same |
+| **Delay** | Time offset relative to reference; `REF` = reference itself | Same; `LOCK` = locked item itself |
+| **Phase** | ✓ normal polarity / ⚠️ inverted (Apply auto-flips) | Same |
+| **Corr / Gain** | Correlation coefficient 0~1 (< 0.3 gray, unfixable) | Summed gain in dB (color coding see §5.2) |
 
 ---
 
-## 7. 哪些 item 会被加载
+## 7. Which Items Are Loaded
 
-点 Load 时，从 Arrange 的选中 item 里筛选：
+When you click Load, items are filtered from the current Arrange selection:
 
-| 类型 | 是否加载 |
+| Type | Loaded? |
 | --- | --- |
-| 选中 ≥ 2 个 audio item | ✅ |
-| **与至少一个其他选中 item 时间重叠**（> 10ms） | ✅ |
-| 选中数量 < 2 | ❌ 状态显示 `Select at least 2 items` |
-| 没有时间重叠的 item | ❌ 状态显示 `No overlapping items found` |
-| MIDI take | ❌ 静默跳过 |
-| 没 active take | ❌ 静默跳过 |
+| ≥2 audio items selected | ✅ |
+| **Overlaps in time with at least one other selected item** (> 10 ms) | ✅ |
+| Selection count < 2 | ❌ Status shows `Select at least 2 items` |
+| Items with no time overlap | ❌ Status shows `No overlapping items found` |
+| MIDI take | ❌ Silently skipped |
+| No active take | ❌ Silently skipped |
 
-> **重叠才有意义**——两段在时间上完全不重叠的素材，谈不上"对齐"。
+> **Overlap is what matters** — two clips that don't overlap in time cannot meaningfully be "aligned".
 
 ---
 
-## 8. 状态反馈
+## 8. Status Feedback
 
-主窗口下方状态条会告诉你结果：
+The status bar at the bottom of the main window reports results:
 
-| 显示文字 | 含义 |
+| Display text | Meaning |
 | --- | --- |
-| `N items loaded` | 加载成功 |
-| `Select at least 2 items` | 选区里 audio item 不到 2 个 |
-| `No overlapping items found` | 选的 item 时间上不重叠 |
-| `Analysis complete: K results` | K 条有效结果（绿） |
-| `Low correlation - items may not share a common source` | 全部相关性都很低，可能不是同源 |
-| `No valid analysis results` | 所有 item 都没算出有效结果 |
-| `Fixed K items` | Apply 完成（绿） |
-| `Selection changed, click Load to refresh` | 你在 Arrange 里改变了选区，需要 Reload |
-| `Mode changed, re-analyze required` | 切了模式，需重新 Analyze |
-| `Reference changed, re-analyze required` | 换了参考，需重新 Analyze |
+| `N items loaded` | Load successful |
+| `Select at least 2 items` | Fewer than 2 audio items in the selection |
+| `No overlapping items found` | Selected items do not overlap in time |
+| `Analysis complete: K results` | K valid results 🟢 |
+| `Low correlation - items may not share a common source` | All correlations are low; likely not the same source |
+| `No valid analysis results` | No valid results for any item |
+| `Fixed K items` | Apply complete 🟢 |
+| `Selection changed, click Load to refresh` | You changed the selection in the Arrange view; need to Reload |
+| `Mode changed, re-analyze required` | Mode switched; need to re-Analyze |
+| `Reference changed, re-analyze required` | Reference changed; need to re-Analyze |
 
 ---
 
-## 9. 典型工作流
+## 9. Typical Workflows
 
-### 工作流 A：鼓多麦相位对齐（最常见）
+### Workflow A: Multi-mic drum phase alignment (most common)
 
 ```
-1. 选中 KickIn + KickOut + KickSub 三条 item
-2. 打开 Phase Aligner → Load
-3. 默认 Phase Align 模式
-4. 把 KickIn 设为 Ref（声音最直接的那条做参考）
+1. Select KickIn + KickOut + KickSub items
+2. Open Phase Aligner → Load
+3. Default Phase Align mode
+4. Set KickIn as Ref (the most direct-sounding one)
 5. Analyze
-6. 看 Corr 列：> 0.7 都很可信
+6. Read Corr column: > 0.7 is very reliable
 7. Select All → Apply
-8. 听一下叠加效果——低频应该明显更扎实
+8. Listen to the summed result — low end should be noticeably firmer
 ```
 
-### 工作流 B：贝斯 DI + 麦克风让叠加最响
+### Workflow B: Bass DI + mic for maximum summed level
 
 ```
-1. 选中 BassDI + BassMic
-2. Load → 切到 Max Energy 模式
-3. Focus 选 Low（200Hz）
-4. 把 BassDI 设为 Lock（保持不动）
+1. Select BassDI + BassMic
+2. Load → switch to Max Energy mode
+3. Focus → Low (200 Hz)
+4. Set BassDI as Lock (keeps it still)
 5. Analyze
-6. 看 Gain 列——只勾 ≥ 0 dB 的行（红色的别勾）
+6. Read Gain column — only check rows ≥ 0 dB (skip red rows)
 7. Apply
 ```
 
-### 工作流 C：人声多 take 叠层
+### Workflow C: Layered vocal takes
 
 ```
-1. 选所有要叠的 vocal take
-2. Load → Phase Align 模式
-3. Ref 选听感最好的主 take
-4. Max Delay 调小一点（10~20ms，take 本身差异不会太大）
+1. Select all vocal takes to layer
+2. Load → Phase Align mode
+3. Ref → the main take with the best feel
+4. Reduce Max Delay a bit (10~20 ms, take differences are usually small)
 5. Analyze → Select All → Apply
 ```
 
 ---
 
-## 10. 故障排查
+## 10. Troubleshooting
 
-| 现象 | 原因 | 解决 |
+| Symptom | Cause | Fix |
 | --- | --- | --- |
-| Load 提示 `Select at least 2 items` | 选区里 audio item 不到 2 个 | 多选几个 |
-| Load 提示 `No overlapping items found` | 选了 item 但时间上不重叠 | 把它们拖到时间重叠的区间，或换素材 |
-| Analyze 后所有行都灰着，Fix 框点不动 | Phase Align 模式下相关性全 < 0.3，多半不是同源 | 换 Max Energy 模式试试，或确认选对了 |
-| 状态显示 `Selection changed, click Load to refresh` | 你在 Arrange 里改了选区 / 删了某条 item | 点一下 Load 重新加载 |
-| Apply 后听感更糟（Max Energy 模式） | 勾了 Gain 为负的行 | Ctrl+Z 撤销，重选时跳过红色行 |
-| Reference item 颜色变深蓝了 | 这是窗口给的临时高亮 | 切换 Ref 或关闭窗口会自动还原 |
-| 找不到极性反相的 item | Phase 列看 ⚠ 图标（橙色） | Apply 时会自动翻极性，不需要手动处理 |
-| 想撤销整次对齐 | Ctrl+Z 一次 | Apply 是一个 undo block |
+| Load shows `Select at least 2 items` | Fewer than 2 audio items in selection | Select more |
+| Load shows `No overlapping items found` | Selected items don't overlap in time | Drag them to an overlapping range, or use different material |
+| After Analyze all rows are gray, Fix checkbox unclickable | In Phase Align mode all correlations < 0.3, likely not the same source | Try Max Energy mode, or confirm the right items are selected |
+| Status shows `Selection changed, click Load to refresh` | You changed selection / deleted an item in Arrange | Click Load to reload |
+| Apply sounds worse (Max Energy mode) | Checked a row with negative Gain | Ctrl+Z to undo, then skip red rows |
+| Reference item turned dark blue | Temporary window highlight | Color restores automatically when switching Ref or closing window |
+| Can't find polarity-inverted items | Look for the ⚠️ icon in the Phase column 🟠 | Apply automatically flips polarity; no manual action needed |
+| Want to undo the whole alignment | Ctrl+Z once | Apply is one undo block |
 
 ---
-

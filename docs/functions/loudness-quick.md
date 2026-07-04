@@ -2,243 +2,245 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Loudness** 是 Mantrika Tools 里给 **media item** 用的响度工具，定位是"**选中 item → 一键搞定**"。
+**Loudness** is a loudness tool for **media items**. Its purpose is **select items → one action → done**.
 
-![loudness-analyze-01](./../assets/functions/loudness-analyze-01.gif)
+![loudness-analyze-01](../assets/functions/loudness-analyze-01.gif)
 
-它能做两件事：
+It does two things:
 
-- **测响度**：把 item 的 LUFS-I / LUFS-S Max / LUFS-M Max / Range 算出来，以 **take marker** 形式直接打在 item 上。
-- **拉响度**：把 item 的音量调到你指定的 LUFS-I 目标值。改的是 item volume（`D_VOL`），不渲染、不破坏波形。
+- **Analyze loudness**: calculates LUFS-I / LUFS-S Max / LUFS-M Max / Range for an item and writes them as **take markers** directly on the item.
+- **Normalize loudness**: adjusts the item's volume to a target LUFS-I value. It changes item volume (`D_VOL`), does not render, and does not alter the waveform.
 
-整个流程围绕"item 选区"展开——选好 item，触发 action，剩下交给它。
+The whole workflow revolves around item selection — select items, trigger the action, and the rest is handled automatically.
 
 ---
 
-## 2. 打开方式
+## 2. Opening the tool
 
-菜单入口：
+Menu paths:
 
-Extension -> Mantrika Tools -> Loudness -> Analyze & normalize （主ui入口）
+```
+Extensions → Mantrika Tools → Loudness → Analyze & normalize (main UI entry)
 
-Extension -> Mantrika Tools -> Loudness -> Normalize selected to -23LUFS -I
+Extensions → Mantrika Tools → Loudness → Normalize selected to -23 LUFS -I
 
-Extension -> Mantrika Tools -> Loudness -> Normalize selected to median LUFS-I
+Extensions → Mantrika Tools → Loudness → Normalize selected to median LUFS-I
+```
 
-| Action 名称（在 Action List 搜 "Loudness"） | 用途 |
+| Action name (search "Loudness" in the Action List) | Function |
 | --- | --- |
-| **`mantrika : Loudness - Analyze and Add Markers / Normalize to Target LUFS`** | 打开主窗口，自由选 marker 组合 / 自由设 target |
-| **`mantrika : Loudness - Normalize Selected Items to -23 LUFS`** | 一键把所选 item 拉到 **-23 LUFS**（广播标准） |
-| **`mantrika : Loudness - Normalize Selected Items to Median LUFS`** | 一键把所选 item **拉平到中位数响度**（多素材音量统一） |
+| **`mantrika : Loudness - Analyze and Add Markers / Normalize to Target LUFS`** | Opens the main window; freely choose marker combination and target value |
+| **`mantrika : Loudness - Normalize Selected Items to -23 LUFS`** | One-click normalize selected items to **-23 LUFS** (broadcast standard) |
+| **`mantrika : Loudness - Normalize Selected Items to Median LUFS`** | One-click normalize selected items to the **median loudness** (unify volume across multiple assets) |
 
-后两个是"省点击"的快捷通道，内部走的是同一套分析逻辑。
+The last two are shortcut channels to save clicks; internally they use the same analysis logic.
 
 ---
 
-## 3. 主窗口界面总览
+## 3. Main window overview
 
-触发 `Loudness - Analyze and Add Markers / Normalize to Target LUFS` 打开主窗口：
+Trigger `Loudness - Analyze and Add Markers / Normalize to Target LUFS` to open the main window:
 
-<img src="./../assets/functions/loudness-analyze-02.png" alt="loudness-analyze-02" style="zoom:67%;" />
+<img src="../assets/functions/loudness-analyze-02.png" alt="loudness-analyze-02" style="zoom:67%;" />
 
 ```
 ┌──────────────────────────────────────────────┐
-│ Select markers to add:                       │  ← 第一段：测响度
+│ Select markers to add:                       │  ← Section 1: analyze
 │   ☐ LUFS-I (Integrated)                      │
 │   ☐ LUFS-S (Short-term Max)                  │
 │   ☐ LUFS-M (Momentary Max)                   │
 │   ☐ Range (LU)                               │
 │                                              │
-│ Normalize:                                   │  ← 第二段：拉响度
-│   ☐ Normalize to target LUFS-I              │
+│ Normalize:                                   │  ← Section 2: normalize
+│   ☐ Normalize to target LUFS-I               │
 │   [ -16.0 ]  LUFS                            │
 │                                              │
-│ ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭ │  ← 进度条
-│              Ready to analyze                │  ← 状态文字
+│ ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭ │  ← Progress bar
+│              Ready to analyze                │  ← Status text
 │                                              │
 │          [  Apply  ]    [  Close  ]          │
 └──────────────────────────────────────────────┘
 ```
 
-| 区域 | 说明 |
-| --- | --- |
-| **Markers 区** | 勾哪个就在 item 上打哪个 marker，可任意组合 |
-| **Normalize 区** | 勾上后才能改 target；目标值范围 **-60.0 ~ 0.0 LUFS** |
-| **进度条 / 状态** | 分析时显示进度与计数，完成后变绿（成功）或红（失败） |
-| **Apply** | 跑分析；分析进行中按钮变 **Cancel**，可随时中断 |
+| Area | Description |
+| ---- | ----------- |
+| **Markers section** | Check which markers to write on the item; any combination allowed |
+| **Normalize section** | Must be checked before the target can be edited; target range **-60.0 ~ 0.0 LUFS** |
+| **Progress bar / status** | Shows progress and count during analysis; turns green on success or red on failure |
+| **Apply** | Runs the analysis; while running the button becomes **Cancel** and can be used to abort |
 
-> **重要：Markers 和 Normalize 二选一。**
-> 勾任意 marker 会自动取消 normalize；反之亦然。
-> 想"先打 marker 看一眼，再 normalize"，请分两次跑。
+> **Important: Markers and Normalize are mutually exclusive.**
+> Checking any marker automatically unchecks normalize, and vice versa.
+> If you want to "add markers first, look, then normalize," run it twice.
 
 ---
 
-## 4. 基础用法 —— 三个典型操作
+## 4. Basic usage — three typical operations
 
-### 4.1 给 item 打响度标记
+### 4.1 Add loudness markers to items
 
 ```
-1. 在 Arrange 里选中一个或多个 item
-2. 触发 "Loudness - Analyze and Add Markers / Normalize..."
-3. 勾上想要的 marker（比如只勾 LUFS-I）
-4. 点 Apply
+1. Select one or more items in the Arrange view
+2. Trigger "Loudness - Analyze and Add Markers / Normalize..."
+3. Check the markers you want (for example, only LUFS-I)
+4. Click Apply
 ```
 
-**结果**：每个选中 item 的 active take 上多出对应 take marker，形如：
+**Result**: the active take of each selected item gets the corresponding take marker, looking like:
 
 ```
 LUFS-I: -18.3
 ```
 
-橙色，位置贴在 take 起点（受 snap offset 和 start offset 校正）。
+Orange, positioned at the take start (corrected for snap offset and start offset).
 
-> 重复执行会**先删掉旧的响度 marker 再写新的**——不会越打越多。
-
----
-
-### 4.2 把 item 拉到指定 LUFS
-
-```
-1. 选中要归一的 item
-2. 触发主窗口 action
-3. 勾 "Normalize to target LUFS-I"
-4. 在输入框填 target，比如 -16.0
-5. 点 Apply
-```
-
-**结果**：每个 item 的 volume 被调整，让其 LUFS-I 落在 target。
-
-> Normalize 改的是 **item volume**，原始音频文件不动。想撤销就 Ctrl+Z，或手动把 item volume 拖回 0 dB。
+> Re-running **deletes old loudness markers first**, then writes new ones — they do not pile up.
 
 ---
 
-### 4.3 一键操作（不用开窗口）
+### 4.2 Normalize items to a target LUFS
 
-| 场景 | 用哪个 Action |
-| --- | --- |
-| 给一批素材打成广播标准 -23 LUFS | `Loudness - Normalize Selected Items to -23 LUFS` |
-| 一批素材音量不齐想拉平 | `Loudness - Normalize Selected Items to Median LUFS` |
+```
+1. Select the items you want to normalize
+2. Trigger the main-window action
+3. Check "Normalize to target LUFS-I"
+4. Enter a target in the input box, for example -16.0
+5. Click Apply
+```
 
-两个 action 都会**短暂闪一下主窗口**显示进度，完成后自动关闭。
+**Result**: each item's volume is adjusted so its LUFS-I lands on the target.
 
-> **Median 模式至少要选 2 个 audio item** 才有意义，少于 2 个会弹提示框拒绝执行。
+> Normalize changes **item volume**; the original audio file is untouched. To undo, press Ctrl+Z or manually drag the item volume back to 0 dB.
 
 ---
 
-## 5. Marker 区四个选项的含义
+### 4.3 One-click operations (no window needed)
 
-<img src="./../assets/functions/loudness-analyze-03.png" alt="loudness-analyze-03" style="zoom:67%;" />
+| Scenario | Which action to use |
+| -------- | ------------------- |
+| Normalize a batch of assets to the broadcast standard -23 LUFS | `Loudness - Normalize Selected Items to -23 LUFS` |
+| A group of assets has uneven volume and you want to level them | `Loudness - Normalize Selected Items to Median LUFS` |
 
-| 选项 | 写出的 marker 文本 | 直观理解 |
-| --- | --- | --- |
-| **LUFS-I (Integrated)** | `LUFS-I: -18.3` | 整个 item 的**平均**响度（最常用） |
-| **LUFS-S (Short-term Max)** | `LUFS-S: -12.1` | 3 秒滑窗里**最响**的那段 |
-| **LUFS-M (Momentary Max)** | `LUFS-M: -8.5` | 400ms 短窗里**最响**的瞬间 |
-| **Range (LU)** | `Range-LU: 7.2` | 整段动态范围跨度 |
+Both actions **briefly flash the main window** to show progress, then close automatically when finished.
 
-平时挑一两个常用的就够，全勾会让 take 顶上挤一排 marker。
+> **Median mode requires at least 2 audio items** to be meaningful; fewer than 2 shows a message and refuses to run.
 
 ---
 
-## 6. 状态反馈
+## 5. What the four marker options mean
 
-主窗口下方的状态条会告诉你结果：
+<img src="../assets/functions/loudness-analyze-03.png" alt="loudness-analyze-03" style="zoom:67%;" />
 
-| 显示文字 | 含义 |
-| --- | --- |
-| `Ready to analyze` | 待机 |
-| `Preparing...` / `Processing N/M items...` | 正在跑（多线程并行） |
-| `Analyzed K/N items` | 只打了 marker，K 条成功 |
-| `Normalized K/N items` | 只 normalize 了，K 条成功 |
-| `Analyzed & Normalized K/N items` | 程序触发的两步合并显示 |
-| `No audio items selected` | 选区里没有合法 audio item |
-| `Analysis cancelled` | 你点了 Cancel |
+| Option | Marker text written | Plain meaning |
+| ------ | ------------------- | ------------- |
+| **LUFS-I (Integrated)** | `LUFS-I: -18.3` | The **average** loudness of the whole item (most commonly used) |
+| **LUFS-S (Short-term Max)** | `LUFS-S: -12.1` | The loudest 3-second sliding window |
+| **LUFS-M (Momentary Max)** | `LUFS-M: -8.5` | The loudest 400 ms short window |
+| **Range (LU)** | `Range-LU: 7.2` | Overall loudness range span |
 
-> **MIDI item / 空 item / 视频 item 会被静默跳过**，不计入"成功数"。
+For everyday use one or two markers are enough; checking all four crowds the top of the take with markers.
 
 ---
 
-## 7. 偏好持久化
+## 6. Status feedback
 
-主窗口里的选择每次成功执行后会自动保存，下次打开沿用：
+The status bar at the bottom of the main window reports the result:
 
-| 项目 | 是否持久化 |
-| --- | --- |
-| 4 个 marker checkbox 的勾选 | ✅ |
-| Normalize 开关 | ✅ |
-| Target LUFS 数值 | ✅ |
-| 上次跑出的状态文字 | ❌（每次重开是 "Ready to analyze"） |
+| Display text | Meaning |
+| ------------ | ------- |
+| `Ready to analyze` | Idle |
+| `Preparing...` / `Processing N/M items...` | Running (multi-threaded) |
+| `Analyzed K/N items` | Only markers were added; K succeeded |
+| `Normalized K/N items` | Only normalize was run; K succeeded |
+| `Analyzed & Normalized K/N items` | Two-step merge triggered by the shortcut actions |
+| `No audio items selected` | No valid audio items in the selection |
+| `Analysis cancelled` | You clicked Cancel |
 
-> 只有 Apply **成功执行**才会保存——点开窗口看一眼就关掉，不会污染设定。
-
----
-
-## 8. 键盘 / 鼠标速查
-
-| 操作 | 行为 |
-| --- | --- |
-| 触发主窗口 action | 打开窗口 |
-| **Enter** | 等同点 Apply |
-| Apply 按钮（分析中） | 变成 Cancel，点击中止 |
-| Target LUFS 输入框 | 只接受数字、`.` 和 `-`，超出 -60~0 会自动 clamp |
-| 关闭窗口（X / Close） | 自动取消正在跑的分析 |
+> **MIDI items / empty items / video items are silently skipped** and are not counted in the success total.
 
 ---
 
-## 9. 典型工作流
+## 7. Preference persistence
 
-### 工作流 A：游戏 SFX 素材交付前一键拉到 -23 LUFS
+Choices in the main window are automatically saved after each successful run and restored the next time the window opens:
+
+| Setting | Persisted? |
+| ------- | ---------- |
+| The four marker checkboxes | ✅ |
+| Normalize switch | ✅ |
+| Target LUFS value | ✅ |
+| Last status text | ❌ (each reopen shows "Ready to analyze") |
+
+> Only a successful **Apply** saves the settings — opening the window and closing it without running does not change the saved preferences.
+
+---
+
+## 8. Keyboard / mouse cheat sheet
+
+| Input | Behavior |
+| ----- | -------- |
+| Trigger main-window action | Opens the window |
+| **Enter** | Same as clicking Apply |
+| Apply button (during analysis) | Becomes Cancel; click to abort |
+| Target LUFS input box | Accepts only numbers, `.`, and `-`; values outside -60 ~ 0 are clamped automatically |
+| Close window (X / Close) | Automatically cancels any running analysis |
+
+---
+
+## 9. Typical workflows
+
+### Workflow A: one-click normalize game SFX assets to -23 LUFS before delivery
 
 ```
-1. 全选要交付的 item
-2. 触发 "Loudness - Normalize Selected Items to -23 LUFS"
-3. 等几秒看到 "Normalized N/N items" 即完成
+1. Select all items to deliver
+2. Trigger "Loudness - Normalize Selected Items to -23 LUFS"
+3. Wait a few seconds until "Normalized N/N items" appears
 ```
 
-### 工作流 B：脚步声 / 武器声等一组素材音量不齐
+### Workflow B: level out a group of footsteps or weapon sounds
 
 ```
-1. 全选这一组 item
-2. 触发 "Loudness - Normalize Selected Items to Median LUFS"
-3. 所有 item 会被拉到组内中位数响度
+1. Select the group of items
+2. Trigger "Loudness - Normalize Selected Items to Median LUFS"
+3. All items are pulled to the group's median loudness
 ```
 
-适合做"先把一组声压感拉齐，再统一推 fader"。
+Good for "first get the group to a similar perceived level, then push the whole group with a fader."
 
-### 工作流 C：审听时想看每个 item 多响
+### Workflow C: review how loud each item is
 
 ```
-1. 选 item
-2. 触发主窗口 action
-3. 只勾 LUFS-I（足够日常用）
+1. Select items
+2. Trigger the main-window action
+3. Check only LUFS-I (enough for everyday use)
 4. Apply
-5. 在 Arrange 里直接看每个 item 顶上的 marker 数字
+5. Read the marker numbers at the top of each item in the Arrange view
 ```
 
-打过 marker 后不影响后续 normalize——再跑一次 normalize 时会把旧 marker 删干净。
+Adding markers does not prevent later normalization — running normalize afterwards deletes the old markers cleanly.
 
 ---
 
-## 10. 故障排查
+## 10. Troubleshooting
 
-| 现象 | 原因 | 解决 |
-| --- | --- | --- |
-| Apply 按钮灰着不能点 | 没选 item / marker 和 normalize 都没勾 | 选 item，并至少勾一项 |
-| 状态显示 `No audio items selected` | 选了 item 但都是 MIDI / 视频 / 空 take | 换 audio item 再试 |
-| Item 上没出现 marker | 选了 normalize 而不是 marker；二者互斥 | 勾 marker 那一组再 Apply |
-| Median 模式拒绝执行 | 选区里 audio item 少于 2 个 | 至少选 2 个 audio item |
-| Normalize 后音量没变 | 该 item 本身已接近 target；或 LUFS-I 太低（≤-70）测不出 | 检查源素材是否过于安静或近乎静音 |
-| Item 上 marker 越打越多 | （不会发生）插件会先删旧的同名 marker | — |
-| 想撤销 Normalize | Ctrl+Z 一次，或手动改回 item volume | — |
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Apply button is grayed out | No item selected / neither markers nor normalize checked | Select an item and check at least one option |
+| Status shows `No audio items selected` | Selected items are MIDI / video / empty takes | Try again with audio items |
+| No marker appears on the item | Normalize was selected instead of markers; they are mutually exclusive | Check the marker options and Apply again |
+| Median mode refuses to run | Fewer than 2 audio items in the selection | Select at least 2 audio items |
+| Volume did not change after normalize | The item is already near the target, or LUFS-I is too low (~-70) to measure | Check whether the source is extremely quiet or nearly silent |
+| Markers pile up on the item | (Should not happen) the plug-in deletes old markers with the same name first | —|
+| Want to undo normalize | Press Ctrl+Z once, or manually reset item volume | — |
 
 ---
 
-## 11. 与其他模块的关系
+## 11. Relationship with other modules
 
-| 关联模块 | 说明 |
-| --- | --- |
-| **Loudness Meter**（`Loudness - Lightweight Meter`） | 是**实时电平表**，看的是 master / 当前播放流；本模块测的是已存在的 item，二者目的不同。 |
+| Related module | Description |
+| -------------- | ----------- |
+| **Loudness Meter** (`Loudness - Lightweight Meter`) | A **real-time level meter** that looks at the master / current playback stream. This module measures existing items; the purposes are different. |
 
 ---

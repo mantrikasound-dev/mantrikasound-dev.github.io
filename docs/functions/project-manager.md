@@ -2,358 +2,358 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Project Manager** 是 Mantrika Tools 的Reaper工程管理工具，把分散在 REAPER 历史记录、磁盘各处的工程文件、自己整理的虚拟分类、收藏等等，统一在一个窗口里管理。可以快速搜索、打开、整理、备份你的所有 REAPER 工程。
+**Project Manager** is the REAPER project-management tool in Mantrika Tools. It brings together REAPER's recent-project history, project files scattered across your drives, your own virtual categories, favorites, and more into a single window. You can quickly search, open, organize, and back up all your REAPER projects.
 
-**主要能力**：
+**Main features**:
 
-- 📜 **历史记录**：自动读 REAPER 的最近工程列表（最多 200 条）
-- 🔍 **磁盘扫描**：自定义扫描根目录，递归找出所有 `.rpp` 文件
-- ⭐ **收藏夹**：把常用工程标星，单独成组
-- 📁 **虚拟文件夹**：在不改变磁盘结构的前提下，把工程按你自己的逻辑分组（支持 3 级嵌套、拖拽归类、Ctrl+拖拽排序、颜色标签）
-- 📝 **项目备注**：给任何工程加注释
-- 💾 **批量备份**：把工程 + 媒体文件 + 子工程一起打包到目标目录（自动整理路径）
-- 🌐 **跨电脑迁移**：把配置 JSON 拷到新机器后，自动修复失效路径
-- 🆕 **新建工程**：直接新建空白工程，或基于模板创建
-- 🎚️ **FX Offline 模式**：打开工程时让所有 FX 处于离线状态（适合"先打开再修"的场景）
+- **📜 History**: automatically reads REAPER's recent-project list (up to 200 entries)
+- **🔍 Disk scan**: define a scan root directory and recursively find all `.rpp` files
+- **⭐ Favorites**: star frequently used projects so they appear in their own group
+- **📁 Virtual Folders**: group projects by your own logic without changing the on-disk structure (supports 3-level nesting, drag-and-drop organization, Ctrl+drag reordering, color labels)
+- **📝 Project notes**: attach notes to any project
+- **💾 Batch backup**: package a project + media files + subprojects into a target directory (paths rewritten automatically)
+- **🌐 Cross-machine migration**: copy the configuration JSON to a new machine and fix broken paths automatically
+- **🆕 New project**: create a blank project directly, or create from a template
+- **🎚️ FX Offline mode**: open projects with all FX offline (useful for "open first, decide what to load later")
 
 ---
 
-## 2. 打开方式
+## 2. Opening the tool
 
-菜单入口：
+Menu path:
 
 ```
-Extensions → MantrikaTools → Project manager
+Extensions → Mantrika Tools → Project manager
 ```
 
-或在 Action List 搜：
+Or search in the Action List:
 
-| Action 名称 | 用途 |
+| Action name | Function |
 | --- | --- |
-| **`mantrika : Synergy - Project Manager`** | 打开 / 关闭 Project Manager 窗口 |
+| **`mantrika : Synergy - Project Manager`** | Open / close the Project Manager window |
 
 ---
 
-## 3. 界面总览
+## 3. Interface overview
 
 ![project manager](../assets/functions/project-manager-01.png)
 
-四大区域：
+Four main areas:
 
-| 区域 | 内容 |
-|---|---|
-| **顶部工具栏** | New Project / Search / Backup / Refresh / Advanced 菜单 |
-| **左侧侧边栏** | 导航列表 + Virtual Folders 文件夹列表 + 文件夹操作按钮 + FX Offline 开关 |
-| **主区域顶部** | 当前位置标题 / 返回上一级按钮 / Open in Tab / Show in Folder |
-| **主区域表格** | 项目列表（可多选、可排序、可拖拽到虚拟文件夹） |
+| Area | Contents |
+| ---- | -------- |
+| **Top toolbar** | New Project / Search / Backup / Refresh / Advanced menu |
+| **Left sidebar** | Navigation list + Virtual Folders list + folder-action buttons + FX Offline toggle |
+| **Main area top** | Current-location title / Up button / Open in Tab / Show in Folder |
+| **Main area table** | Project list (multi-select, sortable, draggable into virtual folders) |
 
 ---
 
-## 4. 顶部工具栏
+## 4. Top toolbar
 
-### 4.1 New Project（分裂按钮）
+### 4.1 New Project (split button)
 
-蓝色按钮，左半为主按钮、右半为下拉箭头 ▼：
+A blue button with a main left half and a dropdown arrow on the right:
 
 ![project manager](../assets/functions/project-manager-02.png)
 
-- **点击NewProject**：直接新建一个空白 REAPER 工程
-- **点击 ▼**：弹出 **Template** 对话框，从 `ProjectTemplates` 文件夹列出所有 `.rpp` 模板，选一个并点 **Create** 即基于该模板新建工程
+- **Click NewProject**: create a blank REAPER project directly
+- **Click the arrow**: open the **Template** dialog, which lists all `.rpp` templates in the `ProjectTemplates` folder. Pick one and click **Create** to create a project from that template.
 
 ![project manager](../assets/functions/project-manager-03.png)
 
-> 💡 想往模板库里加自己的模板？把 `.rpp` 文件丢到 REAPER 资源路径下的 `ProjectTemplates\` 文件夹即可，PM 下次打开下拉就能看到。
+> 💡 **Tip**: To add your own templates, drop `.rpp` files into the `ProjectTemplates\` folder under REAPER's resource path. They will appear in the dropdown the next time PM opens.
 
-### 4.2 Search（搜索框）
+### 4.2 Search
 
 ![project manager](../assets/functions/project-manager-04.png)
 
-中间空旷的输入框，占位提示 "Search projects..."：
+The empty input box in the middle, placeholder text "Search projects...":
 
-- **输入即时搜索**——每按一个键都会实时过滤
-- 搜索范围 = 所有视图的项目（历史 + 扫描）
-- 支持模糊匹配，多个关键词用空格分隔
-- 清空搜索框 = 回到 History Projects 视图
+- **Instant search** — filters in real time as you type
+- Search scope = all projects across all views (History + Scanned)
+- Supports fuzzy matching; multiple keywords separated by spaces
+- Clearing the search box returns to the History Projects view
 
-### 4.3 Backup（备份按钮）
+### 4.3 Backup
 
 ![project manager](../assets/functions/project-manager-05.png)
 
-把当前 **选中的项目** 备份到目标目录。详见 §9 项目备份。
+Backs up the **currently selected projects**. See §9 for details.
 
-### 4.4 Refresh（刷新按钮）
+### 4.4 Refresh
 
-强制重新扫描 REAPER 历史记录（无视缓存）+ 重新检测所有项目的存在性 / 修改时间。
+Forces a re-read of REAPER's recent-project history (ignoring cache) and re-checks the existence / modification time of all listed projects.
 
 ![project manager](../assets/functions/project-manager-06.png)
 
-> ⚠️ **Refresh 只刷新 REAPER 历史 + 状态**——**不会扫描磁盘**。要发现新增的本地工程，请到 **Advanced → Manage Scan Paths** 重新扫描。
+> ⚠️ **Warning**: **Refresh only refreshes REAPER history + status** — it **does not scan the disk**. To discover newly added local projects, use **Advanced → Manage Scan Paths**.
 
-### 4.5 Advanced 设置菜单 ☰
+### 4.5 Advanced menu ☰
 
 ![project manager](../assets/functions/project-manager-07.png)
 
-打开高级菜单，详见 §13。
+Opens the advanced menu. See §13.
 
 ---
 
-## 5. 左侧导航
+## 5. Left navigation
 
-### 5.1 顶部固定三项
+### 5.1 Top three fixed items
 
 ![project manager](../assets/functions/project-manager-08.png)
 
-| 项 | 含义 |
-|---|---|
-| **Scanned Projects (N)** | 你配置的扫描路径下找到的所有工程 |
-| **History Projects (N)** | REAPER 自身的最近工程列表（最多 200 条） |
-| **Favorites (N)** | 标星的工程 |
+| Item | Meaning |
+| ---- | ------- |
+| **Scanned Projects (N)** | All projects found under your configured scan paths |
+| **History Projects (N)** | REAPER's own recent-project list (up to 200) |
+| **Favorites (N)** | Starred projects |
 
-括号里的数字是当前过滤条件下的项目数（受 Show Deleted / Show Subprojects / Hide Excluded 影响）。
+The numbers in parentheses are the counts under the current filter (affected by Show Deleted / Show Subprojects / Hide Excluded).
 
-### 5.2 Virtual Folders（虚拟文件夹）区
+### 5.2 Virtual Folders area
 
-下面是 **Virtual Folders** 标题栏 + 它管辖的所有文件夹列表。
+Below that is the **Virtual Folders** header plus all folders under it.
 
-**标题条行为**：
+**Header behavior**:
 
 ![project manager](../assets/functions/project-manager-10.png)
 
 ![project manager](../assets/functions/project-manager-09.png)
 
-- 左侧 **▶ / ▼ 箭头**：单击展开 / 折叠下面的文件夹列表
-- 主体文字：单击 = 跳到 Virtual Folders 根视图（在右侧主区域以卡片形式列出所有顶层文件夹）
-- 右键 = 同时展开第一层文件夹并跳到根视图
+- **Left arrow (▶ / ▼)**: click to expand / collapse the folder list
+- **Header text**: click to jump to the Virtual Folders root view (all top-level folders shown as cards in the main area)
+- **Right-click**: expands the first level and jumps to the root view at the same time
 
-### 5.3 文件夹
+### 5.3 Folders
 
 ![project manager](../assets/functions/project-manager-11.png)
 
-- **三级嵌套**：最多 3 级（达到上限后 New 按钮会禁用）
-- **颜色标签**：每个顶层文件夹自动分配调色板颜色（12 色，按文件夹自身固定分配），子文件夹继承父颜色——便于快速辨认。新建、排序、删除其他文件夹都**不会**改变已有文件夹的颜色
-- **数字徽章**：每个文件夹后括号显示包含的项目数
-- **单击文件夹** = 切换到该文件夹视图
-- **Ctrl/Cmd + 拖拽** = 调整同级文件夹的顺序（详见 §8.6）
+- **3-level nesting**: maximum 3 levels (the New button is disabled once the limit is reached)
+- **Color labels**: each top-level folder is assigned a palette color automatically (12 colors, fixed per folder); subfolders inherit the parent color for quick visual recognition. Creating, reordering or deleting other folders **never** changes an existing folder's color
+- **Count badge**: each folder shows the number of projects it contains
+- **Click a folder** to switch to that folder's view
+- **Ctrl/Cmd + drag** to reorder folders among their siblings (see §8.6)
 
-### 5.4 New / Rename / Delete 按钮
+### 5.4 New / Rename / Delete buttons
 
-侧边栏中部三个文件夹操作按钮（**仅在 Virtual Folders 视图下出现**）：
+Three folder-action buttons in the middle of the sidebar (**only visible in the Virtual Folders view**):
 
 ![project manager](../assets/functions/project-manager-12.png)
 
-| 按钮 | 行为 |
-|---|---|
-| **New** | 弹输入框输入名称 → 创建新文件夹。若当前选中了文件夹则作为父文件夹，否则建顶层。**新建的文件夹出现在同级列表的最上面**（之后可用 Ctrl+拖拽随意调整，见 §8.6） |
-| **Rename** | 重命名当前选中的文件夹 |
-| **Delete** | 删除当前选中的文件夹（**会弹二次确认**，确认后跳回 History） |
+| Button | Behavior |
+| ------ | -------- |
+| **New** | Opens an input box; enter a name to create a new folder. If a folder is currently selected, the new folder is created under it; otherwise it is created at the top level. **New folders appear at the top of their sibling list** (reorder freely afterwards with Ctrl+drag, see §8.6). |
+| **Rename** | Renames the currently selected folder |
+| **Delete** | Deletes the currently selected folder (**asks for confirmation**; after confirmation, jumps back to History) |
 
-> ⚠️ 点 Delete 后会弹一个确认对话框，写明要删的文件夹名 + 是否含子文件夹/项目；默认按钮是 Cancel，按 Esc 或 Enter 都是取消，**只有明确点 Delete 按钮**才真的执行。文件夹被删后，里面的项目并不会从磁盘消失——只是不再属于该虚拟分类。
+> ⚠️ **Warning**: After clicking Delete, a confirmation dialog shows the folder name and whether it contains subfolders / projects. The default button is Cancel; pressing Esc or Enter cancels. **Only clicking Delete actually executes**. Deleting a folder does not delete the project files from disk — it only removes them from that virtual category.
 
-### 5.5 FX Offline 开关
+### 5.5 FX Offline toggle
 
-侧边栏最底部的复选框：
+A checkbox at the bottom of the sidebar:
 
 ![project manager](../assets/functions/project-manager-13.png)
 
-- **勾选** → 之后所有"打开工程"的操作（打开过程中，建议**不要操控键盘**）会让 REAPER **加载工程时把所有 FX 设为离线**
-- **取消勾选** → 正常打开
+- **Checked**: all subsequent "open project" operations (do not use the keyboard while opening) load the project with **all FX offline**
+- **Unchecked**: opens normally
 
-> 💡 **使用场景**：工程使用了大量重 CPU 的 FX / 第三方插件不在身上，先把工程开起来再决定要载入哪些 FX。
+> **Use case**: the project uses heavy CPU FX or third-party plugins that are not available; open it first, then decide which FX to load.
 
-### 5.6 主区域顶部行（当前位置 / 返回按钮）
+### 5.6 Main-area top row (location / back button)
 
-主区域顶部一行显示你目前在看哪个视图：
+The top row of the main area shows the current view:
 
 ![project manager](../assets/functions/project-manager-14.png)
 
-- **← 返回按钮**：仅在子文件夹视图下出现，点它回到上一级
-- **当前位置标题**：粗体显示当前所在文件夹的名字 + 项目数，例如 "客户A (12)"
-- **Open in Tab** / **Show in Folder**：右侧的快捷按钮，对当前选中项生效
+- **← Back button**: only appears in subfolder views; click to go up one level
+- **Current-location title**: bold folder name + project count, e.g. "ClientA (12)"
+- **Open in Tab** / **Show in Folder**: shortcut buttons on the right that act on the current selection
 
 ---
 
-## 6. 项目列表（主表格）
+## 6. Project list (main table)
 
-### 6.1 列定义
+### 6.1 Columns
 
 ![project manager](../assets/functions/project-manager-15.png)
 
-| 列               | 含义        | 默认显示       |
-|-----------------|-----------|------------|
-| **★**           | 收藏星（点击切换） | 总是         |
-| **Name**        | 项目名（无扩展名） | 总是         |
-| **Path**        | 完整文件路径    | 是（可隐藏）     |
-| **Modified**    | 最后修改时间    | 是（可隐藏）     |
-| **Note**        | 项目备注      | 是（可隐藏）     |
-| **Deleted**     | 被删除的工程    | 默认不显示（可隐藏） |
-| **Subprojects** | 子工程       | 默认不显示（可隐藏）     |
+| Column | Meaning | Default shown |
+| ------ | ------- | ------------- |
+| **★** | Favorite star (click to toggle) | always |
+| **Name** | Project name (without extension) | always |
+| **Path** | Full file path | yes (hideable) |
+| **Modified** | Last modified time | yes (hideable) |
+| **Note** | Project note | yes (hideable) |
+| **Deleted** | Deleted projects | hidden by default |
+| **Subprojects** | Subprojects | hidden by default |
 
-可隐藏的三列通过 **Advanced 菜单** 切换显示。
+Hideable columns are toggled in the **Advanced menu**.
 
 ![project manager](../assets/functions/project-manager-17.png)
 
 ![project manager](../assets/functions/project-manager-16.png)
 
-**视觉编码**：
+**Visual encoding**:
 
-- ⭐ 黄星 = 已收藏；☆ 灰星 = 未收藏
-- `[Sub]` 绿色前缀 = 子工程（有 `.rpp-PROX` 文件）
-- `[X]` 红色前缀 + 灰字 + 删除线 = 磁盘上文件已不存在（默认隐藏，开 Show Deleted 才显示）
-- 📁 蓝色文件夹图标 = 虚拟文件夹（在 Virtual Folders 根视图中出现）
-- 悬停行 = 深灰高亮；选中行 = 蓝色高亮
+- ⭐ Yellow star = favorited; ☆ Gray star = not favorited
+- `[Sub]` green prefix = subproject (has `.rpp-PROX` file)
+- `[X]` red prefix + gray strikethrough = file no longer exists on disk (hidden by default; shown when Show Deleted is on)
+- Blue folder icon = virtual folder (appears in the Virtual Folders root view)
+- Hover row = dark gray highlight; selected row = blue highlight
 
-### 6.2 选择行为
+### 6.2 Selection behavior
 
-| 操作 | 行为 |
-|---|---|
-| 单击 | 仅选中本行（清除其它选择） |
-| **Ctrl** / **Cmd** + 单击 | 切换该行选中（多选） |
-| **Shift** + 单击 | 选区扩展（从上次选中到当前） |
-| 双击项目 | **打开该工程** |
-| 双击文件夹 | 进入该文件夹视图 |
-| 右键 | 弹出右键菜单（详见 §7） |
+| Operation | Behavior |
+| --------- | -------- |
+| Single-click | Select only this row (clears other selections) |
+| **Ctrl / Cmd** + click | Toggle selection of this row (multi-select) |
+| **Shift** + click | Extend selection from the last selected row |
+| Double-click project | **Open the project** |
+| Double-click folder | Enter that folder's view |
+| Right-click | Open context menu (see §7) |
 
-> ⚠️ 双击打开工程后 1 秒内的重复双击会被忽略（防止快速点两下意外打开两次）。
+> ⚠️ **Warning**: Repeated double-clicks within 1 second after opening a project are ignored (prevents accidentally opening a project twice).
 
-### 6.3 排序
+### 6.3 Sorting
 
-点击任意列头切换排序方向（升序 ↔ 降序）
+Click any column header to toggle sort direction (ascending / descending).
 
-### 6.4 列宽
+### 6.4 Column widths
 
-拖动列分隔线调整列宽，**列宽会自动持久化**到用户配置中——重启 PM 仍然是你调过的样子。第一次手动调过后，PM 不再自动按可见列数重新分配宽度（完全尊重你的设置）。
+Drag column dividers to resize. **Column widths are persisted** to your user config — PM remembers them after restart. Once you manually resize, PM no longer auto-redistributes widths based on the number of visible columns.
 
-### 6.5 拖拽到虚拟文件夹
+### 6.5 Dragging projects into virtual folders
 
-按住选中行往左侧 Virtual Folders 区拖：
+Drag selected rows to the Virtual Folders area on the left:
 
-- 拖拽时鼠标旁会出现一个浮动 chip（显示 "← 项目名" 或 "← 项目名 (+N)" 多选时）
-- 把项目拖到 Virtual Folders 标题条上 → 停留 **400ms** 自动展开下面的文件夹列表
-- 拖到某个文件夹上 → 该文件夹高亮 + 左侧出现青色指示条
-- 拖到关闭的文件夹上停留 400ms → 自动展开该文件夹
-- 拖出 / 取消 → 因拖拽临时展开的文件夹自动折叠回去
-- 松开 → 项目加入该文件夹（同一个顶层文件夹及其子文件夹范围内只能存在一个位置，自动从原位置移除）
+- A floating chip appears next to the cursor showing "← ProjectName" or "← ProjectName (+N)" when multiple projects are selected
+- Drop on the Virtual Folders header: hover for **400 ms** to auto-expand the folder list
+- Drop on a folder: the folder highlights and a cyan indicator appears on the left
+- Hover over a collapsed folder for 400 ms: it auto-expands
+- Drag out / cancel: temporarily expanded folders collapse back
+- Release: the project is added to that folder (within the same top-level folder, a project can only exist in one place; it is automatically removed from its previous location)
 
 ---
 
-## 7. 项目右键菜单
+## 7. Project context menu
 
-右键单击表格里的项目：
+Right-click a project in the table:
 
 ![project manager](../assets/functions/project-manager-18.png)
 
-| 项 | 行为 |
-|---|---|
-| **Open** | 打开第一个选中项目（FX Offline 开关生效） |
-| **Open in Tab** | 为每个选中项目都新建 tab 再打开 |
-| **Show in Folder** | 在系统文件管理器中定位该文件（Windows 高亮选中，macOS Reveal） |
-| **Edit Note** | 弹 NoteDialog 编辑该工程的备注（**仅单选可用**） |
-| **Add to Favorites** / **Remove from Favorites** | 切换收藏状态 |
-| **Add to Folder ▸** | 子菜单递归列出所有虚拟文件夹——选哪个就加进哪个 |
-| **Remove from This Folder** | 仅在当前是虚拟文件夹视图时显示，从该文件夹移除 |
-| **Backup...** | 弹备份对话框（详见 §9） |
+| Item | Behavior |
+| ---- | -------- |
+| **Open** | Open the first selected project (FX Offline toggle applies) |
+| **Open in Tab** | Create a new tab and open each selected project |
+| **Show in Folder** | Locate the file in the system file manager (highlights it on Windows, reveals on macOS) |
+| **Edit Note** | Opens a NoteDialog to edit the project note (**single selection only**) |
+| **Add to Favorites** / **Remove from Favorites** | Toggle favorite status |
+| **Add to Folder ▸** | Recursive submenu listing all virtual folders — pick one to add the project to |
+| **Remove from This Folder** | Only shown in a virtual-folder view; removes the project from that folder |
+| **Backup...** | Opens the backup dialog (see §9) |
 
-> 💡 **Add to Folder ▸ 子菜单的小细节**：有子文件夹的项会变成嵌套子菜单，子菜单顶部多一项 **"(Add Here)"**——选这个表示加到父文件夹本身。
+> 💡 **Tip**: In the **Add to Folder ▸** submenu, items that have subfolders become nested submenus, and the top of each submenu has an extra entry **"(Add Here)"** — choose this to add the project to the parent folder itself.
 
 ---
 
-## 8. Virtual Folders（虚拟文件夹）工作流
+## 8. Virtual Folders workflow
 
-Virtual Folders 是 Project Manager 的核心整理工具，**不会移动磁盘文件**——只在内部记录"哪些工程属于哪个虚拟分组"。
+Virtual Folders are the core organization tool in Project Manager. They **do not move files on disk** — they only record internally which projects belong to which virtual group.
 
-### 8.1 基本概念
+### 8.1 Basic concepts
 
-- **3 级嵌套**：最多 `Group → SubGroup → SubSubGroup`，再深就建不出来
-- **同一个顶层文件夹下不重复**：把项目加到某个子文件夹时，如果它已经在**同一个顶层文件夹及其下的任意子文件夹**里，会**自动从原位置移除**——保证一个项目在同一个顶层分组里只出现一次
-- **不同顶层文件夹可共存**：项目可以同时存在于两个**独立的顶层文件夹**里
-- **颜色标签**：顶层文件夹自动着色，子文件夹继承父色；颜色跟随文件夹本身，不随排序/增删变动
-- **顺序可控**：新建的文件夹排在同级最上面，之后可用 Ctrl+拖拽随意调整顺序（见 §8.6），顺序会持久化
+- **3-level nesting**: at most `Group → SubGroup → SubSubGroup`; deeper levels cannot be created
+- **No duplicates within the same top-level folder**: when you add a project to a subfolder, if it already exists in **that top-level folder or any of its subfolders**, it is **automatically removed from the old location** — a project can only appear once under a single top-level group
+- **Can coexist in different top-level folders**: a project can exist in two independent top-level folders at the same time
+- **Color labels**: top-level folders are colored automatically; subfolders inherit the parent color; colors are tied to the folder itself and never change on reorder/create/delete
+- **Controllable order**: new folders appear at the top of their sibling list, and you can reorder them at any time with Ctrl+drag (see §8.6); the order is persisted
 
-### 8.2 创建虚拟文件夹
+### 8.2 Creating virtual folders
 
-1. 单击侧边栏 **Virtual Folders** 区任意位置或箭头展开
-2. 想建顶层：直接点 **New** 按钮
-3. 想建子文件夹：先单击选中父文件夹，再点 **New**
-4. 输入名称 → 确定
+1. Click anywhere in the **Virtual Folders** area or click the arrow to expand it
+2. To create a top-level folder: click the **New** button directly
+3. To create a subfolder: first select the parent folder, then click **New**
+4. Enter a name and confirm
 
-### 8.3 添加项目到文件夹
+### 8.3 Adding projects to folders
 
-三种方法，任挑一个：
+Three methods, pick whichever is convenient:
 
-- **拖拽**（最直观）：从右侧表格拖项目到左侧文件夹节点
-- **右键菜单**：右键项目 → Add to Folder ▸ 选目标文件夹
+- **Drag and drop** (most intuitive): drag projects from the right table to a folder node on the left
+- **Context menu**: right-click project → Add to Folder ▸ pick target folder
 
 ![project manager](../assets/functions/project-manager-19.png)
 
-- **多选拖拽**：Ctrl&Shift 多选后整批拖过去
+- **Multi-select drag**: Ctrl / Shift multi-select, then drag the batch
 
-### 8.4 从文件夹移除项目
+### 8.4 Removing projects from a folder
 
-进入该文件夹视图 → 选中项目 → 右键 → **Remove from This Folder**。
+Enter the folder's view → select the project → right-click → **Remove from This Folder**.
 
 ![project manager](../assets/functions/project-manager-20.png)
 
-> ⚠️ "移除"只是从虚拟文件夹的清单里删，磁盘文件和别的虚拟文件夹都不受影响。
+> ⚠️ **Warning**: "Remove" only removes the project from the virtual folder's list; disk files and other virtual folders are not affected.
 >
-> ⚠️ 注意区分：**Remove from This Folder** 是把项目从文件夹里拿出来；侧边栏左下角的 **Delete** 按钮是删整个文件夹本身（会弹二次确认）——两个是不同操作，别点错。
+> ⚠️ **Warning**: Note the difference: **Remove from This Folder** takes the project out of the folder; the **Delete** button at the bottom-left of the sidebar deletes the entire folder itself (with confirmation) — these are different operations.
 
-### 8.5 Virtual Folders 根视图
+### 8.5 Virtual Folders root view
 
-单击 Virtual Folders 标题条主体（不是箭头），主区域切换到"根视图"——把所有顶层文件夹当成"文件夹卡片"在表格里列出来，双击进入。这等于把顶层文件夹也当成一种"分类"来浏览。
+Click the Virtual Folders header text (not the arrow) to switch to the "root view" — all top-level folders are listed as folder cards in the table; double-click one to enter it. This treats top-level folders themselves as categories to browse.
 
-### 8.6 文件夹排序（Ctrl + 拖拽）
+### 8.6 Reordering folders (Ctrl + drag)
 
-在侧边栏的文件夹树里，**按住 Ctrl（macOS 用 Cmd）拖动一个文件夹**即可调整它在同级中的顺序：
+In the sidebar folder tree, **hold Ctrl (Cmd on macOS) and drag a folder** to change its position among its siblings:
 
-1. 按住 **Ctrl/Cmd**，在文件夹节点上按下鼠标并拖动
-2. 移到某个**同级兄弟**的行上：
-   - 行**上半段** → 青色插入线出现在该行顶部 = 插到它**前面**
-   - 行**下半段** → 插入线出现在落点处 = 插到它**后面**
-3. 松开鼠标 → 文件夹落位，顺序立即保存
+1. Hold **Ctrl/Cmd**, press the mouse on a folder node and start dragging
+2. Move over a **sibling** folder's row:
+   - **Upper half** of the row → a teal insert line appears at the top of that row = insert **before** it
+   - **Lower half** of the row → the insert line appears at the actual landing spot = insert **after** it
+3. Release the mouse → the folder moves; the new order is saved immediately
 
-**规则与细节**：
+**Rules and details**:
 
-- **只能同级排序**：不能通过 Ctrl+拖拽把文件夹挪进/挪出别的层级（挪层级请用先删后建或保持现状）；悬停在非同级节点上不会出现插入线
-- **插入线画在真实落点**：目标文件夹处于**展开**状态时，"插到它后面"意味着排到它整棵子树之后——插入线会画在其最后一个可见子项的下方，所见即所得
-- **不按 Ctrl 的普通拖动**不会拖起文件夹（避免误触），文件夹节点此时只作为"工程拖入"的目标
-- 排序结果写入配置文件，重启 REAPER 后保持
+- **Same-level only**: Ctrl+drag cannot move a folder into or out of another nesting level; hovering over a non-sibling node shows no insert line
+- **The insert line marks the real landing spot**: when the target folder is **expanded**, "insert after it" means after its entire subtree — the line is drawn below its last visible descendant, so what you see is what you get
+- **Plain dragging without Ctrl** never picks up a folder (avoids accidental moves); folder nodes then only act as drop targets for projects
+- The order is written to the configuration file and survives REAPER restarts
 
-> 💡 **典型用法**：一个皮肤/客户一个文件夹时，新建的文件夹默认在最上面（最新的最顺手），旧的用 Ctrl+拖拽按自己的习惯归位。
+> 💡 **Typical use**: with one folder per skin/client, new folders start at the top (newest at hand), and older ones can be Ctrl+dragged into whatever order suits you.
 
 ---
 
-## 9. 项目备份
+## 9. Project backup
 
-把工程文件 + 它引用的媒体文件 + 子工程 + 它们的依赖，一起整理到一个目标目录。备份过程会自动重写 `.rpp` 里的媒体路径，**备份后的工程可以独立打开、独立迁移**。
+Backs up the project file + referenced media files + subprojects + their dependencies into a target directory. The backup engine rewrites media paths in the `.rpp`, so **the backed-up project can be opened and migrated independently**.
 
-### 9.1 触发备份
+### 9.1 Triggering backup
 
-两种入口都会弹出 **Backup** 对话框：
+Both entry points open the **Backup** dialog:
 
-- 顶部工具栏的 **Backup** 按钮（备份当前选中的项目）
-- 右键菜单的 **Backup...**
+- Top toolbar **Backup** button (backs up currently selected projects)
+- Context menu **Backup...**
 
-### 9.2 Backup 对话框
+### 9.2 Backup dialog
 
 ![project manager](../assets/functions/project-manager-21.png)
 
-**字段说明**：
+**Field descriptions**:
 
-| 字段 | 用途 |
-|---|---|
-| **Target Directory** | 备份的目标根目录（必填）。点 Browse 选系统文件夹 |
-| **Create subfolder for each project** | 见 §9.3 |
-| **项目列表** | 每行左侧灰色显示原文件名，右侧输入框可自定义本次备份的名字 |
+| Field | Purpose |
+| ----- | ------- |
+| **Target Directory** | Backup destination root (required). Click Browse to pick a system folder |
+| **Create subfolder for each project** | See §9.3 |
+| **Project list** | Each row shows the original file name on the left; the input on the right lets you customize the backup name for this run |
 
-### 9.3 Create subfolder 开关的区别
+### 9.3 Create subfolder switch
 
-这个开关只决定一件事：**要不要给每个备份单独包一个文件夹**。下面的"媒体如何摆放"是这个选择带出来的连带结果，不是另一个独立设置。
+This switch only decides one thing: **whether to wrap each backup in its own folder**. How media is arranged is a consequence of that choice, not an independent setting.
 
-**ON（默认）：每个工程独立成一个文件夹**
+**ON (default): each project gets its own folder**
 
-每个备份各自进自己的文件夹，`.rpp` 和它的 `Media/`、`Subproject Archive/` 都装在里面，是一个能整包拎走、独立打开、独立迁移的单元：
+Each backup goes into its own folder, with the `.rpp` and its `Media/` and `Subproject Archive/` inside — a self-contained, portable unit:
 
 ```
 TargetDir/
@@ -362,7 +362,7 @@ TargetDir/
 │   ├── Media/
 │   │   ├── voice.wav
 │   │   └── drums.wav
-│   └── Subproject Archive/    ← 仅当该工程含有效子工程时才创建（与本开关无关）
+│   └── Subproject Archive/    <- created only if the project contains valid subprojects (independent of this switch)
 │       └── SubProj1/
 │           ├── SubProj1.rpp
 │           └── Media/
@@ -370,13 +370,13 @@ TargetDir/
     └── ...
 ```
 
-适合：**初次完整备份**、归档。
+Best for: **first complete backup**, archiving.
 
-> 📌 注意：`Subproject Archive/` 是否出现，取决于这个工程**本身有没有子工程**，跟 Create subfolder 开关是两码事——别把这两个"是否建文件夹"混为一谈。
+> **Note**: Whether `Subproject Archive/` appears depends on whether the project **itself has subprojects** — this is separate from the Create subfolder switch. Do not confuse the two.
 
-**OFF：不包文件夹，所有备份平铺、共享一个 `Media/`**
+**OFF: no per-project folders, all backups flat, sharing one `Media/`**
 
-所有工程的 `.rpp` 直接落在目标根目录，因为没有各自的文件夹隔离，媒体只能倒进**同一个** `Media/`。正因为是共享目录，复制时会做**差异同步**——目标 `Media/` 里已有的同名文件直接跳过、不重复拷：
+All `.rpp` files go directly into the target root. Because there are no individual folders to isolate them, media goes into a **single shared** `Media/`. Because it is shared, copying is **differential** — files already in the target `Media/` with the same name are skipped instead of copied again:
 
 ```
 TargetDir/
@@ -384,24 +384,24 @@ TargetDir/
 ├── ProjectB.rpp
 ├── ProjectC.rpp
 └── Media/
-    ├── voice.wav        ← 已存在的同名文件不重复复制；不同源的同名文件自动加 _2、_3 后缀
+    ├── voice.wav        <- existing same-name files are skipped; same-name files from different sources get _2, _3 suffixes
     ├── drums.wav
     └── ...
 ```
 
-适合：**多个共享素材库的工程一起备份**——共用一份 `Media/`，已经在目标里的素材不会被重复拷进来。
+Best for: **backing up multiple projects that share a material library** — one shared `Media/`, already-present assets are not copied again.
 
-### 9.4 自定义备份名
+### 9.4 Custom backup names
 
-每行右侧的输入框可以改本次备份的名字：
+The input box on each row lets you change the name for this backup:
 
-- Create subfolder = ON：决定子文件夹名（同时 `.rpp` 也跟着改名）
-- Create subfolder = OFF：决定输出 `.rpp` 的文件名
-- **冲突自动加时间戳**：如果目标已存在同名，自动追加 `_bak_MMDD_HHMM`，不会覆盖你已有的备份
+- Create subfolder = ON: determines the subfolder name (the `.rpp` is renamed to match)
+- Create subfolder = OFF: determines the output `.rpp` file name
+- **Conflict auto-timestamp**: if a target with the same name already exists, PM appends `_bak_MMDD_HHMM` automatically and never overwrites existing backups
 
-### 9.5 Backup 进度对话框
+### 9.5 Backup progress dialog
 
-确认后弹出进度窗口：
+After confirming, a progress window appears:
 
 ![project manager](../assets/functions/project-manager-22.png)
 
@@ -416,12 +416,12 @@ TargetDir/
 └────────────────────────────────────────────┘
 ```
 
-- 项目级进度（X / Y）+ 单工程内文件级子进度，进度条平滑滑动
-- **Cancel 按钮**可随时中止；中止后会等当前文件复制完，标题变 "Cancelling..."
+- Project-level progress (X / Y) + per-project file-level sub-progress, smooth progress bar
+- **Cancel** stops at any time; it waits for the current file copy to finish, then the title changes to "Cancelling..."
 
-### 9.6 完成对话框
+### 9.6 Completion dialog
 
-备份结束后窗口变成总结：
+When backup finishes, the window becomes a summary:
 
 ![project manager](../assets/functions/project-manager-23.png)
 
@@ -432,52 +432,52 @@ TargetDir/
 │  Total size: 248.3 MB                      │
 │  Location: D:\Backups\2026-05-19           │
 │                                            │
-│  ⚠ Some files were missing. See            │
+│  ⚠️ Some files were missing. See            │
 │    MISSING_FILES.txt in each project.      │
 │                                            │
 │      [ Open Folder ]    [ Close ]          │
 └────────────────────────────────────────────┘
 ```
 
-- **Open Folder** 在系统文件管理器中打开目标目录
-- 如果有丢失的媒体文件，会在备份目录里生成一份 **MISSING_FILES.txt** 报告，列出找不到的所有路径和上下文，附操作建议
+- **Open Folder** opens the target directory in the system file manager
+- If any media files were missing, a **MISSING_FILES.txt** report is generated in the backup directory, listing all missing paths and context plus recommended actions
 
-### 9.7 智能查找媒体文件
+### 9.7 Smart media file lookup
 
-备份引擎不会因为 `.rpp` 里的相对路径"凑巧"找不到就放弃，它会按以下顺序找：
+The backup engine does not give up just because the path recorded in the `.rpp` cannot be found. It searches in this order:
 
-1. `.rpp` 里记录的原始路径（绝对或相对）
-2. 工程 `.rpp` 同目录
-3. 同目录下的 `media files / Media / audio / Audio / media` 子文件夹
+1. The original path recorded in the `.rpp` (absolute or relative)
+2. The same directory as the project `.rpp`
+3. Subfolders named `media files`, `Media`, `audio`, `Audio`, or `media` under that directory
 
-都找不到才记为缺失文件。
+Only if none of these find the file is it recorded as missing.
 
-### 9.8 子工程递归
+### 9.8 Subproject recursion
 
-如果工程里嵌套了子工程（Subproject），备份引擎会**递归把所有子工程都打包**到 `Subproject Archive/` 下，并自动重写主工程里的路径。子工程内部又嵌套子工程也会一路打包到底（自动防循环引用）。
+If a project contains nested subprojects, the backup engine **recursively packages all subprojects** under `Subproject Archive/` and rewrites the parent project's paths. Nested subprojects within subprojects are also packed all the way down (cycles are detected and prevented).
 
-### 9.9 同源去重
+### 9.9 Source deduplication
 
-如果同一个素材在工程里被切成 N 个 item（`.rpp` 里有 N 个引用），备份只会复制**一份**到 Media 目录，所有引用都指向这个同一个目标文件——节省空间且加快备份。
+If the same source material is cut into N items in the project (N references in the `.rpp`), the backup only copies **one** file into the Media directory; all references point to that same target file — saving space and speeding up the backup.
 
 ---
 
-## 10. 扫描路径管理（Manage Scan Paths）
+## 10. Scan path management (Manage Scan Paths)
 
-通过 **Advanced → Manage Scan Paths...** 打开，是配置 "Scanned Projects" 数据来源的唯一入口。
+Open via **Advanced → Manage Scan Paths...**. This is the only place to configure the data source for "Scanned Projects".
 
 ![project manager](../assets/functions/project-manager-24.png)
 
-**按钮**：
+**Buttons**:
 
-| 按钮 | 行为 |
-|---|---|
-| **+ Add Path** | 弹系统文件夹选择器；新增后即时预览该路径下找到几个 `.rpp` |
-| **Remove** | 移除选中的路径（仅有选中行时可用） |
-| **Refresh** | 立即对所有现有路径重新统计项目数 |
-| **Confirm & Scan** | 关闭对话框 → 弹扫描进度窗口 → 后台扫描所有路径 |
+| Button | Behavior |
+| ------ | -------- |
+| **+ Add Path** | Opens a system folder picker; after adding, it previews how many `.rpp` files are found under that path |
+| **Remove** | Removes the selected path (only available when a row is selected) |
+| **Refresh** | Re-counts projects for all existing paths immediately |
+| **Confirm & Scan** | Closes the dialog → opens scan progress window → scans all paths in the background |
 
-### 10.1 扫描进度对话框
+### 10.1 Scan progress dialog
 
 ```
 ┌─ Scanning for projects... ────────┐
@@ -489,42 +489,42 @@ TargetDir/
 └───────────────────────────────────┘
 ```
 
-- **进度条**（来回滑动的动画）
-- 实时显示已发现的工程数
-- **Cancel** 随时中止；完成后变 **Close**
+- **Progress bar** (animated marquee)
+- Live count of discovered projects
+- **Cancel** stops at any time; when finished it becomes **Close**
 
-### 10.2 自动清理
+### 10.2 Automatic cleanup
 
-删除某个扫描路径后，该路径下的工程会自动从 Scanned Projects 列表中消失——**不需要再扫一次**。
+After removing a scan path, projects under that path disappear from Scanned Projects automatically — **no need to rescan**.
 
 ---
 
-## 11. 排除路径管理（Exclude Paths）
+## 11. Exclude path management (Exclude Paths)
 
-跟 Scan Paths 配对的功能：**Advanced → Manage Exclude Paths...**
+The companion feature to Scan Paths: **Advanced → Manage Exclude Paths...**
 
 ![project manager](../assets/functions/project-manager-25.png)
 
-任何被加进排除路径的目录（含子目录），里面的工程都会被标记为"已排除"。开启 **Advanced → Hide Excluded Projects** 后这些工程会从所有视图中隐藏。
+Any directory added to Exclude Paths (including its subdirectories) is marked as "excluded". Enabling **Advanced → Hide Excluded Projects** hides these projects from all views.
 
-> 💡 **典型用途**：扫描 `D:\Music` 时把 `D:\Music\Backups` 排除掉，避免把备份目录里的 `.rpp` 当成正经工程列出来。
+> **Typical use**: when scanning `D:\Music`, exclude `D:\Music\Backups` so backup directories are not listed as real projects.
 
 ---
 
-## 12. 跨电脑迁移（Path Relocate）
+## 12. Cross-machine migration (Path Relocate)
 
-把 PM 配置文件 (`project_manager.json`) 从机器 A 拷到机器 B 后，里面记录的工程路径几乎全部失效（盘符、目录结构都变了）。**Path Relocate** 工具用来一次性把所有失效路径修复到新机器上的实际位置。
+After copying the PM configuration file (`project_manager.json`) from machine A to machine B, almost all recorded project paths are broken (different drive letters, directory structures). **Path Relocate** fixes all broken paths to their actual locations on the new machine in one go.
 
-### 12.1 工作流
+### 12.1 Workflow
 
-1. **先在新机器上扫一次磁盘**（必须）
-   - Advanced → Manage Scan Paths → 添加新机器的工程根目录 → Confirm & Scan
-   - 等扫描完成
-2. **再打开 Path Relocate 对话框**
+1. **Scan the disk on the new machine first** (required)
+   - Advanced → Manage Scan Paths → add the new machine's project root directory → Confirm & Scan
+   - Wait for the scan to finish
+2. **Open the Path Relocate dialog**
    - Advanced → **Path Relocate...**
-   - 打开时会先强制刷新一次磁盘（2-3 秒），然后分析
+   - It forces a disk refresh (2-3 seconds) and analyzes the situation
 
-### 12.2 Path Relocate 对话框
+### 12.2 Path Relocate dialog
 
 ```
 ┌─ Path Relocate ─────────────────────────────────────────────┐
@@ -545,273 +545,273 @@ TargetDir/
 └─────────────────────────────────────────────────────────────┘
 ```
 
-每行有一个**徽章**指示状态：
+Each row has a **badge** indicating status:
 
-| 徽章 | 颜色 | 含义 | 默认 |
-|---|---|---|---|
-| **AUTO** | 绿色 | 唯一最优候选，可放心自动替换 | 默认勾选 |
-| **CHOOSE** | 橙色 | 多个候选并列，需要你亲自选 | 默认不勾选——选了候选后才会自动启用 |
-| **MISSING** | 灰色 | 扫描结果里没有同名 `.rpp`，无法找到 | 无 toggle，保留原值 |
+| Badge | Color | Meaning | Default |
+| ----- | ----- | ------- | ------- |
+| **AUTO** | green | Unique best candidate; safe to auto-replace | checked by default |
+| **CHOOSE** | orange | Multiple candidates tied; you must choose | unchecked by default — selecting a candidate auto-enables it |
+| **MISSING** | gray | No same-name `.rpp` found in scanned projects | no toggle; original value kept |
 
-### 12.3 Apply 后
+### 12.3 After Apply
 
-按 Apply 时会：
+Clicking Apply will:
 
-1. 自动备份当前 JSON 到 `project_manager.json.bak.YYYYMMDD-HHMMSS`（如果备份失败则中止，不修改数据）
-2. 应用所有勾选的映射到：**虚拟文件夹**、**收藏夹**、**项目备注**
-3. 弹出结果提示框，显示更新条目数和备份文件路径
+1. Automatically back up the current JSON to `project_manager.json.bak.YYYYMMDD-HHMMSS` (if backup fails, Apply aborts without modifying data)
+2. Apply all checked mappings to: **virtual folders**, **favorites**, **project notes**
+3. Show a result dialog with the number of updated entries and the backup file path
 
 ---
 
-## 13. Advanced 菜单（设置菜单 ☰）
+## 13. Advanced menu (settings menu)
 
-工具栏最右的菜单按钮，弹出一个分组的浮动面板：
+The rightmost menu button on the toolbar opens a grouped floating panel:
 
 ![project manager](../assets/functions/project-manager-26.png)
 
-### 13.1 视图过滤组
+### 13.1 View filters
 
-| 项 | 默认 | 行为 |
-|---|---|---|
-| **Show Deleted Projects** | OFF | 显示磁盘上已不存在的工程（红色 [X] 标签 + 删除线 + 灰字） |
-| **Show Subprojects** | ON | 显示子工程（[Sub] 绿色标签） |
+| Item | Default | Behavior |
+| ---- | ------- | -------- |
+| **Show Deleted Projects** | OFF | Shows projects whose files no longer exist on disk (red [X] label + strikethrough + gray text) |
+| **Show Subprojects** | ON | Shows subprojects ([Sub] green label) |
 
-### 13.2 列显隐组
+### 13.2 Column visibility
 
-| 项 | 默认 |
-|---|---|
+| Item | Default |
+| ---- | ------- |
 | **Show Path Column** | ON |
 | **Show Modified Column** | ON |
 | **Show Note Column** | ON |
 
-关闭列后，剩余列会按比例自动加宽——除非你之前手动调过列宽。
+After hiding columns, remaining columns auto-widen proportionally — unless you have manually resized columns before.
 
-### 13.3 行为组
+### 13.3 Behavior
 
-| 项 | 默认 | 行为 |
-|---|---|---|
-| **Auto-hide after opening project** | OFF | 打开工程后 100ms 自动隐藏 PM 窗口（Open / Open in Tab 都生效） |
-| **Hide Excluded Projects** | OFF | 隐藏 Exclude Paths 下的所有工程 |
+| Item | Default | Behavior |
+| ---- | ------- | -------- |
+| **Auto-hide after opening project** | OFF | Hides the PM window 100 ms after opening a project (applies to Open and Open in Tab) |
+| **Hide Excluded Projects** | OFF | Hides all projects under Exclude Paths |
 
-### 13.4 管理按钮
+### 13.4 Management buttons
 
-| 按钮 | 用途 |
-|---|---|
-| **Manage Exclude Paths...** | 见 §11 |
-| **Manage Scan Paths...** | 见 §10 |
-| **Path Relocate...** | 见 §12 |
+| Button | Purpose |
+| ------ | ------- |
+| **Manage Exclude Paths...** | See §11 |
+| **Manage Scan Paths...** | See §10 |
+| **Path Relocate...** | See §12 |
 
-> 💡 所有 Advanced 菜单的开关状态都会持久化——重启 REAPER 后依然记得你上次的设置。
+> 💡 **Tip**: All Advanced menu toggle states are persisted — they survive REAPER restarts.
 
 ---
 
-## 14. 项目备注
+## 14. Project notes
 
-每个工程都能加一段备注，显示在 Note 列里。
+Every project can have a note, shown in the Note column.
 
-**入口**：
-- 右键项目 → **Edit Note**
-- 仅单选时可用
+**Entry points**:
+- Right-click project → **Edit Note**
+- Only available for single selection
 
-**对话框**：
+**Dialog**:
 
 ![project manager](../assets/functions/project-manager-27.png)
 
 ![project manager](../assets/functions/project-manager-28.png)
 
-- 留空 + Save = 删除该工程的备注
-- 备注列里超过 30 字符会用 "..." 截断显示，但完整备注仍然保存
+- Leave blank and click Save = delete the project's note
+- Notes longer than 30 characters are truncated with "..." in the column, but the full note is still saved
 
 ---
 
-## 15. 快捷键与典型行为
+## 15. Shortcuts and typical behaviors
 
-### 15.1 鼠标行为
+### 15.1 Mouse behavior
 
-| 操作 | 行为 |
-|---|---|
-| 单击项目 | 选中 |
-| **Ctrl/Cmd** + 单击 | 多选切换 |
-| **Shift** + 单击 | 范围多选 |
-| 双击项目 | 打开（FX Offline 开关生效） |
-| 双击文件夹 | 进入该文件夹 |
-| 右键项目 | 弹出右键菜单 |
-| 拖拽项目 | 拖到 Virtual Folders 文件夹上归类 |
-| **Ctrl/Cmd** + 拖拽文件夹 | 调整同级文件夹顺序（见 §8.6） |
-| 拖拽列分隔线 | 调整列宽（自动持久化） |
-| 单击列头 | 排序 |
+| Operation | Behavior |
+| --------- | -------- |
+| Click project | Select |
+| **Ctrl/Cmd** + click | Multi-select toggle |
+| **Shift** + click | Range multi-select |
+| Double-click project | Open (FX Offline toggle applies) |
+| Double-click folder | Enter folder |
+| Right-click project | Open context menu |
+| Drag project | Drop onto Virtual Folders folder to categorize |
+| **Ctrl/Cmd** + drag folder | Reorder folders among siblings (see §8.6) |
+| Drag column divider | Resize column (auto-persisted) |
+| Click column header | Sort |
 
-### 15.2 鼠标进入窗口时自动刷新
+### 15.2 Auto-refresh on mouse enter
 
-鼠标进入 PM 窗口时，会自动重新扫描一次 REAPER 历史，——这样在 REAPER 里打开了新工程后，切回 PM 就能看到。
+When the mouse enters the PM window, it automatically rescans REAPER's history once — so after opening a new project in REAPER, switching back to PM shows it.
 
-### 15.3 默认视图
+### 15.3 Default view
 
-每次打开 PM 默认显示 **History Projects** 视图。
+Every time PM opens, it defaults to the **History Projects** view.
 
 ---
 
-## 16. 典型工作流
+## 16. Typical workflows
 
-### 工作流 A：第一次配置 PM
+### Workflow A: First-time PM setup
 
 ```
-1. 打开 PM (Extensions → MantrikaTools → Project manager)
+1. Open PM (Extensions → Mantrika Tools → Project manager)
 2. Advanced → Manage Scan Paths
-3. + Add Path → 选你的工程根目录（可加多个）
-4. Confirm & Scan，等扫描进度跑完
-5. 侧边栏点 Scanned Projects → 看到所有工程
+3. + Add Path → pick your project root directory (multiple allowed)
+4. Confirm & Scan, wait for the scan progress to finish
+5. Click Scanned Projects in the sidebar → see all projects
 ```
 
-### 工作流 B：建立你自己的分类体系
+### Workflow B: Build your own category system
 
 ```
-1. 侧边栏展开 Virtual Folders → New 建顶层文件夹（如 "客户A"）
-   （新建的文件夹出现在最上面）
-2. 在 "客户A" 下 New 子文件夹 "项目1"、"项目2"
-3. 在右侧表格找到对应工程
-4. 拖到对应虚拟文件夹（多选 Ctrl 选中后批量拖）
-5. 需要调整文件夹顺序：Ctrl + 拖拽文件夹到目标位置（见 §8.6）
-6. 完成
+1. Expand Virtual Folders in the sidebar → New to create a top-level folder (e.g. "ClientA")
+   (new folders appear at the top)
+2. Under "ClientA" create subfolders "Project1", "Project2"
+3. Find the corresponding projects in the right table
+4. Drag them to the right virtual folder (Ctrl multi-select for batch drag)
+5. To adjust folder order: Ctrl + drag a folder to the target position (see §8.6)
+6. Done
 ```
 
-### 工作流 C：备份整套工程交付
+### Workflow C: Deliver a complete project package
 
 ```
-1. 选中所有要交付的工程（Ctrl 多选）
-2. 顶栏 Backup 按钮
-3. Target Directory: 选 D:\Delivery\2026-05-19
-4. ☑ Create subfolder for each project（推荐）
-5. 可选：在右侧给每个工程改个对外的备份名
-6. Backup → 等待进度跑完
-7. 完成后 Open Folder 查看
-8. 如果有 MISSING_FILES.txt 出现，按报告里的建议处理
+1. Select all projects to deliver (Ctrl multi-select)
+2. Top toolbar Backup button
+3. Target Directory: pick D:\Delivery\2026-05-19
+4. [x] Create subfolder for each project (recommended)
+5. Optional: customize each project's external backup name on the right
+6. Backup → wait for progress to finish
+7. Click Open Folder to review
+8. If MISSING_FILES.txt appears, handle it according to the report
 ```
 
-### 工作流 D：跨电脑迁移
+### Workflow D: Cross-machine migration
 
 ```
-机器 A（旧）:
-1. 关闭 REAPER
-2. 找到 project_manager.json (在 MantrikaTools 配置目录)
-3. 拷贝到机器 B
+Machine A (old):
+1. Close REAPER
+2. Locate project_manager.json (in the MantrikaTools config directory)
+3. Copy it to machine B
 
-机器 B（新）:
-1. 把 project_manager.json 放到对应目录
-2. 打开 REAPER → Project Manager
-3. Advanced → Manage Scan Paths → 添加新机器的工程根目录 → Confirm & Scan
-4. 等扫描完成
-5. Advanced → Path Relocate → 等分析
-6. 检查每行：
-   - AUTO 默认勾选，没问题就保留
-   - CHOOSE 点下拉选正确候选
-   - MISSING 找不到，保留原值
-7. Apply → 弹出更新报告
-8. 关闭后所有虚拟文件夹/收藏/备注都指向新机器上的正确路径
+Machine B (new):
+1. Place project_manager.json in the corresponding directory
+2. Open REAPER → Project Manager
+3. Advanced → Manage Scan Paths → add the new machine's project root → Confirm & Scan
+4. Wait for scan to finish
+5. Advanced → Path Relocate → wait for analysis
+6. Review each row:
+   - AUTO is checked by default; keep if correct
+   - CHOOSE: pick the correct candidate from the dropdown
+   - MISSING: not found; original value kept
+7. Apply → a report dialog appears
+8. After closing, all virtual folders / favorites / notes point to the correct paths on the new machine
 ```
 
-### 工作流 E：快速搜索打开工程
+### Workflow E: Quickly search and open a project
 
 ```
-1. 顶栏 Search 框
-2. 输入关键词（多个关键词空格分隔，每个都要匹配）
-3. 表格实时过滤
-4. 双击想要的工程 → 直接打开
+1. Top toolbar Search box
+2. Type keywords (space-separated; all must match)
+3. Table filters in real time
+4. Double-click the project you want → opens directly
 ```
 
-### 工作流 F：用 FX Offline 打开高负载工程
+### Workflow F: Open a heavy project with FX Offline
 
 ```
-1. 侧边栏底部勾选 ☑ FX Offline
-2. 双击工程或右键 Open
-3. REAPER 加载时所有 FX 都是离线状态
-4. 在 REAPER 里再手动启用你需要的 FX
-5. 用完想恢复正常模式：回 PM 取消勾选 FX Offline
+1. Check FX Offline at the bottom of the sidebar
+2. Double-click the project or right-click → Open
+3. REAPER loads with all FX offline
+4. In REAPER, manually enable the FX you need
+5. To return to normal mode later, uncheck FX Offline in PM
 ```
 
-### 工作流 G：清理"已删除"工程
+### Workflow G: Clean up "deleted" projects
 
 ```
-1. Advanced → ☑ Show Deleted Projects
-2. 表格里所有 [X] 红色标签的就是磁盘上已经删除的
-3. 选中它们 → 右键 → Remove from Favorites / Remove from This Folder
-4. 完成后再关掉 Show Deleted Projects 开关
+1. Advanced → [x] Show Deleted Projects
+2. All projects with a red [X] label are files already deleted on disk
+3. Select them → right-click → Remove from Favorites / Remove from This Folder
+4. Turn off Show Deleted Projects when done
 ```
 
 ---
 
-## 17. 注意事项 
+## 17. Notes and caveats
 
-### 17.1 Refresh 不会扫描磁盘
+### 17.1 Refresh does not scan the disk
 
-工具栏的 Refresh 按钮只刷新 REAPER 历史和现有项目的状态。**要发现新增工程必须走 Manage Scan Paths**。
+The toolbar Refresh button only refreshes REAPER history and the status of existing projects. **To discover newly added local projects you must use Manage Scan Paths**.
 
-### 17.2 Delete Folder 会连子文件夹一起删
+### 17.2 Delete Folder also deletes subfolders
 
-侧边栏的 Delete 按钮会弹二次确认对话框，确认后会**连同所有子文件夹一起删**。对话框会写明要删的文件夹名 + 是否含子文件夹，默认按钮是 Cancel（Esc / Enter 都是取消），只有明确点 Delete 才真的执行——但删之前仍然请确认选的是对的那个。磁盘上的项目文件不受影响。
+The sidebar Delete button opens a confirmation dialog; confirming deletes **all subfolders together**. The dialog shows the folder name and whether it contains subfolders; the default button is Cancel (Esc / Enter cancel). **Only clicking the Delete button actually executes the deletion** — but still double-check you have selected the correct folder before confirming. Project files on disk are not affected.
 
-### 17.3 虚拟文件夹最多 3 级
+### 17.3 Virtual folders are limited to 3 levels
 
-达到 3 级后 New 按钮会禁用。无法绕过。
+After reaching 3 levels the New button is disabled. There is no workaround.
 
-### 17.4 同一个顶层文件夹下项目不重复
+### 17.4 No duplicate projects under the same top-level folder
 
-把项目加到顶层文件夹 A 下的某个子文件夹时，如果它已经在 A 或 A 的别的子文件夹里，会自动从原位置移除。如果需要"一个项目同时在两处"，得放到**两个不同的顶层文件夹**里。
+When adding a project to a subfolder under top-level folder A, if it already exists in A or another subfolder of A, it is automatically removed from the old location. If you need "the same project in two places", put it in **two different top-level folders**.
 
-### 17.5 Backup 不会覆盖现有同名目录
+### 17.5 Backup does not overwrite existing same-name directories
 
-Create subfolder = ON 下，如果目标位置已经有同名子文件夹，PM 会自动给本次备份追加时间戳（`_bak_MMDD_HHMM`）。所以多次备份同一个工程不会互相覆盖。
+With Create subfolder = ON, if a same-name subfolder already exists at the target, PM appends a timestamp (`_bak_MMDD_HHMM`) to this backup. Multiple backups of the same project will not overwrite each other.
 
-### 17.6 Create subfolder = OFF 时的差异复制
+### 17.6 Differential copy when Create subfolder = OFF
 
-不创建子文件夹（Create subfolder = OFF）时，因为所有工程共享一个 `Media/`，已经在目标 Media 里的同名文件**不会**被重新复制。但如果你改过这个文件的内容、又想用新版本，请先手动删掉目标里的旧版本。
+When not creating subfolders (Create subfolder = OFF), all projects share one `Media/`, so files already in the target Media are **not** copied again. But if you have modified a file and want the new version, delete the old version in the target first.
 
-### 17.7 Path Relocate 必须先扫描
+### 17.7 Path Relocate requires scanning first
 
-Path Relocate 把 `Scanned Projects` 作为候选池来匹配。如果新机器上一次都没扫过，会看到一片 MISSING，对话框顶部会有橙色提示。
+Path Relocate uses `Scanned Projects` as the candidate pool. If the new machine has never been scanned, you will see all MISSING rows and an orange hint at the top of the dialog.
 
-### 17.8 Path Relocate 自动备份 JSON
+### 17.8 Path Relocate auto-backs up JSON
 
-Apply 前自动备份 `project_manager.json` 到同目录的 `.bak.<时间戳>`。如果备份失败（磁盘满 / 没权限）会中止 Apply，不修改任何数据。
+Before Apply, PM backs up `project_manager.json` to a `.bak.<timestamp>` file in the same directory. If the backup fails (disk full / no permission), Apply aborts without modifying any data.
 
-### 17.9 FX Offline 是会话级开关
+### 17.9 FX Offline is session-persistent
 
-PM 窗口关掉再打开会**记住**这个开关状态。改了之后下次打开仍然是离线模式——不需要的时候记得取消。
+PM remembers this toggle after the window is closed and reopened. Next time it opens it is still in offline mode — remember to uncheck it when you no longer need it.
 
-### 17.10 Auto Hide 在 Open in Tab 时也生效
+### 17.10 Auto Hide also applies to Open in Tab
 
-如果 Auto Hide 开着，"Open in Tab" 一批工程后窗口也会自动隐藏——需要时按菜单或快捷键重新打开。
+If Auto Hide is on, the window hides after opening a batch of projects with "Open in Tab" too — reopen PM from the menu or shortcut when needed.
 
-### 17.11 子工程在备份里独立保存
+### 17.11 Subprojects are saved independently in backups
 
-`[Sub]` 标签的工程是被某主工程引用的子工程。直接备份子工程时，PM 把它当主工程对待——不会自动找谁引用了它，只备份它自己和它依赖的媒体。
+Projects with a `[Sub]` label are subprojects referenced by a parent project. When backing up a subproject directly, PM treats it as a main project — it does not automatically find which project references it; it only backs up the subproject and its own media.
 
-### 17.12 Path / Modified / Note 列对文件夹空白
+### 17.12 Path / Modified / Note columns are blank for folders
 
-虚拟文件夹在表格里只显示名字，路径、修改时间、备注三列都是空的——这正常。
+Virtual folders in the table only show their name; the Path, Modified, and Note columns are empty — this is normal.
 
 ---
 
-## 18. 故障排查
+## 18. Troubleshooting
 
-| 现象 | 可能原因 | 解决 |
-|---|---|---|
-| 扫描后表格还是空 | 没切到 Scanned Projects 视图 | 侧边栏单击 Scanned Projects |
-| 扫描根本没找到工程 | 路径下其实没 `.rpp` 文件，或全部在被 Exclude 的子目录里 | 检查 Manage Scan Paths 的预览计数；检查 Exclude Paths |
-| 工程显示成灰色删除线 | 磁盘上文件已不存在 | 找回文件，或在右键菜单删除收藏/移出文件夹 |
-| Search 搜不到 | 关键词太严 / 大小写敏感问题 | 减少关键词、确认拼写；空格分多个关键词都要命中 |
-| Backup 弹出但 OK 按钮灰着 | 还没选目标目录 | 点 Browse 选目录 |
-| Backup 完了 MISSING_FILES.txt 一堆 | 工程引用的媒体真的找不到 | 按 txt 里的建议手动补 |
-| Backup 进度卡在 0% | 第一个工程很大、单文件正在拷 | 等待——子进度条会推进 |
-| 拖项目到文件夹没反应 | 拖到了 Virtual Folders 标题条但不是节点 | 拖到具体的文件夹节点上松开 |
-| 想排序但文件夹拖不动 | 没按住 Ctrl（macOS 是 Cmd） | 先按住 Ctrl/Cmd 再开始拖 |
-| Ctrl+拖拽时没有插入线 | 悬停的不是**同级**兄弟（排序不能跨层级），或光标已移出文件夹树区域 | 移回同级兄弟的行上 |
-| 插入线出现在离目标很远的下方 | 目标文件夹是展开的——"插到它后面"= 排到它整棵子树之后，线画在真实落点 | 属正常现象，所见即所得 |
-| 升级后文件夹颜色和以前不一样 | 配色算法改为跟随文件夹本身（不再按列表位置） | 一次性变化；此后新建/排序/删除都不会再影响已有颜色 |
-| 子文件夹建不出来 | 已达 3 级嵌套上限 | 这是硬限制——重新组织你的分类结构 |
-| Path Relocate 全是 MISSING | 还没扫描磁盘 | 先 Manage Scan Paths → Confirm & Scan |
-| Path Relocate 推荐错了 | 候选差距 ≤ 1 段时不确定 | 那一行会是 CHOOSE 让你手选；如果误判成 AUTO 可以取消勾选 |
-| 列宽调过后变得很挤 | 手动调过后不再自动重新分配 | 再次手动拖列分隔线调到舒服为止 |
-| Create subfolder=OFF 备份后 Media 里没新文件 | 同名文件已经存在被跳过 | 删除目标里的旧版本再重新备份 |
-| 切换 FX Offline 后还是正常加载 FX | 过程中操作了键盘 | 重新双击打开，打开过程中不要操作键盘 |
-| 右键菜单的 Add to Folder 列表很长 | 虚拟文件夹太多 | 滚动子菜单；或先在侧边栏定位再单击文件夹直接归类 |
+| Symptom | Possible cause | Fix |
+| ------- | -------------- | --- |
+| Table still empty after scanning | Not switched to Scanned Projects view | Click Scanned Projects in the sidebar |
+| Scan finds no projects at all | No `.rpp` files under the path, or all are in excluded subdirectories | Check the preview count in Manage Scan Paths; check Exclude Paths |
+| Project shown with gray strikethrough | File no longer exists on disk | Recover the file, or remove from favorites / folder via context menu |
+| Search finds nothing | Keywords too strict / case sensitivity | Reduce keywords, check spelling; space-separated keywords must all match |
+| Backup dialog OK button gray | No target directory selected | Click Browse and choose a directory |
+| MISSING_FILES.txt after backup | Referenced media really cannot be found | Follow the suggestions in the txt file |
+| Backup progress stuck at 0% | First project is large; a single file is being copied | Wait — the sub-progress bar will advance |
+| Dragging project to folder does nothing | Dropped on Virtual Folders header instead of a folder node | Drop onto a specific folder node |
+| Folder won't move when trying to reorder | Ctrl (Cmd on macOS) not held down | Hold Ctrl/Cmd before starting the drag |
+| No insert line during Ctrl+drag | Hovering over a non-**sibling** node (reordering can't cross levels), or the cursor left the folder tree area | Move back over a sibling folder's row |
+| Insert line appears far below the target | The target folder is expanded — "insert after it" means after its entire subtree; the line marks the real landing spot | Normal behavior; what you see is what you get |
+| Folder colors changed after upgrading | The color algorithm now follows the folder itself (no longer its list position) | One-time change; from now on creating/reordering/deleting never affects existing colors |
+| Cannot create subfolders | 3-level nesting limit reached | This is a hard limit — reorganize your category structure |
+| Path Relocate all MISSING | Disk not scanned yet | First Manage Scan Paths → Confirm & Scan |
+| Path Relocate recommendation wrong | Candidate difference <= 1 segment is uncertain | That row becomes CHOOSE for manual selection; if misclassified as AUTO, uncheck it |
+| Columns feel cramped after resizing | Manual resize disables auto-redistribution | Drag column dividers again until comfortable |
+| Create subfolder=OFF backup has no new files in Media | Same-name files already existed and were skipped | Delete old versions in target and re-backup |
+| FX Offline still loads FX normally | Keyboard was used during opening | Double-click to open again without touching the keyboard |
+| Add to Folder context menu very long | Too many virtual folders | Scroll the submenu; or locate the folder in the sidebar first and drop there |

@@ -2,290 +2,289 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Item Hub** 是 Mantrika Tools 里给 **media item** 用的快速参数调节面板，定位是"**选中 item → 按住快捷键 → 随手调 → 松手收工**"。
+**Item Hub** is a quick parameter adjustment panel for **media items**. Its purpose is **select an item → hold the shortcut → tweak → release, done**.
 
-它把 item 最常用的几十项属性收进一个巴掌大的悬浮窗里，不用开属性对话框、不用逐个 item 翻页，拇指按着快捷键，另一只手用鼠标就能完成绝大部分日常调节。
+It packs the few dozen most commonly used item properties into a palm-sized floating window, so you do not have to open property dialogs or page through items one by one. One hand stays on the shortcut while the other uses the mouse to handle most everyday adjustments.
 
-![item-hub-01](./../assets/functions/item-hub-01.gif)
+![item-hub-01](../assets/functions/item-hub-01.gif)
 
-窗口采用**按住显示、松开关闭**的交互模式（Momentary Action），全程不阻塞 REAPER 主界面。
+The window uses a **hold-to-show, release-to-close** interaction (momentary action) and never blocks the REAPER main window.
 
 ---
 
-## 2. 打开方式
+## 2. Opening the tool
 
-这个工具没有传统意义上的"菜单点开"，而是靠**快捷键按住触发**：
+This tool has no traditional "click to open" menu entry; it is triggered by **holding a shortcut**:
 
-### 第一步：绑定快捷键
+### Step 1: bind the shortcut
 
-1. 打开 REAPER 的 Action List（快捷键 `?` 或菜单 Actions → Show action list...）
-2. 搜索 **`mantrika : Synergy - Item Hub`**
-4. 给它绑定一个你顺手的热键或鼠标手势（推荐单个按键）
+1. Open REAPER's Action List (shortcut `?` or menu **Actions → Show action list...**)
+2. Search for **`mantrika : Synergy - Item Hub`**
+3. Bind it to a convenient hotkey or mouse gesture (single key recommended)
 
-> **Mac 用户注意**：如果绑定了 F1/F2 等系统功能键，REAPER 顶部 Actions 菜单的 "Show recent actions" 会导致菜单疯狂闪烁。建议关闭该选项，或换用不含 F 系列的快捷键。
-> **Mac 用户也不要绑组合键**，否则滚轮切换分类会失效。
+> **Mac users**: if you bind system function keys such as F1/F2, REAPER's top **Actions → Show recent actions** menu may flicker rapidly. Disable that option or use a shortcut without F-keys.
+> **Mac users should also avoid combo keys**, otherwise wheel category switching will not work.
 
-### 第二步：使用
+### Step 2: use it
 
 ```
-1. 在 Arrange 里选中一个或多个 item
-2. 按住绑定的快捷键 → Item Hub 窗口出现在鼠标旁边
-3. 用鼠标调节参数（见第 4 节）
-4. 松开快捷键 → 窗口关闭，修改实时生效
-```
-
----
-
-## 3. 窗口界面总览
-
-按住快捷键后，窗口贴在鼠标附近弹出：
-
-<img src="./../assets/functions/item-hub-02.gif" alt="item-hub-02" style="zoom: 50%;" />
-
-| 区域 | 说明 |
-| --- | --- |
-| **左列（分类）** | 5 个大类按钮，点击或滚轮切换；激活的分类带金色边框和三角指示 |
-| **右列（参数）** | 当前分类下的具体参数，每行一个，左侧是名字，右侧是数值 |
-| **进度条** | 每行底部有一条小进度条，直观显示当前值在范围内的位置 |
-
----
-
-## 4. 基础用法 —— 四种典型操作
-
-### 4.1 单选 item，改音量 / 音高 / 声像
-
-```
-1. 选中 1 个 item
-2. 按住 Item Hub 快捷键
-3. 鼠标移到右列参数上
-4. 按住左键左右拖拽 → 数值实时变化，item 实时响应
-5. 满意后松手，再松开快捷键
-```
-
-**右键拖拽** = 精细模式，灵敏度降低，适合微调到小数点后两位。
-
-**双击参数行** = 一键重置为默认值。
-
----
-
-### 4.2 多选 item，批量统一参数
-
-```
-1. 选中多个 item（可以跨轨道）
-2. 按住 Item Hub 快捷键
-3. 切换到想要的分类
-4. 拖拽调节
-```
-
-**多选时的行为差异**：
-- 大部分连续参数（如 Vol、Pitch、Pan）会显示为 **相对变化量**（如 `+3.0 dB`、`-2.0 st`），意思是"在各自原值基础上加/减这么多"
-- 这样可以让音量本就不一样的多个 item，一起往上推 3 dB，而不会强行拉到同一个绝对值
-
-> 少数参数在多选下仍显示绝对值：Item Vol、Take Vol、Rate、Preserve Pitch、Reverse、Fade Shape、Channel Mode。
-
----
-
-### 4.3 快速切换分类
-
-| 方式 | 操作 |
-| --- | --- |
-| **点击左列** | 直接点想要的分类按钮 |
-| **滚轮** | 在窗口任意位置滚动鼠标滚轮，循环切换分类 |
-| **快捷键** | 如果给同一个 Action 绑了多个按键，按住期间都能唤起 |
-
-左手按住热键，右手滚轮切分类、拖拽调参数，全程不用点窗口标题栏。
-
----
-
-### 4.4 开关型与档位型参数
-
-不是所有参数都需要拖拽：
-
-| 参数类型 | 怎么操作 | 例子 |
-| --- | --- | --- |
-| **连续数值** | 左/右拖拽 | Vol、Pitch、Fade In、Pan |
-| **Toggle 开关** | 左键单击切换 ON/OFF | Preserve Pitch、Reverse |
-| **Discrete 档位** | 左右拖拽切档 | FadeIn Shape、Channel Mode |
-
-**Fade Shape 七档**：Linear → Fast Start → Fast End → S-Curve → Rev S-Curve → Sharp → Smooth
-
-**Channel Mode 五档**：Normal → Rev Stereo → Mono (DM) → Left → Right
-
----
-
-## 5. 五大分类功能速查
-
-### 5.1 Gain & Pitch（音量与音高）
-
-| 参数 | 范围 | 说明 |
-| --- | --- | --- |
-| **Item Vol** | -150 ~ 12 dB | item 本体音量 |
-| **Take Vol** | -150 ~ 12 dB | take 音量 |
-| **Pitch** | -24 ~ 24 st | 音高半音偏移 |
-| **Rate** | 0.1 ~ 4.0 x | 播放速度（联动改变 item 长度） |
-| **Preserve Pitch** | ON / OFF | 变速时是否保留音高 |
-
-> 改 **Rate** 时 item 长度会自动伸缩，保持音频内容不变。
-
----
-
-### 5.2 Fade & Pan（淡入淡出与声像）
-
-| 参数 | 范围 | 说明 |
-| --- | --- | --- |
-| **Fade In** | 0 ~ 5000 ms | 淡入时长 |
-| **Fade Out** | 0 ~ 5000 ms | 淡出时长 |
-| **FadeIn Shape** | 7 档 | 淡入曲线形状 |
-| **FadeOut Shape** | 7 档 | 淡出曲线形状 |
-| **Pan** | L100 ~ R100 | 声像（0 显示为 C） |
-| **Reverse** | ON / OFF | 音频反转 |
-| **Channel Mode** | 5 档 | 声道模式 |
-
----
-
-### 5.3 Position（位置与边缘）
-
-| 参数 | 范围 | 说明 |
-| --- | --- | --- |
-| **Left Edge** | 0 ~ 当前上限 | 左边缘裁剪（改的是 take offset + item position + length） |
-| **Right Edge** | 0.001 ~ 30 s | 右边缘位置（直接改 item length） |
-| **Take Offset** | -10 ~ 10 s | take 在时间线上的偏移 |
-| **Snap Offset** | 0 ~ item 长度 | item 的吸附偏移点 |
-| **Item Gap** | -1 ~ 5 s | **仅多选可用**：统一 item 之间的间距 |
-| **Batch Trim** | 0.1 ~ 30 s | **仅多选可用**：把所有选中 item 剪到同一长度 |
-
-> **单选时 Item Gap 和 Batch Trim 会灰掉**，因为这两个功能本身就是为多 item 排序/裁剪设计的。
-
-> 改 **Left Edge** 时，Right Edge 和 Take Offset 会实时联动刷新，保持你看到的界面始终反映 item 实际状态。
-
----
-
-### 5.4 Envelope（包络变换）
-
-针对 item take 上**已可见的包络线**做整体变换：
-
-| 参数 | 范围 | 说明 |
-| --- | --- | --- |
-| **V-Scale** | 0.1 ~ 4.0 x | 纵向拉伸包络（值域大的包络拉伸更明显） |
-| **V-Offset** | -1.0 ~ 1.0 | 纵向平移（按包络自身值域比例偏移） |
-| **T-Scale** | 0.1 ~ 4.0 x | 横向时间拉伸/压缩 |
-| **Smooth** | 0 ~ 100 % | 平滑程度（越高越平滑，基于原始点做多次均值滤波） |
-
-> 只处理窗口打开时**已可见**的包络；隐藏状态的包络不会被修改。
-
----
-
-### 5.5 Randomize（随机化）
-
-给每个 item 施加带有随机差异的变化，适合批量制作变体素材：
-
-![item-hub-03](./../assets/functions/item-hub-03.gif)
-
-| 参数 | 范围 | 说明 |
-| --- | --- | --- |
-| **Pitch Rand** | 0 ~ 12 st | 每个 item 的音高在 `原始值 ± 随机系数×该值` 范围内波动 |
-| **Rate Rand** | 0 ~ 1.0 x | 同上，作用于播放速率 |
-| **Vol Rand** | 0 ~ 12 dB | 同上，作用于 take 音量 |
-
-> **每次开始拖拽 Randomize 参数时，都会重新生成一批随机种子**。也就是说，你拖一下放手，不满意，再拖一下，会得到另一组随机结果。
-
----
-
-## 6. 交互速查表
-
-| 操作 | 行为 |
-| --- | --- |
-| **按住快捷键** | 窗口弹出，并快照当前选区所有 item 的状态 |
-| **松开快捷键** | 窗口关闭，所有修改打包为一个 Undo 点（`MTK: Item Hub adjust parameters`） |
-| **左键拖拽** | 调节连续参数；Toggle 参数直接切换 ON/OFF |
-| **右键拖拽** | 精细调节，灵敏度大幅降低 |
-| **双击参数行** | 重置为默认值；多选模式下重置为 0（相对量归零） |
-| **滚轮** | 在窗口内滚动切换左列分类 |
-| **左列点击** | 切换到对应分类 |
-| **窗口失去焦点** | 自动关闭（等同于松开快捷键） |
-
----
-
-## 7. 单选 vs 多选的关键差异
-
-| 场景 | 单选（1 个 item） | 多选（≥2 个 item） |
-| --- | --- | --- |
-| **连续参数显示** | 绝对值（如 `-3.0 dB`） | 相对变化量（如 `+2.0 dB`），少数参数仍显示绝对值 |
-| **Item Gap / Batch Trim** | 灰色不可用 | 可用 |
-| **Randomize** | 随机系数对该 item 生效 | 每个 item 各自独立随机 |
-| **调节方式** | 直接设为该值 | 在原值基础上加/减（除绝对值参数外） |
-
----
-
-## 8. 典型工作流
-
-### 工作流 A：快速统一推/拉一组 item 的音量
-
-```
-1. 选中一批 item
-2. 按住 Item Hub 快捷键
-3. 左列确认在 "Gain & Pitch"
-4. 找到 Item Vol，向右轻推 +3.0 dB
-5. 松手 → 所有 item 一起响 3 dB
-```
-
-> 如果原本音量就不齐，推完后依然保持相对关系，只是整体抬升。
-
----
-
-### 工作流 B：给脚步声/武器声批量加淡入淡出
-
-```
-1. 选中整组素材
-2. 按住快捷键 → 切到 "Fade & Pan"
-3. Fade In 拖到 20 ms，Fade Out 拖到 50 ms
-4. 如需改曲线：在 FadeIn Shape 上左右拖拽选 "Fast End"
-5. 松手
+1. Select one or more items in the Arrange view
+2. Hold the Item Hub shortcut → the window pops up near the mouse
+3. Adjust parameters with the mouse (see §4)
+4. Release the shortcut → the window closes and changes take effect immediately
 ```
 
 ---
 
-### 工作流 C：用 Randomize 做一批有变化的素材
+## 3. Window interface overview
 
-```
-1. 选中 10 个同类型 item
-2. 按住快捷键 → 切到 "Randomize"
-3. Pitch Rand 拖到 2.0 st
-4. Vol Rand 拖到 1.5 dB
-5. 松手 → 每个 item 获得轻微不同的音高和音量
-```
+While holding the shortcut, the window appears next to the mouse:
 
-> 不满意就再按住、再拖一次 Randomize，会重新随机。
+<img src="../assets/functions/item-hub-02.gif" alt="item-hub-02" style="zoom: 50%;" />
 
----
-
-### 工作流 D：把一组包络整体压扁并后移
-
-```
-1. 选中带包络的 item（包络必须是可见状态）
-2. 按住快捷键 → 切到 "Envelope"
-3. V-Scale 拖到 0.5（压扁一半）
-4. T-Scale 拖到 1.2（整体时间后扩 20%）
-5. 如需平滑：Smooth 拖到 30%
-6. 松手
-```
+| Area | Description |
+| ---- | ----------- |
+| **Left column (categories)** | Five large category buttons; click or use the scroll wheel to switch. The active category has a gold border and triangle indicator. |
+| **Right column (parameters)** | The parameters for the current category, one per row: name on the left, value on the right. |
+| **Progress bar** | A small bar under each row shows where the current value sits in its range. |
 
 ---
 
-## 9. 故障排查
+## 4. Basic usage — four typical operations
 
-| 现象 | 原因 | 解决 |
-| --- | --- | --- |
-| 按住快捷键窗口没出来 | Action 未绑定快捷键 / 绑成了组合键导致冲突 | 去 Action List 检查绑定，建议用单键 |
-| 参数拖拽没反应 | 鼠标不在参数行区域内 / 该参数在多选下被禁用 | 确认悬停高亮后再拖拽；灰掉的参数不可交互 |
-| Item Gap / Batch Trim 灰着 | 当前只选了 1 个 item | 至少选 2 个 item 才激活 |
-| 改完 Rate 后 item 长度变了 | 正常行为，Rate 与长度联动 | 如需固定长度，先改好 Rate，再单独调 Length |
-| Reverse 打开后没反应 | 该 take 本身不支持反转 / 源文件异常 | 检查 take 是否有有效源音频 |
-| Envelope 调节没生效 | 该 take 没有可见包络 | 先在 REAPER 里把包络设为可见，再开 Item Hub |
-| 松手后想撤销 | 按 Ctrl+Z 一次 | 所有修改打包在一个 Undo 点里 |
-| 窗口闪一下就关 | 窗口失去焦点（如快捷键是组合键、或鼠标点了外面） | 用单键快捷键，按住期间不要点其他窗口 |
+### 4.1 Single item: change volume, pitch, or pan
+
+```
+1. Select 1 item
+2. Hold the Item Hub shortcut
+3. Move the mouse over a parameter in the right column
+4. Hold the left button and drag left/right → the value changes in real time and the item responds immediately
+5. Release when satisfied, then release the shortcut
+```
+
+**Right-button drag** = fine mode, sensitivity is reduced for adjusting to two decimal places.
+
+**Double-click a parameter row** = reset to default.
 
 ---
 
+### 4.2 Multiple items: batch-unify parameters
+
+```
+1. Select multiple items (can be across tracks)
+2. Hold the Item Hub shortcut
+3. Switch to the desired category
+4. Drag to adjust
+```
+
+**Behavior differences with multiple selections**:
+- Most continuous parameters (such as Vol, Pitch, Pan) are shown as **relative changes** (for example `+3.0 dB`, `-2.0 st`). This means "add/subtract this amount from each item's original value."
+- This lets you push items with different volumes up by 3 dB together without forcing them all to the same absolute value.
+
+> A few parameters still show absolute values in multi-select: Item Vol, Take Vol, Rate, Preserve Pitch, Reverse, Fade Shape, Channel Mode.
+
+---
+
+### 4.3 Quickly switch categories
+
+| Method | Operation |
+| ------ | --------- |
+| **Click left column** | Click the category button you want |
+| **Scroll wheel** | Scroll anywhere inside the window to cycle categories |
+| **Shortcut** | If the same action is bound to multiple keys, any of them opens the window while held |
+
+One hand on the hotkey, the other scrolling categories and dragging parameters — no need to touch the window title bar.
+
+---
+
+### 4.4 Toggle and stepped parameters
+
+Not every parameter needs dragging:
+
+| Parameter type | How to operate | Examples |
+| -------------- | -------------- | -------- |
+| **Continuous value** | Drag left/right | Vol, Pitch, Fade In, Pan |
+| **Toggle switch** | Left-click to toggle ON/OFF | Preserve Pitch, Reverse |
+| **Discrete step** | Drag left/right to step | FadeIn Shape, Channel Mode |
+
+**Fade Shape seven steps**: Linear → Fast Start → Fast End → S-Curve → Rev S-Curve → Sharp → Smooth
+
+**Channel Mode five steps**: Normal → Rev Stereo → Mono (DM) → Left → Right
+
+---
+
+## 5. Five category cheat sheets
+
+### 5.1 Gain & Pitch
+
+| Parameter | Range | Description |
+| --------- | ----- | ----------- |
+| **Item Vol** | -150 ~ 12 dB | Item-level volume |
+| **Take Vol** | -150 ~ 12 dB | Take volume |
+| **Pitch** | -24 ~ 24 st | Pitch shift in semitones |
+| **Rate** | 0.1 ~ 4.0 x | Playback speed (changes item length) |
+| **Preserve Pitch** | ON / OFF | Preserve pitch when changing speed |
+
+> Changing **Rate** automatically stretches or shrinks the item length while keeping the audio content intact.
+
+---
+
+### 5.2 Fade & Pan
+
+| Parameter | Range | Description |
+| --------- | ----- | ----------- |
+| **Fade In** | 0 ~ 5000 ms | Fade-in length |
+| **Fade Out** | 0 ~ 5000 ms | Fade-out length |
+| **FadeIn Shape** | 7 steps | Fade-in curve shape |
+| **FadeOut Shape** | 7 steps | Fade-out curve shape |
+| **Pan** | L100 ~ R100 | Pan position (`0` shown as `C`) |
+| **Reverse** | ON / OFF | Reverse audio |
+| **Channel Mode** | 5 steps | Channel mode |
+
+---
+
+### 5.3 Position
+
+| Parameter | Range | Description |
+| --------- | ----- | ----------- |
+| **Left Edge** | 0 ~ current upper limit | Trim the left edge (adjusts take offset + item position + length) |
+| **Right Edge** | 0.001 ~ 30 s | Right edge position (directly changes item length) |
+| **Take Offset** | -10 ~ 10 s | Take offset on the timeline |
+| **Snap Offset** | 0 ~ item length | Item snap offset point |
+| **Item Gap** | -1 ~ 5 s | **Multi-select only**: uniform gap between items |
+| **Batch Trim** | 0.1 ~ 30 s | **Multi-select only**: trim all selected items to the same length |
+
+> **Item Gap and Batch Trim are grayed out in single-select** because they are designed for multi-item spacing/trimming.
+
+> When **Left Edge** is changed, Right Edge and Take Offset update live so the interface always reflects the item's actual state.
+
+---
+
+### 5.4 Envelope
+
+Apply global transforms to **envelopes already visible** on the item take:
+
+| Parameter | Range | Description |
+| --------- | ----- | ----------- |
+| **V-Scale** | 0.1 ~ 4.0 x | Vertical stretch (envelopes with larger value ranges stretch more) |
+| **V-Offset** | -1.0 ~ 1.0 | Vertical offset (proportional to the envelope's own value range) |
+| **T-Scale** | 0.1 ~ 4.0 x | Horizontal time stretch / compress |
+| **Smooth** | 0 ~ 100 % | Smoothing amount (higher = smoother; applies multiple averaging passes based on original points) |
+
+> Only envelopes that are **visible** when the window opens are modified; hidden envelopes are not touched.
+
+---
+
+### 5.5 Randomize
+
+Apply randomized differences to each item, useful for creating batches of varied assets:
+
+![item-hub-03](../assets/functions/item-hub-03.gif)
+
+| Parameter | Range | Description |
+| --------- | ----- | ----------- |
+| **Pitch Rand** | 0 ~ 12 st | Each item's pitch fluctuates within `original value ± random factor × this value` |
+| **Rate Rand** | 0 ~ 1.0 x | Same, applied to playback rate |
+| **Vol Rand** | 0 ~ 12 dB | Same, applied to take volume |
+
+> **A new random seed is generated every time you start dragging a Randomize parameter.** In other words, drag and release; if you do not like the result, drag again and you get a different random set.
+
+---
+
+## 6. Interaction cheat sheet
+
+| Input | Behavior |
+| ----- | -------- |
+| **Hold shortcut** | Window opens and snapshots the state of all selected items |
+| **Release shortcut** | Window closes; all changes are bundled into a single undo point (`MTK: Item Hub adjust parameters`) |
+| **Left-drag** | Adjust continuous parameters; toggle ON/OFF for toggle parameters |
+| **Right-drag** | Fine adjustment, much lower sensitivity |
+| **Double-click a parameter row** | Reset to default; in multi-select mode resets to 0 (relative amount zeroed) |
+| **Scroll wheel** | Cycle categories in the left column |
+| **Click left column** | Switch to that category |
+| **Window loses focus** | Closes automatically (same as releasing the shortcut) |
+
+---
+
+## 7. Key differences: single vs. multiple selection
+
+| Scenario | Single selection (1 item) | Multiple selection (≥2 items) |
+| -------- | ------------------------- | ----------------------------- |
+| **Continuous parameter display** | Absolute value (e.g. `-3.0 dB`) | Relative change (e.g. `+2.0 dB`); a few parameters still show absolute values |
+| **Item Gap / Batch Trim** | Grayed out | Available |
+| **Randomize** | Random factor affects that item | Each item gets its own independent random value |
+| **Adjustment mode** | Set to this value | Add/subtract from original value (except absolute-value parameters) |
+
+---
+
+## 8. Typical workflows
+
+### Workflow A: quickly push or pull the volume of a group of items
+
+```
+1. Select a batch of items
+2. Hold the Item Hub shortcut
+3. Make sure the left column is on "Gain & Pitch"
+4. Find Item Vol and nudge right to +3.0 dB
+5. Release → all items are 3 dB louder
+```
+
+> If the items had different volumes before, their relative balance is preserved; only the overall level changes.
+
+---
+
+### Workflow B: batch add fade-ins and fade-outs to footsteps or weapon sounds
+
+```
+1. Select the whole group of assets
+2. Hold the shortcut → switch to "Fade & Pan"
+3. Drag Fade In to 20 ms and Fade Out to 50 ms
+4. If needed, drag FadeIn Shape left/right to choose "Fast End"
+5. Release
+```
+
+---
+
+### Workflow C: use Randomize to create a varied batch of assets
+
+```
+1. Select 10 similar items
+2. Hold the shortcut → switch to "Randomize"
+3. Drag Pitch Rand to 2.0 st
+4. Drag Vol Rand to 1.5 dB
+5. Release → each item gets a slightly different pitch and volume
+```
+
+> Not happy? Hold the shortcut again and drag Randomize again; a new random set is generated.
+
+---
+
+### Workflow D: flatten and shift a group of envelopes
+
+```
+1. Select items that have envelopes (envelopes must be visible)
+2. Hold the shortcut → switch to "Envelope"
+3. Drag V-Scale to 0.5 (flatten by half)
+4. Drag T-Scale to 1.2 (stretch time by 20%)
+5. If needed, drag Smooth to 30%
+6. Release
+```
+
+---
+
+## 9. Troubleshooting
+
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Window does not appear while holding shortcut | Action not bound / bound to a combo that conflicts | Check the binding in the Action List; a single key is recommended |
+| Dragging a parameter has no effect | Mouse not over the parameter row / parameter disabled in multi-select | Make sure the row is highlighted before dragging; grayed-out parameters are not interactive |
+| Item Gap / Batch Trim is grayed out | Only 1 item is selected | Select at least 2 items to activate them |
+| Item length changed after changing Rate | Normal behavior; Rate and length are linked | If you need fixed length, set Rate first, then adjust Length separately |
+| Reverse turned on but nothing happens | The take does not support reversal / source file issue | Check that the take has a valid audio source |
+| Envelope adjustment has no effect | The take has no visible envelope | Make the envelope visible in REAPER first, then open Item Hub |
+| Want to undo after releasing | Press Ctrl+Z once | All changes are bundled into one undo point |
+| Window flashes and closes | Window lost focus (for example, combo shortcut or clicking outside) | Use a single-key shortcut and avoid clicking other windows while holding it |
+
+---

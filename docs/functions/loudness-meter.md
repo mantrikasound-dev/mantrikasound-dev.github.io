@@ -2,37 +2,39 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Loudness Meter** 是一个常驻挂在 MonitorFX 上的**轻量级响度表**，定位是"扫一眼就知道当前混音多响"。
+**Loudness Meter** is a lightweight loudness meter that lives on the Monitor FX chain. Its job is to let you **glance at the current mix level**.
 
-![loudness-meter-03](./../assets/functions/loudness-meter-03.gif)
+![loudness-meter-03](../assets/functions/loudness-meter-03.gif)
 
-它和 Sample Broker 共用同一个 Monitor FX 上的 CLAP 插件——所以**只要其中任意一个开过**，另一个就直接能用，不用单独装。
+It shares the same Monitor FX CLAP plug-in with Sample Broker — so **once either one has been opened**, the other works immediately without a separate install.
 
-窗口很窄一长条，可以贴在屏幕任何位置常驻不挡事。
+The window is a narrow strip, small enough to park anywhere on screen and leave out permanently.
 
 ---
 
-## 2. 打开方式
+## 2. Opening the tool
 
-菜单入口：
+Menu path:
 
-Extension -> MantrikaTools -> Loudness -> Lightweight meter
+```
+Extensions → Mantrika Tools → Loudness → Lightweight meter
+```
 
-或者 Action List（搜 "Loudness"）：
+Or use the Action List (search "Loudness"):
 
-| Action 名称 | 用途 |
+| Action name | Function |
 | --- | --- |
-| **`mantrika : Loudness - Lightweight Meter`** | 切换显示 / 隐藏 Loudness Meter |
+| **`mantrika : Loudness - Lightweight Meter`** | Toggle the Loudness Meter window on/off |
 
-首次打开如果共用的 CLAP 还没就位，整个窗口会变成一个 "Setup" 按钮——点一下自动挂载即可。
+The first time you open it, if the shared CLAP is not yet in place the whole window becomes a single "Setup" button — click it to mount the plug-in automatically.
 
 ---
 
-## 3. 界面总览
+## 3. Interface overview
 
-<img src="./../assets/functions/loudness-meter-01.png" alt="loudness-meter-01" style="zoom:67%;" />
+<img src="../assets/functions/loudness-meter-01.png" alt="loudness-meter-01" style="zoom:67%;" />
 
 ```
 ┌──┬─────────────────────────────────────────────────────────────────────┐
@@ -40,127 +42,127 @@ Extension -> MantrikaTools -> Loudness -> Lightweight meter
 │::│   -18.3      -16.2       -23.4       -22.1     -1.2       12.1      │
 └──┴─────────────────────────────────────────────────────────────────────┘
  ↑   ↑          ↑                                  ↑
- 拖   各模块标签   绿/黄/紫/蓝/青/沙金各自配色       超过 0 dB 时变红
- 把手
+drag  module labels  green / yellow / purple / blue / cyan / sand-gold  turns red when > 0 dB
+handle
 ```
 
-- **左侧那一列 6 个圆点** 是拖动把手——按住它拖窗口；**右键它**出菜单
-- 数值过低（≤ -70 dBFS）时显示 `---`
-- **Peak 一旦超过 0 dB 立刻变红**，提示爆音
-- 一行数字、一行小字标签，颜色用来区分不同读数
+- The **six dots on the left** are the drag handle — hold to move the window; **right-click** for the menu.
+- Values too low (≤ -70 dBFS) show `---`.
+- **Peak turns red immediately when it exceeds 0 dB**, warning of clipping.
+- One row of numbers, one row of small labels; colors distinguish the readings.
 
 ---
 
-## 4. 六个读数的含义
+## 4. What the six readings mean
 
-| 列名 | 中文 / 释义 |
-| --- | --- |
-| **LUFS M-Max** | Momentary 峰值响度（400ms 短窗的最大值） |
-| **LUFS S-Max** | Short-term 峰值响度（3 秒滑窗的最大值） |
-| **LUFS INTEG.** | Integrated 整体响度（按 BS.1770 标准累积平均） |
-| **RMS-Max** | RMS 峰值（短窗 RMS 的最大值） |
-| **PEAK-Max** | Peak / 采样峰值的最大值 |
-| **Crest Factor** | `PEAK-Max − RMS-Max`，单位 dB（俗称 CF） |
+| Column | Meaning |
+| ------ | ------- |
+| **LUFS M-Max** | Momentary loudness peak (maximum over a 400 ms short window) |
+| **LUFS S-Max** | Short-term loudness peak (maximum over a 3 s sliding window) |
+| **LUFS INTEG.** | Integrated loudness (cumulative average per BS.1770) |
+| **RMS-Max** | RMS peak (maximum short-window RMS) |
+| **PEAK-Max** | Peak / sample-peak maximum |
+| **Crest Factor** | `PEAK-Max − RMS-Max`, in dB (often abbreviated CF) |
 
-### 关于 CF（Crest Factor）
+### About CF (Crest Factor)
 
-**CF = PEAK-Max − RMS-Max**，也就是"这次播放里碰到的最大瞬态" 比 "这次播放里最响的短窗 RMS" 高出多少。
+**CF = PEAK-Max − RMS-Max** — in other words, how much the loudest transient in the current playback exceeds the loudest short-window RMS.
 
-直观理解（**数字越大波形越瘦，数字越小波形越扁**）：
+Intuitive guide (**larger number = thinner waveform, smaller number = flatter waveform**):
 
-| 数值 | 典型材料 |
-| --- | --- |
-| **3 dB** | 纯正弦 / 三角波（理论下限） |
-| **6–9 dB** | 砖墙限制的现代 pop master |
-| **10–14 dB** | 一般混音 / 人声 / 吉他 |
-| **15–20 dB** | 真实鼓点 / 打击 |
-| **18–25+ dB** | 干净瞬态 SFX（whoosh head、impact） |
+| Value | Typical material |
+| ----- | ---------------- |
+| **3 dB** | Pure sine / triangle wave (theoretical minimum) |
+| **6–9 dB** | Brick-walled modern pop master |
+| **10–14 dB** | General mix / vocals / guitars |
+| **15–20 dB** | Real drums / percussion |
+| **18–25+ dB** | Clean transient SFX (whoosh heads, impacts) |
 
-> **为什么不是"整段均值"**：早先版本 CF 拿全程平均 RMS 做分母，对带 fade out 尾巴的 SFX 一直漂——尾巴越长平均越低，CF 越大，永远没有"参考值"。现在 CF 锁在最响段，body 一过就稳态，停下来的数字就是这次播放的代表值。
+> **Why not "whole-clip average"?** Earlier versions of CF used the full-clip average RMS as the denominator. For SFX with long fade-out tails, the tail dragged the average down, making CF grow endlessly and never settle on a usable reference value. Now CF locks to the loudest section; once the body has passed it stabilizes, and the number you see when playback stops is representative of the performance.
 
-做母带或最终响度判断时它和 LUFS-I 是搭档关系：LUFS-I 告诉你"多响"，CF 告诉你"被压扁了多少"。
-
----
-
-## 5. 自动行为
-
-读数的累积是**按播放会话来的**，不是一直挂着累积：
-
-| 触发 | 行为 |
-| --- | --- |
-| **从停止 → 播放** | 所有读数清零，从这次播放开始重新累积 |
-| **播放中跳光标**（>0.1s 跳变） | 同上：清零后从新位置重新累积 |
-| **停止播放** | 读数定格在最后一刻，方便看完整段统计 |
-| **窗口右键** | 手动清零（停止状态下也能用） |
-
-这样设计的好处是：**每按一次播放都是一次"干净的测量"**，不会被上一段播放的历史污染。你想看某段的响度，就 Play 一次让它过完即可。
+When mastering or making final loudness judgments, CF works alongside LUFS-I: LUFS-I tells you "how loud," and CF tells you "how squashed."
 
 ---
 
-## 6. 窗口的位置 / 尺寸记忆
+## 5. Automatic behavior
 
-- **拖动把手到任何位置** → 关闭再打开会回到同一位置
-- **拖窗口边框调大小** → 关闭再打开还是这个大小
-- 位置 / 尺寸 **跨工程、跨 REAPER 重启** 都保留
+Readings accumulate **per playback session**, not forever:
 
-意味着你只需要找一次自己习惯的位置（屏幕角落、副屏一条、第二显示器顶部 ⋯），之后就不用再管。
+| Trigger | Behavior |
+| ------- | -------- |
+| **Stop → Play** | All readings reset and start accumulating from this playback |
+| **Cursor jump during playback** (> 0.1 s jump) | Same as above: reset and start from the new position |
+| **Playback stops** | Readings freeze at the last moment, making it easy to read the full-pass statistics |
+| **Right-click the window** | Manual reset (works while stopped too) |
+
+The advantage is that **every press of Play is a clean measurement**, not polluted by the previous pass. If you want the loudness of a section, just play through it once.
 
 ---
 
-## 7. 右键菜单（拖把手上右键）
+## 6. Position / size memory
 
-<img src="./../assets/functions/loudness-meter-04.png" alt="loudness-meter-04" style="zoom:67%;" />
+- **Drag the handle to any position** → the window returns there the next time it opens.
+- **Drag the window border to resize** → the same size is restored next time.
+- Position and size persist **across projects and REAPER restarts**.
 
-| 菜单项 | 含义 |
-| --- | --- |
-| **Always on Top** | 窗口置顶；勾上后永远盖在 REAPER 之上不被遮 |
-| **LUFS M-Max** ⋯ **Crest Factor** | 每个读数都可单独显示 / 隐藏 |
+That means you only need to find a comfortable spot once (corner of the screen, a strip on a secondary monitor, top of a second display, etc.), and then you can forget about it.
 
-> 隐藏读数不仅省地方，剩余可见模块会**自动均分剩余宽度**——只显示一个的时候它会占满整条窗口。
+---
+
+## 7. Right-click menu (on the drag handle)
+
+<img src="../assets/functions/loudness-meter-04.png" alt="loudness-meter-04" style="zoom:67%;" />
+
+| Menu item | Meaning |
+| --------- | ------- |
+| **Always on Top** | Keep the window above REAPER so it is never hidden |
+| **LUFS M-Max** ⋯ **Crest Factor** | Each reading can be shown or hidden individually |
+
+> Hiding readings also saves space; the remaining visible modules **automatically share the remaining width** — when only one is visible it fills the whole strip.
 >
-> 至少保留一个可见模块，最后一个会被禁用打勾防止全关闭。
+> At least one module must remain visible; the last one is prevented from being unchecked.
 
-右键菜单里所有的勾选状态 **都会保存**，下次打开沿用。
-
----
-
-## 8. 典型用法
-
-### 用法 A：常驻监听某段混音的响度
-
-```
-1. 打开窗口，拖到屏幕边角
-2. 按播放
-3. 全程瞟一眼即可知道 LUFS-I 大概在哪个档
-```
-
-### 用法 B：判断当前素材的动态情况
-
-```
-1. 看 Crest Factor（播一遍让它稳态收敛即可，body 过完就锁住）
-2. <8 dB    → 已经很扁（重压缩 / 砖墙 master）
-3. 10~14 dB → 一般混音
-4. >15 dB   → transient 主导（鼓 / SFX 瞬态）
-```
-
-### 用法 C：检查爆音
-
-```
-1. PEAK-Max 一栏一直留意
-2. 数字变红 = 已超过 0 dB，工程里某处肯定爆了
-3. 右键清零，再回放定位
-```
+All checkbox states in the right-click menu **are saved** and persist the next time the window opens.
 
 ---
 
-## 9. 故障排查
+## 8. Typical use
 
-| 现象 | 原因 | 解决 |
-| --- | --- | --- |
-| 窗口里只有一个 "Setup" 按钮 | 共用的 CLAP 还没装好 / 被 bypass | 点 Setup，照提示完成；或先开一次 Sample Broker 走 Auto Setup |
-| 数字一直 `---` | 当前没在播放，或电平太低 | 按播放；检查输入电平 |
-| 数字不再变 | 工程已停止播放（读数会定格） | 这是预期行为，下次按播放自动清零重新累积 |
-| PEAK-Max 始终红色 | 累积期间出现过爆音 | 右键清零；或重新播放重新测 |
-| 窗口位置 / 大小没记住 | （不会发生）位置和尺寸都持久化 | — |
+### Use A: keep an eye on mix loudness
+
+```
+1. Open the window and drag it to a screen corner
+2. Press Play
+3. Glance at the LUFS-I column throughout the pass
+```
+
+### Use B: judge the dynamics of the current material
+
+```
+1. Look at Crest Factor (let it play once and settle after the body passes)
+2. < 8 dB → very flat (heavy compression / brick-walled master)
+3. 10–14 dB → typical mix
+4. > 15 dB → transient-driven (drums / SFX impacts)
+```
+
+### Use C: check for clipping
+
+```
+1. Keep an eye on the PEAK-Max column
+2. If the number turns red, it has exceeded 0 dB somewhere
+3. Right-click to reset, then play again to locate the clip
+```
+
+---
+
+## 9. Troubleshooting
+
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Window shows only a "Setup" button | The shared CLAP is not installed / is bypassed | Click Setup and follow the prompt, or open Sample Broker once to run auto-setup |
+| Numbers always show `---` | Not currently playing, or level is too low | Press Play; check input levels |
+| Numbers stop changing | Project playback has stopped (readings freeze) | Expected behavior; they auto-reset on the next Play |
+| PEAK-Max stays red | Clipping occurred during the accumulated pass | Right-click to reset, or play again to re-measure |
+| Window position / size not remembered | (Should not happen) position and size are persisted | — |
 
 ---
