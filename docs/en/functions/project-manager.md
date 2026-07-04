@@ -11,7 +11,7 @@
 - **📜 History**: automatically reads REAPER's recent-project list (up to 200 entries)
 - **🔍 Disk scan**: define a scan root directory and recursively find all `.rpp` files
 - **⭐ Favorites**: star frequently used projects so they appear in their own group
-- **📁 Virtual Folders**: group projects by your own logic without changing the on-disk structure (supports 3-level nesting, drag-and-drop organization, color labels)
+- **📁 Virtual Folders**: group projects by your own logic without changing the on-disk structure (supports 3-level nesting, drag-and-drop organization, Ctrl+drag reordering, color labels)
 - **📝 Project notes**: attach notes to any project
 - **💾 Batch backup**: package a project + media files + subprojects into a target directory (paths rewritten automatically)
 - **🌐 Cross-machine migration**: copy the configuration JSON to a new machine and fix broken paths automatically
@@ -132,9 +132,10 @@ Below that is the **Virtual Folders** header plus all folders under it.
 ![project manager](../../assets/functions/project-manager-11.png)
 
 - **3-level nesting**: maximum 3 levels (the New button is disabled once the limit is reached)
-- **Color labels**: each top-level folder is assigned a palette color automatically (12-color cycle); subfolders inherit the parent color for quick visual recognition
+- **Color labels**: each top-level folder is assigned a palette color automatically (12 colors, fixed per folder); subfolders inherit the parent color for quick visual recognition. Creating, reordering or deleting other folders **never** changes an existing folder's color
 - **Count badge**: each folder shows the number of projects it contains
 - **Click a folder** to switch to that folder's view
+- **Ctrl/Cmd + drag** to reorder folders among their siblings (see §8.6)
 
 ### 5.4 New / Rename / Delete buttons
 
@@ -144,7 +145,7 @@ Three folder-action buttons in the middle of the sidebar (**only visible in the 
 
 | Button | Behavior |
 | ------ | -------- |
-| **New** | Opens an input box; enter a name to create a new folder. If a folder is currently selected, the new folder is created under it; otherwise it is created at the top level. |
+| **New** | Opens an input box; enter a name to create a new folder. If a folder is currently selected, the new folder is created under it; otherwise it is created at the top level. **New folders appear at the top of their sibling list** (reorder freely afterwards with Ctrl+drag, see §8.6). |
 | **Rename** | Renames the currently selected folder |
 | **Delete** | Deletes the currently selected folder (**asks for confirmation**; after confirmation, jumps back to History) |
 
@@ -267,7 +268,8 @@ Virtual Folders are the core organization tool in Project Manager. They **do not
 - **3-level nesting**: at most `Group → SubGroup → SubSubGroup`; deeper levels cannot be created
 - **No duplicates within the same top-level folder**: when you add a project to a subfolder, if it already exists in **that top-level folder or any of its subfolders**, it is **automatically removed from the old location** — a project can only appear once under a single top-level group
 - **Can coexist in different top-level folders**: a project can exist in two independent top-level folders at the same time
-- **Color labels**: top-level folders are colored automatically; subfolders inherit the parent color
+- **Color labels**: top-level folders are colored automatically; subfolders inherit the parent color; colors are tied to the folder itself and never change on reorder/create/delete
+- **Controllable order**: new folders appear at the top of their sibling list, and you can reorder them at any time with Ctrl+drag (see §8.6); the order is persisted
 
 ### 8.2 Creating virtual folders
 
@@ -300,6 +302,25 @@ Enter the folder's view → select the project → right-click → **Remove from
 ### 8.5 Virtual Folders root view
 
 Click the Virtual Folders header text (not the arrow) to switch to the "root view" — all top-level folders are listed as folder cards in the table; double-click one to enter it. This treats top-level folders themselves as categories to browse.
+
+### 8.6 Reordering folders (Ctrl + drag)
+
+In the sidebar folder tree, **hold Ctrl (Cmd on macOS) and drag a folder** to change its position among its siblings:
+
+1. Hold **Ctrl/Cmd**, press the mouse on a folder node and start dragging
+2. Move over a **sibling** folder's row:
+   - **Upper half** of the row → a teal insert line appears at the top of that row = insert **before** it
+   - **Lower half** of the row → the insert line appears at the actual landing spot = insert **after** it
+3. Release the mouse → the folder moves; the new order is saved immediately
+
+**Rules and details**:
+
+- **Same-level only**: Ctrl+drag cannot move a folder into or out of another nesting level; hovering over a non-sibling node shows no insert line
+- **The insert line marks the real landing spot**: when the target folder is **expanded**, "insert after it" means after its entire subtree — the line is drawn below its last visible descendant, so what you see is what you get
+- **Plain dragging without Ctrl** never picks up a folder (avoids accidental moves); folder nodes then only act as drop targets for projects
+- The order is written to the configuration file and survives REAPER restarts
+
+> 💡 **Typical use**: with one folder per skin/client, new folders start at the top (newest at hand), and older ones can be Ctrl+dragged into whatever order suits you.
 
 ---
 
@@ -616,6 +637,7 @@ Every project can have a note, shown in the Note column.
 | Double-click folder | Enter folder |
 | Right-click project | Open context menu |
 | Drag project | Drop onto Virtual Folders folder to categorize |
+| **Ctrl/Cmd** + drag folder | Reorder folders among siblings (see §8.6) |
 | Drag column divider | Resize column (auto-persisted) |
 | Click column header | Sort |
 
@@ -645,10 +667,12 @@ Every time PM opens, it defaults to the **History Projects** view.
 
 ```
 1. Expand Virtual Folders in the sidebar → New to create a top-level folder (e.g. "ClientA")
+   (new folders appear at the top)
 2. Under "ClientA" create subfolders "Project1", "Project2"
 3. Find the corresponding projects in the right table
 4. Drag them to the right virtual folder (Ctrl multi-select for batch drag)
-5. Done
+5. To adjust folder order: Ctrl + drag a folder to the target position (see §8.6)
+6. Done
 ```
 
 ### Workflow C: Deliver a complete project package
@@ -780,6 +804,10 @@ Virtual folders in the table only show their name; the Path, Modified, and Note 
 | MISSING_FILES.txt after backup | Referenced media really cannot be found | Follow the suggestions in the txt file |
 | Backup progress stuck at 0% | First project is large; a single file is being copied | Wait — the sub-progress bar will advance |
 | Dragging project to folder does nothing | Dropped on Virtual Folders header instead of a folder node | Drop onto a specific folder node |
+| Folder won't move when trying to reorder | Ctrl (Cmd on macOS) not held down | Hold Ctrl/Cmd before starting the drag |
+| No insert line during Ctrl+drag | Hovering over a non-**sibling** node (reordering can't cross levels), or the cursor left the folder tree area | Move back over a sibling folder's row |
+| Insert line appears far below the target | The target folder is expanded — "insert after it" means after its entire subtree; the line marks the real landing spot | Normal behavior; what you see is what you get |
+| Folder colors changed after upgrading | The color algorithm now follows the folder itself (no longer its list position) | One-time change; from now on creating/reordering/deleting never affects existing colors |
 | Cannot create subfolders | 3-level nesting limit reached | This is a hard limit — reorganize your category structure |
 | Path Relocate all MISSING | Disk not scanned yet | First Manage Scan Paths → Confirm & Scan |
 | Path Relocate recommendation wrong | Candidate difference <= 1 segment is uncertain | That row becomes CHOOSE for manual selection; if misclassified as AUTO, uncheck it |
