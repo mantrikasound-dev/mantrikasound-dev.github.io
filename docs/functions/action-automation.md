@@ -2,231 +2,232 @@
 
 ---
 
-## 1. 概述
+## 1. What Is Action Automation?
 
-**Action Automation** 是一个**Action自动化配置台**，干的事就一句话：**把"每次都要手动点的一串操作"变成"自动发生"**。
+**Action Automation** is an action configuration panel. In short, it turns the sequence of clicks you do every time into something that happens automatically.
 
-它把两种自动化放进一个窗口的两个 Tab：
+It packs two kinds of automation into two tabs in a single window:
 
-| Tab | 解决什么 |
+| Tab | What it solves |
 | --- | --- |
-| **REAPER Startup Actions** | REAPER 一启动，就自动按顺序跑一串你指定的 Action（开窗口、套布局、加载模板……），省得每次开 REAPER 都手动点一遍 |
-| **Post Actions** | 给你**已经在用的**Action挂上后续：某个Action一被执行，后面挂的几步就**自动接着跑**。可以把它看成一个更轻、**不用重新绑快捷键**的 Custom Action |
+| **REAPER Startup Actions** | Run a list of actions automatically every time REAPER starts (open windows, apply layouts, load templates, etc.). No more clicking through the same setup after every launch. |
+| **Post Actions** | Attach follow-up steps to actions you already use. After a trigger action runs, the chained actions run automatically. Think of it as a lighter Custom Action that does not need a new shortcut. |
 
-> 任何出现在 REAPER Action List里的Action，包括 REAPER 自带的、各种扩展的、以及你自己录的脚本/宏，都能用。
+> Any action that appears in REAPER's Action List works: built-in REAPER actions, actions from other extensions, and your own recorded scripts or macros.
 >
-> 配置**自动存进 Mantrika Tools 的全局设置**，跨工程通用。
+> Settings are saved in Mantrika Tools' global preferences and apply across all projects.
 
 ---
 
-## 2. 打开方式
+## 2. Opening Action Automation
 
-菜单入口：
+Menu path:
 
 ```
-Extension -> MantrikaTools -> Action automation
+Extensions → Mantrika Tools → Action automation
 ```
 
-或者 Action List（搜 "Action Automation"）：
+Or use the Action List (search for "Action Automation"):
 
-| Action 名称 | 用途 |
+| Action name | Purpose |
 | --- | --- |
-| **`mantrika : Misc - Options - Action Automation`** | 切换显示 / 隐藏 Action Automation 窗口 |
+| **`mantrika : Misc - Options - Action Automation`** | Toggle the Action Automation window on/off |
 
-窗口是一个独立的浮动窗（默认 700×450），顶部两个 Tab 切换两种自动化。再执行一次入口即可隐藏。
+The window is a standalone floating window (default size 700×450). The two tabs at the top switch between the two automation modes. Run the same command again to hide it.
 
 ---
 
-## 3. 界面总览
+## 3. Window Overview
 
-窗口顶部是两个 Tab，点一下切换：
+The top of the window has two tabs:
 
 <img src="../assets/functions/action-automation-01.png" alt="action-automation-01" style="zoom: 50%;" />
 
-| Tab | 干什么 | 看第几节 |
+| Tab | Purpose | See section |
 | --- | --- | --- |
-| **REAPER Startup Actions** | 配"开机就自动跑"的Action清单 | 第 5 节 |
-| **Post Actions** | 配"某Action跑完自动接着跑"的Action chain | 第 6 节 |
+| **REAPER Startup Actions** | Set up actions that run automatically when REAPER starts | 5 |
+| **Post Actions** | Build action chains that run after a trigger action | 6 |
 
 ---
 
-## 4. 一个共通操作：怎么"挑一个 Action"
+## 4. Common Operation: Picking an Action
 
-两个 Tab 里凡是要你**指定一个Action**的地方（`Add Action`、设 Trigger、`Add FollowUp`），点下去都会弹出 **REAPER 自带的Action窗口**——我们平时改快捷键时会经常见到。
+Whenever a tab asks you to specify an action (`Add Action`, setting a Trigger, or `Add FollowUp`), clicking it opens REAPER's native Action window— the same one you use when editing keyboard shortcuts.
 
 ```
-1. 点按钮（Add Action / ⟳ / Add FollowUp）
-2. REAPER 弹出Action Window → 在里面搜名字、找到你要的Action
-3. 选中它（确认）→ Action就被加进列表。想中途放弃，直接关掉那个选择窗即可
+1. Click the button (Add Action / ⟳ / Add FollowUp).
+2. REAPER opens the Action window. Search for the action you want.
+3. Select it and confirm. The action is added to the list.
+To cancel, close the selector.
 ```
 
-> 因为用的是 REAPER 原生选择器，所以**凡是 REAPER 能执行的Action都能挑**，不限于 Mantrika 自己的功能。
+> Because it uses REAPER's native selector, you can pick any action REAPER can run, not just Mantrika actions.
 
 ---
 
-## 5. Tab 1：REAPER Startup Actions（开机自动跑）
+## 5. Tab 1: REAPER Startup Actions
 
-### 5.1 这个 Tab 是干嘛的
+### 5.1 What this tab does
 
-列一张**启动清单**：每次 REAPER 启动、插件加载完成后，清单里的Action会**从上到下自动跑一遍**（只跑这一次）。
+Create a startup list. Every time REAPER launches and the extension finishes loading, the actions in this list run once from top to bottom.
 
-典型用途：开 REAPER 就自动打开你常用的几个窗口、套好屏幕布局、拉起其他自动化脚本等等——开机即就位。
+Typical uses: automatically open the windows, layouts, and helper scripts you use every day so REAPER is ready as soon as it starts.
 
-### 5.2 界面
+### 5.2 Interface
 
 <img src="../assets/functions/action-automation-02.png" alt="action-automation-02" style="zoom:50%;" />
 
-每一行是一个Action，前面带序号（`01.`、`02.`…）= 实际执行顺序。行尾三个按钮：
+Each row is one action, prefixed with a number (`01.`, `02.`, …) that shows the execution order. At the end of each row are three buttons:
 
-| 按钮 | 作用 |
+| Button | Purpose |
 | --- | --- |
-| **▲** | 上移一位（最上面那条会变灰） |
-| **▼** | 下移一位（最下面那条会变灰） |
-| **✕** | 删除这一条 |
+| **▲** | Move this action up one position (grayed out on the top row) |
+| **▼** | Move this action down one position (grayed out on the bottom row) |
+| **✕** | Remove this action |
 
-底部两个按钮：
+Buttons at the bottom:
 
-| 按钮 | 作用 |
+| Button | Purpose |
 | --- | --- |
-| **Add Action** | 弹出Action选择器，挑一个Action加到清单末尾（见第 4 节） |
-| **Clear All** | 清空整张清单（会先弹确认框，点 Yes 才真清） |
+| **Add Action** | Open the action selector and add an action to the end of the list (see section 4) |
+| **Clear All** | Clear the entire list (a confirmation dialog appears; click Yes to confirm) |
 
-### 5.3 怎么用（三步）
+### 5.3 How to use it (three steps)
 
 ```
-1. 点 [Add Action] → 选一个Action → 它进入清单
-2. 重复加几条，用 ▲▼ 把它们排成你想要的执行顺序
-3. 关窗即可。下次启动 REAPER 时就会自动按这个顺序跑
+1. Click [Add Action] → pick an action → it appears in the list.
+2. Repeat to add more actions, then use ▲▼ to arrange them in the order you want.
+3. Close the window. The next time REAPER starts, the actions will run in order.
 ```
 
-### 5.4 几个细节
+### 5.4 Details
 
-- **顺序就是清单顺序**，从上到下依次执行，所以有先后依赖的Action记得用 ▲▼ 排好。
-- **每条只会跑一次**（启动时），不是常驻后台。
-- **重复保护**：想加的Action已经在清单里了，会提示 `This action is already in the startup list.`，不会重复添加。
-- **失效提醒**：如果某个Action后来失效了（比如对应脚本被删、扩展卸了），它在清单里会显示成 `[Invalid] ...`；并且 REAPER 启动时会弹一个警告框，列出所有失效项，提醒你回来删掉它们。
+- **Order matters.** Actions run from top to bottom, so if one depends on another, arrange them accordingly.
+- **Each action runs only once** at startup. It is not a persistent background process.
+- **Duplicate protection:** If you try to add an action already in the startup list, a message says `This action is already in the startup list.` It will not be added again.
+- **Invalid action warning:** If an action later becomes invalid (the script was deleted, the extension uninstalled, or the ID changed), it shows `[Invalid] ...` in the list. When REAPER starts, a warning dialog lists the invalid items so you can remove them.
 
 ---
 
-## 6. Tab 2：Post Actions（Action链）
+## 6. Tab 2: Post Actions
 
-### 6.1 这个 Tab 是干嘛的
+### 6.1 What this tab does
 
-一句话：**它是一个更轻、更灵活的 "Custom Action"。**
+In short: **it is a lighter, more flexible Custom Action.**
 
-REAPER 原生的 Custom Action 能把好几个Action打包成一个，但用起来有个麻烦：打包出来的是一个**全新的Action**，你得**重新给它绑快捷键 / 工具栏按钮 / 菜单**，原来对那个Action的肌肉记忆和绑定全得搬一遍；想临时加一步减一步，又得回去改那个 Custom Action。
+REAPER's native Custom Action lets you bundle several actions into one, but that creates a brand-new action. You then have to reassign shortcuts, toolbar buttons, or menu entries, and your existing muscle memory and bindings no longer apply. Adding or removing one step also means editing the Custom Action again.
 
-**Post Actions 换了个思路**：它不新建Action，而是**直接挂在你已经在用的Action后面**——
+**Post Actions takes a different approach:** instead of creating a new action, it attaches follow-up steps to an action you already use.
 
-> **"只要某个Action（Trigger）被执行了，你给它挂的那串后续Action（FollowUp）就自动按顺序接着跑。"**
+> "When a specific action (the Trigger) is executed, the follow-up actions you attached run automatically in order."
 
-关键好处是 **触发方式完全不用动**：原来你怎么触发那个Action——菜单点、快捷键按、工具栏按钮——照旧，后续Action会自动跟上，**不用重新绑任何键**。想调整流程，来这里加一条 / 删一条 / 拖个顺序就行，比改 Custom Action 轻快得多。
+The key benefit is that **you do not change the trigger at all.** Keep using the same menu item, shortcut, or toolbar button you already use. The follow-ups just run behind it, with no new binding required. Adjusting the chain— adding, removing, or reordering steps— is much faster than editing a Custom Action.
 
-每条链 = **一个触发Action（Trigger）** + **若干后续Action（FollowUp）**。
+Each chain = **one Trigger action** + **one or more FollowUp actions**.
 
-典型用途：
-- 触发 = "保存工程"，后续 = 你的自定义备份脚本 → 每次保存自动备份，而且**还是用你原来的保存快捷键**。
-- 触发 = 某个你常按的Action，后续 = 一串固定的清理/整理操作 → 一键带出一整套流程。
+Typical uses:
+- Trigger = "Save project"; FollowUp = your custom backup script → every save automatically creates a backup, using your existing save shortcut.
+- Trigger = an action you press often; FollowUp = a fixed cleanup/organization routine → one trigger runs a whole workflow.
 
-### 6.2 界面
+### 6.2 Interface
 
 <img src="../assets/functions/action-automation-03.png" alt="action-automation-03" style="zoom: 50%;" />
 
-**左栏（链列表）**——每行一条链：
+**Left column (chain list)** — each row is one chain:
 
-| 元素 | 作用 |
+| Element | Purpose |
 | --- | --- |
-| **链名** | 点一下=选中这条链（右栏随之显示它的配置） |
-| **ON / OFF** | 启用开关。绿色 `ON` = 生效；灰色 `OFF` = 停用。**OFF 的链不会被触发** |
-| **✕** | 删除这条链 |
-| **双击链名** | 改名 |
-| **New Chain** | 新建一条链（先让你起个名字） |
+| **Chain name** | Click to select the chain. The right column updates to show its settings. |
+| **ON / OFF** | Enable toggle. Green `ON` = active; gray `OFF` = disabled. **OFF chains do not trigger.** |
+| **✕** | Delete this chain |
+| **Double-click the chain name** | Rename the chain |
+| **New Chain** | Create a new chain (you will be asked to name it) |
 
-**右栏（当前选中链的配置）**：
+**Right column (settings for the selected chain):**
 
-| 区域 | 作用 |
+| Area | Purpose |
 | --- | --- |
-| **Trigger: ...**（上方） | 显示这条链的触发Action。没设时显示 `Trigger: (not set)` |
-| **⟳** 按钮 | 设置 / 更换触发Action（弹Action选择器） |
-| **FollowUp 列表**（下方） | 触发后要依次执行的Action，每行带 ▲▼✕（上移/下移/删除）。鼠标悬停在某行上可看到完整Action名 |
-| **Add FollowUp** | 往列表末尾加一个后续Action |
+| **Trigger: ...** (top) | Shows the trigger action for this chain. If unset, it shows `Trigger: (not set)`. |
+| **⟳** button | Set or change the trigger action (opens the action selector) |
+| **FollowUp list** (bottom) | The actions to run after the trigger, each with ▲▼✕ (move up / move down / delete). Hover a row to see the full action name. |
+| **Add FollowUp** | Add a follow-up action to the end of the list |
 
-> 没选中任何链时，右栏 Trigger 区显示 `(select a chain)`，`⟳` 和 `Add FollowUp` 按钮是灰的——**先在左栏选一条链**它们才可用。
+> If no chain is selected, the right column shows `(select a chain)`, and the **⟳** and **Add FollowUp** buttons are gray. **Select a chain in the left column first.**
 
-### 6.3 怎么用（建一条链）
+### 6.3 How to create a chain
 
 ```
-1. 左栏点 [New Chain] → 给链起个名字（比如 "保存后备份"）
-2. 新链会自动选中；点右上角 [⟳] → 选一个触发Action（比如 "Save project"）
-3. 点 [Add FollowUp] → 选要接着跑的Action；想加几个加几个
-4. 用 ▲▼ 把后续Action排成正确顺序
-5. 确认左栏这条链是 ON → 完成
+1. Click [New Chain] in the left column and give it a name (for example, "Backup on Save").
+2. The new chain is automatically selected. Click [⟳] in the top-right and pick a trigger action (for example, "File: Save project").
+3. Click [Add FollowUp] and pick the actions you want to run next. Add as many as you need.
+4. Use ▲▼ to put the follow-ups in the right order.
+5. Make sure the chain is ON. Done.
 ```
 
-> 新建链后会**自动选中**，不用手动再点一次。
+> New chains are **automatically selected**, so you do not need to click them again.
 
-之后，只要你在 REAPER 里执行了那个触发Action，后续Action就会**紧接着自动跑**。
+From then on, whenever you run that trigger action in REAPER, the follow-up actions run automatically.
 
-### 6.4 几个细节
+### 6.4 Details
 
-- **想临时关掉某条链**：点它的 `ON` 让它变 `OFF` 即可，配置都还留着，随时点回 `ON`。
-- **多条链各管各的**：可以建多条链，互不干扰。如果多条链用了同一个 Trigger，只有链列表里**最靠前的那条启用链**会被触发（其余匹配链会被忽略）。
-- **链不会套娃**：某条链正在跑它的后续Action时，期间触发到别的链的触发Action**不会再触发**；甚至同一条链的 Trigger Action若也出现在自己的 FollowUp 里，执行期间也会被跳过——这是有意为之，防止自动触发自动、绕成死循环。所以别指望"A 触发 B、B 又触发 C"这种连环自动接力。
-- **只认主区段Action**：链监听的是 REAPER 主窗口里执行的Action。在 **MIDI 编辑器**等独立区段里执行的Action**不会**触发链。
+- **Temporarily disable a chain:** click its `ON` so it becomes `OFF`. The configuration stays and you can re-enable it anytime.
+- **Chains are independent:** you can create multiple chains. If several chains share the same trigger, only the **first enabled chain in the list** triggers; the others are ignored.
+- **Chains do not nest:** while a chain is running its follow-ups, other chains cannot trigger. Even if a chain's own trigger appears in its follow-up list, it is skipped during execution. This prevents runaway loops, so do not expect "A triggers B, B triggers C" cascading.
+- **Main-section actions only:** chains listen to actions executed in REAPER's main window. Actions run in the **MIDI editor** or other separate sections **do not** trigger chains.
 
 ---
 
-## 7. 典型工作流
+## 7. Typical Workflows
 
-### 工作流 A：开 REAPER 自动打开常用窗口
-
-```
-1. 切到 [REAPER Startup Actions]
-2. Add Action → 逐个加上你每次都要开的窗口Action（混音台、某扩展窗口…）
-3. ▲▼ 排好顺序
-4. 关窗。下次启动 REAPER 它们就自动开好
-```
-
-### 工作流 B：保存工程后自动备份
+### Workflow A: Open common windows when REAPER starts
 
 ```
-1. 切到 [Post Actions] → New Chain，命名 "保存后备份"
-2. ⟳ → 触发Action选 "File: Save project"
-3. Add FollowUp → 选你的备份脚本（或 "Save project as..."/Other Actions）
-4. 保持这条链 ON → 以后每次保存工程，备份自动发生
+1. Switch to [REAPER Startup Actions].
+2. Add Action → add each window action you open every session (Mixer, extension windows, etc.).
+3. Use ▲▼ to set the order.
+4. Close the window. The next time REAPER starts, the windows open automatically.
 ```
 
-### 工作流 C：一个Action带出一整套流程
+### Workflow B: Back up the project after every save
 
 ```
-1. New Chain，命名 "整理素材"
-2. ⟳ → 触发Action选一个你顺手的Action
-3. Add FollowUp → 依次加：选中处理、重命名、染色、归组……
-4. ▲▼ 排成正确顺序
-→ 触发一次，整串操作自动跑完
+1. Switch to [Post Actions] → New Chain, name it "Backup on Save".
+2. Click ⟳ and set the trigger to "File: Save project".
+3. Click Add FollowUp and choose your backup script (or "Save project as..." / another action).
+4. Keep the chain ON. From now on, every save also creates a backup.
 ```
 
-### 工作流 D：某条链先停一阵
+### Workflow C: One action triggers a whole routine
 
 ```
-1. 左栏找到那条链
-2. 点它的 ON 让它变成 OFF
-→ 链留着但不再触发；要恢复再点回 ON
+1. New Chain, name it "Clean up items".
+2. Click ⟳ and set the trigger to an action you already use.
+3. Add FollowUp → select processing, rename, color, group, etc.
+4. Use ▲▼ to set the correct order.
+→ Trigger once and the whole sequence runs.
+```
+
+### Workflow D: Pause a chain without deleting it
+
+```
+1. Find the chain in the left column.
+2. Click its ON to switch it to OFF.
+→ The chain stays configured but no longer triggers. Click ON again to re-enable it.
 ```
 
 ---
 
-## 8. 故障排查
+## 8. Troubleshooting
 
-| 现象 | 原因 | 解决 |
+| Symptom | Cause | Fix |
 | --- | --- | --- |
-| 启动时弹窗说某些 startup action "invalid" | 清单里有Action失效了（脚本被删、扩展卸了、ID 变了） | 打开 Tab1，删掉标 `[Invalid]` 的那几条 |
-| 点 Add Action 提示 "already in the startup list" | 这个Action已经在启动清单里了 | 正常，无需重复添加 |
-| 启动清单的Action没按预期顺序跑 | 顺序 = 清单从上到下 | 用每行的 ▲▼ 把顺序排对 |
-| 链不触发（后续Action没跑） | ① 这条链是 OFF<br>② 没设 Trigger（显示 `(not set)`）<br>③ 触发Action是在 MIDI 编辑器等独立区段里执行的 | ① 点成 ON<br>② 用 ⟳ 设好触发Action<br>③ 改用主窗口里能执行的Action当触发 |
-| 右栏的 ⟳ / Add FollowUp 是灰的，点不动 | 没有选中任何链 | 先在左栏点选一条链 |
-| 同一个 Trigger 配了多条链，只有一条生效 | 多条链用同一个 Trigger 时，只会触发链列表里**最靠前的那条启用链** | 把后续Action合并到**同一条链**的 FollowUp 里，或调整链的顺序 |
-| 指望"A 触发链1、链1 又触发链2"没生效 | 链执行期间会屏蔽再次触发，防死循环（不嵌套） | 把要连跑的Action都放进**同一条链**的 FollowUp 列表里 |
-| 改了配置担心丢失 | （不会发生）配置自动存进 Mantrika 全局设置 | 关窗、重开、换工程、重启 REAPER 后都还在 |
+| Startup warning says some startup action is "invalid" | An action in the list became invalid (script deleted, extension uninstalled, or ID changed) | Open Tab 1 and delete the rows marked `[Invalid]` |
+| Clicking Add Action says "already in the startup list" | That action is already in the startup list | Normal; no need to add it again |
+| Startup actions run in the wrong order | Order = list order from top to bottom | Use ▲▼ on each row to arrange them correctly |
+| Chain does not trigger (follow-ups do not run) | - The chain is OFF<br>- No trigger is set (shows `(not set)`)<br>- The trigger action ran in a separate section like the MIDI editor | - Switch it to ON<br>- Use ⟳ to set a trigger action<br>- Use a trigger action that runs in the main window |
+| ⟳ / Add FollowUp buttons in the right column are gray | No chain is selected | Select a chain in the left column first |
+| Same trigger with multiple chains; only one works | When multiple chains share one trigger, only the first enabled chain in the list triggers | Merge the follow-ups into **one chain**, or reorder the chains |
+| Expecting "Chain 1 triggers Chain 2" does not work | Chains block re-triggering during execution to prevent loops | Put all actions that need to run consecutively into the **same chain's** FollowUp list |
+| Worried about losing settings | Settings are saved automatically in Mantrika's global preferences | They persist after closing the window, switching projects, or restarting REAPER |
 
 ---
