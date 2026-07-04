@@ -239,7 +239,7 @@ The progress bar only displays during generation to indicate "busy", not a real 
 
 ## 8. Collapsing and Window Size
 
-**Source Files** and **SoundBanks** title bars can be clicked to collapse (v/▼ toggle).
+**Source Files** and **SoundBanks** title bars can be clicked to collapse (▼/▶ toggle).
 
 <img src="../../assets/functions/wwise-replace-09.png" alt="Both areas collapsed, window shrinks to a small strip" style="zoom:50%;" />
 

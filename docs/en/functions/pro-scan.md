@@ -71,6 +71,8 @@ Supported syntax (same as REAPER’s search box):
 | `word$` | Ends with word | `.wav$` |
 | `(a OR b) c` | Grouping | `(kick OR snare) bus` |
 
+> 💡 Leave the filter box empty = show all objects. Leading/trailing whitespace is ignored automatically.
+
 ### 4.2 FX Filter
 
 ![proscan-name](../../assets/functions/proscan-03.png)
@@ -306,6 +308,8 @@ When ☑ **Only Mirrors** is on:
 
 - The list shows only Mirror-type items (Mantrika’s own item type).
 - The tab title changes to `Mirrors (N):`.
+
+> 💡 Use case: when doing layout or alignment with the Mirror system, this pulls every Mirror in the project into one list at a glance.
 
 ### 7.3 Jump to Item
 
