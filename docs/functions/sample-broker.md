@@ -2,297 +2,299 @@
 
 ---
 
-## 1. 概述
+## 1. What Is Sample Broker?
 
-**Sample Broker** 是一个常驻后台的 **60 秒滚动录音器**，定位是"**听到的就能抓**"。 
+**Sample Broker** is a resident background **60-second rolling recorder**. Its motto is **"catch what you hear."**
 
-![sample-broker-01](./../assets/functions/sample-broker-01.gif)
+![sample-broker-01](../assets/functions/sample-broker-01.gif)
 
-它会在 Master 总线上挂一个监听插件，无论你在播放、试听 FX、还是 jam 即兴，最近 60 秒的声音都被它默默记着——形成一段循环覆盖的录音环带。当你听到一个想留下的声音，**到窗口里圈一段，拖出去就好**。
+It installs a monitoring plug-in on the **Master** bus. Whether you are playing back, auditioning FX, or jamming, the last 60 seconds of audio are always being recorded in a looping, overwriting buffer. When you hear something worth keeping, **select it in the window and drag it out.**
 
-它能做两件事：
+It can do two things:
 
-- **圈选 + 拖到 arrange**：选中一段波形，直接拖到 REAPER 的轨道上落成 item，自动新建轨道也可以。
-- **圈选 + 拖到任何地方**：同样一段波形，按住默认的"OS 拖拽"模式可以拖到资源管理器、其他 DAW、采样器合成器、聊天软件——任何接受 wav 文件的位置。
+- **Select + drag to Arrange:** Drag a selected waveform onto a REAPER track to drop it as an item; a new track is created automatically if needed.
+- **Select + drag anywhere:** With the default OS drag mode, the same selection can be dragged to the file explorer, another DAW, a sampler/synth, a chat app— anywhere that accepts a WAV file.
 
-整个流程围绕画布上的"圈一段 → 拖出去"展开，不需要按录音键、不需要停止。
+The whole workflow is "select a segment → drag it out." No record button, no need to stop playback.
 
 ---
 
-## 2. 打开方式
+## 2. Opening Sample Broker
 
-菜单入口：
+Menu path:
 
-Extension -> MantrikaTools -> Sample broker
+```
+Extensions → Mantrika Tools → Sample broker
+```
 
-![sample-broker-02](./../assets/functions/sample-broker-02.gif)
+![sample-broker-02](../assets/functions/sample-broker-02.gif)
 
-或者 Action List（搜 "Sample Broker"）：
+Or use the Action List (search "Sample Broker"):
 
-| Action 名称 | 用途 |
+| Action name | Purpose |
 | --- | --- |
-| **`mantrika : Synergy - Sample Broker`** | 切换显示 / 隐藏 Sample Broker 窗口 |
+| **`mantrika : Synergy - Sample Broker`** | Toggle the Sample Broker window on/off |
 
-窗口是 **dockable** 的——首次打开可能是浮动窗口，**右键点标题栏即可进 dock**。
+The window is **dockable**— the first time it opens it may be a floating window; **right-click the title bar to dock it.**
 
 ---
 
-## 3. 首次使用：穿过状态警告
+## 3. First Use: Getting Past the Status Warnings
 
-第一次打开窗口时，大概率不会直接看到波形，而是一个带按钮的提示页。它在告诉你 Master 链上少了 / 关了某个东西。按钮上写什么就点什么：
+The first time you open the window, you will probably not see a waveform immediately. Instead, you will see a prompt page with a button. The message tells you that something on the Master chain is missing or disabled. Click the button whose label matches the situation:
 
-| 提示标题 | 按钮 | 含义 / 你要做的 |
+| Prompt title | Button | Meaning / what to do |
 | --- | --- | --- |
-| **CLAP plugin not found in Monitor FX** | `Auto Setup` | 插件还没被REAPER识别。先去 `Preferences > Plug-ins > CLAP` 点一次 `Re-scan`，回来再点 Auto Setup 即可 |
-| **Sample Broker plugin is bypassed** | `Enable Plugin` | 插件被单独 bypass 了；点一下就启用 |
-| **Monitor FX is globally bypassed** | `Enable Monitor FX` | 整条 Monitor FX 链都被关了；点一下打开 |
-| **Plugin is not responding** | `Retry` | 插件失联（很罕见），但一般都是CLAP的扫描问题；点一下重新激活 |
+| **CLAP plugin not found in Monitor FX** | `Auto Setup` | The plug-in has not been recognized by REAPER yet. Go to `Preferences > Plug-ins > CLAP`, click `Re-scan`, then return and click `Auto Setup`. |
+| **Sample Broker plugin is bypassed** | `Enable Plugin` | The plug-in is individually bypassed; click to enable it. |
+| **Monitor FX is globally bypassed** | `Enable Monitor FX` | The whole Monitor FX chain is disabled; click to turn it back on. |
+| **Plugin is not responding** | `Retry` | The plug-in lost contact (rare); this is usually a CLAP scan issue. Click to reactivate. |
 
-成功之后窗口就直接进入主界面，开始显示波形。
+Once resolved, the window enters the main interface and the waveform appears.
 
 ---
 
-## 4. 主界面总览
+## 4. Main Interface Overview
 
-正常运行时窗口长这样：
+When running normally, the window looks like this:
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│                                                       2.0x     │  ← (右上角) 横向缩放倍数
-│         ╱╲    ╱╲╱╲  ╱╲      ╱╲╱╲   ╱╲╱╲╲ ╱╲                  │
-│     ╱╲╱╱  ╲╱╱╱    ╲╱  ╲╲╱╲╱╱    ╲╱╱    ╲╱  ╲             │  ← 波形画布
+│                                                       2.0x     │  ← (top-right) horizontal zoom factor
+│         ╱╲    ╱╲╱╲  ╱╲      ╱╲╱╲   ╱╲╱╲╲ ╱╲                  │  ← waveform canvas
+│     ╱╲╱╱  ╲╱╱╱    ╲╱  ╲╲╱╲╱╱    ╲╱╱    ╲╱  ╲             │
 │     ──────────────────│─────────────────────────              │
-│        历史段(暗色)   │ 当前段(亮色 / 彩虹)                   │
-│   ▤                                                            │  ← (左下角) 汉堡菜单按钮
+│        history (dim)  │ current (bright / rainbow)            │
+│   ▤                                                            │  ← (bottom-left) hamburger menu button
 └────────────────────────────────────────────────────────────────┘
 ```
 
-几个值得知道的视觉细节：
+Visual details worth knowing:
 
-- **当前录制段** 显示为彩虹原色，**历史段** 会逐渐去饱和变暗——一眼看得出哪段是刚录的
-- **录音头** 是一根细线，从左往右扫，到头就 wrap 回起点继续覆写
-- 缩放后，右上角会浮一个 `2.0x` 之类的小标签
-- 暂停时，右上角会浮一个橙红色 `II PAUSED` 标签
-- 鼠标悬停时，画布上会有一根半透明的竖线指示位置
+- The **currently recording segment** is shown in rainbow colors; **older segments** gradually desaturate and darken, so you can tell at a glance which part was just recorded.
+- The **record head** is a thin line that sweeps left to right; when it reaches the end, it wraps back to the start and continues overwriting.
+- After zooming, a small `2.0x` label floats in the top-right corner.
+- While paused, an orange-red `II PAUSED` label floats in the top-right corner.
+- When the mouse hovers over the canvas, a semi-transparent vertical line shows the position.
 
 ---
 
-## 5. 基础用法 —— 三个典型操作
+## 5. Basic Use — Three Typical Actions
 
-### 5.1 抓刚刚听到的一段，扔进 arrange
+### 5.1 Grab something you just heard and drop it into Arrange
 
 ```
-1. 在窗口里左键拖出一段（手动框选），或者
-   按住 Ctrl 把鼠标移到一段声音上 → 出现青色边框就是"智能段落"，
-   然后 Ctrl + 左键确认这段
-2. 鼠标按住选区不放，往 arrange 拖
-3. 在目标轨道上松手 → 自动落成新 item
+1. In the window, left-click and drag to select a range manually, OR
+ hold Ctrl and move the mouse over a sound → a cyan border shows the "smart segment,"
+ then Ctrl + left-click to confirm that segment.
+2. Hold the selection and drag it into Arrange.
+3. Release over the target track → the selection becomes a new item.
 ```
 
-落点规则：
+Drop rules:
 
-| 鼠标松手时悬停在哪 | 结果 |
+| Where the mouse is released | Result |
 | --- | --- |
-| 某条 track 上 | 在该轨道、当前编辑光标处落 item |
-| 某个 item / take 上 | 同样落在那条轨道，光标处 |
-| arrange 空白区域 | **自动新建一条 track** 并落 item |
-| arrange 之外 | 不落（除非用 OS 模式，见下） |
+| Over a track | Drop the item on that track at the current edit cursor position |
+| Over an item / take | Drop on the same track at the edit cursor position |
+| Empty area of Arrange | **Create a new track automatically** and drop the item there |
+| Outside Arrange | Nothing is dropped (unless using OS mode; see below) |
 
-### 5.2 抓一段直接拖成 wav 文件
+### 5.2 Grab a segment and drag it out as a WAV file
 
-如果你想把这段声音拖到桌面、聊天软件、其他 DAW，做法一样——只是默认拖拽模式得是 OS：
+If you want to drag the segment to the desktop, a chat app, or another DAW, the process is the same — the default drag mode just needs to be OS:
 
 ```
-1. 圈一段（手动 or Ctrl+智能）
-2. 直接拖出窗口 → 拖到任何接受文件的地方松手
-3. 自动生成 mtk_export_<时间戳>.wav 落在当前工程文件夹
+1. Select a segment (manually or with Ctrl+smart select).
+2. Drag it out of the window and release it over anything that accepts files.
+3. A file named mtk_export_<timestamp>.wav is generated in the current project folder.
 ```
 
-**默认就是 OS 模式**（出厂设置），所以这是"开箱即用"的路径。
+**The default is OS mode** out of the box, so this works immediately.
 
-### 5.3 单次切换拖拽模式（Ctrl+Alt）
+### 5.3 Temporarily switch drag mode with Ctrl+Alt
 
-如果当前默认是 OS 模式，但你想这一次想通过API形式，只落到 arrange 里——按住 **Ctrl+Alt** 再开始拖。反过来同样成立。
+If the default is OS mode but you want this one drag to use the API mode and drop only into Arrange, hold **Ctrl+Alt** while starting the drag. The reverse also works.
 
-这是"对调"逻辑：Ctrl+Alt 永远表示**走另一种模式**。
+This is a "swap" logic: Ctrl+Alt always means **use the other mode**.
 
 ---
 
-## 6. 选区相关操作
+## 6. Selection Operations
 
-### 6.1 三种产生选区的方法
+### 6.1 Three ways to create a selection
 
-<img src="./../assets/functions/sample-broker-03.gif" alt="sample-broker-03" style="zoom:50%;" />
+<img src="../assets/functions/sample-broker-03.gif" alt="sample-broker-03" style="zoom:50%;" />
 
-| 操作 | 行为 |
+| Action | Behavior |
 | --- | --- |
-| **左键拖拽（空白处）** | 手动框选，松手即定 |
-| **Ctrl + 鼠标悬停** | 智能探测当前光标下的"非静音段落"，显示青色边框 + 时长标签 |
-| **Ctrl + 左键** | 把当前的智能段落锁定为正式选区 |
+| **Left-click drag (on empty canvas)** | Manual selection; release to confirm |
+| **Ctrl + hover** | Smart-detect the "non-silent segment" under the cursor, shown with a cyan border and duration label |
+| **Ctrl + left-click** | Lock the current smart segment as the active selection |
 
-智能探测以静音 (-54 dB) 为分隔，自动从光标位置向两端扩展直到遇到一段静音。适合录了一连串声音，想精确抓出"某一下"。
+Smart detection uses silence at **-54 dB** as the separator and automatically expands from the cursor position in both directions until it hits silence. This is useful when you have recorded a string of sounds and want to grab exactly one of them.
 
-### 6.2 选区的清除
+### 6.2 Clearing a selection
 
-- **画布空白处快速点击**（不拖）= 清空选区
-- 开始一次新框选会自动清空旧的
-- 点击 `Clear Recording Buffer` 会同时清空选区和整条录音
+- **Quick click on empty canvas** (without dragging) = clear the selection.
+- Starting a new manual selection automatically clears the old one.
+- Clicking `Clear Recording Buffer` clears both the selection and the entire recording.
 
 ---
 
-## 7. 试听 / 预览
+## 7. Preview / Audition
 
-<img src="./../assets/functions/sample-broker-04.gif" alt="sample-broker-04" style="zoom:50%;" />
+<img src="../assets/functions/sample-broker-04.gif" alt="sample-broker-04" style="zoom:50%;" />
 
-| 操作 | 行为 |
+| Action | Behavior |
 | --- | --- |
-| **右键按住**（不拖） | 从光标位置开始预览，松开即停 |
+| **Right-click and hold** (without dragging) | Preview from the cursor position; release to stop |
 
-预览不影响选区、不影响录音，纯粹是听一下当前位置是什么。
+Preview does not affect the selection or the recording. It is purely for checking what is at the current position.
 
 ---
 
-## 8. 视图：缩放与平移
+## 8. View: Zoom and Pan
 
-<img src="./../assets/functions/sample-broker-05.gif" alt="sample-broker-05" style="zoom:50%;" />
+<img src="../assets/functions/sample-broker-05.gif" alt="sample-broker-05" style="zoom:50%;" />
 
-录音是 60 秒，画布只有那么宽——细节不够时就要放大。
+The recording is 60 seconds long, but the canvas is only so wide. Zoom in when you need more detail.
 
-| 操作 | 行为 |
+| Action | Behavior |
 | --- | --- |
-| **滚轮** | 横向缩放（1x ~ 10x），以鼠标所在位置为中心 |
-| **Shift + 滚轮** | 振幅缩放（0.1x ~ 10x），看清小信号或拍平爆音 |
-| **中键拖拽** | 横向平移视图 |
-| **Shift + 中键点击** | 重置振幅缩放到默认 |
+| **Scroll wheel** | Horizontal zoom (1x ~ 10x), centered on the mouse position |
+| **Shift + scroll wheel** | Amplitude zoom (0.1x ~ 10x), to see quiet signals or flatten peaks |
+| **Middle-click drag** | Pan the view horizontally |
+| **Shift + middle-click** | Reset amplitude zoom to default |
 
-右上角的 `1.5x` 标签会告诉你当前的横向缩放倍数，缩放为 1.0x 时不显示。
+The `1.5x` label in the top-right corner shows the current horizontal zoom level. It is hidden at 1.0x.
 
 ---
 
-## 9. 录制控制
+## 9. Recording Control
 
-![sample-broker-06](./../assets/functions/sample-broker-06.png)
+![sample-broker-06](../assets/functions/sample-broker-06.png)
 
-| 操作 | 行为 |
+| Action | Behavior |
 | --- | --- |
-| **Alt + 左键** | 切换暂停 / 继续录制 |
+| **Alt + left-click** | Toggle recording pause/resume |
 
-**暂停后**：写入头不再前进，新进来的声音不录；但已经录下的 60s 还在，照样能圈选、预览、导出。再 Alt+左键一次即恢复。
+**While paused:** the record head stops moving and new audio is not recorded, but the existing 60-second buffer remains available for selection, preview, and export. Alt+left-click again to resume.
 
-**自动暂停**：当输入电平连续低于阈值（默认 -72 dB）时，插件会自动判定为"没人说话/没在出声"并暂停。可以在汉堡菜单里调档位：-72 / -66 / -60 / -54 dB。
+**Auto-pause:** When the input level stays below the threshold (default -72 dB) continuously, the plug-in decides no one is playing and pauses automatically. The threshold can be changed in the hamburger menu: -72 / -66 / -60 / -54 dB.
 
 ---
 
-## 10. 汉堡菜单（左下角的三横线）
+## 10. Hamburger Menu (three lines at the bottom-left)
 
-<img src="./../assets/functions/sample-broker-07.png" alt="sample-broker-07" style="zoom:50%;" />
+<img src="../assets/functions/sample-broker-07.png" alt="sample-broker-07" style="zoom:50%;" />
 
-点开后是窗口的全部设置项：
+Clicking it reveals all window settings:
 
-| 菜单项 | 选项 / 含义 |
+| Menu item | Options / meaning |
 | --- | --- |
-| **Style: Rainbow** | 默认。彩色渐变填充，醒目易看 |
-| **Style: Precision** | 水润线框风格，更适合精读 |
-| **Amp: Linear** | 默认。真实振幅显示 |
-| **Amp: Compressed** | 压缩低振幅显示，让安静段也清晰可见，（和REAPER中的波形一致） |
-| **Auto-Pause Threshold** | -72 / -66 / -60 / -54 dB；越高越容易触发自动暂停 |
-| **Summon Beast** | 在录音头旁边召唤一只像素猫做陪伴（纯装饰） |
-| **Drag Mode: OS** | 默认左键拖拽走 OS 拖拽（可拖到任何位置） |
-| **Drag Mode: Reaper API** | 默认左键拖拽走 Reaper 内部（仅落 arrange） |
-| **Clear Recording Buffer** | 清空整条 60s 录音（带确认对话框） |
+| **Style: Rainbow** | Default. Color gradient fill; eye-catching and easy to read. |
+| **Style: Precision** | Watercolor-style wireframe; better for close inspection. |
+| **Amp: Linear** | Default. Shows true amplitude. |
+| **Amp: Compressed** | Compresses low-amplitude display so quiet sections are still clearly visible (matches REAPER's waveform view). |
+| **Auto-Pause Threshold** | -72 / -66 / -60 / -54 dB; higher values trigger auto-pause more easily. |
+| **Summon Beast** | Summon a pixel cat next to the record head for companionship (purely cosmetic). |
+| **Drag Mode: OS** | Default left-drag uses OS drag (can drop anywhere). |
+| **Drag Mode: Reaper API** | Default left-drag uses REAPER's internal drag (Arrange only). |
+| **Clear Recording Buffer** | Clear the entire 60-second recording (with confirmation dialog). |
 
-> 上面所有设置项的勾选状态**都会保存**，下次打开 REAPER 沿用。
+> All settings listed above are **saved** and persist the next time REAPER opens.
 
 ---
 
-## 11. 状态提示（窗口里的浮动文字）
+## 11. Status Messages (floating text in the window)
 
-正常工作时画布是干净的。下面这些文字出现时意味着特殊状态：
+Under normal conditions the canvas is clean. The following messages indicate special states:
 
-| 显示文字 | 含义 | 你要做的 |
+| Text shown | Meaning | What to do |
 | --- | --- | --- |
-| `Rendering @ XX Hz...` | REAPER 正在离线渲染，期间不录音 | 等渲染结束自动恢复 |
-| `Audio engine paused...` | REAPER 的音频引擎关了 | 检查音频引擎 |
-| `WARNING: Sample rate changed (X -> Y Hz). Old data invalid and Recording paused. Clear in menu or restore.` | 工程采样率被改了，旧波形已失效，录音自动暂停，此使的音频内容已经不可信了 | 要么把采样率改回去；要么从汉堡菜单 `Clear Recording Buffer` 清空开始新录 |
+| `Rendering @ XX Hz...` | REAPER is rendering offline; recording is paused during this time | Wait for rendering to finish; recording resumes automatically |
+| `Audio engine paused...` | REAPER's audio engine is turned off | Check the audio engine |
+| `WARNING: Sample rate changed (X → Y Hz). Old data invalid and Recording paused. Clear in menu or restore.` | The project sample rate was changed. Old waveform data is invalid and recording is paused; the current buffer is no longer reliable. | Either change the sample rate back, or choose `Clear Recording Buffer` from the hamburger menu to start fresh. |
 
 ---
 
-## 12. 键盘 / 鼠标速查
+## 12. Keyboard / Mouse Quick Reference
 
-| 操作 | 行为 |
+| Action | Behavior |
 | --- | --- |
-| 左键拖拽（空白处） | 手动框选 |
-| 左键拖拽（选区上 / 智能段落上） | 触发**默认模式拖拽导出** |
-| **Ctrl + Alt** + 左键拖拽 | 触发**另一种模式**的拖拽导出（对调 OS / API） |
-| 左键短点击（空白处） | 清空选区 |
-| **Ctrl** + 鼠标悬停 | 显示智能探测段落 |
-| **Ctrl** + 左键 | 锁定智能段落为选区 |
-| 右键按住 | 试听预览 |
-| **Alt** + 左键 | 切换暂停 |
-| 滚轮 | 横向缩放（以鼠标为中心） |
-| **Shift** + 滚轮 | 振幅缩放 |
-| 中键拖拽 | 横向平移视图 |
-| **Shift** + 中键点击 | 重置振幅缩放 |
-| 关闭窗口（X） | 隐藏窗口（数据保留） |
-| **右键** 关闭按钮 | 把窗口贴底 dock |
+| Left-click drag (empty canvas) | Manual selection |
+| Left-click drag (on selection / smart segment) | Trigger the **default mode** drag export |
+| **Ctrl + Alt** + left-click drag | Trigger the **other mode** drag export (swap OS / API) |
+| Short left click (empty canvas) | Clear selection |
+| **Ctrl** + hover | Show smart-detected segment |
+| **Ctrl** + left-click | Lock smart segment as selection |
+| Right-click hold | Preview / audition |
+| **Alt** + left-click | Toggle pause |
+| Scroll wheel | Horizontal zoom (mouse-centered) |
+| **Shift** + scroll wheel | Amplitude zoom |
+| Middle-click drag | Pan view horizontally |
+| **Shift** + middle-click | Reset amplitude zoom |
+| Close window (X) | Hide the window (data is preserved) |
+| **Right-click** the close button | Dock the window to the bottom |
 
-> macOS 下 Ctrl 对应 Command，Alt 对应 Option。
-
----
-
-## 13. 典型工作流
-
-### 工作流 A：捕捉刚刚那个意外好声
-
-排练 / jam 时随手弹了一段没录的，结果一听特别想要：
-
-```
-1. 打开 Sample Broker（如果没开），波形里能看到刚才那段的形状
-2. 用 Ctrl + 悬停 找到那段 → Ctrl + 左键确认选区
-3. 拖到 arrange 的目标轨道松手
-4. 完成，进入工程
-```
-
-### 工作流 B：拖一段当 wav 给别人
-
-```
-1. 圈一段
-2. 直接拖出窗口到聊天软件 / 资源管理器
-3. 自动生成 wav，路径在当前工程目录下
-```
-
-### 工作流 C：默认走 API、临时想拖出 OS
-
-```
-1. 默认 Drag Mode 设成 Reaper API
-2. 偶尔需要拖到资源管理器时，按住 Ctrl+Alt 拖一次即可
-3. 不用每次去汉堡菜单切换
-```
-
-### 工作流 D：监听 master、不录视频段
-
-工程里有视频 / 长循环不想被一直覆盖到 buffer 里：
-
-```
-1. Alt + 左键暂停录制
-2. 操作工程
-3. 想录的时候再 Alt + 左键恢复
-```
+> On macOS, Ctrl corresponds to Command and Alt corresponds to Option.
 
 ---
 
-## 14. 故障排查
+## 13. Typical Workflows
 
-| 现象 | 原因 | 解决 |
+### Workflow A: Capture that accidental great take
+
+During rehearsal or a jam, you played something you did not record but now want to keep:
+
+```
+1. Open Sample Broker (if it is not already open). The waveform shows the recent take.
+2. Use Ctrl + hover to locate the segment, then Ctrl + left-click to confirm the selection.
+3. Drag it onto the target track in Arrange and release.
+4. Done — it is now part of the project.
+```
+
+### Workflow B: Drag a segment out as a WAV for someone else
+
+```
+1. Select a segment.
+2. Drag it out of the window to a chat app or file explorer.
+3. A WAV file is generated automatically in the current project directory.
+```
+
+### Workflow C: Default API mode, but occasionally drag to OS
+
+```
+1. Set the default Drag Mode to Reaper API.
+2. When you need to drag to the file explorer, hold Ctrl+Alt for that one drag.
+3. No need to open the hamburger menu every time.
+```
+
+### Workflow D: Monitor the Master bus without recording a video/loop section
+
+If the project contains video or a long loop you do not want continuously overwriting the buffer:
+
+```
+1. Alt + left-click to pause recording.
+2. Work on the project.
+3. Alt + left-click again to resume when you want to record.
+```
+
+---
+
+## 14. Troubleshooting
+
+| Symptom | Cause | Fix |
 | --- | --- | --- |
-| 打开窗口看到 `CLAP plugin not found` | 第一次用，CLAP 还没扫到 | 去 `Preferences > Plug-ins > CLAP` 点 `Re-scan`，回来点 `Auto Setup` |
-| 看到 `Enable Plugin` / `Enable Monitor FX` | 插件 / 整条 Monitor FX 被 bypass | 点对应按钮即可 |
-| 窗口里没有波形、显示 `Audio engine paused...` | REAPER 音频引擎关着 | 重新开启 REAPER 音频引擎 |
-| 窗口里红色警告 `Sample rate changed` | 中途改了工程采样率 | 改回原采样率；或汉堡菜单 `Clear Recording Buffer` 重新开录 |
-| 拖到 arrange 没反应 | 当前是 OS 拖拽模式 + 落点在 REAPER 内部 | 切到 Reaper API 模式，或按住 Ctrl+Alt 拖 |
-| 拖到 OS 没生成文件 | 当前是 Reaper API 模式 | 切到 OS 模式，或按住 Ctrl+Alt 拖 |
-| 录音头不动了 | 输入电平太低，触发了自动暂停 | 抬高音量；或在汉堡菜单把阈值往严的方向调（-72 dB） |
-| 暂停标签 `II PAUSED` 不消失 | 你手动按 Alt+左键 暂停过 | 再 Alt+左键 一次解除 |
-| 想撤销刚刚那次导出 | （拖到 arrange 的）按 Ctrl+Z；（拖到 OS 的）手动删那个 wav 文件 | — |
+| Window shows `CLAP plugin not found` | First-time use; CLAP has not been scanned yet | Go to `Preferences > Plug-ins > CLAP`, click `Re-scan`, then return and click `Auto Setup` |
+| Window shows `Enable Plugin` / `Enable Monitor FX` | The plug-in or the entire Monitor FX chain is bypassed | Click the corresponding button |
+| No waveform; message `Audio engine paused...` | REAPER's audio engine is off | Turn REAPER's audio engine back on |
+| Red warning `Sample rate changed` | Project sample rate was changed mid-session | Change the sample rate back, or choose `Clear Recording Buffer` from the hamburger menu to start fresh |
+| Drag to Arrange does nothing | Currently in OS drag mode and the drop target is inside REAPER | Switch to Reaper API mode, or hold Ctrl+Alt while dragging |
+| Drag to OS does not create a file | Currently in Reaper API mode | Switch to OS mode, or hold Ctrl+Alt while dragging |
+| Record head is not moving | Input level is too low and auto-pause triggered | Raise the volume, or set a stricter threshold in the hamburger menu (e.g., -72 dB) |
+| `II PAUSED` label does not disappear | You manually paused with Alt+left-click | Press Alt+left-click again to resume |
+| Want to undo the last export | For Arrange drops, press Ctrl+Z. For OS drops, manually delete the generated WAV file. | —|
 
 ---

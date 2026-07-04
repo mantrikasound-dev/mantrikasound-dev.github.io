@@ -2,422 +2,419 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Radial Menu** 是 Mantrika Tools 的轮盘式快速调用器，定位是"**抬手即点、一秒完成**"。
+**Radial Menu** is a pie-style quick launcher in Mantrika Tools. The idea is **raise your hand, click, done in one second**.
 
-![radial-menu-01](./../assets/functions/radial-menu-01.gif)
+![radial-menu-01](../assets/functions/radial-menu-01.gif)
 
-它把你最常用的 Action / FX / Track Template 按"扇区 → 子项"两层结构组织在一个圆盘里。
-按下快捷键 → 圆盘出现在鼠标位置 → 鼠标向某个扇区方向一甩，子菜单立即弹出 → 单击或拖拽完成调用。
+It organizes your most-used actions, FX, and track templates into a two-level structure: **sectors → slots**, all inside a circular menu.
 
-整套交互完全围绕鼠标和一只手的快捷键设计，目标是让你不离开当前编辑位置。
+Press the shortcut → the menu appears at the mouse position → flick the mouse toward a sector and the submenu pops out → click or drag to complete the call.
 
----
-
-## 2. 打开方式（重要：推荐绑单键）
-
-Radial Menu 没有固定菜单入口，必须先在 REAPER 的 Action List 里给它绑定快捷键。
-
-Action 名称：**`mantrika : Synergy - Radial Menu`**（搜索 "MTK Radial Menu"）。
-
-> ⚠️ **强烈建议绑单键**（例如 `Z`、`Q`、`Tab`、`鼠标侧键` 等），**不要绑组合键**（如 `Ctrl+Shift+R`）。
-> 原因有两个：
-> 1. Radial Menu 有一种"按住才显示、松手关闭"的模式（见 §5），组合键按住会引起其他副作用。
-> 2. 单键开盘的反应速度直接决定这个工具好不好用。绑组合键就是把跑车装上拖拉机变速箱。
-
-打开后默认行为：
-
-- 圆盘**以鼠标为中心**出现。
-- 鼠标无需点击，直接朝目标方向**甩一下**就能进入该扇区。
-- 松开快捷键自动关闭（Windows 上可 Pin，见 §7；Mac 上不支持 Pin）。
-
-⚠️ **Mac 用户特别提示**：Mac 上**不支持 Pin**，且**拖拽时 Radial Menu 会自动隐藏**以让鼠标穿透到 REAPER 工程窗口——这是 Mac 平台限制，不是 Bug。详见 §8。
+The whole interaction is built around the mouse and a one-handed shortcut, so you never have to leave your current editing position.
 
 ---
 
-## 3. 界面总览
+## 2. How to open it (important: bind a single key)
 
-<img src="./../assets/functions/radial-menu-02.png" alt="radial-menu-02" style="zoom:67%;" />
+Radial Menu has no fixed menu entry; you must bind it to a shortcut in REAPER's Action List first.
 
-| 区域       | 说明                                                |
-| -------- | ------------------------------------------------- |
-| **轮盘**   | 中央空、外圈是扇区。鼠标进入某个扇区即激活，子菜单在外侧弹出。最多 6 个扇区。           |
-| **子菜单面板** | 最多 12 个 slot（4 列 × 3 行）。背景色跟随扇区主题色。 |
-| **中心钉子图标** | Windows 上 Pin 状态下显示一个橘色小钻石。Mac 上无此图标。              |
+Action name: **`mantrika : Synergy - Radial Menu`** (search for "MTK Radial Menu").
 
----
+> ⚠️ **Strongly recommended: bind a single key** such as `Z`, `Q`, `Tab`, or a mouse side button. **Do not bind a combo** like `Ctrl+Shift+R`.
+> Two reasons:
+> 1. Radial Menu has a "hold to show, release to close" mode (see §5), and holding a combo can trigger other side effects.
+> 2. A single-key open speed directly determines how useful this tool is. Binding a combo is like putting a tractor transmission in a sports car.
 
-## 4. 基础用法 —— 一次完整调用
+Default behavior after opening:
 
-最常见场景：用 Radial Menu 给当前 track 挂一个 FabFilter Pro-Q 3。
+- The menu appears **centered on the mouse**.
+- You do not need to click; simply **flick the mouse** toward a sector to activate it.
+- Releasing the shortcut closes the menu automatically (Windows supports Pin; see §7. Mac does not support Pin).
 
-**操作步骤**：
-
-1. 在 REAPER 里选中目标 track（或 item / take）。
-2. 按你绑定的单键打开 Radial Menu —— 圆盘出现在鼠标位置。
-3. 鼠标朝某个扇区方向**轻轻一甩**（不需要点击，非Pin状态下依据鼠标方向激活）—— 子菜单弹出。
-4. 鼠标移到子菜单的某个 slot 上。
-5. **单击**或**拖拽** —— Action / FX 应用到当前选区，窗口关闭。
+⚠️ **Special note for Mac users**: Pin is **not supported** on Mac, and the Radial Menu **automatically hides during dragging** so the mouse can pass through to the REAPER project window — this is a platform limitation, not a bug. See §8 for details.
 
 ---
 
-## 5. 两种显示模式
+## 3. Interface overview
 
-在 Settings 里可以切换 Radial Menu 的开盘行为（见 §11）：
+<img src="../assets/functions/radial-menu-02.png" alt="radial-menu-02" style="zoom:67%;" />
 
-| 模式 | 行为 | 适用场景 |
-| --- | --- | --- |
-| **Direct Show**（默认） | 按一次快捷键 → 窗口打开；选完动作或按失焦 → 关闭 | 懒得一直按住某个键 |
-| **Hold to Show** | 按住快捷键 → 窗口显示；松手或执行完子菜单内容 → 关闭 | 极致速度，把整个调用变成"按 → 甩 → 松"一气呵成 |
-
-> **Hold to Show 模式为什么必须绑单键**：组合键按住会持续触发 OS 层的快捷键行为，
-> 比如按住 `Ctrl+Z` 会一直 Undo。单键无此问题。
+| Area | Description |
+| ---- | ----------- |
+| **Radial dial** | Hollow center with sectors around the edge. Moving the mouse into a sector activates it and pops the submenu out. Up to 6 sectors. |
+| **Submenu panel** | Up to 12 slots (4 columns × 3 rows). Background color follows the sector theme. |
+| **Center pin icon** | On Windows, a small orange diamond appears when pinned. Not present on Mac. |
 
 ---
 
-## 6. 子菜单 —— 单击 vs 拖拽
+## 4. Basic usage — a complete call
 
-进入子菜单后，每个 slot 有两种触发方式，**含义完全不同**：
+Most common scenario: use Radial Menu to add FabFilter Pro-Q 3 to the current track.
 
-### 6.1 单击（Click）—— 应用到当前 REAPER 选区
+**Steps**:
 
-鼠标移到 slot 上，按下并松开鼠标左键（**不要移动**）。
+1. Select the target track (or item / take) in REAPER.
+2. Press your bound single-key shortcut — the menu appears at the mouse position.
+3. Flick the mouse toward a sector (no click needed; in non-Pin mode the mouse direction activates it) — the submenu pops out.
+4. Move the mouse over a slot.
+5. **Click** or **drag** — the action / FX is applied to the current selection and the menu closes.
 
-行为：把这个 Action / FX 应用到**你在 REAPER 里当前选中的 track / item / take**。
-具体挂到哪里，看 §9 "智能目标识别"。
+---
 
-### 6.2 拖拽（Drag）—— 应用到鼠标松开处的对象
+## 5. Two display modes
 
-鼠标移到 slot 上，按下左键，**保持按下并移动**到 REAPER 工程窗口的某个位置（track、item、take 或空白处），松开。
+You can switch the open/close behavior in Settings (see §11):
 
-行为：忽略当前 REAPER 选区，**鼠标松开在哪个对象上，就挂到哪个对象上**。
+| Mode | Behavior | Best for |
+| ---- | -------- | -------- |
+| **Direct Show** (default) | Press the shortcut once to open the menu; it closes after you choose an action or when focus is lost. | When you do not want to hold a key. |
+| **Hold to Show** | Hold the shortcut to show the menu; release or execute a slot to close. | Maximum speed — the whole call becomes "press → flick → release" in one motion. |
 
-| 鼠标松开位置 | 实际效果 |
-| --- | --- |
-| TCP 上的某条 track | 挂到该 track |
-| Arrange 上的某个 item | 挂到该 item |
-| Item 的 active take | 挂到该 take |
-| TCP / Arrange 的空白处 | **自动新建一条 track 并挂上去** |
-| 拖出窗口外 | 自动取消，无任何效果 |
+> **Why Hold to Show must use a single key**: holding a combo keeps firing OS-level shortcut behavior, for example holding `Ctrl+Z` keeps undoing. A single key does not have this problem.
 
-> **两个用法的核心区别**：
-> - **单击** = "对我已经选好的东西操作"
-> - **拖拽** = "对我用鼠标指的这个东西操作"
+---
+
+## 6. Submenu — click vs. drag
+
+After entering a submenu, each slot has two very different trigger methods:
+
+### 6.1 Click — apply to the current REAPER selection
+
+Move the mouse over a slot and press and release the left mouse button **without moving**.
+
+Behavior: applies the action / FX to **whatever is currently selected in REAPER** (track / item / take). Where exactly it lands depends on §9 "Smart target detection".
+
+### 6.2 Drag — apply to the object under the release point
+
+Move the mouse over a slot, press the left button, **hold and move** to a location in the REAPER project window (track, item, take, or empty area), then release.
+
+Behavior: ignores the current REAPER selection and **applies to whatever object is under the mouse when you release**.
+
+| Release location | Result |
+| ---------------- | ------ |
+| A track in the TCP | Apply to that track |
+| An item in the Arrange view | Apply to that item |
+| The active take of an item | Apply to that take |
+| Empty area of the TCP / Arrange view | **Create a new track automatically and apply there** |
+| Outside the window | Cancel automatically, no effect |
+
+> **Core difference**:
+> - **Click** = "do this to what I already selected"
+> - **Drag** = "do this to whatever I am pointing at"
 >
-> 拖拽适合"想精确指定目标"或"懒得调整 REAPER 选区"的场景。
+> Drag is useful when you want to specify a target precisely or do not want to adjust the REAPER selection first.
 
 ---
 
-## 7. Pin（Windows Only）
+## 7. Pin (Windows only)
 
-**右键**点击轮盘上的任意扇区 → 切换 Pin 状态。Pin 后中心会出现一个橘色钻石图标。
+**Right-click** any sector in the dial to toggle Pin state. When pinned, an orange diamond appears in the center.
 
-Pin 之后：
+After pinning:
 
-- 失焦不自动关闭。
-- 执行 Action / FX 后**窗口保持打开**——可以连续操作。
+- The menu does not close on focus loss.
+- After executing an action / FX, the **menu stays open** — you can perform multiple operations in a row.
 
-适合场景：
+Good for:
 
-- 对一条 track 连挂多个 FX。
-- 想把 Radial Menu 当成常驻面板。
+- Adding several FX to one track in sequence.
+- Using Radial Menu as a persistent panel.
 
-再次右键同一个扇区 → 取消 Pin。
-
----
-
-## 8. Mac 用户特别说明
-
-由于 Mac 平台的窗口和鼠标穿透机制不同，**Radial Menu 在 Mac 上有两个不同行为**：
-
-### 8.1 不支持 Pin
-
-Mac 版没有 Pin 功能，右键扇区无任何效果。每次操作完都会自动关闭。
-
-### 8.2 拖拽时窗口自动隐藏
-
-在 Mac 上，按住子菜单 slot 开始拖拽的瞬间，**Radial Menu 窗口会立即隐藏**，只留下一个浮动的小标签跟随鼠标。
-
-这是为了让鼠标能"穿透"到下面的 REAPER 工程窗口，去命中 track / item。
-拖拽结束（松开鼠标）后，FX / Action 会应用到鼠标松开处的对象。
-
-**对 Mac 用户的实际影响**：
-- 拖拽过程中**看不到**轮盘了。
-- 拖到 REAPER 的目标 track / item 上松手即可，行为和 Windows 版完全一致。
-- 单击模式（不拖拽）下，行为和 Windows 一样，无视觉差异。
+Right-click the same sector again to unpin.
 
 ---
 
-## 9. 智能目标识别（单击模式下）
+## 8. Mac-specific notes
 
-当你**单击**一个 slot 时，FX / Action 会挂到哪里完全取决于**当前 REAPER 选区**。
-Radial Menu 自己判断意图：
+Because Mac windowing and mouse-passthrough work differently, **Radial Menu behaves differently on Mac in two ways**:
 
-| 当前选区 | FX 挂到 |
-| --- | --- |
-| 只选了 items | 每个 item 的 **active take** |
-| 只选了 tracks | 每个选中的 **track** |
-| 选了 items + tracks，且每条选中 track 上都有选中 item | 仍然是 **items** |
-| 选了 items + tracks，但有 track 没有任何 item 被选中 | **tracks** |
-| 什么都没选 | **Last Touched Track**（兜底） |
+### 8.1 Pin not supported
 
-> 这个规则和 FX Search 完全一致：item 比 track 更"具体"，所以同时存在时优先识别 item。
+The Mac version has no Pin feature; right-clicking a sector does nothing. The menu closes automatically after every operation.
 
-### 9.1 批量阈值确认
+### 8.2 Window hides during dragging
 
-当一次操作的目标数 **≥ 5** 时，会弹出 REAPER 原生确认对话框：
+On Mac, the moment you hold a submenu slot and start dragging, the **Radial Menu window immediately hides**, leaving only a small floating label following the mouse.
+
+This allows the mouse to "pass through" to the REAPER project window below and hit tracks / items. After the drag ends (mouse release), the FX / action is applied to the object under the release point.
+
+**Practical impact for Mac users**:
+- You cannot see the wheel while dragging.
+- Release over the target track / item in REAPER; the behavior is identical to the Windows version.
+- Click mode behaves the same as on Windows, with no visual difference.
+
+---
+
+## 9. Smart target detection (click mode)
+
+When you **click** a slot, where the FX / action lands depends entirely on the **current REAPER selection**. Radial Menu decides your intent automatically:
+
+| Current selection | FX lands on |
+| ----------------- | ----------- |
+| Only items selected | The **active take** of each selected item |
+| Only tracks selected | Each selected **track** |
+| Items + tracks selected, and every selected track has a selected item on it | Still **items** |
+| Items + tracks selected, but some track has no selected item | **Tracks** |
+| Nothing selected | **Last Touched Track** (fallback) |
+
+> This rule is identical to FX Search: items are more "specific" than tracks, so items take priority when both are present.
+
+### 9.1 Batch threshold confirmation
+
+When an operation targets **5 or more** objects, REAPER's native confirmation dialog appears:
 
 > `Apply to 12 targets?`
 
-点 OK 才会真正执行；点 Cancel 静默退出。
-被勾选了 **Global Action** 的 slot 不受此阈值限制（见 §13.4）。
+Click **OK** to proceed; **Cancel** exits silently.
+Slots with **Global Action** checked bypass this threshold (see §13.4).
 
 ---
 
-## 10. 键盘 / 鼠标速查
+## 10. Keyboard / mouse cheat sheet
 
-| 操作                | 行为                              |
-| ----------------- | ------------------------------- |
-| 自定义快捷键（推荐单键）       | 打开 / 关闭轮盘                       |
-| 按住快捷键             | Hold to Show 模式下显示，松开即执行        |
-| 鼠标移动              | 进入某扇区 → 子菜单弹出                   |
-| 子菜单 slot **单击**   | 应用到 REAPER 当前选区                 |
-| 子菜单 slot **拖拽**   | 应用到鼠标松开处的对象                     |
-| 扇区 **右键**（Windows） | 切换 Pin                          |
-| Esc               | 关闭轮盘（Pin 状态下无效）                 |
-
----
-
-# 配置篇
+| Input | Behavior |
+| ----- | -------- |
+| Custom shortcut (single key recommended) | Open / close the menu |
+| Hold shortcut | Show menu in Hold to Show mode; release to execute |
+| Mouse movement | Enter a sector → submenu pops out |
+| **Click** a submenu slot | Apply to current REAPER selection |
+| **Drag** a submenu slot | Apply to object under release point |
+| **Right-click** a sector (Windows) | Toggle Pin |
+| Esc | Close menu (ignored when pinned) |
 
 ---
 
-## 11. 打开设置窗口
-
-Action 名称：**`mantrika : Synergy - Radial Menu Settings`**（搜索 "MTK Radial Menu Settings"）。
-
-Extension 菜单路径：`Extension -> Mantrika Tools -> Mantrika Options -> Radial menu settings...`
-
-也可以从默认配置的某个扇区里点 "Settings"（如果你没改过默认配置的话）。
-
-<img src="./../assets/functions/radial-menu-03.gif" alt="radial-menu-03" style="zoom:67%;" />
-
-设置窗口分三栏：
-- **左栏**：扇区数量、显示模式、主题、底部操作按钮。
-- **中栏**：选中扇区的子菜单编辑区。
-- **右栏**：FX / Template Browser，拖拽到中栏可快速填充 slot。
-
-> 所有改动都是"暂存"，必须点 **Save Changes** 才会持久化。
+# Configuration
 
 ---
 
-## 12. 配置扇区
+## 11. Opening the settings window
 
-<img src="./../assets/functions/radial-menu-04.png" alt="radial-menu-04" style="zoom:67%;" />
+Action name: **`mantrika : Synergy - Radial Menu Settings`** (search for "MTK Radial Menu Settings").
 
-### 12.1 扇区数量
+Extensions menu path: `Extensions → Mantrika Tools → Mantrika Options → Radial menu settings...`
 
-左栏顶部滑块，1 ~ 6 个扇区。
+You can also reach it from the default configuration by clicking "Settings" in one of the sectors (if you have not changed the default config).
 
-### 12.2 选择要编辑的扇区
+<img src="../assets/functions/radial-menu-03.gif" alt="radial-menu-03" style="zoom:67%;" />
 
-在左栏的轮盘预览图上**直接点扇区**，被选中的扇区变蓝（如果该扇区有配置问题，会显示红色）。
+The settings window has three columns:
+- **Left column**: number of sectors, display mode, theme, bottom action buttons.
+- **Middle column**: submenu editor for the selected sector.
+- **Right column**: FX / Template Browser; drag items to the middle column to fill slots quickly.
 
-### 12.3 给扇区命名
-
-在中栏顶部 "Main Menu Name" 输入。**英文，最多 13 字符**。
+> All changes are **tentative** until you click **Save Changes**.
 
 ---
 
-## 13. 配置子菜单 slot
+## 12. Configuring sectors
 
-<img src="./../assets/functions/radial-menu-05.png" alt="radial-menu-05" style="zoom: 50%;" />
+<img src="../assets/functions/radial-menu-04.png" alt="radial-menu-04" style="zoom:67%;" />
 
-中栏中部是子菜单的 slot 列表，每个扇区最多 12 个 slot。
+### 12.1 Number of sectors
 
-### 13.1 添加 / 删除 / 重排
+Slider at the top of the left column: 1 to 6 sectors.
 
-| 操作                | 行为                          |
-| ----------------- | --------------------------- |
-| 点 **+ Add New Slot** | 末尾加一个空 slot                  |
-| 点 **- Clear All Slot** | 清空当前扇区所有 slot              |
-| 点 slot 行尾的 **X** | 删除该 slot                    |
-| 拖拽行首的 **≡** 手柄    | 上下重排 slot 顺序                |
+### 12.2 Select a sector to edit
 
-### 13.2 每个 slot 三件套
+In the left-column dial preview, **click the sector** you want to edit. The selected sector turns blue (or red if that sector has configuration issues).
 
-| 字段     | 说明                                                         |
-| ------ | ---------------------------------------------------------- |
-| **Label** | 子菜单上显示的文字。英文，最多 15 字符。粘贴超长也会自动截断。                          |
-| **Type**  | 四选一：`Action` / `FX` / `Track Template` / `Empty`            |
-| **Value** | 根据 Type 不同填不同内容（见下）                                       |
+### 12.3 Name a sector
 
-### 13.3 三种 Type 的填法
+Type in the **Main Menu Name** field at the top of the middle column. **English, maximum 13 characters**.
+
+---
+
+## 13. Configuring submenu slots
+
+<img src="../assets/functions/radial-menu-05.png" alt="radial-menu-05" style="zoom: 50%;" />
+
+The middle column shows the slot list for the selected sector; each sector can have up to 12 slots.
+
+### 13.1 Add / delete / reorder
+
+| Operation | Behavior |
+| --------- | -------- |
+| Click **+ Add New Slot** | Adds an empty slot at the end |
+| Click **- Clear All Slot** | Clears all slots in the current sector |
+| Click the **X** at the end of a slot row | Deletes that slot |
+| Drag the **≡** handle at the start of a slot row | Reorders slots up or down |
+
+### 13.2 Three fields per slot
+
+| Field | Description |
+| ----- | ----------- |
+| **Label** | Text shown in the submenu. English, maximum 15 characters. Pasting longer text truncates automatically. |
+| **Type** | One of: `Action` / `FX` / `Track Template` / `Empty` |
+| **Value** | Depends on Type (see below) |
+
+### 13.3 How to fill each Type
 
 **Type = Action**
-- 点 **Find** 按钮 → REAPER 弹出原生 Action Picker → 选完自动填入。
-- 填好后右侧显示 `[OK]` 或 `[Invalid]`。
+- Click the **Find** button → REAPER's native Action Picker opens → choose an action; it fills automatically.
+- After filling, `[OK]` or `[Invalid]` appears on the right.
 
 **Type = FX**
-- 用右栏 **FX Browser** 搜索想要的插件，**拖到这个 slot 上**即可填入。
-- 或直接在输入框里输入插件名（支持搜索建议）。
-- 填好后右侧显示 `[OK]` 或 `[Missing]`。
+- Use the **FX Browser** in the right column to find the plug-in, then **drag it onto the slot**.
+- Or type the plug-in name directly in the input box (search suggestions supported).
+- After filling, `[OK]` or `[Missing]` appears on the right.
 
 **Type = Track Template**
-- 用右栏 **Templates Browser** 搜索模板，**拖到这个 slot 上**即可。
-- 填好后右侧显示 `[OK]` 或 `[Missing]`。
+- Use the **Templates Browser** in the right column to find the template, then **drag it onto the slot**.
+- After filling, `[OK]` or `[Missing]` appears on the right.
 
 **Type = Empty**
-- 占位用，不执行任何操作。
+- Placeholder; does nothing.
 
-### 13.4 Global Action 复选框（仅 Action 类型）
+### 13.4 Global Action checkbox (Action type only)
 
-每个 Action 类型 slot 行尾有一个小复选框：
+Each Action-type slot has a small checkbox at the end of its row:
 
-- **不勾 **= Action 会按"智能目标识别"对每个选中目标执行一次。比如选了 5 条 track 各执行一次。
-- **勾上** = Action 只执行**一次**，忽略选区数量。适合"打开渲染对话框"、"切换网格设置"这类全局操作，不会触发批量确认弹窗。大部分情况下建议勾上此选项。
+- **Unchecked** = the action runs once per selected target according to smart target detection. For example, with 5 tracks selected it runs 5 times.
+- **Checked** = the action runs **once**, ignoring the number of selected targets. Use this for global actions like "open render dialog" or "toggle grid settings" that should not trigger batch confirmation. In most cases it is recommended to check this option.
 
 ---
 
-## 14. 右栏：FX / Template Browser
+## 14. Right column: FX / Template Browser
 
-切换 Tab：**FX** 或 **Templates**。
+Switch tabs: **FX** or **Templates**.
 
 ### FX Browser
 
-- 顶部搜索框实时过滤。
-- 下方 5 个类型按钮（JS / VST / VST3 / AU / Chain）控制显示哪些类型。
-- **Refresh** 按钮：装了新插件或加了新 `.RfxChain` 文件后点一下。
-- **拖拽列表项到中栏的 slot** → 自动填充。
+- Top search box filters in real time.
+- Five type buttons below (JS / VST / VST3 / AU / Chain) control which types are shown.
+- **Refresh** button: click after installing new plug-ins or adding new `.RfxChain` files.
+- **Drag list items to slots in the middle column** to fill them automatically.
 
 ### Templates Browser
 
-- 搜索框过滤。
-- **Refresh** 按钮：加了新 Track Template 文件后点一下。
-- **拖拽到 slot** → 自动填充。
+- Search box filters.
+- **Refresh** button: click after adding new Track Template files.
+- **Drag to a slot** to fill it automatically.
 
 ---
 
-## 15. 左栏底部按钮
+## 15. Bottom buttons in the left column
 
-| 按钮                       | 行为                                       |
-| ------------------------ | ---------------------------------------- |
-| **Validate Configuration** | 检查所有扇区里的 Action ID / FX / Template 是否仍然有效，无效项的扇区在预览图上标红。 |
-| **Save Changes**          | 保存到磁盘，Radial Menu 会立即重载新配置。              |
-| **Discard Changes**       | 放弃所有未保存的改动，重新从磁盘读取。                      |
-| **Reset to Defaults**     | 重置所有扇区为默认配置（**主题颜色会保留**）。                |
+| Button | Behavior |
+| ------ | -------- |
+| **Validate Configuration** | Checks whether Action IDs / FX / Templates in all sectors are still valid; sectors with invalid items are highlighted red in the dial preview. |
+| **Save Changes** | Saves to disk; Radial Menu reloads the new configuration immediately. |
+| **Discard Changes** | Discards all unsaved changes and reloads from disk. |
+| **Reset to Defaults** | Resets all sectors to the default configuration (**theme colors are preserved**). |
 
 ---
 
-## 16. 显示模式 / 主题（左栏中部）
+## 16. Display mode / theme (middle of left column)
 
 ### Show Mode
 
-- **Direct Show**（默认）：按一下快捷键开盘，再按一下关。
-- **Hold to Show**：按住显示，松手执行 + 关闭。
+- **Direct Show** (default): press shortcut once to open, press again to close.
+- **Hold to Show**: hold to show, release to execute and close.
 
 ### Theme
 
-- **预设主题**（Rainbow / Dark / 等）：自动按扇区数生成色彩。
-- **Custom**：选这个 → 出现 **Edit Colors...** 按钮 → 给每个扇区单独配色。
+- **Preset themes** (Rainbow / Dark / etc.): automatically generate colors based on the number of sectors.
+- **Custom**: selecting this reveals the **Edit Colors...** button → assign individual colors to each sector.
 
 ---
 
-## 17. 典型工作流
+## 17. Typical workflows
 
-### 工作流 A：极速挂常用 EQ（Hold to Show 模式）
+### Workflow A: ultra-fast common EQ (Hold to Show mode)
 
 ```
-1. 选中 track
-2. 按住 Z 键（你绑定的快捷键）
-3. 鼠标朝 "EQ" 扇区方向甩
-4. 鼠标继续移到 "FabFilter Pro-Q 3" slot 上
-5. 松开 Z 键
+1. Select a track
+2. Hold the Z key (your bound shortcut)
+3. Flick the mouse toward the "EQ" sector
+4. Move the mouse over the "FabFilter Pro-Q 3" slot
+5. Release Z
 ```
 
-**结果**：FX 挂上，窗口自动关闭。整个过程不到 0.5 秒。
+**Result**: FX added, menu closes automatically. The whole process takes under 0.5 seconds.
 
 ---
 
-### 工作流 B：拖拽精准指定目标
+### Workflow B: drag to specify a precise target
 
 ```
-1. 按 Z 打开 Radial Menu
-2. 鼠标进入 "Reverb" 扇区
-3. 在 "Valhalla Room" slot 上按下左键
-4. 拖到 Arrange 里某个 item 上
-5. 松开
+1. Press Z to open Radial Menu
+2. Move the mouse into the "Reverb" sector
+3. Press and hold the left button on the "Valhalla Room" slot
+4. Drag onto the target item in the Arrange view
+5. Release
 ```
 
-**结果**：Valhalla 挂到该 item 的 active take 上，无视你当前的 REAPER 选区。
+**Result**: Valhalla is added to the active take of that item, ignoring your current REAPER selection.
 
 ---
 
-### 工作流 C：Pin 着连挂多个 FX（Windows）
+### Workflow C: pin and chain multiple FX (Windows)
 
 ```
-1. 按 Z 打开 Radial Menu
-2. 右键任意扇区 → Pin 中心出现钻石图标
-3. 单击 "EQ" 扇区里的 Pro-Q → 挂上，窗口不关
-4. 单击 "Compressor" 扇区里的 Pro-C → 挂上
-5. 单击 "Limiter" 扇区里的 Pro-L → 挂上
-6. 再次右键扇区 → 解 Pin → 窗口关闭
-```
-
----
-
-### 工作流 D：调整自己的常用 FX 布局
-
-```
-1. 触发 Radial Menu Settings action
-2. 滑块改成想要的扇区数（比如 4）
-3. 点左栏预览图的第 1 个扇区
-4. 在中栏给它命名 "EQ"
-5. 在右栏搜 "Pro-Q"，拖到中栏的 slot 1
-6. 重复添加常用 EQ
-7. 点其他扇区配 Compressor / Reverb / Utility...
-8. 点 Save Changes
+1. Press Z to open Radial Menu
+2. Right-click any sector → Pin; an orange diamond appears in the center
+3. Click Pro-Q in the "EQ" sector → added, menu stays open
+4. Click Pro-C in the "Compressor" sector → added
+5. Click Pro-L in the "Limiter" sector → added
+6. Right-click the sector again → unpin → menu closes
 ```
 
 ---
 
-## 18. 故障排查
+### Workflow D: customize your common FX layout
 
-| 现象                                  | 可能原因                          | 解决                                       |
-| ----------------------------------- | ----------------------------- | ---------------------------------------- |
-| 按快捷键没反应                             | Action 没绑成功 / 绑了组合键           | 重新在 Action List 找 "MTK Radial Menu" 绑单键 |
-| 进入扇区后子菜单不弹                          | 该扇区下没有任何 slot                 | 去 Settings 给它添加 slot                   |
-| Action 类型的 slot 显示 `[Invalid]`     | Action 被卸载或重命名                | 点 Find 重新选一次                            |
-| FX 类型的 slot 显示 `[Missing]`         | 该 FX 没装 / 路径变了                | 右栏 FX Browser 点 Refresh 重扫              |
-| Hold to Show 模式按住没显示                | 绑的是组合键，按住会被 OS 拦截             | 改绑单键                                     |
-| 拖拽到空白处莫名多了一条 track                  | 落点被识别为空白 → 触发新建 track        | 这是预期行为，不需要时拖出窗口外松手                       |
-| Mac 上拖拽过程窗口消失了                      | Mac 平台限制，必须隐藏才能穿透             | 这是预期行为                      |
-| Mac 上右键扇区没反应                        | Mac 不支持 Pin                   | 这是平台限制                                   |
-| 改完配置 Radial Menu 没变化                | 没点 Save Changes               | 回 Settings 点 Save                       |
-| 选了 5+ 条 track 单击后弹了确认框              | 批量阈值保护                        | 点 OK 继续，或勾上该 slot 的 Global Action（仅 Action 类型可勾） |
-| 子菜单 slot 单击没反应                      | 鼠标松开瞬间已移出 slot 区域             | 重试，按住期间保持在 slot 内                       |
+```
+1. Trigger the Radial Menu Settings action
+2. Set the sector slider to the number you want (e.g. 4)
+3. Click sector 1 in the left-column preview
+4. Name it "EQ" in the middle column
+5. Search for "Pro-Q" in the right column and drag it to slot 1 in the middle column
+6. Repeat to add other common EQs
+7. Click other sectors to set up Compressor / Reverb / Utility...
+8. Click Save Changes
+```
 
 ---
 
-## 19. 配置持久化
+## 18. Troubleshooting
 
-| 项目          | 是否持久化 | 位置                                |
-| ----------- | ----- | --------------------------------- |
-| 扇区结构 / slot 配置 | ✅     | Radial Menu 配置文件（点 Save Changes 后写入） |
-| 显示模式 / 主题   | ✅     | 同上                                |
-| Pin 状态（Windows） | ❌     | 每次重开窗口都重置为未 Pin                   |
-| 类型过滤（FX Browser） | ❌     | 每次进 Settings 都重置                  |
-| 搜索框文本       | ❌     | 关闭即清空                             |
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Shortcut does nothing | Action not bound / bound to a combo | Re-bind "MTK Radial Menu" in the Action List to a single key |
+| Submenu does not pop after entering a sector | That sector has no slots | Go to Settings and add slots to that sector |
+| Action-type slot shows `[Invalid]` | Action was uninstalled or renamed | Click Find and re-select it |
+| FX-type slot shows `[Missing]` | FX not installed / path changed | Click Refresh in the FX Browser to rescan |
+| Hold to Show does not display while holding | Bound to a combo, which the OS intercepts while held | Re-bind to a single key |
+| Dragging to empty area creates an unexpected new track | Release point was recognized as empty → triggers new-track creation | This is expected; to cancel, release outside the window |
+| Window disappears during dragging on Mac | Mac platform limitation requires hiding to passthrough | This is expected |
+| Right-clicking a sector does nothing on Mac | Mac does not support Pin | This is a platform limitation |
+| Radial Menu does not change after editing | Save Changes was not clicked | Go back to Settings and click Save |
+| Confirmation dialog appears after selecting 5+ tracks | Batch threshold protection | Click OK to proceed, or check the slot's Global Action checkbox (Action type only) |
+| Clicking a submenu slot does nothing | Mouse moved outside the slot area before release | Retry, keeping the cursor inside the slot while held |
 
 ---
 
-## 20. 与其他模块的关系
+## 19. Persistence
 
-| 关联模块             | 说明                                                         |
-| -------------------- | ------------------------------------------------------------ |
-| **FX Search**        | 另一种快速调取插件的方式（线性搜索式）。Radial Menu 适合**少量高频常用**，FX Search 适合**长尾搜索**。两者共享 FX 应用引擎，行为完全一致。 |
-| **Preferences §3.6** | 控制 FX 挂上后弹窗策略（Don't show / Show FX chain / Show floating window）。Radial Menu 应用 FX 时也走这套策略。 |
-| **Mirror Segments**  | Mirror 作为不参与混音的 UI UX 代理，Radial Menu 不能挂 FX 到 Mirror Segment 上。 |
+| Setting | Persisted? | Location |
+| ------- | ---------- | -------- |
+| Sector structure / slot config | ✅ | Radial Menu config file (written after Save Changes) |
+| Display mode / theme | ✅ | Same as above |
+| Pin state (Windows) | ❌ | Reset to unpinned every time the window opens |
+| Type filters (FX Browser) | ❌ | Reset every time you enter Settings |
+| Search box text | ❌ | Cleared on close |
+
+---
+
+## 20. Relationship with other modules
+
+| Related module | Description |
+| -------------- | ----------- |
+| **FX Search** | Another way to quickly call up plug-ins (linear search). Radial Menu is best for **a small set of high-frequency items**; FX Search is best for **long-tail searches**. They share the same FX application engine and behave identically. |
+| **Preferences §3.6** | Controls the FX insertion window policy (`Don't show` / `Show FX chain` / `Show floating window`). Radial Menu follows this policy when applying FX. |
+| **Mirror Segments** | Mirror items are non-mixing UI/UX proxies; you cannot add FX to a Mirror Segment via Radial Menu. |
 
 ---

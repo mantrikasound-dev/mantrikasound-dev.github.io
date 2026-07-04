@@ -2,341 +2,341 @@
 
 ---
 
-## 1. 概述
+## 1. Overview
 
-**Render Queue** 是一个**批量渲染管理台**，定位是"**把要渲染的东西攒成一张清单 → 配好格式和后处理 → 一键全渲出来**"。
+**Render Queue** is a batch-render management console. Its purpose is **collect what you want to render into one list → configure format and post-processing → render everything with one click**.
 
-<img src="./../assets/functions/render-queue-01.gif" alt="render-queue-01" style="zoom:67%;" />
+<img src="../assets/functions/render-queue-01.gif" alt="render-queue-01" style="zoom:67%;" />
 
-它解决的是 REAPER 原生渲染的几个痛点：
+It solves several pain points of REAPER's native rendering:
 
-- 想一次渲染多个 Region / 多个 Item，又想各自走不同的格式或响度，原生对话框要反复改、反复点。
-- 想把"WAV 48k 给引擎用"和"OGG 给预览用"分两套配置同时产出。
+- Want to render multiple regions or items with different formats or loudness settings? The native dialog forces you to change and click repeatedly.
+- Want to produce both a "WAV 48 kHz for the engine" and an "OGG for preview" in one go?
 
-Render Queue 把这些收进一个三栏窗口：**左边挑素材 → 中间排队列 → 右边配参数**，底部一行**输出路径 + 命名 + START RENDER**。配置会**自动存进工程**，下次打开还在。
+Render Queue wraps this into a three-column window: **left column picks assets → middle column queues them → right column configures parameters**, with **output path + naming + START RENDER** at the bottom. The configuration is **saved automatically with the project** and is still there the next time you open it.
 
-> **关于参数范围**：这里的渲染参数和 REAPER 自带的 Render 面板几乎一一对应，只是针对**游戏音效渲染**的实际工作需求做了一些必要的精简。如果你发现某个 REAPER 原生选项是你的刚需、而这里没有提供，可以先改用 REAPER 自带的 Render 面板完成该次渲染，并**联系插件作者**——视情况会把对应的可配置项补进界面。
+> **About parameter scope**: the render parameters here correspond almost one-to-one with REAPER's own Render panel, but trimmed to the actual needs of **game-audio rendering**. If you find a REAPER-native option that is essential and missing here, use REAPER's own Render panel for that render and **contact the extension author** — the missing option may be added to the interface.
 
-> 本手册只讲 Render Queue 这个窗口。"Quick Render"（选中 Item 一键渲染）是另一套独立功能，不在此文范围内。
+> This manual only covers the Render Queue window. **Quick Render** (one-click rendering of selected items) is a separate feature and is not covered here.
 
 ---
 
-## 2. 打开方式
+## 2. Opening the tool
 
-菜单入口：
+Menu path:
 
 ```
-Extension -> MantrikaTools -> Render queue
+Extensions → Mantrika Tools → Render queue
 ```
 
-或者 Action List（搜 "Render Queue"）：
+Or use the Action List (search "Render Queue"):
 
-| Action 名称 | 用途 |
+| Action name | Function |
 | --- | --- |
-| **`mantrika : Synergy - Render Queue`** | 切换显示 / 隐藏 Render Queue 窗口 |
+| **`mantrika : Synergy - Render Queue`** | Toggle the Render Queue window on/off |
 
-窗口是一个独立的浮动窗，可以拖动、缩放，关掉再开会回到上次状态。
-
----
-
-## 3. 界面总览
-
-<img src="./../assets/functions/render-queue-02.png" alt="render-queue-02" style="zoom:67%;" />
-
-整个窗口的工作顺序就是**从左到右、最后到底部**：
-
-| 区域 | 干什么 |
-| --- | --- |
-| **左栏 Asset Browser** | 挑你要渲染的素材（Region / Item），加进队列 |
-| **中栏 Render Queue** | 看当前队列里有什么；可建多个队列分流不同配置 |
-| **右栏 Config** | 给当前队列（或单个 Item）配格式、采样率、后处理 |
-| **底部 Output & Naming** | 设输出文件夹、文件名规则，然后 **START RENDER** |
+The window is a standalone floating window; you can drag, resize, close, and reopen it. It restores its previous state when reopened.
 
 ---
 
-## 4. 最快上手（四步走）
+## 3. Interface overview
+
+<img src="../assets/functions/render-queue-02.png" alt="render-queue-02" style="zoom:67%;" />
+
+The workflow runs **left to right, then bottom**:
+
+| Area | What it does |
+| ---- | ------------ |
+| **Left column: Asset Browser** | Pick the assets you want to render (regions / items) and add them to the queue |
+| **Middle column: Render Queue** | See what is currently queued; create multiple queues to split different configurations |
+| **Right column: Config** | Configure format, sample rate, and post-processing for the current queue (or a single item) |
+| **Bottom: Output & Naming** | Set output folder, file-naming rules, then press **START RENDER** |
+
+---
+
+## 4. Fastest getting-started flow (four steps)
 
 ```
-1. 左栏选 Source Type（比如 "Master Mix - Regions"）→ 列表里出现所有 Region
-2. 选中你要的几条 → 点 [Add Selected]，它们进入中栏队列
-3. 右栏设好 Format / Sample Rate / 需要的后处理（淡出、响度归一化…）
-4. 底部设输出文件夹 → 点 START RENDER（或直接按 Enter）
+1. In the left column, choose a Source Type (for example, "Master Mix - Regions") → the list shows all regions.
+2. Select the ones you want and click [Add Selected]; they appear in the middle-column queue.
+3. In the right column, set Format / Sample Rate / any post-processing you need (fade, loudness normalization...).
+4. Set the output folder at the bottom → click START RENDER (or press Enter).
 ```
 
-剩下的章节是把每一栏讲细。
+The rest of this manual explains each column in detail.
 
 ---
 
-## 5. 左栏：Asset Browser（挑素材）
+## 5. Left column: Asset Browser (picking assets)
 
-### 5.1 Source Type —— 先决定"渲染什么"
+### 5.1 Source Type — decide what to render
 
-最上方的 **Source Type:** 下拉决定整个列表抓取哪一类素材，共四种（每种有自己的颜色圆点）：
+The **Source Type:** dropdown at the top determines which kind of assets the list grabs. There are four types, each with its own color dot:
 
-<img src="./../assets/functions/render-queue-03.png" alt="render-queue-03" style="zoom:67%;" />
+<img src="../assets/functions/render-queue-03.png" alt="render-queue-03" style="zoom:67%;" />
 
-| 选项 | 颜色 | 渲染的是 |
-| --- | --- | --- |
-| **Master Mix - Regions** | 青 | 按每个 **Region** 通过Master 渲染 |
-| **Via Master - Mirror Items** | 橙 | 经母线的**Mirror Item** |
-| **Via Master - Selected Items** | 紫 | 经母线渲染你当前在工程里**选中的 Item** |
-| **Via Master - Selected Mirrors** | 粉 | 经母线渲染**选中的有命名的Mirror Item** |
+| Option | Color | What it renders |
+| ------ | ----- | --------------- |
+| **Master Mix - Regions** | Cyan | Render each region through the master bus |
+| **Via Master - Mirror Items** | Orange | Mirror items through the master bus |
+| **Via Master - Selected Items** | Purple | The items currently selected in the project, through the master bus |
+| **Via Master - Selected Mirrors** | Pink | Selected named Mirror items through the master bus |
 
-> 最常用的是 **Master Mix - Regions**：在工程里用 Region 圈好每段声音，这里就能一次性把它们全渲成独立文件。
+> The most common choice is **Master Mix - Regions**: draw regions around each sound in the project, and this list lets you render them all as separate files in one go.
 
-### 5.2 搜索与刷新
+### 5.2 Search and refresh
 
-- **搜索框**（占位提示 `Search (e.g. drums NOT kick)`）：输入关键字过滤列表，支持 `AND NOT OR` 这类逻辑（如 `drums NOT kick` = 含 drums 但不含 kick）。右边 **`x`** 清空搜索。
-- **`⟳` 刷新按钮**：重新扫描工程里的素材。
-  - 素材**超过 150 个**时会自动停掉"自动刷新"以免卡顿，按钮提示变为 `Auto-refresh disabled (too many items, >150)`——这时手动点一下 `⟳` 即可刷新。
+- **Search box** (placeholder `Search (e.g. drums NOT kick)`): type keywords to filter the list. Supports logic such as `AND`, `NOT`, `OR` (for example, `drums NOT kick` = contains "drums" but not "kick"). Click the **`x`** on the right to clear the search.
+- **`⟳` refresh button**: rescans the assets in the project.
+  - If there are **more than 150** assets, auto-refresh is disabled to avoid lag, and the button tooltip changes to `Auto-refresh disabled (too many items, >150)` — click `⟳` manually to refresh.
 
-### 5.3 加入队列
+### 5.3 Adding to the queue
 
-选好素材后，把它们送进中栏队列有三种方式：
+After selecting assets, send them to the middle-column queue in one of three ways:
 
-| 方式 | 说明 |
-| --- | --- |
-| **选中 → 点底部按钮** | 按钮文字随状态变：选了几条显示 **`Add Selected (N)`**；没选则是 **`Add All to Queue`**（把整张过滤后的列表全加） |
-| **拖拽** | 直接把列表里的素材拖到中栏队列区 |
-| **双击** | 双击一条素材会**跳转到它在工程时间线上的位置**，方便先确认是不是这一条 |
+| Method | Description |
+| ------ | ----------- |
+| **Select → click bottom button** | The button text changes with state: when items are selected it shows **`Add Selected (N)`**; when nothing is selected it shows **`Add All to Queue`** (adds the whole filtered list). |
+| **Drag and drop** | Drag assets directly from the list to the middle-column queue area. |
+| **Double-click** | Double-click an asset to **jump to its position on the timeline**, useful for confirming it is the right one before adding it. |
 
-底部 **`Source Available: N`** 显示当前类型下可用素材数量；**`Deselect All`** 取消所有选中。
+The bottom label **`Source Available: N`** shows how many assets are available for the current type; **`Deselect All`** clears the current selection.
 
-> **按钮变灰的两种情况**：
-> - **`Requires New Queue`**：你选的素材类型和当前队列的类型不一致（每个队列只装同一种 Source Type，见 6.2）。新建一个队列再加即可。
-> - **`Already Added`**：选中的素材已经全在当前队列里了。
+> **Two cases where the button is grayed out**:
+> - **`Requires New Queue`**: the selected asset type does not match the type already locked by the current queue (each queue holds only one Source Type; see §6.2). Create a new queue first.
+> - **`Already Added`**: the selected assets are already all in the current queue.
 
 ---
 
-## 6. 中栏：Render Queue（排队列）
+## 6. Middle column: Render Queue (lining up)
 
-### 6.1 队列里的内容
+### 6.1 What is in the queue
 
-中栏顶部是标题 **Render Queue**，下面 **`Queue Pending: N items`** 实时显示当前队列待渲染条数。
+The top of the middle column shows the title **Render Queue**, and **`Queue Pending: N items`** shows the current queue's pending count in real time.
 
-<img src="./../assets/functions/render-queue-04.png" alt="render-queue-04" style="zoom:67%;" />
+<img src="../assets/functions/render-queue-04.png" alt="render-queue-04" style="zoom:67%;" />
 
-队列为空时显示提示：
+When empty, the queue shows:
 
 ```
 Queue is empty
 Drag from Asset Browser or use Add button
 ```
 
-每一条目显示素材名 + 类型颜色圆点。底部三个按钮：
+Each entry shows the asset name plus a colored dot indicating its type. Three buttons at the bottom:
 
-| 按钮 | 作用 |
-| --- | --- |
-| **Deselect All** | 取消队列里的选中 |
-| **Remove Item** | 移除选中的条目（没选时灰掉） |
-| **Clear All** | 清空整个队列（空队列时灰掉） |
+| Button | Function |
+| ------ | -------- |
+| **Deselect All** | Clear selection inside the queue |
+| **Remove Item** | Remove the selected entry (grayed out when nothing is selected) |
+| **Clear All** | Empty the entire queue (grayed out when the queue is empty) |
 
-### 6.2 多队列 —— 用 Tab 分流不同配置
+### 6.2 Multiple queues — split configurations with tabs
 
-队列标题上方是一排 **Tab**，每个 Tab 是一个独立队列，**最多 5 个**。这是 Render Queue 的核心玩法：
+Above the queue title is a row of **tabs**. Each tab is an independent queue, **up to 5**. This is the core workflow:
 
-> **一个队列 = 一套配置 + 一种 Source Type**。
-> 想同时产出"WAV 给引擎"和"OGG 给预览"，就开两个队列，各配各的，一次 START RENDER 全部渲出。
+> **One queue = one configuration + one Source Type**.
+> Want to produce both "WAV for the engine" and "OGG for preview" at the same time? Open two queues, configure each separately, and one START RENDER renders both.
 
-Tab 的操作：
+Tab operations:
 
-| 操作 | 行为 |
-| --- | --- |
-| **点 Tab** | 切换到该队列（右栏配置随之切换） |
-| **Tab 上的圆点** | 表示该队列的**启用状态**；点它可开关。**禁用的队列不参与渲染** |
-| **右键 Tab** | 弹出菜单：**Enable / Disable**（启用/停用）、**Rename**（改名）、**Delete**（删除） |
-| **`[+]` 按钮** | 新建队列（已有 5 个时灰掉） |
+| Operation | Behavior |
+| --------- | -------- |
+| **Click tab** | Switch to that queue (right-column config switches with it) |
+| **Dot on tab** | Shows that queue's **enabled** state; click it to toggle. **Disabled queues are not rendered** |
+| **Right-click tab** | Menu: **Enable / Disable**, **Rename**, **Delete** |
+| **`[+]` button** | Create a new queue (grayed out when 5 queues already exist) |
 
-> 每个队列在加入第一条素材时，就**锁定**了那条素材的 Source Type；之后只能往里加同类型的素材（这就是左栏出现 `Requires New Queue` 的原因）。
+> Each queue locks to the Source Type of the first asset added; afterwards only assets of the same type can be added (this is why the left column shows `Requires New Queue`).
 
 ---
 
-## 7. 右栏：Config（配参数）
+## 7. Right column: Config (parameters)
 
-右栏是渲染参数面板。标题会随当前选择变化：
+The right column is the render parameter panel. The title changes depending on the current selection:
 
-- 没选条目时：**`<队列名> Queue Settings`**（默认显示 `Main Queue Settings`）——此时编辑的是**整个队列**的配置。
-- 选中**单个**条目时：标题变成该条目名 + `Settings`，并出现 **Override** 开关（见 7.1）。
-- 选中**多个**条目时：标题显示 `[N items selected]`，配置表单禁用（多选不支持改配置）。
+- Nothing selected: **`<Queue name> Queue Settings`** (default `Main Queue Settings`) — edits configuration for the **whole queue**.
+- Single entry selected: title becomes the entry name + `Settings`, and an **Override** switch appears (see §7.1).
+- Multiple entries selected: title shows `[N items selected]` and the config form is disabled (multi-selection does not support config changes).
 
-右上角 **`☰`** 按钮是 **Presets**（预设管理，见第 8 节）。
+The **`☰`** button in the top-right corner opens **Presets** (see §8).
 
-### 7.1 Override —— 给单个 Item 开小灶
+### 7.1 Override — special settings for a single entry
 
-默认情况下，队列里所有条目共用队列配置。如果某一条想单独走不同设置：
+By default all entries in a queue share the queue's configuration. If one entry needs different settings:
 
 ```
-1. 在中栏点中那一条（单选）
-2. 右栏出现 □ Override Queue Settings 开关
-3. 勾上 → 配置表单解锁，这一条的改动只作用于它自己
+1. Click that entry in the middle column (single selection)
+2. The right column shows □ Override Queue Settings
+3. Check it → the config form unlocks, and changes affect only this entry
 ```
 
-开关**橙色 = 未覆写**（跟随队列），**绿色 = 已覆写**（独立配置）；被覆写的条目在标题里带 `[Override]` 标记。
+The switch is **orange = not overridden** (follows queue), **green = overridden** (independent); overridden entries show `[Override]` in their title.
 
-> 注意：**输出路径和命名规则始终是队列级别的**，Override 不会改它们——只覆写格式 / 后处理这类参数。
+> Note: **output path and naming rules are always queue-level**. Override only covers format / post-processing parameters.
 
-### 7.2 Basic Options（基础）
+### 7.2 Basic Options
 
-| 项 | 说明 |
-| --- | --- |
-| **Format** | 输出格式：WAV / OGG Vorbis / OGG Opus / MP4 (H.264/AAC)。选不同格式时下方会出现对应的细节面板（如 WAV 的位深） |
-| **Sample Rate** | 采样率，8000 ~ 192000 Hz |
-| **Channels** | 声道：Mono / Stereo / 4 / 6 / 8 |
-| **Render Speed** | 渲染速度模式（Full-Speed Offline / 1x Offline / Online / Offline idle 等） |
-| **Resample** | 重采样算法，从 Point Sampling 到 `r8brain free (highest quality, fast)` |
-| **Dither** | `Dither master` 抖动；`Noise shape` 噪声整形（需先开抖动） |
+| Item | Description |
+| ---- | ----------- |
+| **Format** | Output format: WAV / OGG Vorbis / OGG Opus / MP4 (H.264/AAC). Choosing a format reveals its detail panel below (for example, bit depth for WAV). |
+| **Sample Rate** | Sample rate, 8000 ~ 192000 Hz |
+| **Channels** | Channels: Mono / Stereo / 4 / 6 / 8 |
+| **Render Speed** | Render speed mode (Full-Speed Offline / 1x Offline / Online / Offline idle, etc.) |
+| **Resample** | Resampling algorithm, from Point Sampling to `r8brain free (highest quality, fast)` |
+| **Dither** | `Dither master` / `Noise shape` (noise shape requires dither to be enabled first) |
 
-### 7.3 Advance（高级）
+### 7.3 Advance
 
-| 项 | 说明 |
-| --- | --- |
-| **2nd Pass Render** | 两遍渲染（第二遍用于精确响度/限幅，或者渲染游戏音效Loop素材时这个功能有奇效） |
-| **Use hardware sample rate for FX** | 用硬件采样率处理 FX |
+| Item | Description |
+| ---- | ----------- |
+| **2nd Pass Render** | Two-pass render (second pass is useful for precise loudness/limiting, or works particularly well for game-audio loop material) |
+| **Use hardware sample rate for FX** | Process FX at the hardware sample rate |
 
-### 7.4 Postprocess（后处理）
+### 7.4 Postprocess
 
-每一项都是"勾选框 + 参数"，不勾就不生效：
+Each item is a checkbox + parameters; unchecked means no effect:
 
-| 项 | 参数 | 说明 |
-| --- | --- | --- |
-| **Tail** | `[ ] ms` | 在每段末尾追加一段尾音长度（默认 1000 ms） |
-| **Normalize** | `[值] [LU/dB] [类型▾]` | 响度归一化。类型可选 **LUFS-I / LUFS-M max / LUFS-S max / Peak / True Peak / RMS-I**；选 LUFS 系单位显示 `LU`，其余显示 `dB` |
-| **Limiter** | `[值] dB [Peak/True Peak▾]` | 限幅到指定上限（默认 -0.1 dB） |
-| **Fade In** | `[ ] ms [曲线▾]` | 淡入。曲线：Linear / Fast Start / Fast End / Slow Start/End / Sharp Curve |
-| **Fade Out** | `[ ] ms [曲线▾]` | 淡出，曲线同上 |
-| **Trim leading silence** | `threshold [ ] dB` | 砍掉开头低于阈值的静音（默认 -60 dB） |
-| **Trim trailing silence** | `threshold [ ] dB` | 砍掉结尾的静音 |
-
----
-
-## 8. 预设（Presets）
-
-点右栏的 **`☰`** 打开 **Queue Preset Manager**，把一整套配置存下来反复用。
-
-<img src="./../assets/functions/render-queue-05.gif" alt="render-queue-05" style="zoom:50%;" />
-
-| 操作 | 怎么做 |
-| --- | --- |
-| **存预设** | 在 `Enter preset name...` 输入名字 → 点 **Save** |
-| **应用预设** | 点列表里的预设行，配置立刻套到当前队列 |
-| **设默认** | 点行内的 **Default**（再点 **Unset** 取消）。设为默认的预设会**自动套用到新建队列** |
-| **删预设** | 点行尾的 **✕** |
-
-没有任何预设时列表显示 `No presets saved yet`。
+| Item | Parameters | Description |
+| ---- | ---------- | ----------- |
+| **Tail** | `[ ] ms` | Append a tail length at the end of each render (default 1000 ms) |
+| **Normalize** | `[value] [LU/dB] [type▼]` | Loudness normalization. Type options: **LUFS-I / LUFS-M max / LUFS-S max / Peak / True Peak / RMS-I**; LUFS types show `LU`, others show `dB` |
+| **Limiter** | `[value] dB [Peak/True Peak▼]` | Limit to the specified ceiling (default -0.1 dB) |
+| **Fade In** | `[ ] ms [curve▼]` | Fade in. Curves: Linear / Fast Start / Fast End / Slow Start/End / Sharp Curve |
+| **Fade Out** | `[ ] ms [curve▼]` | Fade out; same curves as Fade In |
+| **Trim leading silence** | `threshold [ ] dB` | Cut leading silence below the threshold (default -60 dB) |
+| **Trim trailing silence** | `threshold [ ] dB` | Cut trailing silence |
 
 ---
 
-## 9. 底部：Output & Naming + 渲染
+## 8. Presets
 
-### 9.1 输出路径
+Click the **`☰`** button in the right column to open the **Queue Preset Manager**, where you can save a full configuration for reuse.
 
-- **Output Path** 输入框 + **Browse** 按钮。点 Browse 弹出快捷选择：
-  - **`⌂ Current Project Folder (Same as .RPP)`** —— 直接用工程所在文件夹
-  - **`⧉ Open System Dialog...`** —— 打开系统文件夹选择框
-  - 下方列出**最近用过的路径**（没有则显示 `No recent paths`）
+<img src="../assets/functions/render-queue-05.gif" alt="render-queue-05" style="zoom:50%;" />
 
-### 9.2 命名规则与通配符
+| Operation | How |
+| --------- | --- |
+| **Save preset** | Type a name in `Enter preset name...` → click **Save** |
+| **Apply preset** | Click a preset row; the configuration is applied to the current queue immediately |
+| **Set default** | Click **Default** on a row (click **Unset** to remove). A default preset is **automatically applied to new queues** |
+| **Delete preset** | Click the **✕** at the end of a row |
 
-- **Naming Pattern** 输入框（默认 `$region`）决定输出文件名。
-- 点 **Wildcards** 打开通配符面板，里面按类别（Region / Item / 时间 / 工程信息等）列出可插入的标记，点一下就插进命名框。
-- 面板里还能选**分隔符**（`Separator:` → **None / `_` / `-`**），以及 **`↺ Reset to Default`** 把命名重置回当前 Source Type 的默认值。
+When there are no presets, the list shows `No presets saved yet`.
 
-> 例：`$region` → 输出文件名就是各 Region 的名字；`$project_$region` → 工程名 + 下划线 + Region 名。
+---
+
+## 9. Bottom: Output & Naming + rendering
+
+### 9.1 Output path
+
+- **Output Path** input box + **Browse** button. Clicking Browse opens a quick picker:
+  - **`⌂ Current Project Folder (Same as .RPP)`** — use the folder where the project file is located
+  - **`⧉ Open System Dialog...`** — open the system folder picker
+  - Below that, **recently used paths** (or `No recent paths` if none)
+
+### 9.2 Naming pattern and wildcards
+
+- **Naming Pattern** input box (default `$region`) determines the output file name.
+- Click **Wildcards** to open a panel listing available tokens by category (Region / Item / Time / Project info, etc.); click one to insert it into the naming box.
+- The panel also lets you choose a **separator** (`Separator:` →**None / `_` / `-`**) and **↺ Reset to Default** to restore the default pattern for the current Source Type.
+
+> Example: `$region` → output file name is each region's name; `$project_$region` → project name + underscore + region name.
 
 ### 9.3 START RENDER
 
-底部那颗大按钮就是渲染触发：
+The large button at the bottom triggers rendering:
 
-| 情况 | 按钮文字 | 渲染范围 |
-| --- | --- | --- |
-| 没选中条目 | **`START RENDER`**（蓝） | 所有**启用**的队列，全渲 |
-| 选中了条目 | **`RENDER SELECTED`** / **`RENDER SELECTED (N)`**（橙） | 只渲选中的那些条目 |
+| Situation | Button text | Render scope |
+| --------- | ----------- | ------------ |
+| No entry selected | **`START RENDER`** 🔵 | All **enabled** queues, fully rendered |
+| Entry/entries selected | **`RENDER SELECTED`** / **`RENDER SELECTED (N)`** 🟠 | Only the selected entries |
 
-补充技巧：
+Extra tips:
 
-- **按 `Enter`** 等同于点 START RENDER。
-- **按住 `Shift` 点按钮（或 `Shift+Enter`）**：即使当前选中了条目，也强制**渲染所有启用队列**（按钮提示里也写了这条）。
-- 渲染开始前，焦点会自动交还给 REAPER，由 REAPER 自己的渲染进度窗负责显示进度。
+- **Press `Enter`** — same as clicking START RENDER.
+- **Hold `Shift` and click the button (or `Shift+Enter`)** — even if entries are selected, forces rendering of **all enabled queues** (the button tooltip also notes this).
+- Before rendering starts, focus is handed back to REAPER, and REAPER's own render progress window shows the progress.
 
-### 9.4 两个开关
+### 9.4 Two switches
 
-| 开关 | 作用 |
-| --- | --- |
-| **Auto hide window** | 渲染完成后自动隐藏 Render Queue 窗口（默认开） |
-| **Import back** | 渲染完成后把产出文件导回工程 |
+| Switch | Function |
+| ------ | -------- |
+| **Auto hide window** | Automatically hide the Render Queue window when rendering finishes (on by default) |
+| **Import back** | Import the rendered files back into the project after rendering |
 
-最右边的**状态文字**（`Ready` / `Selected: ...` / `Ready - N tasks pending`）实时反馈当前状态和待渲染数量。
+The **status text** on the far right (`Ready` / `Selected: ...` / `Ready - N tasks pending`) shows the current state and pending count in real time.
 
-### 9.5 渲染设置（按钮右侧的 `▼`）
+### 9.5 Render settings menu (`▼` to the right of the button)
 
-<img src="./../assets/functions/render-queue-06.png" alt="render-queue-06" style="zoom:67%;" />
+<img src="../assets/functions/render-queue-06.png" alt="render-queue-06" style="zoom:67%;" />
 
-START RENDER 右边的小三角 **`▼`** 打开几个全局开关：
+The small triangle **`▼`** to the right of START RENDER opens global switches:
 
-| 开关 | 说明 |
-| --- | --- |
-| **Auto Close REAPER Render Dialog** | 渲染完自动关掉 REAPER 的渲染对话框 |
-| **Auto Overwrite Existing Files** | 输出文件已存在时，先删旧文件再渲。⚠️ 渲染中途中止会导致原文件丢失 |
-| **Auto Sync Wwise Replace**（仅 Windows） | 渲染后自动把输出文件夹设为 Wwise Replace 的 watch folder 并刷新（仅当所有产出在同一文件夹时生效） |
+| Switch | Description |
+| ------ | ----------- |
+| **Auto Close REAPER Render Dialog** | Automatically close REAPER's render dialog when rendering finishes |
+| **Auto Overwrite Existing Files** | If the output file already exists, delete the old file before rendering. ⚠️ Aborting a render after this is enabled will lose the original file. |
+| **Auto Sync Wwise Replace** (Windows only) | After rendering, automatically set the output folder as Wwise Replace's watch folder and refresh (only works when all outputs are in the same folder) |
 
-> 开启 **Auto Overwrite** 后，渲染前会先探测目标文件能否删除；若有文件**被其他程序占用**，会弹窗中止渲染并告诉你是哪个文件——关掉占用它的程序再来。
-
----
-
-## 10. 典型工作流
-
-### 工作流 A：把工程里所有 Region 渲成独立 WAV
-
-```
-1. 工程里用 Region 圈好每段声音
-2. 左栏 Source Type 选 "Master Mix - Regions" → 列表出现所有 Region
-3. 点 [Add All to Queue] 全部入队
-4. 右栏：Format = WAV，Sample Rate = 48000，Channels 按需
-5. 命名框填 $region，输出选 [Current Project Folder]
-6. START RENDER（或按 Enter）
-```
-
-### 工作流 B：同一批素材同时产出两种格式
-
-```
-1. 队列1：加好素材，配 WAV 48k（给引擎）
-2. 点 [+] 建队列2，加同一批素材，配 OGG（给预览）
-3. 两个 Tab 的圆点都保持启用
-4. 不选任何条目，直接 START RENDER → 两套配置一次全渲
-```
-
-### 工作流 C：整批统一配置，但某一条要单独处理
-
-```
-1. 队列里所有条目走默认（比如归一化 -23 LUFS）
-2. 单选那条特殊的 → 勾 □ Override Queue Settings（变绿）
-3. 只给它改成 -16 LUFS / 加个 Fade Out
-4. START RENDER → 这条按它自己的来，其余按队列来
-```
-
-### 工作流 D：存一套常用配置反复用
-
-```
-1. 把格式 / 采样率 / 后处理调到你常用的样子
-2. 点 ☰ → 输入名字 → Save
-3. 点该预设的 Default 设为默认
-4. 以后每次 [+] 新建队列，都会自动套这套配置
-```
+> When **Auto Overwrite** is enabled, the tool checks whether the target files can be deleted before rendering; if any file is **locked by another program**, rendering is aborted and you are told which file — close the program that has it open and try again.
 
 ---
 
-## 11. 故障排查
+## 10. Typical workflows
 
-| 现象 | 原因 | 解决 |
-| --- | --- | --- |
-| 左栏列表是空的 | 当前 Source Type 下没有素材；或工程没 Region / 没选 Item | 换 Source Type；或先在工程里建好 Region / 选好 Item，再点 `⟳` |
-| `Add` 按钮显示 **Requires New Queue** 且灰掉 | 选的素材类型和当前队列已锁定的类型不一致 | 点 `[+]` 新建一个队列，再把这类素材加进去 |
-| `Add` 按钮显示 **Already Added** | 选中的素材已全在当前队列 | 正常，无需操作 |
-| 点了 `⟳` 也不自动更新 | 素材超过 150 个，自动刷新已关 | 每次手动点 `⟳` 刷新 |
-| START RENDER 灰着点不动 | 没有可渲染的条目，或所有队列都被禁用 | 往队列加素材；检查 Tab 圆点是否启用 |
-| 右栏配置改不了 | 选中了多个条目（多选禁用配置）；或选中单条但没开 Override | 取消选中改队列配置；或单选后勾 Override |
-| 渲染中途弹窗中止，说文件被占用 | 开了 Auto Overwrite，但目标文件正被别的程序锁着 | 关掉占用该文件的程序（播放器/引擎），再渲 |
-| 渲染完窗口自己消失了 | `Auto hide window` 开着（默认行为） | 想保持打开就取消勾选 |
-| 改了配置担心丢失 | （不会发生）配置会自动存进工程 | 关窗、重开、换工程后再回来都在 |
+### Workflow A: render all regions in the project as separate WAV files
+
+```
+1. Draw regions around each sound in the project
+2. Left column Source Type = "Master Mix - Regions" → list shows all regions
+3. Click [Add All to Queue] to add them all
+4. Right column: Format = WAV, Sample Rate = 48000, Channels as needed
+5. Naming box = $region, output = [Current Project Folder]
+6. START RENDER (or press Enter)
+```
+
+### Workflow B: produce two formats from the same batch
+
+```
+1. Queue 1: add assets, configure WAV 48 kHz (for the engine)
+2. Click [+] to create Queue 2, add the same assets, configure OGG (for preview)
+3. Keep both tab dots enabled
+4. Do not select any entry, then START RENDER → both configurations render in one pass
+```
+
+### Workflow C: same configuration for the whole batch, but one entry needs special treatment
+
+```
+1. All entries follow the default (for example, normalize to -23 LUFS)
+2. Single-click the special entry → check □ Override Queue Settings (turns green)
+3. Change only that entry to -16 LUFS / add a fade-out
+4. START RENDER → that entry uses its own settings, the rest use the queue settings
+```
+
+### Workflow D: save a common configuration for reuse
+
+```
+1. Set format / sample rate / post-processing to your usual values
+2. Click ☰→ type a name → Save
+3. Click that preset's Default to make it the default
+4. From now on, every [+] new queue automatically loads this configuration
+```
+
+---
+
+## 11. Troubleshooting
+
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Left-column list is empty | No assets of the current Source Type exist; or project has no regions / no items selected | Switch Source Type; or create regions / select items in the project first, then click `⟳` |
+| `Add` button shows **Requires New Queue** and is grayed out | Selected asset type differs from the type locked by the current queue | Click `[+]` to create a new queue, then add that type of asset |
+| `Add` button shows **Already Added** | Selected assets are already all in the current queue | Normal; nothing to do |
+| Clicking `⟳` does not auto-update | More than 150 assets; auto-refresh disabled | Click `⟳` manually each time |
+| START RENDER is grayed out and unclickable | No renderable entries, or all queues are disabled | Add assets to the queue; check that tab dots are enabled |
+| Right-column config cannot be changed | Multiple entries selected (multi-select disables config), or single entry selected but Override not checked | Deselect to edit queue config, or check Override on a single entry |
+| Rendering aborts with a "file in use" message | Auto Overwrite enabled, but the target file is locked by another program | Close the program using that file (player / engine), then render |
+| Window disappears after rendering | `Auto hide window` is on (default behavior) | Uncheck it if you prefer the window to stay open |
+| Worried about losing config changes | (Not possible) configuration is saved automatically with the project | Closing, reopening, or switching projects preserves the settings |
 
 ---

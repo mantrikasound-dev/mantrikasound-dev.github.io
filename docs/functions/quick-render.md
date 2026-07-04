@@ -2,261 +2,263 @@
 
 ---
 
-## 1. 概述
+## 1. What Is Quick Render?
 
-**Quick Render 解决的核心痛点：REAPER 原生没有"跨轨道快速 glue 多个 item 并烘焙 FX"的一键功能。**
+**Quick Render solves a core gap in REAPER: there is no native one-click way to glue items across multiple tracks and bake FX into the result.**
 
-<img src="./../assets/functions/quick-render-01.gif" alt="quick-render-01" style="zoom:67%;" />
+<img src="../assets/functions/quick-render-01.gif" alt="quick-render-01" style="zoom:67%;" />
 
-具体来说：
+Specifically:
 
-- 原生的 **Glue items** 只能在**单条轨道内**把 item 粘成一个，而且**不会**把轨道 / 母线上的 FX 印进音频。
-- 想把**跨多个轨道**选中的一堆 item 合并成**一个带 FX 的音频文件**，原生只能去 Render 对话框手动设成 "selected media items (via master) / as one file"，每次改参数、点好几下。
+- REAPER's native **Glue items** only works **inside a single track** and **does not** bake track or Master bus FX into the audio.
+- To merge a selection of items **across multiple tracks** into **one file with FX baked in**, the native workflow requires opening the Render dialog, setting "selected media items (via master) / as one file," and adjusting parameters every time.
 
-Quick Render 把这件事压缩成「**选中 → 一键**」：把你选中的（**可跨轨**）item，**经Master合并渲染成一个文件**（Item + Track + 母线 FX 一并烘焙进去），还能选择**直接导回工程原位**。
+Quick Render compresses this into **select → one key**: it renders your selected items (which can span multiple tracks) **through the Master bus into a single file**, baking item, track, and Master FX into the output, and optionally **imports the result back into the project at the original position**.
 
-它由**两部分**组成，配合使用：
+It consists of **two parts** that work together:
 
-| 部分 | 是什么 | 干什么 |
+| Part | What it is | What it does |
 | --- | --- | --- |
-| **Quick Render Config 窗口** | 一个小配置窗（500×740） | 调好你常用的渲染参数，存成**预设（Preset）**，并指定一个**默认预设** |
-| **Quick Render 一键 Action** | 一个 REAPER Action（可绑快捷键） | 不开任何窗口，直接用**默认预设**把当前选中的（可跨轨）item **合并渲染**出来 |
+| **Quick Render Config window** | A small configuration window (500×740) | Tune your common render parameters, save them as **presets**, and designate one as the **default preset** |
+| **Quick Render one-click action** | A REAPER action that can be bound to a shortcut | Renders the current selection using the default preset without opening any window |
 
-一句话理解：**在窗口里配一次、设为默认 → 之后选中 item 按一下快捷键，就合并渲染（带 FX）出来。**
+In one sentence: **configure once in the window, set it as default, then select items and press one shortcut to render a merged, FX-baked file.**
 
-> **和 Render Queue 的区别**：Render Queue 是"攒一张清单、批量产出**多个独立文件**"的管理台，适合用于最终完工以后的整体导出；Quick Render 是"把跨轨选中的 item **合并成一个带 FX 的文件**、一键完成"的轻量工具。两者互相独立，按需选用。
+> **Difference from Render Queue:** Render Queue is a batch manager that accumulates a list and produces **multiple separate files**; it is suited for final project exports. Quick Render is a lightweight tool that merges the selected cross-track items **into one FX-baked file** with one click. They are independent— use whichever fits the task.
 
-> **关于参数范围**：Quick Render 窗口只暴露**最常用**的一小撮参数（足够覆盖日常游戏音效的快速导出）。如果你需要更细的格式控制（OGG/MP4、淡入淡出、去静音、抖动等），请改用功能更全的 **Render Queue**；若某个 REAPER 原生选项是你的刚需而两边都没有，可先用 REAPER 自带 Render 面板完成，并**联系插件作者**补进界面。
+> **Parameter scope:** The Quick Render window exposes only the **most commonly used** parameters (enough for everyday game-sound quick exports). For finer format control (OGG/MP4, fades, silence removal, dither, etc.), use the more comprehensive **Render Queue**. If a native REAPER option you need is missing from both, use REAPER's own Render panel and **contact the plugin author** to request it.
 
 ---
 
-## 2. 打开方式
+## 2. Opening Quick Render
 
-Quick Render 提供两个 Action（在 REAPER 的 Action List 里搜 "Quick Render" 即可找到）：
+Quick Render provides two actions (search "Quick Render" in REAPER's Action List):
 
-| Action 名称 | 用途 |
+| Action name | Purpose |
 | --- | --- |
-| **`mantrika : Synergy - Quick Render Config`** | 切换显示 / 隐藏 **Quick Render Config 配置窗口** |
-| **`mantrika : Synergy - Quick Render (use user's default preset)`** | **一键渲染**：用默认预设直接渲染当前选中的 item（不开窗口） |
+| **`mantrika : Synergy - Quick Render Config`** | Toggle the **Quick Render Config window** on/off |
+| **`mantrika : Synergy - Quick Render (use user's default preset)`** | **One-click render:** render the current selection using the default preset without opening a window |
 
-> 建议把第二个 **一键渲染 Action 绑定一个快捷键**（在 Action List 里选中它 → Add… → 按下你想要的组合键）。这是 Quick Render 真正的爽点：选中 item → 按键 → 渲完。
+> It is recommended to bind a shortcut to the second one-click action. In the Action List, select it → Add → press the key combination you want. This is the real payoff: select items → press the key → render is done.
 
 ---
 
-## 3. 工作主线（先看这张图）
+## 3. Main Workflow (see the diagram first)
 
 ```
         ┌─────────────────────────────┐
-        │  Quick Render Config 窗口    │
-        │  1. 调参数（格式/后处理/输出）│
-        │  2. 存成 Preset              │
-        │  3. 点 ★ 设为默认            │
+        │  Quick Render Config window  │
+        │  1. Set parameters            │
+        │     (format/post/output)      │
+        │  2. Save as Preset            │
+        │  3. Click ★ to set default    │
         └──────────────┬──────────────┘
-                       │  默认预设存下来了
+                       │  Default preset saved
                        ▼
         ┌─────────────────────────────┐
-        │  以后任何时候：              │
-        │  选中 item → 按一键快捷键    │
-        │  → 用默认预设渲染选中 item   │
+        │  From now on:                │
+        │  Select items → press the    │
+        │  one-click shortcut →        │
+        │  render with default preset  │
         └─────────────────────────────┘
 ```
 
-第一次用花两分钟在窗口里配好默认预设；之后日常工作基本只用那个一键快捷键。
+Spend a couple of minutes setting up the default preset the first time; after that, daily work usually uses only the one-click shortcut.
 
 ---
 
-## 4. 界面总览（Config 窗口）
+## 4. Window Overview (Config Window)
 
-<img src="./../assets/functions/quick-render-02.png" alt="quick-render-02" style="zoom:50%;" />
+<img src="../assets/functions/quick-render-02.png" alt="quick-render-02" style="zoom:50%;" />
 
-窗口从上到下分四块（设置区用四种淡色块区分）：
+The window is divided into four colored sections from top to bottom:
 
-| 区域 | 干什么 |
+| Area | Purpose |
 | --- | --- |
-| **顶部 预设栏** | 选 / 存 / 改 / 删预设，设默认 |
-| **Format（蓝）** | 采样率、位深、声道、渲染速度 |
-| **Advance（橙）** | 母线 FX 旁通、自动关对话框、回导工程、两遍渲染 |
-| **Postprocess（绿）** | 尾音、响度归一化、限幅 |
-| **Output（紫）** | 文件命名、输出路径 |
-| **底部按钮** | `Try Quick Render` —— 用当前窗口里的参数立即试渲一次 |
+| **Top preset bar** | Select / save / rename / delete presets and set the default |
+| **Format 🔵** | Sample rate, bit depth, channels, render speed |
+| **Advance 🟠** | Master FX bypass, auto-close render dialog, import back, second-pass render |
+| **Postprocess 🟢** | Tail, loudness normalization, limiting |
+| **Output 🟣** | File naming, output path |
+| **Bottom button** | `Try Quick Render` — render once immediately using the parameters currently shown in the window |
 
 ---
 
-## 5. 最快上手（首次配置）
+## 5. First-Time Setup
 
 ```
-1. 运行 Action「Synergy - Quick Render Config」打开窗口
-2. 点预设栏右边的 [+]，从当前参数新建一个预设
-3. 调 Format / Postprocess / Output 到你常用的样子
-4. 点 [S] 把改动存回该预设
-5. 点 [★] 把它设为默认（名字前会出现 ★）
-6. 在工程里选中要渲的 item → 点底部 [Try Quick Render] 验证一次
-7. 满意后，给「Synergy - Quick Render (use user's default preset)」绑个快捷键
-   → 以后选中 item 按一下就渲
+1. Run the action "Synergy - Quick Render Config" to open the window.
+2. Click the [+] button on the preset bar to create a new preset from the current parameters.
+3. Adjust Format / Postprocess / Output to your usual settings.
+4. Click [S] to save the changes back to the preset.
+5. Click [★] to set it as the default (a ★ appears in front of its name).
+6. Select the items you want to render in the project, then click [Try Quick Render] at the bottom to verify.
+7. When satisfied, bind a shortcut to "Synergy - Quick Render (use user's default preset)".
+ → From now on, select items and press the shortcut to render.
 ```
 
 ---
 
-## 6. 顶部：预设栏（Preset）
+## 6. Top: Preset Bar
 
-预设栏 = 一个**下拉框** + 五个**小按钮**。
+The preset bar = one **dropdown** + five **small buttons**.
 
-<img src="./../assets/functions/quick-render-03.png" alt="quick-render-03" style="zoom:67%;" />
+<img src="../assets/functions/quick-render-03.png" alt="quick-render-03" style="zoom:67%;" />
 
-### 6.1 预设下拉框
+### 6.1 Preset dropdown
 
-点开下拉，预设分两组显示：
+The dropdown shows presets in two groups:
 
-- **Factory**：内置预设，**不可改名/删除/覆盖**（见第 9 节）。
-- **User**：你自己建的预设，可随意编辑。
-- 名字前带 **★** 的是当前**默认预设**；没选任何预设时显示 `No Preset`。
+- **Factory:** Built-in presets. **Cannot be renamed, deleted, or overwritten** (see section 9).
+- **User:** Presets you created. Fully editable.
+- A **★** in front of a name marks the current **default preset**. When no preset is selected, it shows `No Preset`.
 
-**点选一个预设**，它的全部参数会立刻**载入**到下面的设置区（你看到的就是它的内容）。
+**Click a preset** to load all its parameters into the settings area below.
 
-### 6.2 五个按钮（从左到右）
+### 6.2 The five buttons (left to right)
 
-| 按钮 | 名称 | 作用 | 何时灰掉 |
+| Button | Name | Purpose | Grayed out when |
 | --- | --- | --- | --- |
-| **★** | Set as Default | 把当前选中的预设设为**默认**（一键 Action 用的就是它） | 它已经是默认时 |
-| **S** | Save to Preset | 把**当前设置区的参数**保存回选中的预设 | 没选预设 / 选的是 Factory 预设 |
-| **R** | Rename | 给选中的预设改名（弹出输入框，回车确认） | 没选预设 / 选的是 Factory 预设 |
-| **X** | Delete | 删除选中的预设 | 没选预设 / 选的是 Factory 预设 |
-| **+** | New Preset | 用**当前设置区参数**新建一个 User 预设（自动取名 `Preset N`） | 永不灰掉 |
+| **★** | Set as Default | Set the currently selected preset as the **default** (used by the one-click action) | It is already the default |
+| **S** | Save to Preset | Save the **current settings-area parameters** back to the selected preset | No preset selected / a Factory preset is selected |
+| **R** | Rename | Rename the selected preset (a popup appears; press Enter to confirm) | No preset selected / a Factory preset is selected |
+| **✕** | Delete | Delete the selected preset | No preset selected / a Factory preset is selected |
+| **+** | New Preset | Create a new User preset from the **current settings-area parameters** (auto-named `Preset N`) | Never |
 
-> **记得点 S 保存**：在设置区改了参数后，改动是在"工作区"里。要让它留在预设里，必须点 **S**（或先点 **+** 新建）。否则切换到别的预设、关掉窗口，未保存的改动会丢。
+> **Remember to click S:** Changes made in the settings area live in the "working area." To keep them in a preset, you must click **S** (or **+** to create a new one first). Otherwise, switching to another preset or closing the window discards unsaved changes.
 >
-> **默认预设要手动设**：新建预设后**不会**自动成为默认，需要你点一下 **★**。没有任何默认预设时，一键 Action 会提示你"先去 Config 窗口设一个默认"。
+> **Default must be set manually:** Creating a new preset does **not** make it the default. Click **★** to set it. If no default preset exists, the one-click action will prompt you to set one in the Config window first.
 
 ---
 
-## 7. 设置区四块详解
+## 7. Settings Area Explained
 
-### 7.1 Format（格式 · 蓝）
+### 7.1 Format 🔵
 
-![quick-render-04](./../assets/functions/quick-render-04.png)
+![quick-render-04](../assets/functions/quick-render-04.png)
 
-| 项 | 可选值 | 说明 |
+| Field | Options | Description |
 | --- | --- | --- |
-| **Sample Rate** | 44100 / 48000 / 96000 | 采样率（Hz） |
-| **Bit Depth** | 16 bit / 24 bit / 32 bit FP | 位深（输出 WAV 的精度） |
-| **Channels** | Mono / Stereo | 声道 |
-| **Render Speed** | Full-Speed Offline / 1x Offline / Online Render / Offline Render (Idle) / 1x Offline Render (Idle) | 渲染速度模式，一般用默认 `Full-Speed Offline` 最快 |
+| **Sample Rate** | 44100 / 48000 / 96000 | Output sample rate (Hz) |
+| **Bit Depth** | 16 bit / 24 bit / 32 bit FP | Bit depth (output WAV precision) |
+| **Channels** | Mono / Stereo | Channel configuration |
+| **Render Speed** | Full-Speed Offline / 1x Offline / Online Render / Offline Render (Idle) / 1x Offline Render (Idle) | Render speed mode. The default `Full-Speed Offline` is usually fastest |
 
-### 7.2 Advance（高级 · 橙）
+### 7.2 Advance 🟠
 
-![quick-render-05](./../assets/functions/quick-render-05.png)
+![quick-render-05](../assets/functions/quick-render-05.png)
 
-四个勾选项：
+Four checkboxes:
 
-| 选项 | 作用 |
+| Option | Purpose |
 | --- | --- |
-| **Auto Bypass Master FX** | 渲染时**临时旁通母线（Master）上的 FX**，渲完自动恢复。想要不被母线效果染色的"干"素材时勾上 |
-| **Auto Close Render Dialog** | 渲染完成后**自动关闭** REAPER 的渲染对话框，省一次点击 |
-| **Import Back to Project** | 渲染完把产出的文件**作为新轨道导回工程**，并放到源 item 所在轨道附近 |
-| **2nd Pass Render** | **两遍渲染**（第二遍用于更精确的响度/限幅；渲染 Loop 类素材时也常有奇效） |
+| **Auto Bypass Master FX** | Temporarily bypass FX on the **Master** bus during rendering, then restore them afterward. Enable this when you want a "dry" file unaffected by Master processing. |
+| **Auto Close Render Dialog** | Automatically close REAPER's render dialog after rendering finishes, saving a click. |
+| **Import Back to Project** | Import the rendered file **back into the project as a new track**, placing it near the source items. |
+| **2nd Pass Render** | **Second-pass render** (second pass improves loudness/limiting accuracy and can also help with looping material). |
 
-### 7.3 Postprocess（后处理 · 绿）
+### 7.3 Postprocess 🟢
 
-![quick-render-06](./../assets/functions/quick-render-06.png)
+![quick-render-06](../assets/functions/quick-render-06.png)
 
-每项都是"勾选框 + 参数"，不勾就不生效：
+Each item is a checkbox plus a parameter; it does nothing unless checked:
 
-| 项 | 参数 | 说明 |
+| Field | Parameter | Description |
 | --- | --- | --- |
-| **Tail** | `[ ] ms` | 在每段末尾追加一段尾音长度（默认 1000 ms），避免混响/延迟被切掉 |
-| **Normalize** | `Type [▾]` + `Target` | 响度归一化。**Type** 可选 `LUFS-I / LUFS-M max / LUFS-S max / Peak / True Peak / RMS-I`；**Target** 填目标值（默认 -23.0） |
-| **Limiter** | `Ceiling [ ] dB` + `□ True Peak` | 限幅到指定上限（默认 -0.1 dB）；勾 **True Peak** 用真峰值模式 |
+| **Tail** | `[ ] ms` | Append a tail length to the end of each render (default 1000 ms) to avoid cutting off reverb or delay. |
+| **Normalize** | `Type [▼]` + `Target` | Loudness normalization. **Type** options: `LUFS-I / LUFS-M max / LUFS-S max / Peak / True Peak / RMS-I`; **Target** is the target value (default -23.0). |
+| **Limiter** | `Ceiling [ ] dB` + `□ True Peak` | Limit to the specified ceiling (default -0.1 dB); check **True Peak** to use true-peak mode. |
 
-### 7.4 Output（输出 · 紫）
+### 7.4 Output 🟣
 
-![quick-render-07](./../assets/functions/quick-render-07.png)
+![quick-render-07](../assets/functions/quick-render-07.png)
 
-| 项 | 说明 |
+| Field | Description |
 | --- | --- |
-| **Naming** | 合并出的那个文件的命名规则（默认 `$item` —— 用选中 item 的名字命名）。支持 REAPER 的命名通配符，如 `$item`、`$datetime` 等，可自由组合 |
-| **Use Project Media Path** | 勾上后，输出路径**自动跟随当前工程的媒体目录**（手填路径框会变灰、停用）。换工程时路径自动更新 |
-| **Path + Browse** | 不勾上面那项时，手动指定输出文件夹：直接在框里输入路径，或点 **Browse** 弹出系统选择框 |
+| **Naming** | Naming rule for the merged file (default `$item` — uses the selected item's name). REAPER naming wildcards are supported, such as `$item`, `$datetime`, etc., and can be combined freely. |
+| **Use Project Media Path** | When checked, the output path **follows the current project's media folder** automatically (the manual path field becomes gray and disabled). The path updates when you switch projects. |
+| **Path + Browse** | When the above is unchecked, specify the output folder manually: type directly in the field, or click **Browse** to open the system folder picker. |
 
-> 命名示例：`$item` → 文件名就是 item 名；`$item_$datetime` → item 名 + 时间戳。
-
----
-
-## 8. 底部：Try Quick Render（立即试渲）
-
-底部那颗蓝色按钮 **`Try Quick Render`**，作用是**用当前设置区里的参数**立即渲染一次——**不依赖**默认预设，方便你边调边试。
-
-使用前提：
-
-- 先在工程里**选中要渲的 item**（窗口本身不强制，但渲染需要有选中的素材）。
-- **Output Path 不能为空**，否则会弹窗提醒 `Please set an output path.`。
-
-> 它和一键 Action 的区别：`Try Quick Render` 用的是**窗口里当前显示的参数**（适合调试）；一键 Action 用的是你**设为默认的那个预设**（适合日常）。
+> Naming examples: `$item` → file name equals the item name; `$item_$datetime` → item name plus timestamp.
 
 ---
 
-## 9. 内置预设：Render in Place
+## 8. Bottom: Try Quick Render
 
-Factory 组里自带一个开箱即用的预设 **`Render in Place`**，专为"原地渲染替换"场景调好：
+The blue button at the bottom, **`Try Quick Render`**, renders once immediately using the parameters **currently shown in the settings area**, regardless of the default preset. This is useful for testing while tuning.
 
-- 格式：**WAV / 32 bit FP / 96000 Hz / Stereo**，**两遍渲染**
-- 命名：`$datetime`（时间戳，避免重名覆盖）
-- 已勾：**Auto Bypass Master FX**、**Auto Close Render Dialog**、**Import Back to Project**、**Use Project Media Path**
+Requirements:
 
-效果就是：选中 item → 一键 → 高质量渲出 → 自动导回工程、放在原位附近、输出落在工程媒体目录。想直接用它，把它设为默认（**★**）即可。
+- Select the items you want to render in the project first (the window itself does not enforce this, but rendering needs a selection).
+- **Output Path cannot be empty**, or a popup warns `Please set an output path.`.
 
-> 它是内置预设，**不能改名/删除/覆盖**。如果想在它的基础上微调，先选中它（参数会载入设置区），再点 **[+]** 另存为一个你自己的 User 预设。
-
----
-
-## 10. 典型工作流
-
-### 工作流 A：配一个常用预设 + 绑快捷键（推荐的日常姿势） 
-
-```
-1. 打开 Config 窗口 → [+] 新建预设
-2. 调好 WAV / 48000 / 24bit、需要的归一化和限幅、命名 $item
-3. [S] 保存 → [★] 设为默认
-4. 给「Quick Render (use user's default preset)」绑快捷键
-5. 以后：选中 item → 按快捷键 → 渲完，再不开窗口
-```
-
-### 工作流 B：直接用内置 Render in Place
-
-```
-1. 打开 Config 窗口 → 下拉选 Factory 里的「Render in Place」
-2. 点 [★] 设为默认
-3. 选中 item → 一键 Action → 高质量渲出并自动导回工程
-```
-
-### 工作流 C：临时换一套参数渲一次（不动默认预设）
-
-```
-1. 打开 Config 窗口，直接在设置区改成这次想要的参数
-2. 选中 item → 点底部 [Try Quick Render]
-3. 不点 S，关窗即可——默认预设不受影响
-```
-
-### 工作流 D：多套常用配置来回切
-
-```
-1. 建好几个预设（比如「引擎WAV48k」「预览参考」各一个）
-2. 要用哪套，下拉选中它 → [★] 设为默认
-3. 一键 Action 始终跟着当前默认走
-```
+> Difference from the one-click action: `Try Quick Render` uses the **current parameters in the window** (good for testing). The one-click action uses the **preset you set as default** (good for daily work).
 
 ---
 
-## 11. 故障排查
+## 9. Built-in Preset: Render in Place
 
-| 现象 | 原因 | 解决 |
+The Factory group includes a ready-to-use preset called **`Render in Place`**, tuned for "render in place and replace" scenarios:
+
+- Format: **WAV / 32 bit FP / 96000 Hz / Stereo**, **second-pass render**
+- Naming: `$datetime` (timestamp, avoids overwriting)
+- Checked: **Auto Bypass Master FX**, **Auto Close Render Dialog**, **Import Back to Project**, **Use Project Media Path**
+
+The result: select items → one click → high-quality render → automatically imported back into the project near the original position, saved to the project media folder. To use it directly, set it as default with **★**.
+
+> It is a built-in preset, so it **cannot be renamed, deleted, or overwritten**. To customize it, select it first (its parameters load into the settings area), then click **[+]** to save a new User preset.
+
+---
+
+## 10. Typical Workflows
+
+### Workflow A: Create a common preset + bind a shortcut (recommended daily workflow)
+
+```
+1. Open the Config window →[+] create a new preset.
+2. Set WAV / 48000 / 24 bit, the normalization and limiting you need, and naming `$item`.
+3. [S] Save → [★] Set as Default.
+4. Bind a shortcut to "Quick Render (use user's default preset)".
+5. From now on: select items → press shortcut → render done, no window needed.
+```
+
+### Workflow B: Use the built-in Render in Place directly
+
+```
+1. Open the Config window → select "Render in Place" from the Factory group.
+2. Click [★] to set it as default.
+3. Select items → one-click action → high-quality render imported back into the project.
+```
+
+### Workflow C: Render once with temporary settings without changing the default
+
+```
+1. Open the Config window and change the settings area to what you want for this render.
+2. Select items → click [Try Quick Render].
+3. Do not click S; close the window. The default preset is unchanged.
+```
+
+### Workflow D: Switch between multiple common configurations
+
+```
+1. Create several presets (for example, "Engine WAV 48k" and "Preview Reference").
+2. When you need one, select it from the dropdown → [★] Set as Default.
+3. The one-click action always follows the current default.
+```
+
+---
+
+## 11. Troubleshooting
+
+| Symptom | Cause | Fix |
 | --- | --- | --- |
-| 窗口中间一片红字 `REAPER v7.37+ Required` | REAPER 版本过低 | 升级 REAPER 到 7.37 或更高 |
-| 一键 Action 弹 `No items selected.` | 渲染前没有选中任何 item | 先在工程里选中要渲的 item，再按 |
-| 一键 Action 弹 `No default preset found...` | 还没设默认预设 | 打开 Config 窗口，选一个预设点 **★** 设为默认 |
-| 点 `Try Quick Render` 弹 `Please set an output path.` | 输出路径为空 | 在 Output 里填路径，或勾 **Use Project Media Path** |
-| 改了参数，切个预设就没了 | 改动只在工作区，没保存 | 改完点 **[S]** 存回预设，或点 **[+]** 另存为新预设 |
-| **S / R / X** 按钮点不动（灰） | 当前选中的是 Factory 内置预设（不可编辑） | 先 **[+]** 另存为 User 预设，再编辑那一个 |
-| 渲出来的声音被母线效果染色了 | 没旁通母线 FX | 勾上 **Auto Bypass Master FX** |
-| 渲完没在工程里看到结果 | 没开回导 | 勾上 **Import Back to Project** |
+| Red text in the window: `REAPER v7.37+ Required` | REAPER version is too low | Upgrade REAPER to 7.37 or later |
+| One-click action shows `No items selected.` | No items were selected before rendering | Select the items you want to render, then try again |
+| One-click action shows `No default preset found...` | No default preset has been set | Open the Config window, select a preset, and click **★** to set it as default |
+| `Try Quick Render` shows `Please set an output path.` | Output path is empty | Fill in the Output path, or check **Use Project Media Path** |
+| Parameter changes disappear when switching presets | Changes were only in the working area, not saved | After changing, click **[S]** to save to the preset, or **[+]** to save as a new preset |
+| **S / R / X** buttons are gray and unclickable | A Factory built-in preset is selected (not editable) | Click **[+]** to save it as a User preset first, then edit that one |
+| Rendered sound is colored by Master FX | Master FX were not bypassed | Check **Auto Bypass Master FX** |
+| Rendered file does not appear in the project | Import back was not enabled | Check **Import Back to Project** |
 
 ---

@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  lang: 'zh-CN',
+  lang: 'en-US',
   title: "MantrikaTools",
   description: "A REAPER plugin suite for game audio",
 
@@ -99,14 +99,14 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
-              text: '媒体操作',
+              text: 'Media Operations',
               collapsed: true,
               items: [
-                { text: 'Item 操作', link: '/action/group-item' },
-                { text: 'Take 操作', link: '/action/group-take' },
-                { text: 'Track 操作', link: '/action/group-track' },
-                { text: 'Segment 分段', link: '/action/group-segment' },
-                { text: 'FX 管理', link: '/action/group-fx' },
+                { text: 'Item Operations', link: '/action/group-item' },
+                { text: 'Take Operations', link: '/action/group-take' },
+                { text: 'Track Operations', link: '/action/group-track' },
+                { text: 'Segment', link: '/action/group-segment' },
+                { text: 'FX Management', link: '/action/group-fx' },
                 { text: 'Automation Items', link: '/action/group-automation-items' }
               ]
             },
@@ -115,7 +115,7 @@ export default defineConfig({
               collapsed: true,
               items: [
                 { text: 'Mirror', link: '/action/group-mirror' },
-                { text: 'DC 双击增强', link: '/action/group-assistants-dc' },
+                { text: 'DC Double-Click Enhancements', link: '/action/group-assistants-dc' },
                 { text: 'Adaptive · Create Folder', link: '/action/adaptive-create-folder' },
                 { text: 'Adaptive · Insert Track', link: '/action/adaptive-insert-track' },
                 { text: 'Create Folder From Tracks', link: '/action/create-folder-from-tracks' },
@@ -125,13 +125,13 @@ export default defineConfig({
               ]
             },
             {
-              text: '编辑与交互',
+              text: 'Editing & Interaction',
               collapsed: true,
               items: [
                 { text: 'Under Mouse', link: '/action/group-under-mouse' },
                 { text: 'Razor Eraser', link: '/action/group-razor-eraser' },
                 { text: 'Playback Solo', link: '/action/group-playback-solo' },
-                { text: 'Prune 修剪清场', link: '/action/group-prune' }
+                { text: 'Prune', link: '/action/group-prune' }
               ]
             },
             {
@@ -143,7 +143,7 @@ export default defineConfig({
               ]
             },
             {
-              text: '其他',
+              text: 'Others',
               collapsed: true,
               items: [
                 { text: 'Qi Presets', link: '/action/group-qi-presets' },
@@ -151,7 +151,7 @@ export default defineConfig({
                 { text: 'Internal Record', link: '/action/record-internal-from-items' },
                 { text: 'Wwise Import', link: '/action/wwise-import-to-reaper' },
                 { text: 'Envelope Display Mode', link: '/action/envelope-toggle-display-mode' },
-                { text: 'Misc 杂项', link: '/action/group-misc' },
+                { text: 'Misc', link: '/action/group-misc' },
                 { text: 'Check for Updates', link: '/action/check-for-updates' }
               ]
             }
@@ -168,14 +168,6 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/mantrikasound-dev' }
     ],
 
-    // ---- 中文界面文案（以后切英文时可整段删除/改回默认）----
-    outline: { label: '本页目录' },
-    docFooter: { prev: '上一篇', next: '下一篇' },
-    darkModeSwitchLabel: '主题',
-    lightModeSwitchTitle: '切换到浅色模式',
-    darkModeSwitchTitle: '切换到深色模式',
-    sidebarMenuLabel: '菜单',
-    returnToTopLabel: '回到顶部',
-    langMenuLabel: '语言'
+    outline: { label: 'On this page' }
   }
 })
