@@ -76,6 +76,7 @@ Visual details worth knowing:
 - After zooming, a small `2.0x` label floats in the top-right corner.
 - While paused, an orange-red `II PAUSED` label floats in the top-right corner.
 - When the mouse hovers over the canvas, a semi-transparent vertical line shows the position.
+- By default the canvas shows a **single merged waveform**. You can switch to a **stereo split view** (top = Left, bottom = Right) from the hamburger menu — see §10.
 
 ---
 
@@ -197,6 +198,7 @@ Clicking it reveals all window settings:
 | **Style: Precision** | Watercolor-style wireframe; better for close inspection. |
 | **Amp: Linear** | Default. Shows true amplitude. |
 | **Amp: Compressed** | Compresses low-amplitude display so quiet sections are still clearly visible (matches REAPER's waveform view). |
+| **Stereo Display (L / R)** | Off by default. When **off**, the canvas shows a single merged waveform (the louder of L/R). When **on**, the canvas splits into two horizontal bands — **top = Left channel, bottom = Right channel** — so you can read the stereo image. Works with both Rainbow and Precision styles. |
 | **Auto-Pause Threshold** | -72 / -66 / -60 / -54 dB; higher values trigger auto-pause more easily. |
 | **Summon Beast** | Summon a pixel cat next to the record head for companionship (purely cosmetic). |
 | **Drag Mode: OS** | Default left-drag uses OS drag (can drop anywhere). |

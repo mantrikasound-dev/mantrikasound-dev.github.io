@@ -192,7 +192,7 @@ Slots with **Global Action** checked bypass this threshold (see §13.4).
 
 ## 11. Opening the settings window
 
-Action name: **`mantrika : Synergy - Radial Menu Settings`** (search for "MTK Radial Menu Settings").
+Action name: **`mantrika : Synergy - Radial Menu Settings`** .
 
 Extensions menu path: `Extensions → Mantrika Tools → Mantrika Options → Radial menu settings...`
 
@@ -203,7 +203,7 @@ You can also reach it from the default configuration by clicking "Settings" in o
 The settings window has three columns:
 - **Left column**: number of sectors, display mode, theme, bottom action buttons.
 - **Middle column**: submenu editor for the selected sector.
-- **Right column**: FX / Template Browser; drag items to the middle column to fill slots quickly.
+- **Right column**: **FX / Templates / Actions** Browser; drag items to the middle column to fill slots quickly. Actions can now be assigned entirely from here — you no longer need to open REAPER's native Action List to configure them.
 
 > All changes are **tentative** until you click **Save Changes**.
 
@@ -253,7 +253,8 @@ The middle column shows the slot list for the selected sector; each sector can h
 ### 13.3 How to fill each Type
 
 **Type = Action**
-- Click the **Find** button → REAPER's native Action Picker opens → choose an action; it fills automatically.
+- **Recommended**: switch the right column to the **Actions** tab, search by name or shortcut, then **drag the action onto the slot** — no need to leave the settings window.
+- Or click the **Find** button → REAPER's native Action Picker opens → choose an action; it fills automatically.
 - After filling, `[OK]` or `[Invalid]` appears on the right.
 
 **Type = FX**
@@ -277,9 +278,9 @@ Each Action-type slot has a small checkbox at the end of its row:
 
 ---
 
-## 14. Right column: FX / Template Browser
+## 14. Right column: FX / Templates / Actions Browser
 
-Switch tabs: **FX** or **Templates**.
+Switch tabs: **FX**, **Templates**, or **Actions**. Drag any list item onto a slot in the middle column to fill it automatically.
 
 ### FX Browser
 
@@ -293,6 +294,22 @@ Switch tabs: **FX** or **Templates**.
 - Search box filters.
 - **Refresh** button: click after adding new Track Template files.
 - **Drag to a slot** to fill it automatically.
+
+### Actions Browser
+
+Lets you find and assign any REAPER action **without leaving the settings window** — this replaces the old workflow of opening REAPER's native Action List.
+
+- **Search box**: filters actions by name in real time.
+- **Shortcut search**: find an action by its keyboard shortcut. Type the shortcut text directly, or click the **Key** button and then press the key combo — the field captures it and jumps to the matching action.
+- **Source filter buttons** (`Native` / `Ext` / `Script` / `Custom`): toggle which action sources are shown.
+  - **Native** — REAPER built-in actions.
+  - **Ext** — extensions (SWS, Mantrika Tools, and others).
+  - **Script** — ReaScripts.
+  - **Custom** — custom actions / cycle actions.
+- **Refresh** button: click to rescan the action list (useful after installing a new script or extension in the current session).
+- **Drag a list item onto a slot** in the middle column — the slot's Type switches to `Action` automatically and the action is filled in.
+
+> The dragged slot is auto-renamed to "New Action" if its label is still a default placeholder, so remember to give it a friendly Label afterwards.
 
 ---
 
@@ -404,7 +421,7 @@ Switch tabs: **FX** or **Templates**.
 | Sector structure / slot config | ✅ | Radial Menu config file (written after Save Changes) |
 | Display mode / theme | ✅ | Same as above |
 | Pin state (Windows) | ❌ | Reset to unpinned every time the window opens |
-| Type filters (FX Browser) | ❌ | Reset every time you enter Settings |
+| Browser filters (FX types / Action sources) | ❌ | Reset every time you enter Settings |
 | Search box text | ❌ | Cleared on close |
 
 ---
