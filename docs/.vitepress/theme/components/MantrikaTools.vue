@@ -178,19 +178,25 @@ const docLinks = [
           <a href="https://www.paddle.com" target="_blank" rel="noopener">Paddle</a>.
         </p>
         <div class="meta-row">
+          <span class="chip chip-platform">Windows x64</span>
+          <span class="chip chip-platform">macOS arm64</span>
           <span class="chip">REAPER Extension</span>
           <span class="chip">Zero dependencies</span>
           <span class="chip">High performance</span>
           <span v-if="!buyEnabled" class="chip chip-soon">Coming Soon</span>
         </div>
+        <p class="platform-note">
+          Supported platforms: Windows (x64) and macOS (Apple Silicon / arm64) only.
+          Other platforms — including Intel Macs — are not supported.
+        </p>
       </header>
 
       <section class="section">
         <p>
           Mantrika Tools is a native REAPER extension built for game audio and sound
           design. It bundles workflow enhancements, creative utilities, and a deep
-          catalog of actions into a single package that installs cleanly via ReaPack —
-          with nothing else to configure.
+          catalog of actions into a single package that installs cleanly via ReaPack
+          or a one-line terminal command — with nothing else to configure.
         </p>
       </section>
 
@@ -430,6 +436,19 @@ const docLinks = [
   color: rgb(var(--mtk-accent-rgb));
   border-color: rgba(var(--mtk-accent-rgb), 0.4);
   background: rgba(var(--mtk-accent-rgb), 0.08);
+}
+.chip-platform {
+  color: var(--text-primary);
+  font-weight: 600;
+  border-color: var(--border-highlight);
+  background: var(--bg-glass-hover);
+}
+
+.platform-note {
+  margin: 0.9rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
 }
 
 .section {

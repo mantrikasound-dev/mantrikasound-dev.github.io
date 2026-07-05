@@ -20,8 +20,8 @@ There are three ways to install it:
 2. Choose **Import repositories**.
 3. Paste the ReaPack link:
 
-   ```URL
-   https://raw.githubusercontent.com/mantrikasound-dev/mantrikatools-release/master/index.xml
+   ```
+   https://dl.mantrikasound.com/index.xml
    ```
 
 4. Click **OK**.
@@ -29,10 +29,23 @@ There are three ways to install it:
 
 ---
 
-## 3. Install via the quick-install package
+## 3. Install via Terminal
 
-1. Extract the ZIP anywhere.
-2. Double-click `Mantrika install-win x64.bat` or `Mantrika install-arm64.sh`.
+1. **Close REAPER** (Windows users only — this is not required on macOS).
+2. Open a terminal and run the one-line installer for your OS:
+
+   **macOS**
+
+   ```bash
+   curl -fsSL https://dl.mantrikasound.com/install-mac.sh | bash
+   ```
+
+   **Windows** — paste this into Command Prompt (cmd), PowerShell, or the Win+R Run box:
+
+   ```powershell
+   powershell -c "irm https://dl.mantrikasound.com/install-win.ps1 | iex"
+   ```
+
 3. Restart REAPER.
 
 ---
