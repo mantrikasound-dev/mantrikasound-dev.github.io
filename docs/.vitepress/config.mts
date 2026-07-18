@@ -1,4 +1,53 @@
 import { defineConfig } from 'vitepress'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+// ============================================================
+//  博客侧边栏自动生成
+//  ------------------------------------------------------------
+//  扫描 docs/blog/*.md（排除 index），轻量解析 frontmatter 的
+//  title / date，按日期倒序列出。你只管扔 .md —— 侧栏自动更新。
+//  （不引第三方，正则解析首个 --- 块即可满足 title/date 需求）
+// ============================================================
+function readFrontmatter(raw: string): Record<string, string> {
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!m) return {}
+  const out: Record<string, string> = {}
+  for (const line of m[1].split(/\r?\n/)) {
+    const kv = line.match(/^(\w[\w-]*):\s*(.*)$/)
+    if (kv) out[kv[1]] = kv[2].trim().replace(/^['"]|['"]$/g, '')
+  }
+  return out
+}
+
+function getBlogSidebar() {
+  const blogDir = fileURLToPath(new URL('../blog', import.meta.url))
+  let files: string[] = []
+  try {
+    files = fs.readdirSync(blogDir).filter((f) => f.endsWith('.md') && f !== 'index.md')
+  } catch {
+    return []
+  }
+  const items = files
+    .map((f) => {
+      const fm = readFrontmatter(fs.readFileSync(path.join(blogDir, f), 'utf-8'))
+      return {
+        text: fm.title || f.replace(/\.md$/, ''),
+        link: `/blog/${f.replace(/\.md$/, '')}`,
+        date: fm.date || ''
+      }
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+    .map(({ text, link }) => ({ text, link }))
+
+  return [
+    {
+      text: 'Blog',
+      items: [{ text: '← 全部文章', link: '/blog/' }, ...items]
+    }
+  ]
+}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -30,11 +79,15 @@ export default defineConfig({
       { text: 'Workflow', link: '/workflow/adaptive-region' },
       { text: 'Functions', link: '/functions/auto-transient-detection' },
       { text: 'Action', link: '/action/group-item' },
-      { text: 'Offline Render', link: '/mtk-offline-render' }
+      { text: 'Offline Render', link: '/mtk-offline-render' },
+      { text: 'Blog', link: '/blog/' }
     ],
 
-    // 按路径分区的侧边栏：插件套件一套，MTK Offline Render 一套，互不混。
+    // 按路径分区的侧边栏：插件套件一套，MTK Offline Render 一套，博客一套，互不混。
     sidebar: {
+      // 博客（自动生成，按日期倒序）
+      '/blog/': getBlogSidebar(),
+
       // MTK Offline Render（独立产品）
       '/mtk-offline-render/': [
         {

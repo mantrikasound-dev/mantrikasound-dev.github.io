@@ -1,0 +1,191 @@
+/* ============================================================
+   博客主题 —— 暖灰 + 鼠尾草绿（暗色小清新）
+   ------------------------------------------------------------
+   作用域严格限定在 .blog-post（frontmatter: pageClass: blog-post）。
+   手法：只在 .blog-post 这个 .Layout 节点上「重定义」VitePress 的
+   --vp-* 变量，导航 / 侧栏 / 正文 / 代码块整页自动换肤，
+   完全不影响官网的近黑深色（docs.css 定义在 .dark/:root 上，
+   离元素更远，会被就近的 .blog-post 变量覆盖）。
+
+   气质：自然 · 松弛 · 治愈系。底色抬到中性暖深灰，降低对比，
+   点缀色从官网靛蓝换成柔和鼠尾草绿，读起来不刺眼。
+   ============================================================ */
+
+.blog-post {
+  /* —— 鼠尾草绿点缀 ramp —— */
+  --blog-sage: #8fbf9e; /* 主点缀 */
+  --blog-sage-rgb: 143, 191, 158;
+  --blog-sage-link: #9fceac; /* 链接（再提亮一档保对比） */
+  --blog-sage-link-rgb: 159, 206, 172;
+
+  /* —— 暖灰底色层次 —— */
+  /* 以 #333 为中枢，层与层贴得很近 → 统一、不割裂。
+     关键：侧栏 / 顶栏(panel) 只比正文微亮一点点，像抬起的面板，
+     而不是比正文更深的「黑洞」。 */
+  --blog-bg: #303032; /* 页面 / 正文 —— 主基调 */
+  --blog-panel: #343436; /* 侧栏 / 顶栏 —— 比正文微亮，轻微抬升感 */
+  --blog-card: #3a3a3d; /* 卡片 / 悬浮面 */
+  --blog-card-hi: #404044; /* 卡片 hover */
+  --blog-code: #29292b; /* 代码块 —— 比正文微沉，够读又不发黑 */
+
+  /* —— 文本（底色抬亮，正文也提一档保持通透）—— */
+  --blog-ink: #d2d4d7; /* 正文 */
+  --blog-ink-dim: #a2a5a9; /* 次要 */
+  --blog-ink-faint: #7d8085; /* 最弱（日期 / 元信息） */
+
+  /* —— 描边：白透明阶（底色变亮，描边相应加一点点才看得清）—— */
+  --blog-line: rgba(255, 255, 255, 0.09);
+  --blog-line-hi: rgba(255, 255, 255, 0.14);
+
+  /* ===== 把上面语义色注入 VitePress 变量体系 ===== */
+  --vp-c-bg: var(--blog-bg);
+  --vp-c-bg-alt: var(--blog-panel);
+  --vp-c-bg-soft: var(--blog-card);
+  --vp-c-bg-elv: var(--blog-card);
+  --vp-c-bg-mute: var(--blog-card-hi);
+
+  /* 关键：导航条 / 侧栏 / 移动端局部导航吃的是这三个「专属」变量，
+     它们在 :root 上就被 var(--vp-c-bg[-alt]) 求值锁成近黑了，
+     光改上游 --vp-c-bg 回溯不到 —— 必须在这里直接盖掉，
+     否则左侧栏和顶部 Home/Search 那条会一直是黑的。 */
+  --vp-nav-bg-color: var(--blog-panel);
+  --vp-local-nav-bg-color: var(--blog-panel);
+  --vp-sidebar-bg-color: var(--blog-panel);
+
+  --vp-c-text-1: var(--blog-ink);
+  --vp-c-text-2: var(--blog-ink-dim);
+  --vp-c-text-3: var(--blog-ink-faint);
+
+  --vp-c-brand-1: var(--blog-sage-link);
+  --vp-c-brand-2: var(--blog-sage);
+  --vp-c-brand-3: var(--blog-sage);
+  --vp-c-brand-soft: rgba(var(--blog-sage-rgb), 0.16);
+  --vp-c-brand-softer: rgba(var(--blog-sage-rgb), 0.09);
+
+  --vp-c-divider: var(--blog-line);
+  --vp-c-border: var(--blog-line-hi);
+  --vp-c-gutter: var(--blog-line);
+
+  /* 铺满视口，避免 body 近黑底从边缘透出 */
+  background-color: var(--blog-bg);
+  min-height: 100vh;
+}
+
+/* ============================================================
+   顶部导航 —— 覆盖 docs.css 的近黑玻璃，换成暖灰玻璃 + 鼠尾草高光线
+   （用 .dark .blog-post 提升特异性，稳压 docs.css 的 .dark 规则）
+   ============================================================ */
+.dark .blog-post .VPNavBar {
+  background: rgba(52, 52, 54, 0.72); /* = --blog-panel 同族，玻璃半透 */
+  backdrop-filter: saturate(150%) blur(14px);
+  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  border-bottom: 1px solid var(--blog-line);
+}
+.dark .blog-post .VPNavBar::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--blog-sage-rgb), 0.4),
+    transparent
+  );
+}
+
+/* ============================================================
+   正文排版 —— 阅读舒适度：放宽行高 / 收窄行宽 / 柔和标题
+   ============================================================ */
+.blog-post .vp-doc {
+  line-height: 1.78;
+}
+.blog-post .vp-doc p,
+.blog-post .vp-doc li {
+  letter-spacing: 0.006em;
+}
+/* 长行更舒服：正文容器收到 ~44rem（约 70 字符） */
+.blog-post .vp-doc .container,
+.blog-post .VPDoc:not(.has-aside) .content-container {
+  max-width: 100%;
+}
+
+/* 标题走柔和色，层次靠字号 / 字重，不靠高亮度刺眼 */
+.dark .blog-post .vp-doc h1,
+.dark .blog-post .vp-doc h2,
+.dark .blog-post .vp-doc h3,
+.dark .blog-post .vp-doc h4,
+.dark .blog-post .vp-doc strong,
+.dark .blog-post .vp-doc b {
+  color: var(--blog-ink);
+}
+.blog-post .vp-doc h1 {
+  letter-spacing: -0.02em;
+  font-weight: 720;
+}
+.blog-post .vp-doc h2 {
+  letter-spacing: -0.01em;
+  border-top-color: var(--blog-line);
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+}
+
+/* 正文链接：鼠尾草细下划线，hover 实色 */
+.blog-post .vp-doc a {
+  color: var(--blog-sage-link);
+  text-decoration-color: rgba(var(--blog-sage-link-rgb), 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s, color 0.2s;
+}
+.blog-post .vp-doc a:hover {
+  text-decoration-color: var(--blog-sage-link);
+}
+
+/* 行内代码：暖灰面 + 鼠尾草微染 */
+.blog-post .vp-doc :not(pre) > code {
+  background-color: rgba(var(--blog-sage-rgb), 0.1);
+  border: 1px solid var(--blog-line);
+  border-radius: var(--mtk-radius-sm);
+  color: var(--blog-ink);
+  font-size: 0.85em;
+}
+
+/* 代码块：比页面微沉的暖灰底（覆盖 docs.css 的近黑 #070708） */
+.dark .blog-post .vp-doc div[class*='language-'] {
+  background-color: var(--blog-code);
+  border: 1px solid var(--blog-line);
+  border-radius: var(--mtk-radius-lg);
+}
+
+/* 引用块：左侧鼠尾草竖条，治愈系点睛 */
+.blog-post .vp-doc blockquote {
+  border-left: 3px solid rgba(var(--blog-sage-rgb), 0.55);
+  background: rgba(var(--blog-sage-rgb), 0.05);
+  border-radius: 0 var(--mtk-radius) var(--mtk-radius) 0;
+  padding: 0.2rem 1.2rem;
+  color: var(--blog-ink-dim);
+}
+
+/* 提示块 tip 用鼠尾草 */
+.blog-post .vp-doc .custom-block.tip {
+  border-color: rgba(var(--blog-sage-rgb), 0.4);
+}
+
+/* 图片圆角 + 暖边 */
+.blog-post .vp-doc img {
+  border-radius: var(--mtk-radius-md);
+  border: 1px solid var(--blog-line);
+}
+
+/* ============================================================
+   侧边栏 / 目录 —— 当前项鼠尾草高亮
+   ============================================================ */
+.blog-post .VPSidebarItem.is-active > .item .link > .text,
+.blog-post .VPSidebarItem.is-active > .item .link > .VPLink .text {
+  color: var(--blog-sage-link);
+  font-weight: 600;
+}
+.blog-post .VPDocOutlineItem a.outline-link.active {
+  color: var(--blog-sage-link);
+}
+
+/* 选区颜色也换成鼠尾草 */
+.blog-post ::selection {
+  background: rgba(var(--blog-sage-rgb), 0.28);
+}
