@@ -44,7 +44,7 @@ function getBlogSidebar() {
   return [
     {
       text: 'Blog',
-      items: [{ text: '← 全部文章', link: '/blog/' }, ...items]
+      items: [{ text: '← All Posts', link: '/blog/' }, ...items]
     }
   ]
 }
