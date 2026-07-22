@@ -2,7 +2,7 @@
 layout: legal
 title: Refund Policy | Mantrika Sound
 titleTemplate: false
-description: Mantrika Sound's refund policy for digital software products.
+description: Mantrika Sound's 14-day refund policy for digital software products.
 head:
   - - meta
     - name: robots
@@ -14,39 +14,43 @@ head:
 
 # Refund Policy
 
-<p class="legal-updated">Last updated: June 29, 2026</p>
+<p class="legal-updated">Last updated: July 22, 2026</p>
 
 This Refund Policy applies to all software products sold by **Mantrika Sound** ("we", "us", or "our"), including Mantrika Tools and MTK Offline Render (the "Products"). It forms part of our [Terms of Service](/terms-of-service).
 
-## Digital products are generally non-refundable
+## 14-day refund policy
 
-Our Products are **digital goods that are delivered immediately** upon purchase. Because the full product is made available to you as soon as your order is complete, **all sales are final and, as a general rule, non-refundable.**
+All purchases of our Products are covered by a **14-day refund policy**, in line with [Paddle's Buyer Terms](https://www.paddle.com/legal/checkout-buyer-terms).
 
-Before purchasing, we encourage you to review the product description, documentation, and any available free version or trial to confirm the Product meets your needs.
+You may request a refund **within 14 days of your purchase**. You do not need to demonstrate that the Product is defective, and this applies **whether or not you have already downloaded or used the Product**.
 
-## When we will issue a refund
+This 14-day policy is available to **all customers, regardless of where you are located**. Refund requests are processed by Paddle in accordance with its Buyer Terms and [Refund Policy](https://www.paddle.com/legal/refund-policy). Paddle may decline a request where there is evidence of fraud or refund abuse.
 
-Despite the general rule above, we want you to have a working product. We will consider a refund in the following circumstances:
+## How to request a refund
 
-- **The Product does not work** as described and we are **unable to resolve the issue** within a reasonable time after you have contacted us for support.
-- You were **charged in error**, for example a duplicate charge or an accidental purchase that has not been used.
-- A refund is **required by the consumer-protection law** that applies to you (see below).
+You can request a refund in either of two ways:
 
-Refunds, where granted, are issued to the original payment method.
+- **Contact Paddle directly** at [paddle.net](https://paddle.net/), using the order number shown on the receipt Paddle emailed you; or
+- **Email us at [mantrikasound@gmail.com](mailto:mantrikasound@gmail.com)** with your order number, and we will arrange the refund with Paddle on your behalf.
 
-## Statutory rights
+Approved refunds are returned in full to your original payment method, typically within 3–5 business days, though the exact timing depends on your bank or card issuer. Your license to use the Product ends once a refund is issued.
 
-Nothing in this policy limits any non-waivable rights you have under the consumer laws of your country. Where the law grants you a right to cancel or to a refund (for example, the EU/UK right of withdrawal for consumers), that right applies. Note that for digital content delivered immediately, this right of withdrawal may not apply once you have begun the download with your consent and acknowledgement that you thereby lose that right.
+## After the 14-day period
 
-## How refunds are processed (Paddle)
+If more than 14 days have passed, please still get in touch. We will consider a refund on a case-by-case basis, in particular where:
 
-Our payments are handled by **Paddle** (Paddle.com Market Limited), the **Merchant of Record** for your purchase. Refunds are therefore processed through Paddle.
-
-To request a refund, please **email us first at [mantrikasound@gmail.com](mailto:mantrikasound@gmail.com)** with your order number (shown on the receipt Paddle emailed you) and a description of the problem, so we can try to help. You may also contact Paddle directly via the buyer support link on your receipt. Once approved, refunds are typically returned to your original payment method within the timeframe set by your bank or card issuer.
+- **The Product does not work** as described and we are unable to resolve the issue within a reasonable time after you have contacted us for support; or
+- You were **charged in error**, for example a duplicate charge.
 
 ## Subscriptions
 
-If a Product is offered on a subscription basis, you may cancel future renewals at any time to avoid being charged for the next billing period. Cancelling stops future charges; it does not automatically refund the current period unless one of the circumstances above applies.
+Where a Product is offered on a subscription basis, the **first payment** is covered by the 14-day policy described above.
+
+You may cancel future renewals at any time to avoid being charged for the next billing period. Cancelling stops future charges; it does not automatically refund the current period unless one of the circumstances above applies, or unless a refund is required by the consumer law that applies to you.
+
+## Statutory rights
+
+Nothing in this policy limits any non-waivable rights you have under the consumer laws of your country, including any statutory right of withdrawal or cancellation. Where the law grants you greater rights than this policy, those rights apply.
 
 ## Contact
 
