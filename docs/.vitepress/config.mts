@@ -106,6 +106,7 @@ export default defineConfig({
           text: 'Guide',
           collapsed: false,
           items: [
+            { text: 'Change Log', link: '/guide/changelog' },
             { text: 'Quick Start', link: '/guide/quick-start' },
             { text: 'Preferences', link: '/guide/preference' }
           ]
