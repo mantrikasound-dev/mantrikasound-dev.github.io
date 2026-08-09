@@ -183,6 +183,7 @@ const docLinks = [
           <span class="chip">REAPER Extension</span>
           <span class="chip">Zero dependencies</span>
           <span class="chip">High performance</span>
+          <span class="chip">On-Device AI</span>
           <span v-if="!buyEnabled" class="chip chip-soon">Coming Soon</span>
         </div>
         <p class="platform-note">
@@ -198,6 +199,21 @@ const docLinks = [
           catalog of actions into a single package that installs cleanly via ReaPack
           or a one-line terminal command — with nothing else to configure.
         </p>
+      </section>
+
+      <section class="section">
+        <div class="ai-card">
+          <div class="ai-card-head">
+            <svg viewBox="0 0 24 24" class="ai-card-ico"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            100% On-Device AI
+          </div>
+          <p class="ai-card-desc">
+            Every AI-powered feature runs locally on your machine via ONNX Runtime, with
+            models shipped inside the plugin. No cloud, no uploads, no account — everything
+            works fully offline, and your audio never leaves your computer.
+            <a :href="withBase('/privacy-policy')" class="ai-card-link">Privacy Policy →</a>
+          </p>
+        </div>
       </section>
 
       <section class="section">
@@ -482,6 +498,52 @@ const docLinks = [
   font-size: 1rem;
   line-height: 1.7;
 }
+
+/* —— On-Device AI 卖点卡片 —— */
+.ai-card {
+  position: relative;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(var(--mtk-accent-rgb), 0.35);
+  border-radius: var(--mtk-radius-lg);
+  background: rgba(var(--mtk-accent-rgb), 0.06);
+  overflow: hidden;
+}
+.ai-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--mtk-accent-bright-rgb), 0.5), transparent);
+}
+.ai-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+}
+.ai-card-ico {
+  width: 19px;
+  height: 19px;
+  color: var(--accent-glow);
+  flex-shrink: 0;
+}
+.ai-card-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.ai-card-link {
+  color: var(--accent-glow);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ai-card-link:hover { text-decoration: underline; }
 
 /* —— 功能卡片网格 —— */
 .feature-grid {

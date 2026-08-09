@@ -14,7 +14,7 @@ head:
 
 # Privacy Policy
 
-<p class="legal-updated">Last updated: June 29, 2026</p>
+<p class="legal-updated">Last updated: August 9, 2026</p>
 
 This Privacy Policy explains how **Mantrika Sound** ("we", "us", or "our") collects, uses, and protects your personal information when you visit **mantrikasound.com** (the "Site") or purchase and use our products, including Mantrika Tools and MTK Offline Render (collectively, the "Products").
 
@@ -39,6 +39,12 @@ We collect only the information needed to operate the Site, deliver our Products
 - **Site usage data** — basic, anonymized technical information (such as browser type and pages visited) that may be collected to keep the Site secure and functioning. The Site does not run advertising trackers.
 
 We do **not** sell your personal information to third parties.
+
+## AI features and on-device processing
+
+Some of our Products include AI-powered features (for example, machine-learning-based audio segmentation in Mantrika Tools). All AI models used by our Products are **bundled with the software and run entirely on your device**, using a local inference runtime (ONNX Runtime). Your audio, project files, and any other content processed by these features **never leave your computer** — nothing is uploaded to us or to any third-party AI service, and these features work fully offline.
+
+This applies to all current and future AI features in our Products: our design principle is local, on-device inference only.
 
 ## How we use your information
 
