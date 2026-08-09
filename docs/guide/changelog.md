@@ -4,6 +4,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.05
+
+2026-08-09
+
+- **AI Runtime**: Added self-developed local inference model "hundun-seg.onnx", supporting various Audio Segment-related features within the plugin.
+- **Segment Switch**: Added local inference engine support, allowing switching between DSP and ML engines in Preferences.
+- **Preference**: Added AI Runtime page to configure and manage AI-related resources.
+- **Adaptive Region**: Fixed a bug where the Mute state of a Child Folder would not trigger Region recalculation.
+- **Radial Menu**: Fixed text box bugs, increased the sector limit to 12, and removed language restrictions during configuration.
+
+---
+
 ## 1.04
 
 *2026-08-01*
