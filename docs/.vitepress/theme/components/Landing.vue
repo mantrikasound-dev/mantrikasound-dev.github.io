@@ -49,7 +49,7 @@ function onCardMove(e: MouseEvent) {
             <h2 class="card-title">Mantrika Tools</h2>
             <span class="card-badges">
               <span class="badge">Free trial</span>
-              <span class="badge badge-price"><s class="badge-price-old">$149</s> $99</span>
+              <span class="badge badge-price"><s class="badge-price-old">$149</s> $79</span>
             </span>
           </div>
           <p class="card-desc">

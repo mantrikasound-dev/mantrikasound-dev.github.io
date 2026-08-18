@@ -10,7 +10,7 @@ import MtkFooter from './MtkFooter.vue'
 //   sandbox 的 token 以 test_ 开头、live 以 live_ 开头，代码按前缀自动切环境。
 // - PADDLE_PRICE_ID：后台 Catalog → Products → 价格条目的 ID，以 pri_ 开头。
 // 两者都留空时按钮显示为「即将发布」的占位状态。
-const PRICE = '$99'
+const PRICE = '$79'
 const PRICE_ORIGINAL = '$149'
 const PROMO_ENDS = 'December 31, 2026'
 const PADDLE_CLIENT_TOKEN = 'live_a4123d3b2ba7c6a36d1097078a4'
@@ -178,7 +178,7 @@ const docLinks = [
         <p class="promo-note">
           <span class="promo-old">{{ PRICE_ORIGINAL }}</span>
           <span class="promo-new">{{ PRICE }}</span>
-          <span class="promo-text">Limited-time offer — regular price {{ PRICE_ORIGINAL }}, yours for {{ PRICE }} through {{ PROMO_ENDS }}.</span>
+          <span class="promo-text">Early-bird offer — nearly half off the {{ PRICE_ORIGINAL }} regular price. {{ PRICE }} through {{ PROMO_ENDS }}.</span>
         </p>
         <p class="price-note">
           One-time purchase. Secure checkout {{ buyEnabled ? 'powered' : 'will be powered' }} by
