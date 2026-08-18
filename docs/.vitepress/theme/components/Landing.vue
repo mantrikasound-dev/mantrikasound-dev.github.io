@@ -49,7 +49,7 @@ function onCardMove(e: MouseEvent) {
             <h2 class="card-title">Mantrika Tools</h2>
             <span class="card-badges">
               <span class="badge">Free trial</span>
-              <span class="badge badge-price">$149</span>
+              <span class="badge badge-price"><s class="badge-price-old">$149</s> $99</span>
             </span>
           </div>
           <p class="card-desc">
@@ -186,6 +186,11 @@ function onCardMove(e: MouseEvent) {
   color: rgb(var(--mtk-accent-rgb));
   border-color: rgba(var(--mtk-accent-rgb), 0.4);
   background: rgba(var(--mtk-accent-rgb), 0.08);
+}
+.badge-price-old {
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin-right: 2px;
 }
 
 .card-desc {

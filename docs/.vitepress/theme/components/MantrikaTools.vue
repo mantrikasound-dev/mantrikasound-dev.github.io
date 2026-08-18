@@ -10,7 +10,9 @@ import MtkFooter from './MtkFooter.vue'
 //   sandbox 的 token 以 test_ 开头、live 以 live_ 开头，代码按前缀自动切环境。
 // - PADDLE_PRICE_ID：后台 Catalog → Products → 价格条目的 ID，以 pri_ 开头。
 // 两者都留空时按钮显示为「即将发布」的占位状态。
-const PRICE = '$149'
+const PRICE = '$99'
+const PRICE_ORIGINAL = '$149'
+const PROMO_ENDS = 'December 31, 2026'
 const PADDLE_CLIENT_TOKEN = 'live_a4123d3b2ba7c6a36d1097078a4'
 const PADDLE_PRICE_ID = 'pri_01kwcsv54v902sb5j1cqdx1ej7'
 
@@ -173,6 +175,11 @@ const docLinks = [
             Sent! Check your inbox for the trial key and install instructions.
           </p>
         </div>
+        <p class="promo-note">
+          <span class="promo-old">{{ PRICE_ORIGINAL }}</span>
+          <span class="promo-new">{{ PRICE }}</span>
+          <span class="promo-text">Limited-time offer — regular price {{ PRICE_ORIGINAL }}, yours for {{ PRICE }} through {{ PROMO_ENDS }}.</span>
+        </p>
         <p class="price-note">
           One-time purchase. Secure checkout {{ buyEnabled ? 'powered' : 'will be powered' }} by
           <a href="https://www.paddle.com" target="_blank" rel="noopener">Paddle</a>.
@@ -421,6 +428,30 @@ const docLinks = [
   font-size: 0.92rem;
   line-height: 1.5;
   color: var(--accent-glow);
+}
+
+.promo-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+}
+.promo-old {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.promo-new {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: rgb(var(--mtk-accent-rgb));
+}
+.promo-text {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
 }
 
 .price-note {
