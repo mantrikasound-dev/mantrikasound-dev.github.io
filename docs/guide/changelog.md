@@ -4,6 +4,26 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.07
+
+2026-08-28
+
+- **Render Queue**: Added two 9:16 vertical video export options.
+- **Render Queue**: Improved List visual styling when Queue Bar is disabled, and added prompt text for empty Regions in Matrix mode.
+
+---
+
+## 1.06
+
+2026-08-16
+
+- **ProScan**: Added support for jumping to Regions and Markers.
+- **ProScan**: Added support for renaming all items in the list (Shortcut: F2).
+- **Subproject**: Added two new actions: delete and rename subprojects (available in the Extension menu).
+- **HunDun**: Updated model.
+
+---
+
 ## 1.05
 
 2026-08-09
