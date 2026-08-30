@@ -4,6 +4,16 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.08
+
+2026-08-31
+
+- **Render Queue**: Switched the video parameter adjustment UI to a text input box mode to accommodate more diverse resolution settings.
+- **Project Manager**: Restricted drag-and-drop operations to the left mouse button only; refined dialog box copy.
+- **Segment Switch**: Fixed audio noise/artifact spill issues when playrate is not equal to 1; optimized performance for items sharing the same source.
+
+---
+
 ## 1.07
 
 2026-08-28
