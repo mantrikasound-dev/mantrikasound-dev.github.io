@@ -58,7 +58,31 @@ There are three ways to install it:
 
 ---
 
-## 5. Updating
+## 5. Windows: "not designed to run on Windows" (error 0xc0e90002)
+
+On Windows 11, REAPER may fail to load the extension and Windows may show:
+
+> `reaper_MantrikaTools-x64.dll` is not designed to run on Windows or it contains an error. Try installing the program again using the original installation media, or contact your system administrator or the software vendor for support. Error status 0xc0e90002
+
+Nothing is wrong with the download. This is **Smart App Control**, a Windows 11 security feature, refusing to load the DLL. Smart App Control only allows binaries whose code signature Microsoft already recognises, and it ships in "evaluation mode" and can switch itself to enforcing at any time — so an extension that worked yesterday can be blocked today, with no action on your part.
+
+**Confirm it.** Run this in Command Prompt or PowerShell:
+
+```
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v VerifiedAndReputablePolicyState
+```
+
+A value of `0x1` means Smart App Control is enforcing. You can see the block itself in Event Viewer, under **Applications and Services Logs → Microsoft → Windows → CodeIntegrity → Operational**: look for events 3077 and 3033 naming `reaper.exe` and `reaper_MantrikaTools-x64.dll`.
+
+**Fix it.** Open **Windows Security → App & browser control → Smart App Control settings** and set it to **Off**, then restart REAPER.
+
+::: warning
+Turning Smart App Control off is permanent. Windows only lets you switch it back on by reinstalling the operating system. This is Microsoft's design and nothing Mantrika Tools can work around.
+:::
+
+---
+
+## 6. Updating
 
 How you update depends on how you installed Mantrika Tools:
 
@@ -67,14 +91,14 @@ How you update depends on how you installed Mantrika Tools:
 
 ---
 
-## 6. Uninstalling
+## 7. Uninstalling
 
 - Delete the main DLL: `\REAPER\UserPlugins\reaper_MantrikaTools-x64.dll`
 - Delete the whole config folder: `\REAPER\UserPlugins\MantrikaTools Config`
 
 ---
 
-## 7. Folder overview
+## 8. Folder overview
 
 - `MantrikaTools Config`: All configuration files. They are human-readable JSON, so you can edit them directly, but that is usually not recommended.
 - `MantrikaTools Config\resource`: Contains two CLAP plugins that Mantrika Tools needs. These are updated together with the extension.

@@ -4,6 +4,17 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.09
+
+2026-09-02
+
+- **Render Queue**: Added a one-click action to render all currently configured project tabs without launching the UI.
+- **Menu**: Adjusted and refined context menus and the Extension menu.
+- **Mirror**: Optimized group behavior logic. Grouping is now only triggered when folder collapse mode is set to "Hidden" and enabled in the UI (must be activated once in Preferences).
+- **Mirror**: Fixed a bug where the auto-cleanup for orphaned mirrors on non-folder tracks responded too slowly.
+
+---
+
 ## 1.08
 
 2026-08-31
