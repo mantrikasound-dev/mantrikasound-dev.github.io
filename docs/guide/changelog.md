@@ -4,6 +4,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.10
+
+2026-09-07
+
+- **Loudness Meter**: Officially deprecated and upgraded to Monitor Analyzer.
+- **Monitor Analyzer**: 
+  - Now supports docking. 
+  - Added a spectrum analyzer, accessible via the right-click context menu.
+  - Menu path updated to: `Extension` -> `Mantrika Tools` -> `Monitor analyzer`.
+
+---
+
 ## 1.09
 
 2026-09-02
