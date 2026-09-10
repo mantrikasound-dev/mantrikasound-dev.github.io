@@ -4,6 +4,19 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.11
+
+2026-09-11
+
+- **Monitor Analyzer**: Fixed an issue where the default window size was too small, ensuring the top-left triangle button is always visible.
+- **macOS**: Fixed bugs where window size memory failed for certain windows and pressing the `Esc` key did not hide the window.
+- **Extension Menu**: Renamed the original "Loudness" category to "Analyzer" to better organize and consolidate various analytical tools.
+- **Analyzer**: 
+  - Added a new action that uses local AI to convert audio to MIDI, powered by Spotify's open-source model.
+  - Menu path updated to: `Extension` -> `Mantrika Tools` -> `Analyzer`-> `Util: audio to MIDI for selected items (Basic Pitch)`.
+
+---
+
 ## 1.10
 
 2026-09-07
