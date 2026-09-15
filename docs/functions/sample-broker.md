@@ -14,6 +14,7 @@ It can do two things:
 
 - **Select + drag to Arrange:** Drag a selected waveform onto a REAPER track to drop it as an item; a new track is created automatically if needed.
 - **Select + drag anywhere:** With the default OS drag mode, the same selection can be dragged to the file explorer, another DAW, a sampler/synth, a chat app— anywhere that accepts a WAV file.
+- **Several segments at once:** Hold Shift to keep adding selections, then drag them all out together in a single drag.
 
 The whole workflow is "select a segment → drag it out." No record button, no need to stop playback.
 
@@ -34,6 +35,7 @@ Or use the Action List (search "Sample Broker"):
 | Action name | Purpose |
 | --- | --- |
 | **`mantrika : Synergy - Sample Broker`** | Toggle the Sample Broker window on/off |
+| **`mantrika : Synergy - Sample Broker - Insert Current Segment to Selected Track`** | Place the current segment on the selected track without selecting or dragging (see §5.5) |
 
 The window is **dockable**— the first time it opens it may be a floating window; **right-click the title bar to dock it.**
 
@@ -119,11 +121,48 @@ If the default is OS mode but you want this one drag to use the API mode and dro
 
 This is a "swap" logic: Ctrl+Alt always means **use the other mode**.
 
+### 5.4 Grab several segments in one drag
+
+When you recorded a run of takes and want more than one of them:
+
+```
+1. Select the first segment (manually or with Ctrl + smart select).
+2. Hold Shift and add more: Shift + left-click drag for manual ranges,
+ or Ctrl + Shift + left-click for smart segments.
+3. Drag any one of the selections — all of them go together.
+```
+
+What you get depends on the drag mode:
+
+| Drag mode | Result |
+| --- | --- |
+| **OS** | One WAV file per segment, all carried in a single drag. When dropped into REAPER, REAPER asks how to place the files (its own import dialog). |
+| **Reaper API** | The segments are placed **end to end** on the target track, starting at the drop position, in recording order. A single Ctrl+Z undoes the whole drop. |
+
+See §6.3 for the details.
+
+### 5.5 Insert the current segment with an action
+
+When you know the take you just recorded is the one you want, you can skip selecting and dragging:
+
+```
+1. Select a track in REAPER.
+2. Run "Synergy - Sample Broker - Insert Current Segment to Selected Track"
+ (it works best with a keyboard shortcut).
+3. The current segment — the rainbow-colored part of the waveform (§4) — is placed on that track.
+```
+
+- **Position:** the edit cursor when REAPER is stopped; the play position while playing, paused, or recording. The edit cursor ends up at the start of the new item.
+- The silent tail after the sound ends is trimmed automatically.
+- Existing selections are left untouched. Ctrl+Z undoes the insert.
+- The Sample Broker window must be open; otherwise the action only shows a reminder.
+- While REAPER is playing, everything recorded since playback started counts as one segment.
+
 ---
 
 ## 6. Selection Operations
 
-### 6.1 Three ways to create a selection
+### 6.1 Creating selections
 
 <img src="../assets/functions/sample-broker-03.gif" alt="sample-broker-03" style="zoom:50%;" />
 
@@ -131,15 +170,31 @@ This is a "swap" logic: Ctrl+Alt always means **use the other mode**.
 | --- | --- |
 | **Left-click drag (on empty canvas)** | Manual selection; release to confirm |
 | **Ctrl + hover** | Smart-detect the "non-silent segment" under the cursor, shown with a cyan border and duration label |
-| **Ctrl + left-click** | Lock the current smart segment as the active selection |
+| **Ctrl + left-click** | Lock the current smart segment as the selection (replaces any existing selections) |
+| **Shift + left-click drag** | Add another manual selection, keeping the existing ones |
+| **Ctrl + Shift + left-click** | Add the current smart segment to the existing selections |
 
 Smart detection uses silence at **-54 dB** as the separator and automatically expands from the cursor position in both directions until it hits silence. This is useful when you have recorded a string of sounds and want to grab exactly one of them.
 
-### 6.2 Clearing a selection
+With **Ctrl + Shift** held, the smart segment keeps showing even when you already have selections, so you can hover and click your way through a whole series of sounds.
 
-- **Quick click on empty canvas** (without dragging) = clear the selection.
-- Starting a new manual selection automatically clears the old one.
-- Clicking `Clear Recording Buffer` clears both the selection and the entire recording.
+### 6.2 Clearing selections
+
+- **Quick click on empty canvas** (without dragging) = clear all selections.
+- **Quick click on a selection** = clear all selections.
+- **Shift + quick click on a selection** = remove only that one segment.
+- Starting a new manual selection **without** Shift automatically clears the old ones.
+- Clicking `Clear Recording Buffer` clears both the selections and the entire recording.
+
+### 6.3 Multiple selections
+
+- Selections that **overlap or touch** are merged into one segment automatically, so the same audio is never exported twice.
+- Each selection shows its own duration label. While dragging, the drag label shows the count and total length, e.g. `Export 3 clips (4.50 s)`.
+- Dragging **any** selection takes **all** of them.
+- Segments are exported in **recording order** (oldest first). Usually that is simply left to right; after the record head has wrapped around, a segment near the right edge can be older than one on the left, and it still comes first.
+- **OS mode:** files are named `mtk_export_<timestamp>_01.wav`, `_02`, … in recording order. A single selection keeps the plain `mtk_export_<timestamp>.wav` name.
+- **Reaper API mode:** segments are placed back to back, with no gaps, on the target track starting at the drop position. The edit cursor stays at the drop position afterward.
+- **Ctrl + Alt** (the other drag mode) also carries all selections. Ctrl + Alt + left-click on a smart segment outside the current selections replaces them with that single segment.
 
 ---
 
@@ -226,11 +281,14 @@ Under normal conditions the canvas is clean. The following messages indicate spe
 | Action | Behavior |
 | --- | --- |
 | Left-click drag (empty canvas) | Manual selection |
-| Left-click drag (on selection / smart segment) | Trigger the **default mode** drag export |
+| Left-click drag (on any selection / smart segment) | Trigger the **default mode** drag export (takes all selections) |
 | **Ctrl + Alt** + left-click drag | Trigger the **other mode** drag export (swap OS / API) |
-| Short left click (empty canvas) | Clear selection |
+| **Shift** + left-click drag | Add a manual selection |
+| Short left click (empty canvas or selection) | Clear all selections |
+| **Shift** + short left click (on a selection) | Remove only that selection |
 | **Ctrl** + hover | Show smart-detected segment |
 | **Ctrl** + left-click | Lock smart segment as selection |
+| **Ctrl + Shift** + left-click | Add smart segment to the selections |
 | Right-click hold | Preview / audition |
 | **Alt** + left-click | Toggle pause |
 | Scroll wheel | Horizontal zoom (mouse-centered) |
@@ -283,6 +341,17 @@ If the project contains video or a long loop you do not want continuously overwr
 3. Alt + left-click again to resume when you want to record.
 ```
 
+### Workflow E: Pick the best few takes from a series
+
+You recorded ten variations of a sound and only want three of them:
+
+```
+1. Right-click and hold to audition each take.
+2. Ctrl + Shift + left-click the ones you like.
+3. Drag them into Arrange (Reaper API mode) → placed end to end on one track,
+ or drag them to the file explorer (OS mode) → three numbered WAV files.
+```
+
 ---
 
 ## 14. Troubleshooting
@@ -297,6 +366,7 @@ If the project contains video or a long loop you do not want continuously overwr
 | Drag to OS does not create a file | Currently in Reaper API mode | Switch to OS mode, or hold Ctrl+Alt while dragging |
 | Record head is not moving | Input level is too low and auto-pause triggered | Raise the volume, or set a stricter threshold in the hamburger menu (e.g., -72 dB) |
 | `II PAUSED` label does not disappear | You manually paused with Alt+left-click | Press Alt+left-click again to resume |
-| Want to undo the last export | For Arrange drops, press Ctrl+Z. For OS drops, manually delete the generated WAV file. | —|
+| Dropping several segments into REAPER opens a dialog | In OS mode REAPER receives multiple files and asks how to place them | Pick an option in the dialog, or switch to Reaper API mode to place them end to end without asking |
+| Want to undo the last export | For Arrange drops, press Ctrl+Z (a multi-segment drop is a single undo step). For OS drops, manually delete the generated WAV files. | —|
 
 ---

@@ -4,6 +4,22 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.12
+
+2026-09-16
+
+- **Render Queue**: Added - auto opening the destination directory in the system file manager upon render completion.
+- **ProScan**: 
+  - Added - a Local tab to display audio files from the current project's local media folder.
+  - Supports audio preview and drag-and-drop into the project or external software.
+- **Sample Broker**: 
+  - Added - multi-selection support by holding Shift with batch drag-and-drop export (Ctrl + Shift for multiple smart selections).
+  - Added - action: 'Insert Current Segment to Selected Track' to insert the recent recording take into the project with one click.
+- **Project Manager**: Remembers selected items in the left panel and automatically navigates to them upon reopening; fixed several UI bugs.
+- **Version Update**: Improved changelog formatting and layout (visible on the next update or upon reopening the window).
+
+---
+
 ## 1.11
 
 2026-09-11
