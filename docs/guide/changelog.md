@@ -4,7 +4,17 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
-## 1.12
+## 1.13 - Bug fix release
+
+2026-09-18
+
+- **SDK**: Updated to the latest REAPER SDK.
+- **Project Manager**: Fixed data display issue in virtual folders.
+- **UI**: Minor text adjustments.
+
+---
+
+## 1.12 - Feature release
 
 2026-09-16
 
