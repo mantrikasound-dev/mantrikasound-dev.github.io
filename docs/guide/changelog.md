@@ -4,6 +4,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.14 - Feature release
+
+2026-09-20
+
+- **Spectral Forge**: 
+  - The Mosaic algorithm now supports one-to-many processing; source and target items must now be manually locked.
+  - Adjusted UI layout.
+- **Version Update**: Added - a version update pop-up notification. The frequency can be configured in Preferences; the pop-up displays for 12 seconds before closing automatically.
+- **Layer Draft**: Added - new experimental feature: Layer Draft, allowing you to combine selected assets into sound effects with a single click.
+
+---
+
 ## 1.13 - Bug fix release
 
 2026-09-18
