@@ -4,6 +4,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.15 - Feature release
+
+2026-09-22
+
+- **Ling Sampler**: 
+  - Migrated from a hybrid architecture to a standalone CLAP plugin, now compatible with any DAW (REAPER is still strongly recommended).
+  - Refactored the action to create a new track and insert the FX.
+  - Added an HPSS-based (Harmonic-Percussive Source Separation) effect to the BUS.
+- **Element Split**: Added five actions corresponding directly to the algorithms in the UI, running with default parameters.
+
+---
+
 ## 1.14 - Feature release
 
 2026-09-20
