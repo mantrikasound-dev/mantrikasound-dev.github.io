@@ -18,34 +18,35 @@ REAPER 7.66+ introduces hardware video decoding, which can significantly reduce 
 
 Install FFmpeg. Here we'll use Microsoft's own winget to quickly install the Shared build of FFmpeg.
 
-> ⚠️ **Do NOT install FFmpeg 9.x.** Stay on the 8.x line — see the compatibility note below for why.
+> ⚠️ **Which FFmpeg version you need depends on your REAPER version.** REAPER 7.80+ supports FFmpeg 9.x; REAPER 7.66–7.79 only works with FFmpeg 8.x and older — see the compatibility note below.
 
-- Open PowerShell and run this command: `winget install Gyan.FFmpeg.Shared --version 8.1.2`
-- Pin it so a later `winget upgrade --all` can't push you onto 9.x: `winget pin add Gyan.FFmpeg.Shared`
+- Open PowerShell and run this command: `winget install Gyan.FFmpeg.Shared`
+  - On REAPER 7.80+, this is all you need — the current 9.x build works fine
+  - Still on REAPER 7.66–7.79? Install 8.x instead: `winget install Gyan.FFmpeg.Shared --version 8.1.2`, then pin it so a later `winget upgrade --all` can't push you onto 9.x: `winget pin add Gyan.FFmpeg.Shared`
 - winget will automatically add FFmpeg to your system environment variables — this is the easiest approach
 - Update your graphics driver to the latest version
-- Make sure your REAPER version is greater than 7.66
+- Make sure your REAPER version is greater than 7.66 (7.80+ recommended)
 
-#### FFmpeg version compatibility (tested on REAPER 7.79)
+#### FFmpeg version compatibility
 
-A plain `winget install Gyan.FFmpeg.Shared` now pulls FFmpeg **9.x**, and REAPER cannot load it. Here's what I found digging into this on my own machine:
+**Short version:** [REAPER v7.80](https://www.reaper.fm/whatsnew.txt) (September 13, 2026) added FFmpeg 9.x support (`Video: add FFmpeg 9.x support`). If you're on 7.80 or newer, just install the latest FFmpeg.
+
+**If you're on REAPER 7.66–7.79**, FFmpeg 9.x will not load. Here's what I found digging into this on my own machine with REAPER 7.79:
 
 REAPER doesn't link against FFmpeg — it probes your `PATH` at runtime for `avcodec-<N>.dll`, `avformat-<N>.dll` and friends, trying a hardcoded list of major versions. In REAPER 7.79's `Plugins\reaper_video.dll`, that list is:
 
 `51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62`
 
-**62 is the ceiling — there is no 63.**
+62 is the ceiling there — there is no 63.
 
-| FFmpeg | Ships | REAPER 7.79 |
-| --- | --- | --- |
-| 8.x (e.g. 8.1.2) | `avcodec-62.dll` | ✅ works |
-| 9.x (e.g. 9.0.1) | `avcodec-63.dll` | ❌ not found |
+| FFmpeg | Ships | REAPER 7.66–7.79 | REAPER 7.80+ |
+| --- | --- | --- | --- |
+| 8.x (e.g. 8.1.2) | `avcodec-62.dll` | ✅ works | ✅ works |
+| 9.x (e.g. 9.0.1) | `avcodec-63.dll` | ❌ not found | ✅ works |
 
-The nasty part is that installing 9.x *looks* completely fine: the install succeeds, `PATH` gets updated, and `ffmpeg -version` works in your terminal. But REAPER just reports `FFmpeg/libav not found` and quietly falls back to CPU decoding — the DLLs are simply named one major version higher than anything it knows to look for.
+The nasty part is that on 7.79 and earlier, installing 9.x *looks* completely fine: the install succeeds, `PATH` gets updated, and `ffmpeg -version` works in your terminal. But REAPER just reports `FFmpeg/libav not found` and quietly falls back to CPU decoding — the DLLs are simply named one major version higher than anything it knows to look for. If you hit this, either update REAPER to 7.80+ (the easy fix) or roll FFmpeg back to **8.1.2**, the newest 8.x build (it reports `libavcodec 62.28.102`).
 
-FFmpeg **8.1.2** is the newest build that works. It reports `libavcodec 62.28.102`, which is exactly what you should see in the verification step below.
-
-> 💡 There are also some interdependencies between FFmpeg and your graphics driver. Keeping the driver up to date is still the right move — just not FFmpeg itself, which needs to stay on 8.x until REAPER adds 63 to that list.
+> 💡 There are also some interdependencies between FFmpeg and your graphics driver, so keeping the driver up to date is still the right move.
 
 ### 2. How to Configure
 
@@ -59,7 +60,7 @@ FFmpeg **8.1.2** is the newest build that works. It reports `libavcodec 62.28.10
 
 - Import a video
 - Ctrl + F2 (or right-click -> Source Properties)
-- In the panel that opens, verify that you see something like: `Using FFmpeg/libav ... for video and audio` (with FFmpeg 8.1.2 this reads `v62.28.102` — the minor numbers don't have to match mine exactly, but the leading `62` does, see the compatibility note above) and `Loaded from...`, which should point to a path on your C: drive
+- In the panel that opens, verify that you see something like: `Using FFmpeg/libav ... for video and audio` (the leading number is the libavcodec major version: `63` for FFmpeg 9.x, `62` for FFmpeg 8.x — e.g. 8.1.2 reads `v62.28.102`; the minor numbers don't matter, see the compatibility note above) and `Loaded from...`, which should point to a path on your C: drive
 
 <img src="/assets/blog/reaper-gpu-video-03.png" alt="Confirming FFmpeg is loaded in Source Properties" style="width: 50%;" />
 
@@ -84,7 +85,7 @@ Mac doesn't have NVIDIA/AMD branding in the same way; hardware decoding goes thr
 - Update macOS to a relatively recent version (VideoToolbox depends on the system media frameworks)
 - Make sure your REAPER version is greater than 7.66
 
-> 💡 Homebrew installs FFmpeg to `/opt/homebrew` (Apple Silicon) or `/usr/local` (Intel). Note that the version ceiling described in the Windows section applies here too — REAPER probes for `libavcodec.<N>.dylib` from the same hardcoded list, so if Homebrew gives you FFmpeg 9.x you'll need to pin it back to 8.x (`brew install ffmpeg@8`, if available on your setup).
+> 💡 Homebrew installs FFmpeg to `/opt/homebrew` (Apple Silicon) or `/usr/local` (Intel). The version compatibility described in the Windows section applies here too — REAPER probes for `libavcodec.<N>.dylib` the same way. On REAPER 7.80+, Homebrew's current FFmpeg 9.x is fine; on 7.66–7.79 you'll need to either update REAPER or pin FFmpeg back to 8.x (`brew install ffmpeg@8`, if available on your setup).
 
 ### 2. How to Configure
 
