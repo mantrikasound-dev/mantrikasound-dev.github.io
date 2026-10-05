@@ -138,6 +138,7 @@ export default defineConfig({
             { text: 'Phase Aligner', link: '/functions/phase-aligner' },
             { text: 'Element Split', link: '/functions/element-split' },
             { text: 'Spectral Forge', link: '/functions/spectral-forge' },
+            { text: 'Video Sense', link: '/functions/video-sense' },
             // TODO: Ling Sampler（待补文档后放开） link: '/functions/ling-sampler'
             { text: 'Simple Rename', link: '/functions/simple-rename' },
             { text: 'Advanced Rename', link: '/functions/advanced-rename' },
