@@ -29,7 +29,7 @@ Search in the Action List:
 | Area | Description |
 | --- | --- |
 | **Analysis** | Which analysis to run. Currently only `Shot Cuts`; `Actions` and `Foley` are placeholders for later versions |
-| **Notice bar** | Appears only when something is missing (FFmpeg or the analysis model), with a button to fix it |
+| **Notice bar** | Appears only when something is missing (FFmpeg or the analysis model); **Set Up...** opens Preferences ▸ AI Runtime to fix it |
 | **Selection** | How many video items are currently selected |
 | **Sensitivity** | Higher finds more cuts, including subtle ones; lower keeps only obvious cuts. Default 70% |
 | **Output** | Which kinds of markers to write (see §5) |
@@ -41,11 +41,20 @@ Search in the Action List:
 
 ## 4. Install FFmpeg {#install-ffmpeg}
 
-Video Sense uses **FFmpeg** to read video files. Mantrika Tools does not ship FFmpeg — it uses the one installed on your system. You only need to do this once.
+Video Sense uses **FFmpeg** to read video files. FFmpeg isn't bundled with Mantrika Tools, but **Preferences ▸ AI Runtime** can install it for you in one click. You only need to do this once.
 
 ### Windows
 
-When FFmpeg is missing, the notice bar shows an **Install FFmpeg** button. Click it: a console window opens and installs FFmpeg through **winget** (Windows' built-in package manager). When the console closes, Video Sense picks FFmpeg up automatically — no REAPER restart needed.
+When FFmpeg is missing, the notice bar in the Video Sense window has a **Set Up...** button that opens **Preferences ▸ AI Runtime**. Click **Install FFmpeg** there: a console window opens and installs FFmpeg 8.1.2 through **winget** (Windows' built-in package manager). When the console closes, Video Sense picks FFmpeg up automatically — no REAPER restart needed. Restart REAPER once if you also want REAPER itself to use this FFmpeg for GPU-accelerated video playback (see [REAPER 7.66+ Stop Letting Your GPU Sleep on the Job](../blog/reaper-gpu-video.md)).
+
+**Which FFmpeg version, by REAPER version:**
+
+| Your REAPER | FFmpeg to use | What Install FFmpeg does |
+| --- | --- | --- |
+| **Older than 7.80** | **8.x only** — keep it locked to 8.x | Installs 8.1.2 and **pins** it, so `winget upgrade --all` can't move it to 9.x |
+| **7.80 or newer** | 8.x or 9.x | Installs 8.1.2 without a pin; you're free to upgrade to 9.x later |
+
+REAPER older than 7.80 can't load FFmpeg 9.x. Video Sense itself works with either version, but on those REAPER versions 9.x silently turns off REAPER's own GPU video playback. 8.1.2 works with every REAPER version, which is why Install FFmpeg always uses it.
 
 If you prefer to do it yourself, open PowerShell and run:
 
@@ -53,11 +62,13 @@ If you prefer to do it yourself, open PowerShell and run:
 winget install Gyan.FFmpeg.Shared --version 8.1.2
 ```
 
-Then click **Rescan** in the notice bar.
+On REAPER older than 7.80, also run:
 
-> **Why 8.1.2?** This is the version Video Sense is tested with, and REAPER can use the same FFmpeg for GPU-accelerated video playback (restart REAPER once after installing to get that too — see [REAPER 7.66+ Stop Letting Your GPU Sleep on the Job](../blog/reaper-gpu-video.md)).
->
-> **On REAPER older than 7.80**, also run `winget pin add Gyan.FFmpeg.Shared`. Those versions can't load FFmpeg 9.x, and the pin keeps `winget upgrade --all` from moving you there. The Install button does this for you automatically. REAPER 7.80 and later support FFmpeg 9.x, so no pin is needed.
+```
+winget pin add Gyan.FFmpeg.Shared
+```
+
+Then click **Detect Again** in Preferences ▸ AI Runtime.
 
 ### Mac
 
@@ -112,7 +123,7 @@ Video Sense remembers which markers it wrote. Running it again on the same item 
 
 | Symptom | What to do |
 | --- | --- |
-| Notice bar says FFmpeg is needed, but you installed it | Click **Rescan** |
+| Notice bar says FFmpeg is needed, but you installed it | Click **Detect Again** in Preferences ▸ AI Runtime, or point to it with **Choose ffmpeg...** |
 | "FFmpeg could not read this video: ..." | The file format isn't supported by your FFmpeg, or the file is damaged. Try playing it in another player |
 | No markers appear | Check that at least one Output is ticked, and that the item isn't trimmed to a section without cuts |
 | Too many cuts in action-heavy shots | Lower the sensitivity |
