@@ -61,19 +61,9 @@ Then click **Rescan** in the notice bar.
 
 ### Mac
 
-**If you already have Homebrew**, open Terminal and run:
+Open **Preferences ▸ AI Runtime** and click **Install FFmpeg**. It downloads FFmpeg (about 30 MB) into the Mantrika Tools folder; nothing else on your Mac is changed.
 
-```
-brew install ffmpeg
-```
-
-**If you don't have Homebrew:**
-
-1. Open Terminal (Applications → Utilities → Terminal).
-2. Go to [brew.sh](https://brew.sh), copy the install command shown on the page, paste it into Terminal and press Return. It asks for your Mac password; follow the instructions it prints at the end.
-3. Run `brew install ffmpeg`.
-
-Then click **Rescan** in the Video Sense notice bar.
+If the download fails, get the macOS arm64 **release** `ffmpeg.zip` from [ffmpeg.martin-riedl.de](https://ffmpeg.martin-riedl.de), unzip it, move `ffmpeg` to a folder you'll keep, and select it with **Choose ffmpeg...** in the same panel.
 
 ---
 
@@ -122,7 +112,7 @@ Video Sense remembers which markers it wrote. Running it again on the same item 
 
 | Symptom | What to do |
 | --- | --- |
-| Notice bar says FFmpeg is needed, but you installed it | Click **Rescan**. On Mac, make sure `brew install ffmpeg` finished without errors |
+| Notice bar says FFmpeg is needed, but you installed it | Click **Rescan** |
 | "FFmpeg could not read this video: ..." | The file format isn't supported by your FFmpeg, or the file is damaged. Try playing it in another player |
 | No markers appear | Check that at least one Output is ticked, and that the item isn't trimmed to a section without cuts |
 | Too many cuts in action-heavy shots | Lower the sensitivity |
