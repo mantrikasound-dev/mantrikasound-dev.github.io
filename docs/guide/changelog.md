@@ -4,6 +4,21 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.20 - Feature release
+
+2026-10-08
+
+- **Video Sense**: 
+  - New feature: Detects shot transitions/scene cuts in selected video items using a local lightweight inference model and automatically marks them.
+  - Supports three marker formats: Take Marker, Project Marker, and Project Region.
+  - More capabilities coming in future updates.
+- **Project Manager**: 
+  - Added an Image Preview mode, allowing customizable project preview images.
+  - Added arrow key navigation support; press **Enter** to open a project, and **Shift + Enter** to open in the Project tab.
+  - Fixed an issue where previews in Scan mode could not span across pages.
+
+---
+
 ## 1.15 - Feature release
 
 2026-09-22
