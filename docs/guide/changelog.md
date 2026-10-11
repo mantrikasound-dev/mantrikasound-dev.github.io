@@ -4,6 +4,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.21 - Maintenance release
+
+2026-10-12
+
+- **FX Search**: Added a Spotlight mode, pinned to the top-center of the main REAPER UI.
+- **Pro Scan**: Selected items in the Item tab can now be dragged directly into the project (duplicates the item).
+- **Ling**: Fixed a dangling pointer issue.
+- **Radial Menu**: Fixed an issue where the "not-allowed" cursor was still displayed within its own window.
+- **HunDun**: Optimized the inference model and associated C++ logic.
+
+---
+
 ## 1.20 - Feature release
 
 2026-10-08
