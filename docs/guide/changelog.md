@@ -4,7 +4,7 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
-## 1.21 - Maintenance release
+## 1.22 - Maintenance release
 
 2026-10-21
 
