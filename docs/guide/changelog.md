@@ -6,6 +6,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ## 1.21 - Maintenance release
 
+2026-10-21
+
+- **Advance Rename**: 
+  - Region模式下Apply后会立刻刷新List;
+  - List中新增了ID列的显示;
+- **Pro Scan**: 增加一个item offline时标红的功能
+- **Global**: 更新底层库，修复了众多细节问题
+
+---
+
+## 1.21 - Maintenance release
+
 2026-10-12
 
 - **FX Search**: Added a Spotlight mode, pinned to the top-center of the main REAPER UI.
