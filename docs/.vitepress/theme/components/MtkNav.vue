@@ -39,7 +39,7 @@ const links = [
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(5, 5, 5, 0.6);
+  background: rgba(11, 9, 8, 0.6);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-base);
   z-index: 100;

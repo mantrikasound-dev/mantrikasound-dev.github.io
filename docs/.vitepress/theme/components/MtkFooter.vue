@@ -45,7 +45,7 @@ const legal = [
 .mtk-footer-links a:hover { color: var(--text-primary); }
 
 .mtk-footer-copy {
-  color: #444;
+  color: #544b3e;
   font-size: 0.8rem;
   margin: 0;
 }

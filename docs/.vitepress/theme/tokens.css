@@ -8,18 +8,18 @@
    改一处，全站生效。
    ============================================================ */
 :root {
-  /* —— 品牌靛蓝 ramp —— */
-  --mtk-accent: #5e6ad2;            /* 主色 */
-  --mtk-accent-rgb: 94, 106, 226;   /* 主色 RGB，用于 rgba() 合成 */
-  --mtk-accent-bright: #7a85ff;     /* 高亮 / 辉光 */
-  --mtk-accent-bright-rgb: 122, 133, 255;
-  --mtk-accent-on-dark: #9aa3ef;    /* 深底上的文字 / 链接（提亮保对比） */
-  --mtk-accent-on-light: #4b56c0;   /* 浅底上的文字 / 链接（压深保对比） */
+  /* —— 品牌琥珀金 ramp（深色 × 琥珀金：专业音频硬件质感）—— */
+  --mtk-accent: #e8963c;            /* 主色：琥珀金 */
+  --mtk-accent-rgb: 232, 150, 60;   /* 主色 RGB，用于 rgba() 合成 */
+  --mtk-accent-bright: #ffbe6e;     /* 高亮 / 辉光：亮金 */
+  --mtk-accent-bright-rgb: 255, 190, 110;
+  --mtk-accent-on-dark: #f0a95a;    /* 深底上的文字 / 链接（提亮保对比） */
+  --mtk-accent-on-light: #b06a10;   /* 浅底上的文字 / 链接（压深保对比） */
 
-  /* —— 中性色 —— */
-  --mtk-black: #050505;             /* 品牌黑 */
-  --mtk-ink: #ededed;               /* 主文本 */
-  --mtk-ink-dim: #8a8f98;           /* 次文本 */
+  /* —— 中性色（暖调，告别冷灰）—— */
+  --mtk-black: #0b0908;             /* 暖调品牌黑（微偏棕） */
+  --mtk-ink: #f0ece6;               /* 主文本（暖白） */
+  --mtk-ink-dim: #97908a;           /* 次文本（暖灰） */
 
   /* —— 白色透明阶（玻璃面 / 描边）—— */
   --mtk-w-02: rgba(255, 255, 255, 0.02);

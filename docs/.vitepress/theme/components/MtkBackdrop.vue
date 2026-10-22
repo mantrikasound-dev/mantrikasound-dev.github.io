@@ -44,7 +44,7 @@
   transform: translateX(-50%);
   width: min(1600px, 130vw);
   height: 1300px;
-  background: radial-gradient(50% 60% at 50% 38%, rgba(90, 100, 250, 0.12) 0%, transparent 100%);
+  background: radial-gradient(50% 60% at 50% 38%, rgba(var(--mtk-accent-bright-rgb), 0.12) 0%, transparent 100%);
   filter: blur(90px);
   z-index: -1;
   pointer-events: none;

@@ -303,7 +303,7 @@ const docLinks = [
   letter-spacing: -0.03em;
   margin-bottom: 1.1rem;
   padding-bottom: 0.12em;
-  background: linear-gradient(180deg, #fff, #888);
+  background: linear-gradient(180deg, #fdf9f1, #9c8a72);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -338,7 +338,7 @@ const docLinks = [
 .cta-ico { width: 17px; height: 17px; }
 .cta.primary {
   background: var(--accent);
-  color: #fff;
+  color: #2a1804;
   box-shadow: 0 10px 28px -10px var(--glow-primary);
 }
 .cta.primary:hover {

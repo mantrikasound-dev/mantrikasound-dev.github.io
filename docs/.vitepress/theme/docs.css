@@ -4,7 +4,7 @@
    只覆盖 VitePress 默认主题的 CSS 变量（--vp-*），让文档页与
    落地页 / 产品页（.mtk-page，使用独立变量）的深色品牌语言统一，
    但正文排版保持清爽易读。不影响 .mtk-page 品牌页。
-   主色沿用品牌靛蓝 #5e6ad2（Landing / OfflineRender 同源）。
+   主色沿用品牌琥珀金 #e8963c（Landing / OfflineRender 同源）。
    ============================================================ */
 
 :root {
@@ -25,7 +25,7 @@
 }
 
 /* ============================================================
-   深色模式 —— 主战场，向品牌黑 (#050505) 靠拢
+   深色模式 —— 主战场，向暖调品牌黑 (#0b0908) 靠拢
    ============================================================ */
 .dark {
   /* 品牌主色在深底上提亮，保证可读性 —— 引用 tokens.css —— */
@@ -35,22 +35,22 @@
   --vp-c-brand-soft: rgba(var(--mtk-accent-rgb), 0.16);
   --vp-c-brand-softer: rgba(var(--mtk-accent-rgb), 0.10);
 
-  /* 背景层次：接近品牌纯黑，但保留可读的微层次 */
-  --vp-c-bg: #0a0a0c;
-  --vp-c-bg-alt: #0e0e11;
-  --vp-c-bg-soft: #141418;
-  --vp-c-bg-elv: #141418;
+  /* 背景层次：暖调炭黑，微偏棕，与琥珀金同族 */
+  --vp-c-bg: #0d0b09;
+  --vp-c-bg-alt: #131009;
+  --vp-c-bg-soft: #1a1611;
+  --vp-c-bg-elv: #1a1611;
 
   /* 边框更克制 */
   --vp-c-divider: rgba(255, 255, 255, 0.07);
   --vp-c-border: rgba(255, 255, 255, 0.10);
   --vp-c-gutter: rgba(255, 255, 255, 0.05);
 
-  /* 文本：正文主色比品牌 ink(#ededed) 收一档，避免大段白字在近黑底上发刺，
-     对比度仍足够（约 12:1）。标题等强调元素另行提亮，保留层次。 */
-  --vp-c-text-1: #c2c6cd;
-  --vp-c-text-2: #9a9fa9;
-  --vp-c-text-3: #6b7079;
+  /* 文本：暖灰阶，正文主色收一档避免大段亮字在近黑底上发刺，
+     对比度仍足够。标题等强调元素另行提亮，保留层次。 */
+  --vp-c-text-1: #c9c4bc;
+  --vp-c-text-2: #a09a92;
+  --vp-c-text-3: #716c65;
 }
 
 /* ============================================================
@@ -60,7 +60,7 @@
   background: transparent;
 }
 .dark .VPNavBar {
-  background: rgba(10, 10, 12, 0.72);
+  background: rgba(13, 11, 9, 0.72);
   backdrop-filter: saturate(160%) blur(14px);
   -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid var(--vp-c-divider);
@@ -183,10 +183,10 @@
 }
 
 /* ============================================================
-   代码块：更深的底 + 微边框，融入品牌黑
+   代码块：更深的暖黑底 + 微边框，融入品牌黑
    ============================================================ */
 .dark .vp-doc div[class*='language-'] {
-  background-color: #070708;
+  background-color: #080605;
   border: 1px solid var(--vp-c-divider);
   border-radius: var(--mtk-radius-lg);
 }

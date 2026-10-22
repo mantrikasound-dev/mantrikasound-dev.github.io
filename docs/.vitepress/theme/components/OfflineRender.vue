@@ -145,7 +145,7 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
   margin-bottom: 1.1rem;
   /* 渐变裁剪文字时给字底留白，避免字底被吃掉 */
   padding-bottom: 0.12em;
-  background: linear-gradient(180deg, #fff, #888);
+  background: linear-gradient(180deg, #fdf9f1, #9c8a72);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -181,7 +181,7 @@ const MAC_DL = 'https://github.com/mantrikasound-dev/mantrikatools-OfflineRender
 .cta-ico { width: 17px; height: 17px; }
 .cta.primary {
   background: var(--accent);
-  color: #fff;
+  color: #2a1804;
   box-shadow: 0 10px 28px -10px var(--glow-primary);
 }
 .cta.primary:hover {

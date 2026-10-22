@@ -16,11 +16,11 @@ let cssH = 0
 // 读取品牌色（带兜底，SSR / 取不到时也不崩）
 function readColors() {
   const s = getComputedStyle(document.documentElement)
-  const base = s.getPropertyValue('--mtk-accent-rgb').trim() || '94, 106, 226'
-  const bright = s.getPropertyValue('--mtk-accent-bright-rgb').trim() || '122, 133, 255'
+  const base = s.getPropertyValue('--mtk-accent-rgb').trim() || '232, 150, 60'
+  const bright = s.getPropertyValue('--mtk-accent-bright-rgb').trim() || '255, 190, 110'
   return { base, bright }
 }
-let colors = { base: '94, 106, 226', bright: '122, 133, 255' }
+let colors = { base: '232, 150, 60', bright: '255, 190, 110' }
 
 function resize() {
   const el = canvas.value

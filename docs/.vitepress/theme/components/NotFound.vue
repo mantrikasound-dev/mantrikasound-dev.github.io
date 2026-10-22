@@ -41,7 +41,7 @@ import MtkNav from './MtkNav.vue'
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
-  background: linear-gradient(180deg, #ffffff 0%, #2a2a2a 100%);
+  background: linear-gradient(180deg, #fdf9f1 0%, #3f3428 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -94,7 +94,7 @@ import MtkNav from './MtkNav.vue'
 }
 .btn.primary {
   background: var(--accent);
-  color: #fff;
+  color: #2a1804;
   box-shadow: 0 8px 24px -8px var(--glow-primary);
 }
 .btn.primary:hover {
@@ -115,7 +115,7 @@ import MtkNav from './MtkNav.vue'
 footer {
   padding: 3rem 0;
   text-align: center;
-  color: #444;
+  color: #544b3e;
   font-size: 0.8rem;
 }
 

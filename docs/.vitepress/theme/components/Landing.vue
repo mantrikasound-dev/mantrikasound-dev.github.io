@@ -77,7 +77,7 @@ function onCardMove(e: MouseEvent) {
   letter-spacing: -0.03em;
   line-height: 1.1;
   margin-bottom: 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #666666 100%);
+  background: linear-gradient(180deg, #fdf9f1 0%, #9c8a72 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
