@@ -4,6 +4,19 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.23 - Feature release
+
+2026-10-25
+
+- **Advance Rename**: 
+  - Optimized UI layout.
+  - Fixed crash issues and improved result feedback clarity.
+- **Pro Scan**: Refined layout details, fixed an issue where the F2 rename shortcut did not work on macOS.
+- **Render Queue**: Adjusted the Region rendering strategy, fixed an issue where exporting by region failed when "Entire project" was checked.
+- **ItemHub**: Added **Batch Set** to apply absolute values to item parameters, ideal for setting identical parameter values across multiple items.
+
+---
+
 ## 1.22 - Maintenance release
 
 2026-10-21
