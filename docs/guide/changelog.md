@@ -4,6 +4,19 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.24 - Maintenance release
+
+2026-10-27
+
+- **Advance Rename**: 
+  - Fixed UI misalignment issues.
+  - In Region mode, click and drag to quickly select/check items.
+- **Project Manager**: Fixed incorrect arrow key navigation for virtual files.
+- **Render Queue**: Restores the user's Region selection set after Region rendering.
+- Various UI and polish improvements.
+
+---
+
 ## 1.23 - Feature release
 
 2026-10-25
