@@ -4,6 +4,19 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.30 - Feature release
+
+2026-11-01
+
+- **Global**: Overall UI enhancements, including more fitting icons, adjusted layouts, and updated drag-and-drop tooltips.
+- **Render Queue**: 
+  - Remembers current selections within the queue, allowing you to export by selection even after reopening the project.
+  - When selections exist, the **Render** button will only render the selected items.
+- **DimMonitor Action**: Adapted for newer REAPER versions while maintaining the same workflow.
+-  Numerous detail improvements and bug fixes across **PM**, **Rename**, **ProScan**, **Radial Menu**, and more.
+
+---
+
 ## 1.24 - Maintenance release
 
 2026-10-27
