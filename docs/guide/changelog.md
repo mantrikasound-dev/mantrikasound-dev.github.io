@@ -13,6 +13,7 @@ All notable changes to **Mantrika Tools**, newest first.
   - Remembers current selections within the queue, allowing you to export by selection even after reopening the project.
   - When selections exist, the **Render** button will only render the selected items.
 - **DimMonitor Action**: Adapted for newer REAPER versions while maintaining the same workflow.
+- **Mirror&Region**:  Fixed an issue where the system failed to recalculate when a track was muted manually or through an Action.   
 -  Numerous detail improvements and bug fixes across **PM**, **Rename**, **ProScan**, **Radial Menu**, and more.
 
 ---
