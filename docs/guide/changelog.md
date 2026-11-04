@@ -4,6 +4,22 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.31 - Feature release
+
+2026-11-05
+
+- **Global**: Fixed an issue where background processes could occasionally linger after exiting REAPER.
+- **Element Split**: 
+  - Redesigned the UI layout to allow exporting individual sound layers directly from the interface.
+  - Added **Frequency Bands** mode, supporting 3 to 5 crossover points for sound splitting.
+  - Improved track export behavior: prioritized reusing existing eligible tracks to avoid unnecessary track creation.
+- **Project manager**: Refined open actions: disabled Open in the context menu during multi-selection; set the Enter key to behave identically to Shift + Enter.
+- **Wwise Copy**:  Replaced various Win32 pop-up dialogs with native REAPER pop-up dialogs.
+- **Radial Menu**:  Improved drag-and-drop behavior on Windows: releasing the mouse inside the window will no longer automatically hide it.
+- **Monitor Analyzer**: Improved audio capture behavior: the spectrum analyzer now correctly displays incoming audio when playing synthesizers.
+
+---
+
 ## 1.30 - Feature release
 
 2026-11-01
