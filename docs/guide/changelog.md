@@ -10,8 +10,8 @@ All notable changes to **Mantrika Tools**, newest first.
 
 - **Advance Rename**: Added Chinese auto-suggestions in UCS naming mode.
 - **Project Notepad**: Added a notepad feature.
-- **Sample Broker**:  Updated the export format for WAV filenames to 'MTK_YYMMDD_HHMM-SS'.
-- **MacOS**:  Fixed an issue where typed characters were not displayed while using an IME (input method).
+- **Sample Broker**: Updated the export format for WAV filenames to 'MTK_YYMMDD_HHMM-SS'.
+- **MacOS**: Fixed an issue where typed characters were not displayed while using an IME (input method).
 
 ---
 
