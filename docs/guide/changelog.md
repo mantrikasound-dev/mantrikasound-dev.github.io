@@ -6,6 +6,17 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ## 1.31 - Feature release
 
+2026-11-08
+
+- **Advance Rename**: Added Chinese auto-suggestions in UCS naming mode.
+- **Project Notepad**: Added a notepad feature.
+- **Sample Broker**:  Updated the export format for WAV filenames to 'MTK_YYMMDD_HHMM-SS'.
+- **MacOS**:  Fixed an issue where typed characters were not displayed while using an IME (input method).
+
+---
+
+## 1.31 - Feature release
+
 2026-11-05
 
 - **Global**: Fixed an issue where background processes could occasionally linger after exiting REAPER.
