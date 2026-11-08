@@ -6,12 +6,13 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ## 1.32 - Feature release
 
-2026-11-08
+2026-11-09
 
 - **Advance Rename**: Added Chinese auto-suggestions in UCS naming mode.
 - **Project Notepad**: Added a notepad feature.
 - **Sample Broker**: Updated the export format for WAV filenames to 'MTK_YYMMDD_HHMM-SS'.
 - **MacOS**: Fixed an issue where typed characters were not displayed while using an IME (input method).
+- **Radial Menu & FX Search**: Supports drag-and-drop insertion of FX into any slot within the TCP and MCP (requires mouse-hit detection); requires REAPER 7.75+.
 
 ---
 
