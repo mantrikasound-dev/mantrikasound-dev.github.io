@@ -127,7 +127,7 @@ export default defineConfig({
             { text: 'Radial Menu', link: '/functions/radial-menu' },
             { text: 'FX Search', link: '/functions/fx-search' },
             { text: 'Item Hub', link: '/functions/item-hub' },
-            { text: 'Loudness Meter', link: '/functions/loudness-meter' },
+            { text: 'Monitor Analyzer', link: '/functions/monitor-analyzer' },
             { text: 'Loudness Analyze', link: '/functions/loudness-quick' },
             { text: 'Automation Item Controller', link: '/functions/automation-item-controller' },
             { text: 'Sample Broker', link: '/functions/sample-broker' },
