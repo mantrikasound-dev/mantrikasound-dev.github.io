@@ -258,6 +258,7 @@ Clicking it reveals all window settings:
 | **Summon Beast** | Summon a pixel cat next to the record head for companionship (purely cosmetic). |
 | **Drag Mode: OS** | Default left-drag uses OS drag (can drop anywhere). |
 | **Drag Mode: Reaper API** | Default left-drag uses REAPER's internal drag (Arrange only). |
+| **Skip Tempo Stretch Prompt (OS Drag)** | On by default. REAPER 7.85+ may ask whether to stretch dropped audio to an estimated tempo. When this is on, Sample Broker turns that prompt off for the duration of an OS drag and restores your REAPER setting right after. |
 | **Clear Recording Buffer** | Clear the entire 60-second recording (with confirmation dialog). |
 
 > All settings listed above are **saved** and persist the next time REAPER opens.
