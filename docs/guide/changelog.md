@@ -4,6 +4,14 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.33 - Maintenance release
+
+2026-11-09
+
+- **Sample Broker**: In REAPER v7.85, an automatic tempo detection feature was introduced when dragging and dropping audio files, which caused Sample Broker's OS drag-and-drop to trigger frequent unwanted pop-ups. This release specifically addresses and resolves this issue.
+
+---
+
 ## 1.32 - Feature release
 
 2026-11-09
