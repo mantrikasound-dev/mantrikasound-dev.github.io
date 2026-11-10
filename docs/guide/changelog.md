@@ -4,6 +4,18 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.34 - Maintenance release
+
+2026-11-11
+
+- **Sample Broker**: 
+  - Optimized waveform rendering logic for a crisper, sharper display.
+  - Added marker cues for "Recent Takes / Recent Recorded Sections" (disabled by default; can be enabled as needed).
+- **Under Mouse Action**: Under Mouse - Adaptive - Toggle Mute + Sync FX Bypass, which synchronizes bypassing track/item FX whenever a track or item is muted/unmuted to save CPU resources.
+- **Band Swap**: An experimental action that splits audio into 3 frequency bands/layers and recombines them randomly. Use with caution for now.
+
+---
+
 ## 1.33 - Maintenance release
 
 2026-11-09
