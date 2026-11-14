@@ -173,6 +173,7 @@ When you know the take you just recorded is the one you want, you can skip selec
 | **Ctrl + left-click** | Lock the current smart segment as the selection (replaces any existing selections) |
 | **Shift + left-click drag** | Add another manual selection, keeping the existing ones |
 | **Ctrl + Shift + left-click** | Add the current smart segment to the existing selections |
+| **Double-click** | Same as Ctrl + left-click, no keyboard needed: selects the smart segment under the cursor (**Shift + double-click** adds it). Keep the button held on the second click and drag to take the segment straight out |
 
 Smart detection uses silence at **-54 dB** as the separator and automatically expands from the cursor position in both directions until it hits silence. This is useful when you have recorded a string of sounds and want to grab exactly one of them.
 
@@ -290,6 +291,7 @@ Under normal conditions the canvas is clean. The following messages indicate spe
 | **Ctrl** + hover | Show smart-detected segment |
 | **Ctrl** + left-click | Lock smart segment as selection |
 | **Ctrl + Shift** + left-click | Add smart segment to the selections |
+| Double-click (**Shift** to add) | Select smart segment without the keyboard |
 | Right-click hold | Preview / audition |
 | **Alt** + left-click | Toggle pause |
 | Scroll wheel | Horizontal zoom (mouse-centered) |
