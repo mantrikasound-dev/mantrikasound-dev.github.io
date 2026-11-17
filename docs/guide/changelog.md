@@ -4,6 +4,29 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.35 - Feature release
+
+2026-11-18
+
+- **Sample Broker**: 
+  - Optimized OS drag-and-drop to be multi-threaded, completely resolving lag and stuttering in large projects.
+  - Refined mouse behavior: Double-clicking now acts as `Ctrl + Click` to trigger Smart Selection.
+  - Improved the tooltip/prompt text during REAPER rendering to display more detailed information.
+  - *Pro-tip*: Hold down the mouse button on the second click of a double-click to directly drag out an audio item.
+- **Util video**：Added a new action that sets the video window to semi-transparent and enables click-through (mouse pass-through).
+- **Pro Scan**: Fixed a bug where "Mirror" could not be found in the Item tab.
+- **UI**: Global UI rendering optimizations; large windows (such as Project Manager, Render Queue, and Radial Menu Settings) now save their resized dimensions.
+- **Wwise Replace**: 
+  - Major workflow overhaul: Removed SoundBank-related features and added a waveform display. Click anywhere on the waveform or press `Spacebar` to play, and use the `Up/Down` arrow keys to navigate the list.
+  - UI refinements with more helpful tooltips and status prompts.
+  - Added a global file format checker; target sample rate and bit depth can now be configured in the menu.
+  - Improved integration and workflow sync with the Render Queue.
+- **Render Queue**: Added a toggle in the menu to display Region IDs.
+- **Action**: Numerous minor refinements and quality-of-life improvements across various actions.
+- **Update**: Added a "Restart REAPER" button (also available as an action) that safely saves your projects and automatically restores all open project tabs upon restart.
+
+---
+
 ## 1.34 - Maintenance release
 
 2026-11-11
