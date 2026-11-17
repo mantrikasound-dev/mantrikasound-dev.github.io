@@ -9,21 +9,21 @@ All notable changes to **Mantrika Tools**, newest first.
 2026-11-18
 
 - **Sample Broker**: 
-  - Optimized OS drag-and-drop to be multi-threaded, completely resolving lag and stuttering in large projects.
+  - On Windows, moved OS drag-and-drop to a background thread to reduce lag and stuttering in large projects.
   - Refined mouse behavior: Double-clicking now acts as `Ctrl + Click` to trigger Smart Selection.
   - Improved the tooltip/prompt text during REAPER rendering to display more detailed information.
   - *Pro-tip*: Hold down the mouse button on the second click of a double-click to directly drag out an audio item.
-- **Util video**：Added a new action that sets the video window to semi-transparent and enables click-through (mouse pass-through).
+- **Util video**: Added an action that makes the floating video window translucent and click-through.
 - **Pro Scan**: Fixed a bug where "Mirror" could not be found in the Item tab.
-- **UI**: Global UI rendering optimizations; large windows (such as Project Manager, Render Queue, and Radial Menu Settings) now save their resized dimensions.
+- **UI**: Global UI rendering optimizations; large windows (such as Project Manager, Render Queue, and Radial Menu Settings) now remember their sizes.
 - **Wwise Replace**: 
   - Major workflow overhaul: Removed SoundBank-related features and added a waveform display. Click anywhere on the waveform or press `Spacebar` to play, and use the `Up/Down` arrow keys to navigate the list.
   - UI refinements with more helpful tooltips and status prompts.
-  - Added a global file format checker; target sample rate and bit depth can now be configured in the menu.
+  - Added an optional file format checker with configurable expected sample rate and bit depth in the menu.
   - Improved integration and workflow sync with the Render Queue.
 - **Render Queue**: Added a toggle in the menu to display Region IDs.
 - **Action**: Numerous minor refinements and quality-of-life improvements across various actions.
-- **Update**: Added a "Restart REAPER" button (also available as an action) that safely saves your projects and automatically restores all open project tabs upon restart.
+- **Update**: Added a "Restart REAPER" button (also available as an action) that saves your projects and restores their tabs after restart. Unsaved projects with content must be saved first.
 
 ---
 
