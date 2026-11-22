@@ -4,6 +4,26 @@ All notable changes to **Mantrika Tools**, newest first.
 
 ---
 
+## 1.36 - Feature release
+
+2026-11-23
+
+- **STN**: 
+  - Added a new CLAP effect plugin based on the STN algorithm.
+  - Action Required: After updating, you must go to 'REAPER Preferences → LV2/CLAP → Re-scan' to rescan your CLAP paths so the plugin is properly recognized.
+- **Render Queue**: 
+  - Queue items are now automatically sorted to match the order in Asset.
+  - Added an 'Always Switch Watch Folder' toggle (available when Wwise Replace integration is enabled) to automatically sync Queue 1's export directory to Wwise Replace.
+  - Designed for users who frequently export multiple versions.
+- **Wwise Replace**: Optimized window sizing, made the Watch Folder more prominent, and changed the waveform color to gray.
+- **Play Under Mouse**: 
+  - Improved performance of the Recommended action when soloing items.
+  - Slight lag may still occur in large projects, which is a necessary trade-off to prevent audio pops and crackles in REAPER.
+- **Element Split**: Improved the Tonal/Noise mode algorithm for better audio quality.
+- **Workflow**: Optimized underlying code for better performance. As this may introduce instability, please send the Console output to the developer if you encounter any issues.
+
+---
+
 ## 1.35 - Feature release
 
 2026-11-18
